@@ -1,0 +1,12 @@
+.env
+*.log
+.DS_Store
+
+# local runs
+runs/
+tmp/
+outputs/
+
+# secrets
+*.key
+*.pem
