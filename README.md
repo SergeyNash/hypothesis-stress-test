@@ -1,3 +1,7 @@
+<p align="right">
+  <a href="README.ru.md">🇷🇺 Русская версия</a>
+</p>
+
 # Hypothesis Stress Test
 
 A lightweight, local-first framework for validating product hypotheses using LLM.
@@ -15,7 +19,7 @@ Instead of relying on:
 
 * intuition
 * fragmented research
-* or internal consensus
+* internal discussions
 
 the system separates different types of signals and **forces them into conflict**:
 
@@ -56,7 +60,7 @@ Uses:
 
 * local knowledge base
 * vector search
-* external sources (with explicit references)
+* external sources (with references)
 
 Focus:
 
@@ -83,17 +87,15 @@ This is where decisions become clear.
 
 ## 🔄 How it works
 
-The system is executed manually in three steps:
+The system is executed manually:
 
-```text
-1. Define hypothesis
+1. Define a hypothesis
 2. Run Roles Layer
 3. Run Market Layer
 4. Run Synthesis Layer
-```
 
-Each layer produces structured artifacts.
-The next layer consumes them.
+Each step produces artifacts.
+Next step consumes them.
 
 No orchestration required.
 
@@ -101,18 +103,14 @@ No orchestration required.
 
 ## 📦 Output Model
 
-Each run produces a directory:
+Each run produces:
 
-```text
 RUN_DIR/
-  outputs/
-    role_outputs/
-    hypothesis_summary.md
-    market_analysis.md
-    hypothesis_map.md
-```
-
-These artifacts form a complete decision trace.
+outputs/
+role_outputs/
+hypothesis_summary.md
+market_analysis.md
+hypothesis_map.md
 
 ---
 
@@ -136,22 +134,20 @@ It turns vague thinking into a **reproducible process**.
 * faster hypothesis validation
 * lower cost of mistakes
 * clearer decision-making
-* reusable reasoning structure
 
 In practice:
-bad ideas die early.
+
+> bad ideas die early
 
 ---
 
 ## 🏗 Architecture
 
 * local LLM (via API)
-* local knowledge base (Obsidian)
-* vector search for retrieval
+* local knowledge base
+* vector search
 * optional web search with sources
-* manual execution (human-in-the-loop)
-
-No external dependencies required.
+* manual execution
 
 Works in closed environments.
 
@@ -163,19 +159,18 @@ This is not:
 
 * a replacement for real users
 * an autonomous system
-* a generator of new ideas
+* a generator of ideas
 
 Quality depends on:
 
 * hypothesis clarity
-* role definitions
 * knowledge base quality
 
 ---
 
 ## 📘 Playbook
 
-See `/playbooks/run-hypothesis.md` for step-by-step usage.
+See `/playbooks/run-hypothesis.md`
 
 ---
 
@@ -187,9 +182,3 @@ It is used as a **pressure tool**.
 
 The goal is not to confirm an idea —
 but to determine whether it survives reality.
-
----
-
-## 🪪 License
-
-MIT (or choose your own)
