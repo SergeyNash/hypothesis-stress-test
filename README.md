@@ -1,15 +1,106 @@
-<p align="right">
-  <a href="README.ru.md">🇷🇺 Русская версия</a>
+# 🧠 Hypothesis Stress Test
+
+<p align="center">
+  <b>A framework for challenging product hypotheses before you waste time building them.</b>
 </p>
 
-# Hypothesis Stress Test
+<p align="center">
+  <img src="./assets/architecture-overview.svg" width="720"/>
+</p>
 
-A lightweight, local-first framework for validating product hypotheses using LLM.
+<p align="center">
+  <a href="./assets/architecture-overview.svg">View full diagram</a>
+</p>
 
-This system does **not generate ideas**.
-It **stress-tests them**.
+---
 
-![Architecture Overview](assets/architecture-overview.svg)
+## 🚀 Why this exists
+
+Most product teams don’t fail because they lack ideas.
+
+They fail because they:
+
+* validate ideas too late
+* rely on intuition
+* mix assumptions with reality
+* avoid confronting contradictions
+
+This framework helps answer one critical question early:
+
+> **Should this idea exist at all?**
+
+---
+
+## ⚙️ How it works
+
+📊 Diagram:
+👉 [Architecture Overview](./assets/architecture-overview.svg)
+
+The system splits reasoning into three independent layers:
+
+* **Roles Layer** → internal perspective
+* **Market Layer** → external reality
+* **Synthesis Layer** → conflict & decision
+
+---
+
+## 🧠 Decision Model
+
+<p align="center">
+  <img src="./assets/signal-model.svg" width="640"/>
+</p>
+
+<p align="center">
+  <a href="./assets/signal-model.svg">View full diagram</a>
+</p>
+
+📊 Diagram:
+👉 [Signal Model](./assets/signal-model.svg)
+
+Instead of confirming ideas, the system:
+
+* separates signals
+* compares perspectives
+* exposes contradictions
+
+Because:
+
+> Truth doesn’t come from agreement.
+> It comes from tension.
+
+---
+
+## 🔄 Artifact Flow
+
+<p align="center">
+  <img src="./assets/artifact-flow.svg" width="780"/>
+</p>
+
+<p align="center">
+  <a href="./assets/artifact-flow.svg">View full diagram</a>
+</p>
+
+📊 Diagram:
+👉 [Artifact Flow](./assets/artifact-flow.svg)
+
+Each hypothesis produces a **traceable chain of artifacts**:
+
+* internal signals
+* external signals
+* synthesized decision
+
+---
+
+## 📦 What you get
+
+```text
+outputs/
+  role_outputs/*
+  hypothesis_summary.md
+  market_analysis.md
+  hypothesis_map.md
+  hypothesis_digest.txt
+```
 
 ---
 
@@ -17,17 +108,37 @@ It **stress-tests them**.
 
 Primary user:
 
-→ Product Manager
+→ **Product Manager**
 
-This framework assumes that:
+Assumes you already:
 
-- you know your users
-- you have conducted interviews
-- you understand your domain
+* know your users
+* have done interviews
+* understand your domain
 
-The system does not replace discovery.
+This system does not replace discovery.
 
-It amplifies it.
+It **amplifies it**.
+
+---
+
+## 🧪 Example
+
+```text
+examples/example-001/
+```
+
+A real B2B case:
+
+→ SAST scan prioritization
+
+Where the hypothesis evolves from:
+
+> “reduce production risk”
+
+to:
+
+> “improve operational efficiency”
 
 ---
 
@@ -35,201 +146,79 @@ It amplifies it.
 
 This is not a tool.
 
-It is a framework.
+It’s a framework.
 
-- Framework → defines how to think  
-- Tools → define how to run it  
+```
+Framework → how to think  
+Tools     → how to run it
+```
 
 You can use:
 
-- ChatGPT  
-- local LLMs  
-- IDE tools  
-- APIs  
-
-No specific tool is required.
+* ChatGPT
+* local LLMs
+* APIs
+* IDE tools
 
 ---
 
-## 🧠 What is this?
+## 🔧 How to use
 
-This repository describes a practical approach to **product decision-making under uncertainty**.
+1. Define hypothesis
+2. Select relevant roles
+3. Add research context
 
-Instead of relying on:
+Then run:
 
-* intuition
-* fragmented research
-* internal discussions
-
-the system separates different types of signals and **forces them into conflict**:
-
-* internal perspectives
-* external reality
-* synthesis through contradictions
-
-> Truth emerges not from agreement, but from tension between viewpoints.
+```
+playbooks/run-hypothesis.md
+```
 
 ---
 
-## ⚙️ Core Concept
+## 🧬 Principles
 
-The framework is built around three independent layers:
-
-### 1. Roles Layer (Internal)
-
-Analyzes how the hypothesis behaves across different perspectives:
-
-* user
-* developer
-* business
-* operations
-
-Focus:
-
-* value boundaries
-* hidden assumptions
-* internal friction
+* Separate internal vs external signals
+* No evidence → no claim
+* Contradictions > consensus
+* Human makes the decision
 
 ---
 
-### 2. Market Layer (External)
+## 🏗 Structure
 
-Validates whether the problem exists outside your head.
-
-Uses:
-
-* local knowledge base
-* vector search
-* external sources (with references)
-
-Focus:
-
-* real demand
-* existing solutions
-* signal strength
+```
+layers/       → reasoning model  
+templates/    → execution prompts  
+playbooks/    → workflows  
+examples/     → real cases  
+architecture/ → system design  
+```
 
 ---
 
-### 3. Synthesis Layer (Conflict)
+## 🚀 What this enables
 
-Compares internal and external signals.
-
-Outputs:
-
-* validated opportunities
-* internal illusions
-* blind spots
-* weak signals
-
-This is where decisions become clear.
+* faster product decisions
+* less wasted development
+* clearer reasoning
+* reduced bias
 
 ---
 
-## 🧠 Decision Model
+## ⚠️ What this is NOT
 
-![Signal Model](assets/signal-model.svg)
-
----
-
-## 🔄 How it works
-
-The system is executed manually:
-
-1. Define a hypothesis
-2. Run Roles Layer
-3. Run Market Layer
-4. Run Synthesis Layer
-
-Each step produces artifacts.
-Next step consumes them.
-
-No orchestration required.
+* not idea generation
+* not market research replacement
+* not automation system
+* not AI magic
 
 ---
 
-![Artifact flow](assets/artifact-flow.svg)
+## 💡 TL;DR
 
---
+```
+idea → stress test → decision
+```
 
-
-## 📦 Output Model
-
-Each run produces:
-
-RUN_DIR/
-outputs/
-role_outputs/
-hypothesis_summary.md
-market_analysis.md
-hypothesis_map.md
-
----
-
-## 🧩 Why this approach
-
-Most hypothesis validation fails because signals are mixed too early.
-
-This framework enforces:
-
-* separation of perspectives
-* explicit assumptions
-* evidence-based validation
-* conflict-driven synthesis
-
-It turns vague thinking into a **reproducible process**.
-
----
-
-## 🚀 What you get
-
-* faster hypothesis validation
-* lower cost of mistakes
-* clearer decision-making
-
-In practice:
-
-> bad ideas die early
-
----
-
-## 🏗 Architecture
-
-* local LLM (via API)
-* local knowledge base
-* vector search
-* optional web search with sources
-* manual execution
-
-Works in closed environments.
-
----
-
-## ⚠️ Limitations
-
-This is not:
-
-* a replacement for real users
-* an autonomous system
-* a generator of ideas
-
-Quality depends on:
-
-* hypothesis clarity
-* knowledge base quality
-
----
-
-## 📘 Playbook
-
-See `/playbooks/run-hypothesis.md`
-
----
-
-## 🧬 Philosophy
-
-LLM is not used as an assistant.
-
-It is used as a **pressure tool**.
-
-The goal is not to confirm an idea —
-but to determine whether it survives reality.
+Before you build it.

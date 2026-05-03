@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1100" height="620" viewBox="0 0 1100 620" xmlns="http://www.w3.org/2000/svg">
+
+<style>
+  text { font-family: Inter, Arial, sans-serif; fill:#111827; }
+  .title { font-size:26px; font-weight:700; }
+  .subtitle { font-size:14px; fill:#6b7280; }
+  .section { font-size:13px; font-weight:700; fill:#6b7280; letter-spacing:.04em; }
+  .label { font-size:15px; font-weight:700; }
+  .small { font-size:12px; fill:#4b5563; }
+  .card { fill:#ffffff; stroke:#e5e7eb; stroke-width:1.5; rx:18; }
+  .input { fill:#fff7ed; stroke:#fb923c; stroke-width:2; rx:16; }
+  .roles { fill:#eff6ff; stroke:#60a5fa; stroke-width:2; rx:16; }
+  .market { fill:#f0fdf4; stroke:#22c55e; stroke-width:2; rx:16; }
+  .synthesis { fill:#faf5ff; stroke:#a855f7; stroke-width:2; rx:16; }
+  .artifact { fill:#fef2f2; stroke:#f87171; stroke-width:1.5; rx:12; }
+  .marker { fill:#ecfdf5; stroke:#10b981; stroke-width:1.5; rx:12; }
+  .arrow { stroke:#374151; stroke-width:2; fill:none; marker-end:url(#arrow); }
+  .soft { stroke:#d1d5db; stroke-width:1.5; fill:none; }
+</style>
+
+<defs>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+    <path d="M0,0 L8,3 L0,6 Z" fill="#374151"/>
+  </marker>
+</defs>
+
+<rect width="1100" height="620" fill="#ffffff"/>
+
+<text x="56" y="52" class="title">Artifact Flow</text>
+<text x="56" y="78" class="subtitle">How a hypothesis becomes traceable decision artifacts</text>
+
+<!-- Main pipeline cards -->
+<rect x="56" y="130" width="210" height="110" class="input"/>
+<text x="86" y="165" class="label">Input</text>
+<text x="86" y="190" class="small">hypothesis.md</text>
+<text x="86" y="210" class="small">roles + research context</text>
+
+<rect x="326" y="130" width="210" height="110" class="roles"/>
+<text x="356" y="165" class="label">Roles Layer</text>
+<text x="356" y="190" class="small">internal signals</text>
+<text x="356" y="210" class="small">role-based constraints</text>
+
+<rect x="596" y="130" width="210" height="110" class="market"/>
+<text x="626" y="165" class="label">Market Layer</text>
+<text x="626" y="190" class="small">external signals</text>
+<text x="626" y="210" class="small">evidence + signal strength</text>
+
+<rect x="866" y="130" width="210" height="110" class="synthesis"/>
+<text x="896" y="165" class="label">Synthesis Layer</text>
+<text x="896" y="190" class="small">conflict analysis</text>
+<text x="896" y="210" class="small">decision boundaries</text>
+
+<!-- Pipeline arrows -->
+<path d="M266 185 L326 185" class="arrow"/>
+<path d="M536 185 L596 185" class="arrow"/>
+<path d="M806 185 L866 185" class="arrow"/>
+
+<!-- Artifact groups -->
+<text x="326" y="305" class="section">ROLES OUTPUTS</text>
+<rect x="326" y="325" width="210" height="46" class="artifact"/>
+<text x="350" y="354" class="small">role_outputs/*</text>
+<rect x="326" y="382" width="210" height="46" class="artifact"/>
+<text x="350" y="411" class="small">hypothesis_summary.md</text>
+<rect x="326" y="439" width="210" height="46" class="marker"/>
+<text x="350" y="468" class="small">ready_for_synthesis.marker</text>
+
+<text x="596" y="305" class="section">MARKET OUTPUTS</text>
+<rect x="596" y="325" width="210" height="46" class="artifact"/>
+<text x="620" y="354" class="small">market_analysis.md</text>
+<rect x="596" y="382" width="210" height="46" class="marker"/>
+<text x="620" y="411" class="small">market_complete.marker</text>
+
+<text x="866" y="305" class="section">FINAL OUTPUTS</text>
+<rect x="866" y="325" width="210" height="46" class="artifact"/>
+<text x="890" y="354" class="small">hypothesis_map.md</text>
+<rect x="866" y="382" width="210" height="46" class="artifact"/>
+<text x="890" y="411" class="small">hypothesis_digest.txt</text>
+<rect x="866" y="439" width="210" height="46" class="marker"/>
+<text x="890" y="468" class="small">synthesis_complete.marker</text>
+
+<!-- Vertical artifact arrows -->
+<path d="M431 240 L431 318" class="arrow"/>
+<path d="M701 240 L701 318" class="arrow"/>
+<path d="M971 240 L971 318" class="arrow"/>
+
+<!-- Synthesis consumes artifact groups: clean bottom bus -->
+<path d="M431 485 L431 535 L971 535 L971 485" class="soft"/>
+<path d="M701 428 L701 535" class="soft"/>
+<text x="555" y="560" class="small">Synthesis reads Roles + Market artifacts and produces final decision artifacts</text>
+
+</svg>
