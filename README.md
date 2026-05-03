@@ -147,7 +147,7 @@ No orchestration required.
 
 ---
 
-![Artifact flow](asets/artifact-flow.svg)
+![Artifact flow](assets/artifact-flow.svg)
 
 --
 
