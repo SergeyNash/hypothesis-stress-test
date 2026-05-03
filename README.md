@@ -6,21 +6,43 @@
   <a href="./README.ru.md">Русский</a>
 </p>
 
+<p align="right">
+  <sub>
+    🌐 <b>Language:</b>
+    <b>🇬🇧 English</b> ·
+    <a href="./README.ru.md">🇷🇺 Русский</a>
+  </sub>
+</p>
+
+# 🧠 Hypothesis Stress Test
+
 <p align="center">
-  <b>A framework for challenging product hypotheses before you waste time building them.</b>
+  <b>Challenge product hypotheses before you waste time building them.</b>
 </p>
 
 <p align="center">
-  <img src="./assets/architecture-overview.svg" width="720"/>
+  A lightweight, tool-agnostic framework for product decision-making with LLM.
 </p>
 
 <p align="center">
-  <a href="./assets/architecture-overview.svg">View full diagram</a>
+  <a href="./playbooks/run-hypothesis.md"><b>Start with the Playbook</b></a>
+  ·
+  <a href="./examples/example-001/"><b>View Example</b></a>
+  ·
+  <a href="./architecture/overview.md"><b>Architecture</b></a>
+</p>
+
+<p align="center">
+  <img src="./assets/architecture-overview.svg" width="760"/>
+</p>
+
+<p align="center">
+  <a href="./assets/architecture-overview.svg">Open architecture diagram</a>
 </p>
 
 ---
 
-## 🚀 Why this exists
+## Why this exists
 
 Most product teams don’t fail because they lack ideas.
 
@@ -31,73 +53,66 @@ They fail because they:
 * mix assumptions with reality
 * avoid confronting contradictions
 
-This framework helps answer one critical question early:
+This framework helps answer one question early:
 
 > **Should this idea exist at all?**
 
 ---
 
-## ⚙️ How it works
+## The core idea
 
-📊 Diagram:
-👉 [Architecture Overview](./assets/architecture-overview.svg)
+Do not ask an LLM to generate more ideas.
 
-The system splits reasoning into three independent layers:
+Use it to apply pressure to the ideas you already have.
 
-* **Roles Layer** → internal perspective
-* **Market Layer** → external reality
-* **Synthesis Layer** → conflict & decision
-
----
-
-## 🧠 Decision Model
-
-<p align="center">
-  <img src="./assets/signal-model.svg" width="640"/>
-</p>
-
-<p align="center">
-  <a href="./assets/signal-model.svg">View full diagram</a>
-</p>
-
-📊 Diagram:
-👉 [Signal Model](./assets/signal-model.svg)
-
-Instead of confirming ideas, the system:
-
-* separates signals
-* compares perspectives
-* exposes contradictions
-
-Because:
-
-> Truth doesn’t come from agreement.
-> It comes from tension.
+```text
+idea → stress test → decision
+```
 
 ---
 
-## 🔄 Artifact Flow
+## How it works
 
-<p align="center">
-  <img src="./assets/artifact-flow.svg" width="780"/>
-</p>
+The framework separates reasoning into three layers:
 
-<p align="center">
-  <a href="./assets/artifact-flow.svg">View full diagram</a>
-</p>
-
-📊 Diagram:
-👉 [Artifact Flow](./assets/artifact-flow.svg)
-
-Each hypothesis produces a **traceable chain of artifacts**:
-
-* internal signals
-* external signals
-* synthesized decision
+| Layer               | Purpose                     | Output                 |
+| ------------------- | --------------------------- | ---------------------- |
+| **Roles Layer**     | Tests internal perspectives | role-based constraints |
+| **Market Layer**    | Checks external reality     | evidence-based signals |
+| **Synthesis Layer** | Exposes contradictions      | decision boundaries    |
 
 ---
 
-## 📦 What you get
+## Decision model
+
+<p align="center">
+  <img src="./assets/signal-model.svg" width="660"/>
+</p>
+
+<p align="center">
+  <a href="./assets/signal-model.svg">Open signal model</a>
+</p>
+
+The system classifies a hypothesis into four decision patterns:
+
+* **Validated Opportunity** — internal and external signals align
+* **Internal Illusion** — internal logic looks strong, market signal is weak
+* **Blind Spot** — market signal exists, internal model misses it
+* **Weak Signal** — no strong evidence from either side
+
+---
+
+## Artifact flow
+
+<p align="center">
+  <img src="./assets/artifact-flow.svg" width="820"/>
+</p>
+
+<p align="center">
+  <a href="./assets/artifact-flow.svg">Open artifact flow</a>
+</p>
+
+Every run creates a traceable decision trail:
 
 ```text
 outputs/
@@ -110,52 +125,69 @@ outputs/
 
 ---
 
-## 👤 Who is this for?
+## Who this is for
 
 Primary user:
 
-→ **Product Manager**
+> **Product Manager**
 
-Assumes you already:
+This framework assumes that you:
 
 * know your users
 * have done interviews
 * understand your domain
+* have some internal or external knowledge to reason from
 
-This system does not replace discovery.
+It does not replace discovery.
 
-It **amplifies it**.
+It amplifies it.
 
 ---
 
-## 🧪 Example
+## Quick start
+
+1. Define a hypothesis
+2. Select relevant roles
+3. Add research context
+4. Run the layers
+5. Read the synthesis
+
+Start here:
+
+```text
+playbooks/run-hypothesis.md
+```
+
+---
+
+## Example
+
+See:
 
 ```text
 examples/example-001/
 ```
 
-A real B2B case:
-
-→ SAST scan prioritization
-
-Where the hypothesis evolves from:
+The example shows a B2B hypothesis where the initial framing:
 
 > “reduce production risk”
 
-to:
+is reframed into:
 
 > “improve operational efficiency”
 
+That reframing is the point of the framework.
+
 ---
 
-## ⚙️ Framework vs Tooling
+## Framework vs tooling
 
 This is not a tool.
 
-It’s a framework.
+It is a framework.
 
-```
-Framework → how to think  
+```text
+Framework → how to think
 Tools     → how to run it
 ```
 
@@ -164,67 +196,59 @@ You can use:
 * ChatGPT
 * local LLMs
 * APIs
-* IDE tools
+* LLM-based IDE tools
+* internal AI platforms
+
+No specific setup is required.
 
 ---
 
-## 🔧 How to use
+## Repository structure
 
-1. Define hypothesis
-2. Select relevant roles
-3. Add research context
-
-Then run:
-
-```
-playbooks/run-hypothesis.md
+```text
+layers/        reasoning model
+templates/     execution templates
+playbooks/     usage workflows
+examples/      worked examples
+architecture/  system design
+assets/        diagrams
 ```
 
 ---
 
-## 🧬 Principles
+## Principles
 
-* Separate internal vs external signals
+* Separate internal and external signals
 * No evidence → no claim
-* Contradictions > consensus
+* Contradictions matter more than consensus
 * Human makes the decision
+* Bad ideas should die early
 
 ---
 
-## 🏗 Structure
+## What this is not
 
-```
-layers/       → reasoning model  
-templates/    → execution prompts  
-playbooks/    → workflows  
-examples/     → real cases  
-architecture/ → system design  
-```
+This is not:
 
----
-
-## 🚀 What this enables
-
-* faster product decisions
-* less wasted development
-* clearer reasoning
-* reduced bias
+* an idea generator
+* a replacement for real users
+* a market research substitute
+* an autonomous decision-maker
+* AI magic
 
 ---
 
-## ⚠️ What this is NOT
+## Use it when
 
-* not idea generation
-* not market research replacement
-* not automation system
-* not AI magic
+Use this framework when:
+
+* time is limited
+* resources are limited
+* the hypothesis sounds “obvious”
+* the cost of building the wrong thing is high
 
 ---
 
-## 💡 TL;DR
-
-```
-idea → stress test → decision
-```
-
-Before you build it.
+<p align="center">
+  <b>Stress-test the idea before you build it.</b>
+</p>
