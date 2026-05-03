@@ -54,3 +54,10 @@
   - local knowledge signals
   - external signals
   - inferred signals
+
+
+## Documentation Improvements
+
+- [ ] Add product manager as primary system user in README
+- [ ] Emphasize that roles must come from real user research
+- [ ] Add examples of role profiles
