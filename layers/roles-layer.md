@@ -211,3 +211,5 @@ See:
 
 * `market-layer.md`
 * `synthesis-layer.md`
+
+Roles can be stored as reusable profiles in /roles directory.

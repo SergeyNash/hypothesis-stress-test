@@ -1,0 +1,5 @@
+Manual prioritization of SAST scans addresses a real operational problem (queue management), but does not reliably reduce production risk.
+
+It introduces a conflict between engineer-level control and organization-level governance.
+
+The hypothesis should be reframed around efficiency and supported by risk-based prioritization rules, not manual control alone.

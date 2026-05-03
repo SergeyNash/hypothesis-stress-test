@@ -130,8 +130,45 @@ It prefers:
 The Market Layer produces:
 
 * market_analysis.md
-* signal classification
+* structured signal classification
 * references (if external sources are used)
+
+---
+
+Each finding must include:
+
+* **signal type**:
+
+  * local
+  * external
+  * inferred
+
+* **signal strength**:
+
+  * strong
+  * weak
+  * none
+
+* **evidence (if available)**:
+
+  * link
+  * document reference
+  * source description
+
+---
+
+## 🧩 Output semantics
+
+The result is:
+
+* an external signal map
+* a structured view of real-world evidence
+* explicit separation between facts and assumptions
+
+This is not truth.
+
+This is a **structured external signal**.
+
 
 ---
 
@@ -173,6 +210,34 @@ Market Layer alone is insufficient.
 > External reality is not obligated to match internal logic.
 
 The Market Layer tests whether the hypothesis survives contact with the real world.
+
+---
+
+## 🔀 Signal Separation
+
+All findings must be separated into:
+
+### Local Signals
+- internal documents
+- past research
+- internal discussions
+
+---
+
+### External Signals
+- public sources
+- articles
+- discussions
+
+---
+
+### Inferred Signals
+- logical conclusions
+- patterns
+
+---
+
+Each type must be explicitly labeled.
 
 ---
 

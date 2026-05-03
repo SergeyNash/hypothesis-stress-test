@@ -11,6 +11,44 @@ It **stress-tests them**.
 
 ---
 
+## 👤 Who is this for?
+
+Primary user:
+
+→ Product Manager
+
+This framework assumes that:
+
+- you know your users
+- you have conducted interviews
+- you understand your domain
+
+The system does not replace discovery.
+
+It amplifies it.
+
+---
+
+## ⚙️ Framework vs Tooling
+
+This is not a tool.
+
+It is a framework.
+
+- Framework → defines how to think  
+- Tools → define how to run it  
+
+You can use:
+
+- ChatGPT  
+- local LLMs  
+- IDE tools  
+- APIs  
+
+No specific tool is required.
+
+---
+
 ## 🧠 What is this?
 
 This repository describes a practical approach to **product decision-making under uncertainty**.

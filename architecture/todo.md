@@ -61,3 +61,22 @@
 - [ ] Add product manager as primary system user in README
 - [ ] Emphasize that roles must come from real user research
 - [ ] Add examples of role profiles
+
+## Framework vs Tooling
+
+- [ ] Add section in main README explaining "Framework vs Tooling"
+- [ ] Explicitly state tool-agnostic approach
+- [ ] Clarify that templates are not tied to RooCode or any IDE
+- [ ] Add examples usage without any specific tool
+
+---
+
+## Implementations
+
+- [ ] Create /architecture/implementations.md
+- [ ] Describe RooCode as optional implementation
+- [ ] Show mapping:
+  - templates → system prompts
+  - RUN_DIR → local filesystem
+  - outputs → files
+- [ ] Add note about other possible implementations (API, ChatGPT, etc.)

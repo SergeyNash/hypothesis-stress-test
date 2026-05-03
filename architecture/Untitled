@@ -1,0 +1,222 @@
+# Architecture Overview
+
+This document describes the internal structure of the Hypothesis Stress Test framework.
+
+---
+
+## 🧠 System Purpose
+
+The system is designed to support **product decision-making under uncertainty**.
+
+It transforms a hypothesis into:
+
+* structured internal signals
+* structured external signals
+* explicit contradictions
+
+---
+
+## ⚙️ High-Level Model
+
+The system consists of four stages:
+
+```text id="m2xg5u"
+Input → Roles Layer → Market Layer → Synthesis Layer → Decision Insight
+```
+
+---
+
+## 🧩 Core Components
+
+### 1. Input
+
+A structured hypothesis including:
+
+* statement
+* relevant roles
+* research context
+
+This defines the scope of analysis.
+
+---
+
+### 2. Roles Layer (Internal)
+
+Produces:
+
+* internal signals
+* constraints
+* applicability boundaries
+
+Source of truth:
+
+→ product knowledge and user understanding
+
+---
+
+### 3. Market Layer (External)
+
+Produces:
+
+* external signals
+* evidence-based validation
+* signal strength
+
+Source of truth:
+
+→ market data, research, external sources
+
+---
+
+### 4. Synthesis Layer (Conflict)
+
+Produces:
+
+* hypothesis classification
+* contradictions
+* decision boundaries
+
+Source of truth:
+
+→ comparison of previous layers
+
+---
+
+## 🔄 Data Flow
+
+Each stage:
+
+* consumes structured input
+* produces structured output
+* does not override previous results
+
+Artifacts flow forward:
+
+```text id="3ybd6o"
+Roles → Market → Synthesis
+```
+
+---
+
+## 🧠 Signal Model
+
+The system operates on two types of signals:
+
+### Internal Signals
+
+* role-based analysis
+* assumptions
+* constraints
+
+---
+
+### External Signals
+
+* market evidence
+* real-world patterns
+* observed behaviors
+
+---
+
+## ⚡ Decision Logic
+
+The system does not make decisions directly.
+
+Instead, it exposes:
+
+* alignment
+* contradictions
+* missing signals
+
+This makes decisions **obvious, not automated**.
+
+---
+
+## 🧬 Key Principles
+
+### 1. Separation of Concerns
+
+Each layer has a single responsibility.
+
+Signals are not mixed prematurely.
+
+---
+
+### 2. Evidence Over Assumption
+
+* no evidence → no claim
+* uncertainty is acceptable
+
+---
+
+### 3. Conflict Over Consensus
+
+Contradictions are not resolved.
+
+They are surfaced and analyzed.
+
+---
+
+### 4. Human-in-the-Loop
+
+The system does not replace decision-making.
+
+It supports it.
+
+---
+
+## ⚠️ Constraints
+
+* quality depends on input quality
+* requires real user knowledge
+* does not replace market research
+* does not generate product ideas
+
+---
+
+## 🔧 Implementation
+
+The framework is **tool-agnostic**.
+
+It can be implemented using:
+
+* ChatGPT
+* local LLMs
+* LLM-based tools
+* API workflows
+
+Templates define execution, not infrastructure.
+
+---
+
+## 📦 Output Model
+
+Each run produces a traceable set of artifacts:
+
+```text id="f9gq5t"
+RUN_DIR/
+  outputs/
+    role_outputs/
+    hypothesis_summary.md
+    market_analysis.md
+    hypothesis_map.md
+```
+
+---
+
+## 🚀 Result
+
+The system transforms:
+
+```text id="fj1k64"
+uncertain idea → structured insight
+```
+
+---
+
+## 📘 Related
+
+* `/layers/` — reasoning model
+* `/playbooks/` — usage
+* `/templates/` — execution
+* `/examples/` — real cases

@@ -187,6 +187,16 @@ It makes the decision obvious.
 
 ---
 
+## 📊 Confidence
+
+Each conclusion must include confidence level:
+
+- High — strong alignment + strong signals  
+- Medium — partial alignment  
+- Low — weak or missing signals  
+
+---
+
 ## 📘 Next
 
 Return to:
