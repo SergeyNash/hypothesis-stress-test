@@ -1,7 +1,9 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="right">
-  🇷🇺 <a href="./README.ru.md">Русская версия</a>
+  🌐 Language:
+  <b>English</b> |
+  <a href="./README.ru.md">Русский</a>
 </p>
 
 <p align="center">

@@ -1,5 +1,7 @@
 <p align="right">
-  🇬🇧 <a href="./README.md">English version</a>
+  🌐 Язык:
+  <a href="./README.md">English</a> |
+  <b>Русский</b>
 </p>
 
 # 🧠 Hypothesis Stress Test
