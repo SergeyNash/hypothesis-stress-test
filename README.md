@@ -1,5 +1,9 @@
 # 🧠 Hypothesis Stress Test
 
+<p align="right">
+  🇷🇺 <a href="./README.ru.md">Русская версия</a>
+</p>
+
 <p align="center">
   <b>A framework for challenging product hypotheses before you waste time building them.</b>
 </p>
