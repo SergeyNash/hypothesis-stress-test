@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+<style>
+.title { font: bold 20px sans-serif; }
+.label { font: 14px sans-serif; }
+.box { fill: #f4f6f8; stroke: #333; stroke-width: 1; }
+.header { font: bold 14px sans-serif; }
+</style>
+
+<text x="250" y="30" class="title">Signal Model</text>
+
+<!-- Axis labels -->
+<text x="350" y="60" class="header">Market Signal</text>
+<text x="50" y="250" transform="rotate(-90 50,250)" class="header">Roles Signal</text>
+
+<!-- Column labels -->
+<text x="250" y="90" class="label">Strong</text>
+<text x="500" y="90" class="label">Weak / None</text>
+
+<!-- Row labels -->
+<text x="100" y="200" class="label">Strong</text>
+<text x="100" y="350" class="label">Weak / None</text>
+
+<!-- Boxes -->
+<rect x="200" y="120" width="200" height="120" class="box"/>
+<rect x="450" y="120" width="200" height="120" class="box"/>
+<rect x="200" y="280" width="200" height="120" class="box"/>
+<rect x="450" y="280" width="200" height="120" class="box"/>
+
+<!-- Text inside boxes -->
+<text x="220" y="160" class="header">Validated Opportunity</text>
+<text x="220" y="180" class="label">Internal + External align</text>
+
+<text x="470" y="160" class="header">Internal Illusion</text>
+<text x="470" y="180" class="label">Internal only</text>
+
+<text x="220" y="320" class="header">Blind Spot</text>
+<text x="220" y="340" class="label">External only</text>
+
+<text x="470" y="320" class="header">Weak Signal</text>
+<text x="470" y="340" class="label">No strong signals</text>
+
+</svg>

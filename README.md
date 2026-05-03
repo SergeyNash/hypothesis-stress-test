@@ -125,6 +125,12 @@ This is where decisions become clear.
 
 ---
 
+## 🧠 Decision Model
+
+![Signal Model](assets/signal-model.svg)
+
+---
+
 ## 🔄 How it works
 
 The system is executed manually:
@@ -140,6 +146,11 @@ Next step consumes them.
 No orchestration required.
 
 ---
+
+![Artifact flow](asets/artifact-flow.svg)
+
+--
+
 
 ## 📦 Output Model
 
