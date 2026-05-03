@@ -9,6 +9,8 @@ A lightweight, local-first framework for validating product hypotheses using LLM
 This system does **not generate ideas**.
 It **stress-tests them**.
 
+![Architecture Overview](assets/architecture-overview.svg)
+
 ---
 
 ## 👤 Who is this for?

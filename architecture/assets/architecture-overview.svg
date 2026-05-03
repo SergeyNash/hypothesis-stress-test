@@ -1,0 +1,124 @@
+<svg width="1280" height="720" viewBox="0 0 1280 720" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0f172a" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M2 2 L10 6 L2 10 Z" fill="#64748b"/>
+    </marker>
+    <linearGradient id="inputGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#FEF3C7"/>
+      <stop offset="100%" stop-color="#FDE68A"/>
+    </linearGradient>
+    <linearGradient id="rolesGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#DBEAFE"/>
+      <stop offset="100%" stop-color="#93C5FD"/>
+    </linearGradient>
+    <linearGradient id="marketGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#DCFCE7"/>
+      <stop offset="100%" stop-color="#86EFAC"/>
+    </linearGradient>
+    <linearGradient id="synthGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#EDE9FE"/>
+      <stop offset="100%" stop-color="#C4B5FD"/>
+    </linearGradient>
+    <linearGradient id="decisionGrad" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#FFE4E6"/>
+      <stop offset="100%" stop-color="#FDA4AF"/>
+    </linearGradient>
+    <style>
+      .title { font: 700 34px Arial, sans-serif; fill: #0f172a; }
+      .subtitle { font: 400 16px Arial, sans-serif; fill: #475569; }
+      .card-title { font: 700 22px Arial, sans-serif; fill: #0f172a; }
+      .card-sub { font: 400 15px Arial, sans-serif; fill: #334155; }
+      .label { font: 700 13px Arial, sans-serif; fill: #64748b; letter-spacing: 0.08em; }
+      .small { font: 400 13px Arial, sans-serif; fill: #475569; }
+      .tiny { font: 400 12px Arial, sans-serif; fill: #64748b; }
+      .pill { font: 700 12px Arial, sans-serif; fill: #334155; }
+    </style>
+  </defs>
+
+  <rect width="1280" height="720" rx="0" fill="#F8FAFC"/>
+
+  <text x="80" y="70" class="title">Hypothesis Stress Test</text>
+  <text x="80" y="100" class="subtitle">A layered framework for stress-testing product hypotheses under uncertainty</text>
+
+  <!-- Core flow cards -->
+  <g filter="url(#shadow)">
+    <rect x="70" y="190" width="190" height="140" rx="24" fill="url(#inputGrad)" stroke="#F59E0B" stroke-width="2"/>
+    <text x="95" y="230" class="label">INPUT</text>
+    <text x="95" y="265" class="card-title">Hypothesis</text>
+    <text x="95" y="292" class="card-sub">statement</text>
+    <text x="95" y="316" class="card-sub">roles + context</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="330" y="170" width="220" height="180" rx="28" fill="url(#rolesGrad)" stroke="#2563EB" stroke-width="2"/>
+    <text x="360" y="215" class="label">LAYER 1</text>
+    <text x="360" y="250" class="card-title">Roles Layer</text>
+    <text x="360" y="280" class="card-sub">internal perspectives</text>
+    <text x="360" y="314" class="small">• value boundaries</text>
+    <text x="360" y="338" class="small">• hidden assumptions</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="630" y="170" width="220" height="180" rx="28" fill="url(#marketGrad)" stroke="#16A34A" stroke-width="2"/>
+    <text x="660" y="215" class="label">LAYER 2</text>
+    <text x="660" y="250" class="card-title">Market Layer</text>
+    <text x="660" y="280" class="card-sub">external reality</text>
+    <text x="660" y="314" class="small">• evidence signals</text>
+    <text x="660" y="338" class="small">• source references</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="930" y="170" width="220" height="180" rx="28" fill="url(#synthGrad)" stroke="#7C3AED" stroke-width="2"/>
+    <text x="960" y="215" class="label">LAYER 3</text>
+    <text x="960" y="250" class="card-title">Synthesis Layer</text>
+    <text x="960" y="280" class="card-sub">conflict analysis</text>
+    <text x="960" y="314" class="small">• contradictions</text>
+    <text x="960" y="338" class="small">• decision boundaries</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="930" y="455" width="220" height="130" rx="28" fill="url(#decisionGrad)" stroke="#E11D48" stroke-width="2"/>
+    <text x="960" y="498" class="label">OUTPUT</text>
+    <text x="960" y="532" class="card-title">Decision Insight</text>
+    <text x="960" y="562" class="card-sub">what survives reality</text>
+  </g>
+
+  <!-- Flow arrows -->
+  <line x1="260" y1="260" x2="318" y2="260" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="550" y1="260" x2="618" y2="260" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <line x1="850" y1="260" x2="918" y2="260" stroke="#64748b" stroke-width="3" marker-end="url(#arrow)"/>
+  <path d="M1040 350 C1040 390 1040 410 1040 443" stroke="#64748b" stroke-width="3" fill="none" marker-end="url(#arrow)"/>
+
+  <!-- Artifacts band -->
+  <rect x="315" y="405" width="560" height="160" rx="26" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+  <text x="345" y="440" class="label">ARTIFACT FLOW</text>
+
+  <rect x="345" y="465" width="150" height="42" rx="14" fill="#EFF6FF" stroke="#93C5FD"/>
+  <text x="365" y="491" class="pill">role_outputs/*</text>
+
+  <rect x="515" y="465" width="180" height="42" rx="14" fill="#F0FDF4" stroke="#86EFAC"/>
+  <text x="535" y="491" class="pill">market_analysis.md</text>
+
+  <rect x="715" y="465" width="135" height="42" rx="14" fill="#F5F3FF" stroke="#C4B5FD"/>
+  <text x="735" y="491" class="pill">hypothesis_map</text>
+
+  <line x1="495" y1="486" x2="510" y2="486" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="695" y1="486" x2="710" y2="486" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <text x="345" y="535" class="tiny">Each layer produces structured artifacts. The next layer consumes them.</text>
+
+  <!-- Principle box -->
+  <g filter="url(#shadow)">
+    <rect x="70" y="455" width="190" height="130" rx="24" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
+    <text x="95" y="498" class="label">PRINCIPLE</text>
+    <text x="95" y="532" class="card-sub">Truth emerges</text>
+    <text x="95" y="556" class="card-sub">from contradictions,</text>
+    <text x="95" y="580" class="card-sub">not agreement.</text>
+  </g>
+
+  <!-- Footer -->
+  <text x="80" y="665" class="tiny">Manual • Tool-agnostic • Local-first • Human-in-the-loop</text>
+</svg>
