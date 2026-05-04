@@ -1,5 +1,3 @@
-# 🧠 Hypothesis Stress Test
-
 <p align="right">
   🌐 Language:
   <b>English</b> |
