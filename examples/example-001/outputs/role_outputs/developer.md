@@ -1,38 +1,46 @@
-# Role: Developer
+# Role Analysis: Enterprise Developer
 
 ## Pain
 
-SECONDARY
+Priority: SECONDARY
 
-* waiting for scan results
-* unclear when feedback will arrive
+Developers experience uncertainty around scan timing and release predictability.
+
+Pain points:
+
+* unpredictable scan completion times
+* last-minute critical findings before release
+* perceived unfairness in prioritization
+* waiting for scan results blocks delivery
 
 ---
 
-## New Problems
+## New Problems Introduced
 
-* unpredictable scan scheduling
-* potential delays if deprioritized
+* perceived unfairness
+* lack of transparency
+* political pressure on AppSec teams
+* “everything is critical” behavior
+* focus shift from code quality to queue manipulation
 
 ---
 
 ## Alternatives
 
-* proceed without waiting
-* rely on CI/CD timing
-* ignore scan delays
+* shift-left scanning
+* CI/CD-integrated scanning
+* predictable schedules
+* self-service scanning
+* increasing throughput
 
 ---
 
 ## Failure Conditions
 
-* critical projects always prioritized over others
-* developer workflows become inconsistent
+The feature breaks down when:
 
----
-
-## Notes
-
-Developer is indirectly affected.
-
-Main concern is predictability, not prioritization itself.
+* prioritization criteria are unclear
+* release deadlines are ignored
+* informal bypasses exist
+* release blocking becomes operationally destructive
+* developers receive no visibility into queue changes

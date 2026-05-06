@@ -1,55 +1,61 @@
-# Market Analysis
+# Market Reality Check
 
-## Problem Existence
+## Market Signal
 
-Strong signal
+The problem exists partially.
 
-* queue-based scanning is common in SAST tools
-* resource constraints are typical
-* prioritization challenges are widely discussed
+Related market signals:
 
----
+* Pipeline Blocking Friction
+* SAST False Positives
+* SAST Adoption Failure
+* Developers Ignoring Security Tools
 
-## Affected Audience
-
-* application security engineers
-* security teams managing multiple applications
-* large organizations with many codebases
+However, scan queue prioritization itself is not explicitly established as a standalone market category.
 
 ---
 
-## Current Solutions
+# Key Stakeholders
 
-* static scheduling
-* scan queues (FIFO or rule-based)
-* manual triggering of scans
-* partial prioritization features in some tools
+## Buyer
 
----
+CISO
 
-## Gaps
+## Primary User
 
-* lack of flexible prioritization
-* limited alignment with business criticality
-* insufficient context-aware scheduling
+Application Security Engineer
 
----
+## Operational Owner
 
-## Signal Strength
+Platform / DevOps Team
 
-Strong signal for:
+## Secondary User
 
-* queue limitations
-* need for prioritization
-
-Weak signal for:
-
-* direct impact on risk reduction
+Enterprise Developer
 
 ---
 
-## Notes
+# Existing Market Solutions
 
-Evidence supports operational problem (queue).
+* Risk-Based Prioritization
+* AI-Assisted Triage
+* Developer Feedback Loops
+* Policy-Based Automation
+* Vendor-specific approaches (Snyk, GitHub Advanced Security, Checkmarx)
 
-Link to business risk reduction is less explicit.
+---
+
+# Main Weaknesses in Existing Approaches
+
+* No flexible scan queue prioritization
+* Security vs Delivery conflict
+* Manual prioritization scalability issues
+* Lack of transparent prioritization criteria
+* Dependency on business context
+* Adoption matters more than detection quality
+
+---
+
+# Opportunity Window
+
+MEDIUM

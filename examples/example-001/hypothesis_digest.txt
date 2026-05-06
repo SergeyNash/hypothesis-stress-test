@@ -1,5 +1,7 @@
-Manual prioritization of SAST scans addresses a real operational problem (queue management), but does not reliably reduce production risk.
+Hypothesis: REQUIRES VALIDATION
 
-It introduces a conflict between engineer-level control and organization-level governance.
+Key Conflict: AppSec Engineer (CRITICAL pain, preference for manual prioritization) vs CISO / Market (preference for policy-driven automation and AI-assisted triage)
 
-The hypothesis should be reframed around efficiency and supported by risk-based prioritization rules, not manual control alone.
+Primary Risk: The feature may become a niche solution for a limited segment (10–50 projects, mature processes) without scalability to enterprise-level environments. The market does not explicitly validate scan queue prioritization as a standalone problem.
+
+Next Step: Conduct interviews with AppSec engineers to validate: (1) whether they have access to business-criticality data, (2) whether audit processes for prioritization decisions exist, and (3) whether prioritization measurably reduces production risk. Explore a hybrid approach: manual prioritization for exceptions combined with policy-driven automation.

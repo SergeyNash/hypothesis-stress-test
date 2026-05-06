@@ -1,41 +1,37 @@
-# Role: Application Security Engineer
+# Role Analysis: Application Security Engineer
 
 ## Pain
 
-CRITICAL
+Priority: CRITICAL
 
-* large number of projects in queue
-* inability to focus on high-risk applications
-* delays in receiving critical scan results
+AppSec engineers must balance scan coverage against deep analysis of critical systems under limited scanning capacity.
+
+Main pain points:
+
+* inability to quickly react to changing business priorities
+* equal treatment of systems with different risk levels
+* manual queue-management workarounds
+* difficulty justifying prioritization decisions to developers
 
 ---
 
-## New Problems
+## New Problems Introduced
 
-* need to constantly manage queue
-* decision fatigue
-* responsibility for prioritization mistakes
+* cognitive overload
+* political pressure from development teams
+* lack of decision reproducibility
+* metric manipulation risks
+* additional operational overhead
 
 ---
 
 ## Alternatives
 
-* run scans manually outside queue
-* request urgent scans via process
-* rely on default scheduling
+* policy-driven prioritization
+* metadata-based automation
+* risk-based scanning
+* parallel scanning
+* keeping FIFO as the default model
 
 ---
-
-## Failure Conditions
-
-* lack of clear prioritization criteria
-* too many high-priority projects
-* misuse of prioritization by multiple users
-
----
-
-## Notes
-
-Value is high if prioritization is rare and meaningful.
-
-If overused, it loses impact.
+* scan duration is already short

@@ -1,45 +1,37 @@
-# Role: CISO
+# Role Analysis: CISO
 
 ## Pain
 
-CRITICAL
+Priority: SECONDARY
 
-* lack of visibility into real application risk
-* delayed identification of critical vulnerabilities
-* inability to align security efforts with business priorities
+The CISO is responsible for enterprise risk management and wants visibility into how security resources are allocated.
+
+Main concerns:
+
+* critical systems may not be scanned early enough
+* lack of visibility into prioritization decisions
+* inability to demonstrate optimized risk allocation
+
+However, mature organizations often prefer policy-based automation instead of manual operational control.
 
 ---
 
-## New Problems
+## New Problems Introduced
 
-* reliance on engineers' subjective prioritization
-* lack of centralized control over risk management
-* potential misalignment between business criticality and technical decisions
+* escalation of prioritization conflicts
+* auditability risks
+* dependency on specific AppSec employees
+* poor scalability
+* distorted security metrics
 
 ---
 
 ## Alternatives
 
-* enforce risk-based prioritization rules
-* define critical assets and enforce scanning policies
-* invest in automation and risk scoring
+* policy-driven automation
+* GRC integrations
+* risk-based security programs
+* increased scanning capacity
+* CI/CD gating policies
 
----
-
-## Failure Conditions
-
-* engineers prioritize based on convenience, not risk
-* no clear definition of “critical application”
-* prioritization is inconsistent across teams
-
----
-
-## Notes
-
-CISO does not need queue control.
-
-CISO needs:
-
-→ predictable, risk-aligned prioritization
-
-Manual prioritization may introduce variability instead of control.
+* security maturity is low
