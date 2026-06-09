@@ -3,7 +3,8 @@
     🌐 <b>Language:</b>
     <b>🇬🇧 English</b> ·
     <a href="./README.ru.md">🇷🇺 Русский</a> ·
-    <a href="./implementations/quick-start.ru.md">Quick Start (RU)</a>
+    <a href="./implementations/quick-start.md">Quick Start</a> ·
+    <a href="./implementations/quick-start.ru.md">Быстрый старт</a>
   </sub>
 </p>
 

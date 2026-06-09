@@ -6,7 +6,8 @@
 
 ## Быстрый старт
 
-- **[quick-start.ru.md](./quick-start.ru.md)** — короткий путь от нуля до первого прогона
+- **[quick-start.ru.md](./quick-start.ru.md)** — короткий путь от нуля до первого прогона (включая базу знаний и варианты workspace)
+- [Quick Start (EN)](./quick-start.md) — английская версия
 
 ## Настройка и MCP
 

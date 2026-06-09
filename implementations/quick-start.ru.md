@@ -1,4 +1,4 @@
-Язык: [English](./README.md) | **Русский**
+Язык: [English](./quick-start.md) | **Русский**
 
 # Быстрый старт
 
@@ -38,6 +38,77 @@ Cline автоматически подхватит:
 - Workflows из `.clinerules/workflows/`
 
 Проверьте в панели Cline: иконка Rules (весы) — правила фреймворка должны быть включены.
+
+> **Не обязательно** держать открытым именно `hypothesis-stress-test`. См. раздел [База знаний и workspace](#база-знаний-и-workspace) ниже.
+
+---
+
+## База знаний и workspace
+
+База знаний и обвязка фреймворка — **разные вещи**. Открывать оба проекта одновременно **не обязательно**.
+
+| Что | Откуда | Зависит от открытого проекта? |
+|-----|--------|-------------------------------|
+| Обвязка (rules, skills, workflows) | `.clinerules/`, `.cline/skills/` | **Да** — только из корня открытого workspace |
+| Confluence (wiki) | Confluence MCP в Cline | **Нет** — настраивается один раз, работает из любого workspace |
+| Локальные файлы KB | Markdown и заметки в репозитории | **Да** — Cline читает файлы открытого проекта |
+| Артефакты прогона | `RUN_DIR/outputs/` | Любая папка **внутри** открытого workspace |
+
+Папка `knowledge-base/` в этом репозитории — **документация** о поиске в Confluence, а не ваша личная база знаний.
+
+### Вариант A (рекомендуется): ваша KB — главный проект
+
+Если весь набор знаний — это отдельный репозиторий, сделайте его основным workspace и добавьте туда фреймворк:
+
+```text
+my-knowledge-base/
+  .clinerules/          ← скопировать или git submodule из hypothesis-stress-test
+  .cline/skills/
+  discovery/            ← ваши заметки, интервью, research
+  research/
+  adr/
+  runs/                 ← RUN_DIR для гипотез
+    my-hypothesis-001/
+      hypothesis.md
+      outputs/
+```
+
+Плюсы: одно окно VS Code; Cline видит и KB, и rules/skills; Market Layer читает **локальные файлы** и **Confluence через MCP**.
+
+### Вариант B: multi-root workspace (два репозитория)
+
+Файл `my-work.code-workspace`:
+
+```json
+{
+  "folders": [
+    { "path": "../my-knowledge-base" },
+    { "path": "../hypothesis-stress-test" }
+  ]
+}
+```
+
+Откройте `.code-workspace` в VS Code — оба проекта в одном окне. `RUN_DIR` может жить в `hypothesis-stress-test/runs/`, а контекст подтягивать через `@my-knowledge-base/discovery/...`.
+
+### Вариант C: только hypothesis-stress-test
+
+Как в шагах ниже. Подходит, если внутренняя KB в основном в **Confluence**, а не в локальных файлах.
+
+### Как подключить источники знаний
+
+**Confluence (основной путь):**
+
+1. Настройте Confluence MCP — [confluence-mcp.ru.md](./confluence-mcp.ru.md).
+2. Market Layer ищет страницы при `/run-market-layer.md` или полном прогоне.
+3. Результаты попадают в `market_analysis.md` как **Local Signals (Confluence)**.
+
+**Локальные файлы:**
+
+- Откройте репозиторий, где лежат заметки (вариант A или B).
+- Cline читает их при Market Layer через file tools.
+- В `market_analysis.md` такие findings маркируйте как **local** (источник — путь к файлу).
+
+Без Confluence и без локальных файлов в workspace Market Layer зафиксирует `missing local evidence`.
 
 ---
 

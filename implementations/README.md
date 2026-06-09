@@ -6,8 +6,9 @@ Operational guides for running Hypothesis Stress Test with Cline.
 
 ## Quick start
 
+- [Quick Start](./quick-start.md) — short path to first run (includes knowledge base and workspace options)
+- [Быстрый старт (RU)](./quick-start.ru.md) — русская версия
 - [Cline Setup](./cline-setup.md) — full installation and configuration
-- [Quick Start (Russian)](./quick-start.ru.md) — dedicated short guide in Russian
 
 ## Setup and MCP
 
