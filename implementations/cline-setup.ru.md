@@ -11,18 +11,37 @@
 3. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
 4. В настройках Cline укажите LLM-провайдера (API-ключ или локальная модель).
 
-## 2. Открыть репозиторий
+## 2. Открыть проект
+
+### Рекомендуется: KB + папка `hypothesis-stress-test/`
+
+Откройте **свою базу знаний** и добавьте в неё полный репозиторий фреймворка:
+
+```text
+my-knowledge-base/
+  discovery/                 ← ваша KB
+  runs/                      ← прогоны гипотез
+  hypothesis-stress-test/      ← clone или git submodule
+    .clinerules/
+    .cline/skills/
+    templates/
+    implementations/
+    ...
+```
+
+Cline ищет `.clinerules/` и `.cline/` в **корне workspace**. После добавления вложенной папки создайте symlink или копию в корне KB — см. [quick-start.ru.md](./quick-start.ru.md#база-знаний-и-workspace).
+
+### Альтернатива: только фреймворк
 
 ```text
 git clone <repo-url>
 code hypothesis-stress-test
 ```
 
-Cline автоматически обнаружит:
+Cline автоматически обнаружит из корня:
 
-- Rules из `.clinerules/`
+- Rules из `.clinerules/` (включая `workflows/`)
 - Skills из `.cline/skills/`
-- Workflows из `.clinerules/workflows/`
 
 Проверьте в панели Cline:
 

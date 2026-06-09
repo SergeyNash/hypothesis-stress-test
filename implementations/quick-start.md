@@ -24,22 +24,23 @@ Full documentation: [README.md](../README.md)
 
 ---
 
-## Step 2. Open the repository
+## Step 2. Open your project
+
+**Recommended:** open **your knowledge base** as the main project and add a `hypothesis-stress-test/` folder with the full framework repo. Details — [Knowledge base and workspace](#knowledge-base-and-workspace).
+
+**Alternative:** open only the framework repository:
 
 ```text
 git clone <repo-url>
 code hypothesis-stress-test
 ```
 
-Cline auto-discovers:
+Cline auto-discovers from the **workspace root**:
 
-- Rules from `.clinerules/`
+- Rules from `.clinerules/` (including `workflows/` — slash commands)
 - Skills from `.cline/skills/`
-- Workflows from `.clinerules/workflows/`
 
 Check the Cline panel: Rules icon (scales) — framework rules should be listed and enabled.
-
-> You do **not** have to keep `hypothesis-stress-test` as your only open project. See [Knowledge base and workspace](#knowledge-base-and-workspace) below.
 
 ---
 
@@ -56,43 +57,74 @@ Your knowledge base and the framework wrapper are **different things**. You do *
 
 The `knowledge-base/` folder in this repo is **documentation** about Confluence search — not your personal knowledge base.
 
-### Option A (recommended): your KB as the main project
+### Option A (recommended): KB as main project + `hypothesis-stress-test/` folder
 
-If your knowledge lives in a separate repository, make it the primary workspace and add the framework:
+You already have a project open — **your knowledge base**. Add a folder with the full framework repository:
 
 ```text
-my-knowledge-base/
-  .clinerules/          ← copy or git submodule from hypothesis-stress-test
-  .cline/skills/
-  discovery/            ← your notes, interviews, research
+my-knowledge-base/                    ← open in VS Code
+  discovery/                          ← your KB: notes, interviews, research
   research/
   adr/
-  runs/                 ← RUN_DIR for hypotheses
+  runs/                               ← RUN_DIR for hypotheses (next to KB)
     my-hypothesis-001/
       hypothesis.md
       outputs/
+  hypothesis-stress-test/               ← full framework repository
+    .clinerules/                      ← rules + workflows (/run-hypothesis.md)
+    .cline/skills/                    ← per-layer skills
+    templates/                        ← manual mode templates
+    playbooks/
+    examples/
+    implementations/                  ← docs (quick start, MCP, setup)
+    ...
 ```
 
-Benefits: one VS Code window; Cline sees both KB and rules/skills; Market Layer reads **local files** and **Confluence via MCP**.
+Add the folder:
 
-### Option B: multi-root workspace (two repos)
+```bash
+cd my-knowledge-base
+git submodule add https://github.com/SergeyNash/hypothesis-stress-test.git hypothesis-stress-test
+# or: git clone <repo-url> hypothesis-stress-test
+```
 
-Create `my-work.code-workspace`:
+**Important for Cline:** rules and skills are discovered at the **workspace root**, not inside a nested folder. After adding `hypothesis-stress-test/`, do one of the following:
+
+**A1 — symlinks at KB root (good for submodules):**
+
+```bash
+# Windows (cmd as admin) or mklink in PowerShell
+mklink /D .clinerules hypothesis-stress-test\.clinerules
+mklink /D .cline hypothesis-stress-test\.cline
+```
+
+**A2 — copy dot-folders to KB root** (if symlinks are not an option):
+
+```bash
+cp -r hypothesis-stress-test/.clinerules .
+cp -r hypothesis-stress-test/.cline .
+```
+
+Benefits: one window; KB and framework side by side; `runs/` lives in your project; docs always at `hypothesis-stress-test/implementations/`.
+
+### Option B: multi-root workspace
+
+Two repos, one VS Code window. Create `my-work.code-workspace`:
 
 ```json
 {
   "folders": [
-    { "path": "../my-knowledge-base" },
-    { "path": "../hypothesis-stress-test" }
+    { "path": "my-knowledge-base", "name": "KB" },
+    { "path": "hypothesis-stress-test", "name": "Framework" }
   ]
 }
 ```
 
-Open the `.code-workspace` file — both projects in one window. `RUN_DIR` can live in `hypothesis-stress-test/runs/` while context comes from `@my-knowledge-base/discovery/...`.
+Cline picks up rules/skills from the `hypothesis-stress-test` root. `RUN_DIR` — in KB: `runs/my-hypothesis-001/`. Context via `@discovery/...`.
 
 ### Option C: hypothesis-stress-test only
 
-As in the steps below. Best when internal knowledge is mainly in **Confluence**, not local files.
+Open the framework repo as workspace. Best when KB is mainly in **Confluence**, not local files.
 
 ### How to connect knowledge sources
 
@@ -150,9 +182,9 @@ If [action], then [expected outcome for a specific audience].
 * Scenario: [scenario]
 ```
 
-Full schema: [templates/input-schema.md](../templates/input-schema.md)
+Full schema: `hypothesis-stress-test/templates/input-schema.md` (or [templates/input-schema.md](../templates/input-schema.md) if workspace = framework).
 
-Or copy the example: [examples/example-001/hypothesis.md](../examples/example-001/hypothesis.md)
+Example: `hypothesis-stress-test/examples/example-001/hypothesis.md`
 
 ---
 
@@ -207,7 +239,7 @@ outputs/
 
 | Issue | Fix |
 |-------|-----|
-| Rules not visible | Reload VS Code window; check `.clinerules/` exists |
+| Rules not visible | Check `.clinerules/` at **workspace root** (symlink from `hypothesis-stress-test/`); reload VS Code |
 | Workflow does not start | Specify `RUN_DIR:` explicitly in your message |
 | Confluence MCP fails | [confluence-mcp.md](./confluence-mcp.md) |
 | Missing outputs | Check which layer did not finish (marker files in `outputs/`) |

@@ -11,18 +11,37 @@ Step-by-step guide to run Hypothesis Stress Test with Cline in VS Code.
 3. Install [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
 4. Configure your LLM provider in Cline settings (API key or local model).
 
-## 2. Open this repository
+## 2. Open your project
+
+### Recommended: KB + `hypothesis-stress-test/` folder
+
+Open **your knowledge base** and add the full framework repository inside it:
+
+```text
+my-knowledge-base/
+  discovery/                 ← your KB
+  runs/                      ← hypothesis runs
+  hypothesis-stress-test/      ← clone or git submodule
+    .clinerules/
+    .cline/skills/
+    templates/
+    implementations/
+    ...
+```
+
+Cline looks for `.clinerules/` and `.cline/` at the **workspace root**. After adding the nested folder, create a symlink or copy at KB root — see [quick-start.md](./quick-start.md#knowledge-base-and-workspace).
+
+### Alternative: framework only
 
 ```text
 git clone <repo-url>
 code hypothesis-stress-test
 ```
 
-Cline auto-discovers:
+Cline auto-discovers from root:
 
-- Rules from `.clinerules/`
+- Rules from `.clinerules/` (including `workflows/`)
 - Skills from `.cline/skills/`
-- Workflows from `.clinerules/workflows/`
 
 Verify in Cline panel:
 

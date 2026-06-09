@@ -2,7 +2,9 @@ Language: **English** | [Русский](./README.ru.md)
 
 # Knowledge Base
 
-The Market Layer retrieves **local signals** primarily from **Confluence** via MCP.
+Your personal knowledge base is a **separate project** (notes, discovery, research). Add the framework as a `hypothesis-stress-test/` folder inside it. See [quick-start.md](../implementations/quick-start.md#knowledge-base-and-workspace).
+
+The Market Layer retrieves **local signals** primarily from **Confluence** via MCP, and from **local files** in your KB project.
 
 ## Primary source: Confluence
 

@@ -2,7 +2,9 @@
 
 # База знаний
 
-Market Layer получает **local signals** прежде всего из **Confluence** через MCP.
+Ваша личная база знаний — это **отдельный проект** (заметки, discovery, research). Фреймворк добавляется папкой `hypothesis-stress-test/` внутри него. См. [quick-start.ru.md](../implementations/quick-start.ru.md#база-знаний-и-workspace).
+
+Market Layer получает **local signals** прежде всего из **Confluence** через MCP, а также из **локальных файлов** вашего KB-проекта.
 
 ## Основной источник: Confluence
 

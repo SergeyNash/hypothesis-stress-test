@@ -24,22 +24,23 @@
 
 ---
 
-## Шаг 2. Открыть репозиторий
+## Шаг 2. Открыть проект
+
+**Рекомендуется:** откройте **свою базу знаний** как главный проект и добавьте в неё папку `hypothesis-stress-test/` с полным репозиторием фреймворка. Подробности — в разделе [База знаний и workspace](#база-знаний-и-workspace).
+
+**Альтернатива:** откройте только репозиторий фреймворка:
 
 ```text
 git clone <repo-url>
 code hypothesis-stress-test
 ```
 
-Cline автоматически подхватит:
+Cline автоматически подхватит из **корня workspace**:
 
-- Rules из `.clinerules/`
+- Rules из `.clinerules/` (включая `workflows/` — slash-команды)
 - Skills из `.cline/skills/`
-- Workflows из `.clinerules/workflows/`
 
 Проверьте в панели Cline: иконка Rules (весы) — правила фреймворка должны быть включены.
-
-> **Не обязательно** держать открытым именно `hypothesis-stress-test`. См. раздел [База знаний и workspace](#база-знаний-и-workspace) ниже.
 
 ---
 
@@ -56,43 +57,74 @@ Cline автоматически подхватит:
 
 Папка `knowledge-base/` в этом репозитории — **документация** о поиске в Confluence, а не ваша личная база знаний.
 
-### Вариант A (рекомендуется): ваша KB — главный проект
+### Вариант A (рекомендуется): KB — главный проект + папка `hypothesis-stress-test/`
 
-Если весь набор знаний — это отдельный репозиторий, сделайте его основным workspace и добавьте туда фреймворк:
+У вас уже есть открытый проект — **ваша база знаний**. Добавьте в него папку с полным репозиторием фреймворка:
 
 ```text
-my-knowledge-base/
-  .clinerules/          ← скопировать или git submodule из hypothesis-stress-test
-  .cline/skills/
-  discovery/            ← ваши заметки, интервью, research
+my-knowledge-base/                    ← открыт в VS Code
+  discovery/                          ← ваша KB: заметки, интервью, research
   research/
   adr/
-  runs/                 ← RUN_DIR для гипотез
+  runs/                               ← RUN_DIR для гипотез (рядом с KB)
     my-hypothesis-001/
       hypothesis.md
       outputs/
+  hypothesis-stress-test/               ← весь репозиторий фреймворка
+    .clinerules/                      ← rules + workflows (/run-hypothesis.md)
+    .cline/skills/                    ← skills по слоям
+    templates/                        ← шаблоны для ручного режима
+    playbooks/
+    examples/
+    implementations/                  ← документация (quick start, MCP, setup)
+    ...
 ```
 
-Плюсы: одно окно VS Code; Cline видит и KB, и rules/skills; Market Layer читает **локальные файлы** и **Confluence через MCP**.
+Добавить папку:
 
-### Вариант B: multi-root workspace (два репозитория)
+```bash
+cd my-knowledge-base
+git submodule add https://github.com/SergeyNash/hypothesis-stress-test.git hypothesis-stress-test
+# или: git clone <repo-url> hypothesis-stress-test
+```
 
-Файл `my-work.code-workspace`:
+**Важно про Cline:** rules и skills ищутся в **корне workspace**, а не внутри вложенной папки. После добавления `hypothesis-stress-test/` сделайте одно из двух:
+
+**A1 — symlink в корне KB (удобно для submodule):**
+
+```bash
+# Windows (cmd as admin) или mklink в PowerShell
+mklink /D .clinerules hypothesis-stress-test\.clinerules
+mklink /D .cline hypothesis-stress-test\.cline
+```
+
+**A2 — скопировать dot-папки в корень KB** (если symlink не подходит):
+
+```bash
+cp -r hypothesis-stress-test/.clinerules .
+cp -r hypothesis-stress-test/.cline .
+```
+
+Плюсы: одно окно; KB и фреймворк рядом; `runs/` живёт в вашем проекте; документация всегда под рукой в `hypothesis-stress-test/implementations/`.
+
+### Вариант B: multi-root workspace
+
+Два репозитория рядом, одно окно VS Code. Файл `my-work.code-workspace`:
 
 ```json
 {
   "folders": [
-    { "path": "../my-knowledge-base" },
-    { "path": "../hypothesis-stress-test" }
+    { "path": "my-knowledge-base", "name": "KB" },
+    { "path": "hypothesis-stress-test", "name": "Framework" }
   ]
 }
 ```
 
-Откройте `.code-workspace` в VS Code — оба проекта в одном окне. `RUN_DIR` может жить в `hypothesis-stress-test/runs/`, а контекст подтягивать через `@my-knowledge-base/discovery/...`.
+Cline подхватит rules/skills из корня `hypothesis-stress-test`. `RUN_DIR` — в KB: `runs/my-hypothesis-001/`. Контекст — через `@discovery/...`.
 
 ### Вариант C: только hypothesis-stress-test
 
-Как в шагах ниже. Подходит, если внутренняя KB в основном в **Confluence**, а не в локальных файлах.
+Открываете репозиторий фреймворка как workspace. Подходит, если KB в основном в **Confluence**, а не в локальных файлах.
 
 ### Как подключить источники знаний
 
@@ -150,9 +182,9 @@ runs/my-hypothesis/
 * Scenario: [сценарий]
 ```
 
-Полная схема: [templates/input-schema.md](../templates/input-schema.md)
+Полная схема: `hypothesis-stress-test/templates/input-schema.md` (или [templates/input-schema.md](../templates/input-schema.md) если workspace = фреймворк).
 
-Или скопируйте пример: [examples/example-001/hypothesis.md](../examples/example-001/hypothesis.md)
+Пример: `hypothesis-stress-test/examples/example-001/hypothesis.md`
 
 ---
 
@@ -207,7 +239,7 @@ outputs/
 
 | Проблема | Решение |
 |----------|---------|
-| Rules не видны | Перезагрузите окно VS Code; проверьте `.clinerules/` |
+| Rules не видны | Проверьте `.clinerules/` в **корне** workspace (symlink из `hypothesis-stress-test/`); перезагрузите VS Code |
 | Workflow не запускается | Укажите `RUN_DIR:` явно в сообщении |
 | Confluence MCP не работает | [confluence-mcp.ru.md](./confluence-mcp.ru.md) |
 | Нет outputs | Проверьте, какой слой не завершился (marker-файлы в `outputs/`) |

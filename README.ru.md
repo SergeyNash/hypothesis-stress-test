@@ -141,10 +141,11 @@ RUN_DIR/
 Кратко:
 
 1. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) в VS Code
-2. Откройте этот репозиторий
-3. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
-4. Создайте `RUN_DIR/hypothesis.md` (см. [templates/input-schema.md](./templates/input-schema.md))
-5. В чате Cline: `/run-hypothesis.md` с указанием `RUN_DIR`
+2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
+3. Symlink `.clinerules/` и `.cline/` в корень KB — см. quick start
+4. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
+5. Создайте `runs/my-hypothesis/hypothesis.md`
+6. В чате Cline: `RUN_DIR: runs/my-hypothesis` + `/run-hypothesis.md`
 
 Вся операционная документация на русском: [implementations/README.ru.md](./implementations/README.ru.md)
 
