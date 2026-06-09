@@ -64,3 +64,12 @@ If Confluence MCP is not configured:
 - Mark all local signals as `missing local evidence`
 - Proceed with external research only if the user explicitly requests it
 - Do not fabricate internal knowledge
+
+## Decision Review
+
+Decision Review applies to **Synthesis outputs only**:
+
+- Do not generate new market or role signals
+- Do not cite sources not already present in prior artifacts
+- Challenge evidence quality, assumptions, and conclusions — do not repeat synthesis
+- Propose validation activities; do not treat them as completed evidence

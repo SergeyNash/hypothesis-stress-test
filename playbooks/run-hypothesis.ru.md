@@ -153,6 +153,42 @@ RUN_DIR: runs/my-hypothesis
 
 ---
 
+## Шаг 4 — Decision Review
+
+**Cline:** skill `hypothesis-decision-review` или `/run-decision-review.md`
+
+**Ручной режим:** [templates/decision-review-prompt.md](../templates/decision-review-prompt.md)
+
+Вход:
+
+* артефакты synthesis и предыдущих слоёв
+
+Выход:
+
+* `decision_review.md`
+* `decision_review_complete.marker`
+
+Цель:
+
+* оспорить выводы synthesis
+* выявить слабые доказательства и скрытые допущения
+* предложить самый дешёвый путь валидации
+
+Не пропускайте этот шаг. Decision Review не пересказывает synthesis — добавляет adversarial critique.
+
+---
+
+## Шаг 5 — Backlog Decision (человек)
+
+Изучите `decision_review.md` и примите финальное решение:
+
+* Proceed
+* Proceed with Validation
+* Additional Research Required
+* Reject
+
+---
+
 ## Модель интерпретации
 
 ### Validated Opportunity
@@ -184,6 +220,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
 ```
 
 ---
@@ -199,7 +236,7 @@ RUN_DIR/
 * формулируйте гипотезы узко
 * явно определяйте роли
 * настройте Confluence MCP для лучших local signals
-* не пропускайте synthesis
+* не пропускайте synthesis и decision review
 
 ---
 

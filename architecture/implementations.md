@@ -82,7 +82,7 @@ Steps:
 Programmatic execution via LLM API calls:
 
 ```text
-hypothesis → roles call → market call → synthesis call → artifacts
+hypothesis → roles call → market call → synthesis call → decision review call → artifacts
 ```
 
 Useful for high-frequency or CI-integrated analysis. Not included in v1.

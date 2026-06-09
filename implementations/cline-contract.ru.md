@@ -36,6 +36,7 @@
 | `hypothesis-roles-layer` | Roles Layer |
 | `hypothesis-market-layer` | Market Layer + Confluence MCP |
 | `hypothesis-synthesis-layer` | Synthesis Layer |
+| `hypothesis-decision-review` | Decision Review (обязательный gate) |
 
 ### Workflows (slash-команды)
 
@@ -47,6 +48,7 @@
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
+| `run-decision-review.md` | `/run-decision-review.md` |
 
 ## Поток выполнения
 
@@ -56,6 +58,8 @@
   → Roles Layer (skill) → role_outputs + summary + marker
   → Market Layer (skill + Confluence MCP) → market_analysis + marker
   → Synthesis Layer (skill) → hypothesis_map + digest + marker
+  → Decision Review (skill) → decision_review + marker
+  → Решение человека (backlog)
 ```
 
 ## Требования

@@ -14,6 +14,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
 ```
 
 ---

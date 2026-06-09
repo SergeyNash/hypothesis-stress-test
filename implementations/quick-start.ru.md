@@ -203,6 +203,7 @@ Cline выполнит:
 2. Roles Layer
 3. Market Layer (с поиском в Confluence)
 4. Synthesis Layer
+5. Decision Review
 
 Подтверждайте запись файлов и вызовы MCP по запросу.
 
@@ -225,12 +226,14 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  decision_review.md
 ```
 
 | Артефакт | Что внутри |
 |----------|------------|
 | `hypothesis_digest.txt` | Краткий итог: классификация, конфликт, следующий шаг |
-| `hypothesis_map.md` | Полный синтез: противоречия и границы решения |
+| `hypothesis_map.md` | Полный синтез: противоречия и классификация |
+| `decision_review.md` | Adversarial review: уверенность, риски, план валидации |
 | `market_analysis.md` | Внешние и внутренние сигналы с источниками |
 
 ---

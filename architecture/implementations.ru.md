@@ -84,7 +84,7 @@ Confluence — **основной MCP-источник** local signals.
 Программное выполнение через вызовы LLM API:
 
 ```text
-hypothesis → roles call → market call → synthesis call → artifacts
+hypothesis → roles call → market call → synthesis call → decision review call → artifacts
 ```
 
 Для высокочастотного или CI-интегрированного анализа. Не входит в v1.

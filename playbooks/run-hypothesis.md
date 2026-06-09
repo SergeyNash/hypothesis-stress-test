@@ -153,6 +153,42 @@ Goal:
 
 ---
 
+## Step 4 — Run Decision Review
+
+**Cline:** skill `hypothesis-decision-review` or `/run-decision-review.md`
+
+**Manual:** [templates/decision-review-prompt.md](../templates/decision-review-prompt.md)
+
+Input:
+
+* synthesis outputs and prior artifacts
+
+Output:
+
+* `decision_review.md`
+* `decision_review_complete.marker`
+
+Goal:
+
+* challenge synthesis conclusions
+* identify weak evidence and hidden assumptions
+* propose cheapest validation path
+
+Do not skip this step. Decision Review does not repeat synthesis — it adds adversarial critique.
+
+---
+
+## Step 5 — Backlog Decision (Human)
+
+Review `decision_review.md` and make the final backlog decision:
+
+* Proceed
+* Proceed with Validation
+* Additional Research Required
+* Reject
+
+---
+
 ## Interpretation Model
 
 ### Validated Opportunity
@@ -184,6 +220,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
 ```
 
 ---
@@ -199,7 +236,7 @@ RUN_DIR/
 * keep hypotheses narrow
 * define roles explicitly
 * configure Confluence MCP for better local signals
-* don't skip synthesis
+* don't skip synthesis or decision review
 
 ---
 

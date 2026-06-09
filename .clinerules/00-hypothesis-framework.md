@@ -10,7 +10,7 @@ Do not ask the LLM to generate more ideas. Use it to apply pressure to ideas you
 idea → stress test → decision
 ```
 
-## Three layers (never mix prematurely)
+## Three analysis layers (never mix prematurely)
 
 | Layer | Purpose | Output |
 |-------|---------|--------|
@@ -18,14 +18,24 @@ idea → stress test → decision
 | **Market** | External reality | market_analysis.md |
 | **Synthesis** | Conflict analysis | hypothesis_map.md, hypothesis_digest.txt |
 
+## Decision Review (mandatory gate)
+
+After Synthesis, run **Decision Review** — an adversarial critique of conclusions. It does not add new signals; it challenges existing ones.
+
+| Phase | Purpose | Output |
+|-------|---------|--------|
+| **Decision Review** | Challenge conclusions, propose cheap validation | decision_review.md |
+
 ## Execution order
 
 1. Validate input (hypothesis, roles, research context)
 2. Run Roles Layer
 3. Run Market Layer (Confluence MCP first for local signals)
 4. Run Synthesis Layer
+5. Run Decision Review
+6. Human backlog decision
 
-Layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data.
+Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Decision Review critiques artifacts only — it does not add new data.
 
 ## Human-in-the-loop
 
@@ -47,3 +57,4 @@ Use project skills from `.cline/skills/` or invoke workflows:
 - `/run-hypothesis.md` — full end-to-end run
 - `/run-market-layer.md` — Market Layer only
 - `/run-synthesis.md` — Synthesis Layer only
+- `/run-decision-review.md` — Decision Review only

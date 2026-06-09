@@ -63,6 +63,10 @@ Classify into one or more categories:
 
 `RUN_DIR/outputs/synthesis_complete.marker`
 
+## Next step
+
+After synthesis completes, run skill `hypothesis-decision-review` or workflow `/run-decision-review.md`.
+
 ## Reference
 
 Based on `templates/synthesis-prompt.md` and `layers/synthesis-layer.md`.

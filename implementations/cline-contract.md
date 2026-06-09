@@ -36,6 +36,7 @@ Located in `.cline/skills/`:
 | `hypothesis-roles-layer` | Roles Layer execution |
 | `hypothesis-market-layer` | Market Layer with Confluence MCP |
 | `hypothesis-synthesis-layer` | Synthesis Layer |
+| `hypothesis-decision-review` | Decision Review (mandatory gate) |
 
 ### Workflows (slash commands)
 
@@ -47,6 +48,7 @@ Located in `.clinerules/workflows/`:
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
+| `run-decision-review.md` | `/run-decision-review.md` |
 
 ## Execution flow
 
@@ -56,6 +58,8 @@ User provides RUN_DIR
   → Roles Layer (skill) → role_outputs + summary + marker
   → Market Layer (skill + Confluence MCP) → market_analysis + marker
   → Synthesis Layer (skill) → hypothesis_map + digest + marker
+  → Decision Review (skill) → decision_review + marker
+  → Human backlog decision
 ```
 
 ## Prerequisites

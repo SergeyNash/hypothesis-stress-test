@@ -88,6 +88,7 @@ examples/example-001/
 ```text
 /run-market-layer.md
 /run-synthesis.md
+/run-decision-review.md
 ```
 
 Укажите `RUN_DIR` в сообщении:
@@ -106,9 +107,10 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  decision_review.md
 ```
 
-Сначала прочитайте `hypothesis_digest.txt` — краткий итог для принятия решения.
+Сначала `hypothesis_digest.txt`, затем `decision_review.md` — уверенность и рекомендация перед backlog decision.
 
 ## Plan vs Act mode
 

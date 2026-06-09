@@ -31,9 +31,11 @@ Instead of mixing signals, the system separates them into distinct layers:
 2. External reality
 3. Conflict-based synthesis
 
-Each layer operates independently.
+Each analysis layer operates independently.
 
 Only after that, signals are compared.
+
+After synthesis, **Decision Review** challenges conclusions before backlog planning.
 
 ---
 
@@ -81,6 +83,22 @@ Focus:
 
 ---
 
+### Decision Review (Adversarial Gate)
+
+Answers:
+
+> Why might the synthesis conclusion be wrong?
+
+Focus:
+
+* weak evidence and overconfidence
+* hidden assumptions
+* cheapest validation path
+
+This is not a fourth signal layer. It critiques existing artifacts only.
+
+---
+
 ## 🔥 Key Principle
 
 > Truth emerges not from agreement, but from contradictions.
@@ -96,8 +114,10 @@ Layers are executed sequentially:
 1. Roles Layer
 2. Market Layer
 3. Synthesis Layer
+4. Decision Review (mandatory gate)
+5. Human backlog decision
 
-Each layer:
+Each analysis layer:
 
 * consumes structured input
 * produces structured output
@@ -129,3 +149,4 @@ See:
 * `roles-layer.md`
 * `market-layer.md`
 * `synthesis-layer.md`
+* `decision-review-layer.md`

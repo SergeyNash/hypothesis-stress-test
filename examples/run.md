@@ -125,6 +125,31 @@ Purpose:
 
 ---
 
+## Step 4 — Decision Review
+
+**Cline skill:** `hypothesis-decision-review`
+
+**Manual template:** `templates/decision-review-prompt.md`
+
+Input:
+
+* synthesis outputs and prior artifacts
+
+Expected output:
+
+```text
+outputs/decision_review.md
+outputs/decision_review_complete.marker
+```
+
+Purpose:
+
+* challenge synthesis conclusions
+* identify weak evidence and hidden assumptions
+* propose cheapest validation path
+
+---
+
 ## Expected Result
 
 ```text
@@ -137,6 +162,7 @@ examples/example-001/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
     *.marker
 ```
 

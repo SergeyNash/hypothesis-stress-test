@@ -1,6 +1,6 @@
 # Synthesis Layer
 
-The Synthesis Layer is the **decision layer** of the system.
+The Synthesis Layer is the **classification / conflict layer** of the system.
 
 It compares internal and external signals and exposes contradictions.
 
@@ -198,6 +198,8 @@ Each conclusion must include confidence level:
 ---
 
 ## 📘 Next
+
+After Synthesis, run **Decision Review** — see `decision-review-layer.md`.
 
 Return to:
 

@@ -71,15 +71,16 @@ idea → stress test → decision
 
 ## How it works
 
-The framework separates reasoning into three layers:
+The framework separates reasoning into three analysis layers, then a mandatory Decision Review gate:
 
-| Layer               | Purpose                     | Output                 |
+| Phase               | Purpose                     | Output                 |
 | ------------------- | --------------------------- | ---------------------- |
 | **Roles Layer**     | Tests internal perspectives | role-based constraints |
 | **Market Layer**    | Checks external reality     | evidence-based signals |
-| **Synthesis Layer** | Exposes contradictions      | decision boundaries    |
+| **Synthesis Layer** | Exposes contradictions      | classification map     |
+| **Decision Review** | Challenges conclusions      | decision_review.md     |
 
-Run end-to-end in Cline with `/run-hypothesis.md` or layer by layer via skills and workflows.
+Run end-to-end in Cline with `/run-hypothesis.md` or phase by phase via skills and workflows.
 
 ---
 
@@ -134,6 +135,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
 ```
 
 ---
@@ -193,7 +195,8 @@ assets/            diagrams
 * Confluence first for local evidence
 * No evidence → no claim
 * Contradictions matter more than consensus
-* Human makes the decision
+* Challenge conclusions before backlog planning
+* Human makes the backlog decision
 * Bad ideas should die early
 
 ---

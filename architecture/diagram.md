@@ -8,7 +8,7 @@ Language: **English** | [Русский](./diagram.ru.md)
   <img src="../assets/architecture-overview.svg" width="760"/>
 </p>
 
-Framework layers (Roles → Market → Synthesis) with Cline adapter and Confluence MCP for local signals.
+Framework layers (Roles → Market → Synthesis → Decision Review) with Cline adapter and Confluence MCP for local signals.
 
 ## Artifact flow
 

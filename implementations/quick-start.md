@@ -203,6 +203,7 @@ Cline will:
 2. Run Roles Layer
 3. Run Market Layer (with Confluence search)
 4. Run Synthesis Layer
+5. Run Decision Review
 
 Approve file writes and MCP tool calls when prompted.
 
@@ -225,12 +226,14 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  decision_review.md
 ```
 
 | Artifact | Contents |
 |----------|----------|
 | `hypothesis_digest.txt` | Short summary: classification, conflict, next step |
-| `hypothesis_map.md` | Full synthesis: contradictions and decision boundaries |
+| `hypothesis_map.md` | Full synthesis: contradictions and classification |
+| `decision_review.md` | Adversarial review: confidence, risks, validation plan |
 | `market_analysis.md` | Internal and external signals with sources |
 
 ---

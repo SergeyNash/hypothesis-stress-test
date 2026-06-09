@@ -8,7 +8,7 @@
   <img src="../assets/architecture-overview.svg" width="760"/>
 </p>
 
-Слои фреймворка (Roles → Market → Synthesis) с адаптером Cline и Confluence MCP для local signals.
+Слои фреймворка (Roles → Market → Synthesis → Decision Review) с адаптером Cline и Confluence MCP для local signals.
 
 ## Поток артефактов
 

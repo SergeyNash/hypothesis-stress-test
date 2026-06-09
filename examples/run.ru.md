@@ -125,6 +125,31 @@ outputs/synthesis_complete.marker
 
 ---
 
+## Шаг 4 — Decision Review
+
+**Cline skill:** `hypothesis-decision-review`
+
+**Ручной шаблон:** `templates/decision-review-prompt.md`
+
+Вход:
+
+* артефакты synthesis и предыдущих слоёв
+
+Ожидаемый output:
+
+```text
+outputs/decision_review.md
+outputs/decision_review_complete.marker
+```
+
+Цель:
+
+* оспорить выводы synthesis
+* выявить слабые доказательства и скрытые допущения
+* предложить самый дешёвый путь валидации
+
+---
+
 ## Ожидаемый результат
 
 ```text
@@ -137,6 +162,7 @@ examples/example-001/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
     *.marker
 ```
 

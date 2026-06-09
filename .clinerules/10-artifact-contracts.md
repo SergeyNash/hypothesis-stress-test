@@ -14,9 +14,11 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    decision_review.md
     ready_for_synthesis.marker
     market_analysis_complete.marker
     synthesis_complete.marker
+    decision_review_complete.marker
 ```
 
 ## Input: hypothesis.md
@@ -51,6 +53,7 @@ See `templates/input-schema.md` for the full schema.
 | Market analysis | `outputs/market_analysis.md` | Market Layer |
 | Full synthesis | `outputs/hypothesis_map.md` | Synthesis Layer |
 | Short digest | `outputs/hypothesis_digest.txt` | Synthesis Layer |
+| Decision review | `outputs/decision_review.md` | Decision Review |
 
 Role slugs: lowercase, underscores (e.g. `appsec_engineer`, `ciso`).
 
@@ -63,8 +66,11 @@ Markers signal that a layer finished and outputs are ready for the next step:
 | `ready_for_synthesis.marker` | Roles Layer |
 | `market_analysis_complete.marker` | Market Layer |
 | `synthesis_complete.marker` | Synthesis Layer |
+| `decision_review_complete.marker` | Decision Review |
 
 Do not run Synthesis until both Roles and Market markers exist (or their output files are present).
+
+Do not run Decision Review until Synthesis completes (`synthesis_complete.marker` or `hypothesis_map.md` + `hypothesis_digest.txt` present).
 
 ## RUN_DIR examples
 

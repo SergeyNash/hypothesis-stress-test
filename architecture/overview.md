@@ -16,6 +16,8 @@ Three independent analysis layers produce structured signals:
 
 Layers do not mix signals prematurely. Synthesis compares artifacts from prior layers only.
 
+After Synthesis, **Decision Review** (mandatory gate) adversarially challenges conclusions before backlog planning. It does not add new signals.
+
 ## Cline adapter
 
 The framework runs in VS Code via [Cline](https://cline.bot/) using:
@@ -38,6 +40,9 @@ hypothesis.md
   → Market Layer (skill + Confluence MCP)
   → Synthesis Layer (skill)
   → hypothesis_map.md + hypothesis_digest.txt
+  → Decision Review (skill)
+  → decision_review.md
+  → Human backlog decision
 ```
 
 ## Artifact contract

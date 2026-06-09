@@ -88,6 +88,7 @@ Then ask Cline to run each layer, or use individual workflows:
 ```text
 /run-market-layer.md
 /run-synthesis.md
+/run-decision-review.md
 ```
 
 Specify `RUN_DIR` in your message, e.g.:
@@ -108,9 +109,10 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  decision_review.md
 ```
 
-Read `hypothesis_digest.txt` first for a quick decision summary.
+Read `hypothesis_digest.txt` first, then `decision_review.md` for confidence and recommendation before backlog decision.
 
 ## Plan vs Act mode
 

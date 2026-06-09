@@ -16,6 +16,7 @@ Processed through Hypothesis Stress Test framework using Cline skills:
 | Roles Layer | `hypothesis-roles-layer` | complete |
 | Market Layer | `hypothesis-market-layer` | complete |
 | Synthesis Layer | `hypothesis-synthesis-layer` | complete |
+| Decision Review | `hypothesis-decision-review` | complete |
 
 ## Confluence MCP
 
@@ -23,8 +24,10 @@ Example outputs were produced with framework layers. For live runs, configure Co
 
 ## Result summary
 
-See `hypothesis_digest.txt` for the decision digest.
+See `hypothesis_digest.txt` for the synthesis digest and `decision_review.md` for the adversarial review.
 
 Classification: Mixed — Validated Opportunity, Internal Illusion, Blind Spot.
 
 Key reframing: from "reduce production risk" toward "improve operational efficiency".
+
+Decision Review recommendation: **Proceed with Validation** (Medium confidence).

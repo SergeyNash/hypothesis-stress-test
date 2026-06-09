@@ -27,6 +27,12 @@
 - [ ] Improve conflict classification
 - [ ] Add confidence scoring automation
 
+## Decision Review
+
+- [x] Add `hypothesis-decision-review` skill and workflow
+- [x] Add `decision_review.md` artifact contract
+- [x] Add worked example with full decision review in `examples/`
+
 ## System
 
 - [x] Define minimal viable input format (`templates/input-schema.md`)

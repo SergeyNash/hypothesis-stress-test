@@ -23,9 +23,14 @@ End-to-end hypothesis stress test for a single `RUN_DIR`.
    - Activate skill `hypothesis-synthesis-layer`.
    - Produce `hypothesis_map.md`, `hypothesis_digest.txt`, `synthesis_complete.marker`.
 
-5. **Report**
-   - Display `hypothesis_digest.txt` to the user.
-   - Remind: human makes the final decision.
+5. **Decision Review**
+   - Activate skill `hypothesis-decision-review`.
+   - Produce `decision_review.md`, `decision_review_complete.marker`.
+   - Show user confidence and recommendation before continuing.
+
+6. **Report**
+   - Display `hypothesis_digest.txt` and key verdict from `decision_review.md`.
+   - Remind: human makes the final backlog decision.
 
 ## Expected time
 
