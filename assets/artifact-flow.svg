@@ -32,7 +32,7 @@
   <rect class="bg" x="0" y="0" width="1100" height="620"/>
 
   <text class="title" x="60" y="55">Artifact Flow</text>
-  <text class="subtitle" x="60" y="82">How hypothesis data becomes structured decision artifacts</text>
+  <text class="subtitle" x="60" y="82">Cline skills and workflows produce structured decision artifacts per layer</text>
 
   <!-- Input -->
   <rect class="file" x="60" y="145" width="210" height="90"/>
@@ -42,7 +42,7 @@
 
   <!-- Roles layer container -->
   <rect class="container" x="330" y="115" width="270" height="190"/>
-  <text class="layer-title" x="365" y="150">Roles Layer</text>
+  <text class="layer-title" x="365" y="150">Roles Layer (skill)</text>
   <rect class="role" x="360" y="175" width="210" height="70"/>
   <text class="label" x="392" y="205">Internal analysis</text>
   <text class="small" x="392" y="226">role-based signals</text>
@@ -59,7 +59,7 @@
 
   <!-- Market layer -->
   <rect class="container" x="330" y="355" width="270" height="155"/>
-  <text class="layer-title" x="365" y="390">Market Layer</text>
+  <text class="layer-title" x="365" y="390">Market Layer (skill + Confluence MCP)</text>
   <rect class="market" x="360" y="415" width="210" height="70"/>
   <text class="label" x="392" y="445">External validation</text>
   <text class="small" x="392" y="466">market signals</text>
@@ -73,7 +73,7 @@
 
   <!-- Synthesis layer -->
   <rect class="container" x="60" y="360" width="210" height="150"/>
-  <text class="layer-title" x="95" y="395">Synthesis Layer</text>
+  <text class="layer-title" x="95" y="395">Synthesis Layer (skill)</text>
   <rect class="synthesis" x="90" y="420" width="150" height="65"/>
   <text class="label" x="115" y="448">Conflict</text>
   <text class="small" x="112" y="468">comparison</text>

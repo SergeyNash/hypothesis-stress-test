@@ -1,269 +1,110 @@
+Language: **English** | [Русский](./implementations.ru.md)
+
 # Implementations
 
-This framework is tool-agnostic.
-
-It describes **how to structure reasoning**, not which tool to use.
+This framework is tool-agnostic at its core. The **primary supported implementation** is **Cline in VS Code**.
 
 ---
 
-## 🧠 Framework vs Tooling
-
-The framework defines:
-
-* layers
-* inputs
-* outputs
-* reasoning contracts
-* decision logic
-
-Tooling defines:
-
-* where prompts are executed
-* where files are stored
-* how artifacts are passed between steps
-* whether execution is manual or automated
-
----
-
-## ✅ Recommended Mental Model
+## Framework vs Tooling
 
 ```text
-Framework = how to think
-Implementation = how to run it
+Framework  = how to think (layers, contracts, decision model)
+Cline impl = how to run it (rules, skills, workflows, MCP)
 ```
 
-Do not confuse the two.
+The framework defines layers and reasoning contracts. Cline provides execution, file artifacts, and Confluence integration.
 
 ---
 
-## 🔧 Possible Implementations
+## Primary: Cline (VS Code)
 
-The framework can be implemented using:
+### Components
 
-* ChatGPT or similar chat interfaces
-* local LLMs
-* LLM-based IDE tools
-* API workflows
-* custom scripts
-* internal AI platforms
+| Piece | Location |
+|-------|----------|
+| Rules | `.clinerules/` |
+| Skills | `.cline/skills/` |
+| Workflows | `.clinerules/workflows/` |
+| Setup guide | [implementations/cline-setup.md](../implementations/cline-setup.md) |
+| Contract | [implementations/cline-contract.md](../implementations/cline-contract.md) |
 
-No specific tool is required.
+### Quick start
+
+1. Install Cline extension in VS Code
+2. Open this repository
+3. Configure [Confluence MCP](../implementations/confluence-mcp.md)
+4. Create `RUN_DIR/hypothesis.md`
+5. Run `/run-hypothesis.md` in Cline chat
+
+### Mapping
+
+```text
+Template (templates/*.md)  → Cline skill (SKILL.md)
+Playbook step              → Cline workflow (slash command)
+RUN_DIR                    → local filesystem workspace
+Layer output               → markdown artifact in outputs/
+Confluence pages           → local signals in market_analysis.md
+```
 
 ---
 
-## 🧩 Manual Implementation
+## Confluence MCP (required for full Market Layer)
 
-The simplest implementation is fully manual:
+Confluence is the **primary MCP source** for local signals.
 
-1. Copy the template for a layer
+- Search internal wiki for discovery notes, past decisions, research
+- Cite pages in `market_analysis.md`
+- Without MCP: document `missing local evidence`
+
+See [implementations/confluence-mcp.md](../implementations/confluence-mcp.md).
+
+---
+
+## Manual implementation
+
+Copy templates from `templates/`, fill in hypothesis and context, run in any LLM interface, save artifacts manually.
+
+Best for: first experiments, environments without Cline.
+
+Steps:
+
+1. Copy template for a layer
 2. Insert hypothesis and context
-3. Run it in an LLM interface
-4. Save the output artifact
-5. Move to the next layer
-
-This is enough for early adoption.
+3. Run in LLM interface
+4. Save output to `RUN_DIR/outputs/`
+5. Move to next layer
 
 ---
 
-## 🧱 Local LLM Implementation
+## API-based implementation (future)
 
-A local implementation can use:
-
-* local or internal LLM API
-* local knowledge base
-* vector search
-* filesystem-based artifacts
-
-This is useful when:
-
-* data must stay inside the organization
-* hypotheses contain sensitive information
-* external AI tools are not allowed
-
-## 🔗 Knowledge Integration (MCP / Internal Systems)
-
-The framework becomes significantly more effective when connected to internal knowledge sources.
-
-This can be achieved using tools like MCP (Model Context Protocol) to access systems such as:
-
-* Confluence (wiki)
-* internal documentation
-* knowledge bases
-* research repositories
-
----
-
-### Why this matters
-
-Internal systems often contain:
-
-* real user problems
-* past decisions
-* architectural constraints
-* historical context
-
-This information is more reliable than generic external sources.
-
----
-
-### Example Usage
-
-Market Layer can use internal knowledge to:
-
-* validate whether a problem has already been observed
-* identify recurring issues
-* extract patterns from past discussions
-* understand domain-specific constraints
-
----
-
-### Signal Quality Impact
+Programmatic execution via LLM API calls:
 
 ```text
-Without internal knowledge:
-→ generic market assumptions
-
-With internal knowledge:
-→ context-aware, high-confidence signals
+hypothesis → roles call → market call → synthesis call → artifacts
 ```
 
----
-
-### Important
-
-* internal data must still follow evidence rules
-* assumptions must be separated from documented facts
-* outdated information must be treated carefully
+Useful for high-frequency or CI-integrated analysis. Not included in v1.
 
 ---
 
-### Key Principle
+## Implementation maturity
 
-> The best market signal is often already inside the organization.
-
-External research complements it — not replaces it.
-
-
----
-
-## 🛠 LLM-based IDE Tool Implementation
-
-The framework can also be implemented inside LLM-enabled development environments.
-
-In this setup:
-
-* templates can be adapted into system prompts
-* each layer can be represented as a separate configured mode/tool
-* outputs can be written into local files
-* `RUN_DIR` can be used as the execution workspace
-
-Example mapping:
-
-```text
-Template          → system prompt or reusable command
-RUN_DIR           → local workspace for one run
-Layer output      → markdown artifact
-Synthesis input   → artifacts from previous layers
-```
-
-This approach is useful when the user wants:
-
-* local execution
-* editable prompts
-* file-based workflow
-* manual control over each step
+| Level | Method | Best for |
+|-------|--------|----------|
+| 1 — Manual | Copy templates | Individual experiments |
+| 2 — Cline assisted | Rules + skills + workflows | Regular use, small teams |
+| 3 — Automated | API pipeline | High-frequency, platforms |
 
 ---
 
-## 🔄 API-based Implementation
+## Legacy: RooCode
 
-An API implementation can execute each layer through programmatic LLM calls.
-
-Typical flow:
-
-```text
-hypothesis
-  → roles layer call
-  → market layer call
-  → synthesis layer call
-  → final artifact
-```
-
-This can be implemented using:
-
-* Python scripts
-* internal services
-* workflow tools
-* CI-like pipelines
-
-This is useful when repeated execution becomes frequent.
+Previous versions targeted RooCode. RooCode is no longer supported. Legacy screenshots are in `assets/legacy/`. Use Cline as the supported IDE adapter.
 
 ---
 
-## ⚠️ What NOT to do
+## Key principle
 
-Do not make the framework dependent on a specific tool.
-
-Avoid:
-
-* hardcoding one IDE
-* requiring one LLM provider
-* assuming orchestration is mandatory
-* hiding reasoning inside automation
-
-The value of the framework is in the reasoning structure.
-
----
-
-## 🚀 Implementation Maturity
-
-### Level 1 — Manual
-
-* copy templates
-* run manually
-* save artifacts
-
-Best for:
-
-* first experiments
-* individual use
-* low-frequency analysis
-
----
-
-### Level 2 — Assisted
-
-* predefined prompts
-* local file structure
-* reusable workspaces
-
-Best for:
-
-* regular use
-* repeatable analysis
-* small teams
-
----
-
-### Level 3 — Automated
-
-* API calls
-* workflow orchestration
-* artifact validation
-* reusable runs
-
-Best for:
-
-* high-frequency analysis
-* team workflows
-* internal platforms
-
----
-
-## 🧬 Key Principle
-
-Implementation should not change the reasoning model.
-
-Tools may vary.
-
-The layers stay the same.
+Implementation should not change the reasoning model. Tools may vary. The layers stay the same.

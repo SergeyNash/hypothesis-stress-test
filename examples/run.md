@@ -1,3 +1,5 @@
+Language: **English** | [Русский](./run.ru.md)
+
 # Run
 
 This file describes how the hypothesis was processed through the framework.
@@ -16,27 +18,30 @@ examples/example-001/hypothesis.md
 
 ## Execution Mode
 
-This example is tool-agnostic.
+**Primary:** Cline in VS Code with project rules, skills, and workflows.
 
-It can be executed using:
+```text
+RUN_DIR: examples/example-001
+/run-hypothesis.md
+```
 
-- ChatGPT
-- local LLM
-- LLM-based tools
-- API-based workflow
-- any other LLM environment
+**Fallback:** manual execution using templates in any LLM interface.
 
-The framework does not require a specific tool.
+---
+
+## Prerequisites
+
+1. Cline extension installed — [implementations/cline-setup.md](../implementations/cline-setup.md)
+2. Confluence MCP configured (recommended) — [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
+3. Input validated — `/validate-hypothesis-input.md`
 
 ---
 
 ## Step 1 — Roles Layer
 
-Template used:
+**Cline skill:** `hypothesis-roles-layer`
 
-```text
-templates/facilitator-prompt.md
-```
+**Manual template:** `templates/facilitator-prompt.md`
 
 Input:
 
@@ -49,6 +54,7 @@ Expected output:
 ```text
 outputs/role_outputs/
 outputs/hypothesis_summary.md
+outputs/ready_for_synthesis.marker
 ```
 
 Purpose:
@@ -62,11 +68,11 @@ Purpose:
 
 ## Step 2 — Market Layer
 
-Template used:
+**Cline skill:** `hypothesis-market-layer`
 
-```text
-templates/market-prompt.md
-```
+**Manual template:** `templates/market-prompt.md`
+
+**Confluence first:** search Confluence MCP for local signals before external sources.
 
 Input:
 
@@ -78,24 +84,23 @@ Expected output:
 
 ```text
 outputs/market_analysis.md
+outputs/market_analysis_complete.marker
 ```
 
 Purpose:
 
 * validate whether the problem exists externally
+* retrieve local signals from Confluence
 * identify current solution patterns
-* detect weak or missing market signals
 * classify signal strength
 
 ---
 
 ## Step 3 — Synthesis Layer
 
-Template used:
+**Cline skill:** `hypothesis-synthesis-layer`
 
-```text
-templates/synthesis-prompt.md
-```
+**Manual template:** `templates/synthesis-prompt.md`
 
 Input:
 
@@ -108,6 +113,7 @@ Expected output:
 ```text
 outputs/hypothesis_map.md
 outputs/hypothesis_digest.txt
+outputs/synthesis_complete.marker
 ```
 
 Purpose:
@@ -121,8 +127,6 @@ Purpose:
 
 ## Expected Result
 
-After all layers are completed, the example should contain:
-
 ```text
 examples/example-001/
   hypothesis.md
@@ -133,12 +137,15 @@ examples/example-001/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    *.marker
 ```
 
 ---
 
 ## Notes
 
-This example intentionally uses a domain-specific B2B hypothesis.
+This example uses a domain-specific B2B AppSec hypothesis.
 
 The framework itself is domain-agnostic.
+
+Canonical outputs in `examples/example-001/outputs/` were produced by the framework layers and serve as reference artifacts.

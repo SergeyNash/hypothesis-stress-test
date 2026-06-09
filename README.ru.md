@@ -1,10 +1,4 @@
 <p align="right">
-  🌐 Язык:
-  <a href="./README.md">English</a> |
-  <b>Русский</b>
-</p>
-
-<p align="right">
   <sub>
     🌐 <b>Язык:</b>
     <a href="./README.md">🇬🇧 English</a> ·
@@ -19,15 +13,17 @@
 </p>
 
 <p align="center">
-  Лёгкий фреймворк для принятия продуктовых решений с использованием LLM.
+  Слоистый фреймворк для продуктовых решений — запуск в VS Code через <a href="https://cline.bot/">Cline</a>, skills и Confluence MCP.
 </p>
 
 <p align="center">
-  <a href="./playbooks/run-hypothesis.md"><b>Начать с Playbook</b></a>
+  <a href="./implementations/quick-start.ru.md"><b>Быстрый старт</b></a>
+  ·
+  <a href="./implementations/README.ru.md"><b>Документация</b></a>
   ·
   <a href="./examples/example-001/"><b>Пример</b></a>
   ·
-  <a href="./architecture/overview.md"><b>Архитектура</b></a>
+  <a href="./architecture/overview.ru.md"><b>Архитектура</b></a>
 </p>
 
 <p align="center">
@@ -79,16 +75,33 @@
 | **Market Layer**    | Внешняя реальность     | сигналы и доказательства   |
 | **Synthesis Layer** | Конфликт               | границы решения            |
 
+Полный запуск в Cline: `/run-hypothesis.md` или по слоям через skills и workflows.
+
+---
+
+## Реализация на Cline
+
+<p align="center">
+  <img src="./assets/cline-workflow.svg" width="800"/>
+</p>
+
+| Компонент | Расположение | Назначение |
+|-----------|--------------|------------|
+| **Rules** | `.clinerules/` | Постоянные инварианты фреймворка |
+| **Skills** | `.cline/skills/` | Выполнение слоёв по запросу |
+| **Workflows** | `.clinerules/workflows/` | Slash-команды (`/run-hypothesis.md`) |
+| **Confluence MCP** | MCP config | Основной источник local signals |
+
+Настройка: [implementations/cline-setup.ru.md](./implementations/cline-setup.ru.md)
+
+Confluence MCP: [implementations/confluence-mcp.ru.md](./implementations/confluence-mcp.ru.md)
+
 ---
 
 ## Модель принятия решений
 
 <p align="center">
   <img src="./assets/signal-model.svg" width="660"/>
-</p>
-
-<p align="center">
-  <a href="./assets/signal-model.svg">Открыть диаграмму</a>
 </p>
 
 Система классифицирует гипотезу:
@@ -106,108 +119,72 @@
   <img src="./assets/artifact-flow.svg" width="820"/>
 </p>
 
-<p align="center">
-  <a href="./assets/artifact-flow.svg">Открыть диаграмму</a>
-</p>
-
 Каждый запуск создаёт трассируемую цепочку:
 
 ```text
-outputs/
-  role_outputs/*
-  hypothesis_summary.md
-  market_analysis.md
-  hypothesis_map.md
-  hypothesis_digest.txt
+RUN_DIR/
+  hypothesis.md
+  outputs/
+    role_outputs/*
+    hypothesis_summary.md
+    market_analysis.md
+    hypothesis_map.md
+    hypothesis_digest.txt
 ```
 
 ---
 
-## Для кого это
+## Быстрый старт (Cline)
 
-Основной пользователь:
+Полный гайд: **[implementations/quick-start.ru.md](./implementations/quick-start.ru.md)**
 
-> **Product Manager**
+Кратко:
 
-Предполагается, что вы:
+1. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) в VS Code
+2. Откройте этот репозиторий
+3. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
+4. Создайте `RUN_DIR/hypothesis.md` (см. [templates/input-schema.md](./templates/input-schema.md))
+5. В чате Cline: `/run-hypothesis.md` с указанием `RUN_DIR`
 
-* знаете своих пользователей
-* проводили интервью
-* понимаете домен
-* имеете контекст (внутренний или внешний)
+Вся операционная документация на русском: [implementations/README.ru.md](./implementations/README.ru.md)
 
-Этот фреймворк не заменяет discovery.
-
-Он его **усиливает**.
-
----
-
-## Быстрый старт
-
-1. Сформулируйте гипотезу
-2. Выберите релевантные роли
-3. Добавьте контекст
-4. Прогоните слои
-5. Изучите синтез
-
-Начать здесь:
-
-```text
-playbooks/run-hypothesis.md
-```
+Ручной режим: [playbooks/run-hypothesis.ru.md](./playbooks/run-hypothesis.ru.md)
 
 ---
 
 ## Пример
 
-Смотрите:
-
 ```text
 examples/example-001/
 ```
 
-Пример показывает, как гипотеза:
-
-> «снизить риски в проде»
-
-превращается в:
-
-> «повысить операционную эффективность»
-
-Именно это и есть ценность фреймворка.
+B2B-гипотеза в AppSec: переформулировка из «снизить риски в проде» в «повысить операционную эффективность».
 
 ---
 
 ## Фреймворк vs Инструменты
 
-Это не инструмент.
-
-Это способ мышления.
-
 ```text
-Фреймворк → как думать
-Инструменты → как запускать
+Фреймворк  → как думать (слои, контракты, модель решений)
+Cline      → как запускать (rules, skills, workflows, MCP)
 ```
 
-Можно использовать:
-
-* ChatGPT
-* локальные LLM
-* API
-* IDE
-* внутренние AI-платформы
+Фреймворк не привязан к инструменту. Cline — основная поддерживаемая реализация.
 
 ---
 
 ## Структура репозитория
 
 ```text
-layers/        логика анализа
-templates/     шаблоны
-playbooks/     сценарии
-examples/      примеры
-architecture/  устройство системы
-assets/        диаграммы
+.clinerules/       правила и workflows Cline
+.cline/skills/     skills по слоям
+layers/            логика анализа
+templates/         шаблоны для ручного режима
+playbooks/         сценарии
+examples/          примеры
+architecture/      устройство системы
+implementations/   настройка Cline, Confluence MCP
+assets/            диаграммы
 ```
 
 ---
@@ -215,21 +192,11 @@ assets/        диаграммы
 ## Принципы
 
 * разделяй внутренние и внешние сигналы
+* Confluence первым для local evidence
 * нет данных → нет утверждения
 * противоречия важнее согласия
 * решение принимает человек
 * плохие идеи должны умирать рано
-
----
-
-## Когда использовать
-
-Используйте этот фреймворк, когда:
-
-* ограничено время
-* ограничены ресурсы
-* гипотеза кажется «очевидной»
-* цена ошибки высока
 
 ---
 

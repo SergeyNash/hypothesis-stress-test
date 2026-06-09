@@ -1,12 +1,37 @@
+Language: **English** | [Русский](./run-hypothesis.ru.md)
+
 # Run Hypothesis
 
 This playbook describes how to validate a product hypothesis using the framework.
 
-The process is manual, fast, and reproducible.
+**Primary method:** Cline in VS Code with skills and workflows.
+**Fallback:** manual template execution in any LLM.
 
 ---
 
-## 🧠 Goal
+## Cline quick path
+
+1. Install Cline — see [implementations/cline-setup.md](../implementations/cline-setup.md)
+2. Configure Confluence MCP — see [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
+3. Create `RUN_DIR/hypothesis.md`
+4. In Cline chat:
+
+```text
+RUN_DIR: runs/my-hypothesis
+/run-hypothesis.md
+```
+
+Or step by step:
+
+```text
+/validate-hypothesis-input.md
+```
+
+Then individual layer workflows as needed.
+
+---
+
+## Goal
 
 Determine whether a hypothesis:
 
@@ -16,16 +41,16 @@ Determine whether a hypothesis:
 
 ---
 
-## 🧩 Step 0 — Define Hypothesis
+## Step 0 — Define Hypothesis
 
-Write a clear, testable statement.
+Write a clear, testable statement in `RUN_DIR/hypothesis.md`.
 
 Additionally, define:
 
 1. **Relevant roles** (for internal analysis)
 2. **Research context** (for market validation)
 
----
+See [templates/input-schema.md](../templates/input-schema.md).
 
 ### Hypothesis
 
@@ -37,82 +62,26 @@ Bad:
 
 > Improve user experience
 
----
-
 ### Relevant Roles
 
 Select only roles that are directly impacted.
 
-Example:
-
-* end-user
-* developer
-* product manager
-
----
-
-### Research Context (for Market Layer)
-
-Provide minimal context for external validation:
+### Research Context
 
 * domain / product type
 * target audience
 * usage scenario
-* constraints (if any)
+* constraints (optional)
+
+Validate input before proceeding — skill `hypothesis-input-validation` or `/validate-hypothesis-input.md`.
 
 ---
 
-### Example
+## Step 1 — Run Roles Layer
 
-Domain:
+**Cline:** skill `hypothesis-roles-layer` or included in `/run-hypothesis.md`
 
-* productivity tools
-
-Audience:
-
-* knowledge workers
-
-Scenario:
-
-* managing notifications during work
-
----
-
-### Why this matters
-
-Roles Layer:
-
-* prevents noise from irrelevant perspectives
-
-Market Layer:
-
-* anchors research in a real context
-* avoids generic conclusions
-
----
-
-### Anti-patterns
-
-❌ Include too many roles
-❌ Skip role selection
-❌ Provide no research context
-❌ Use vague or abstract hypotheses
-
----
-
-### Output of this step
-
-You should have:
-
-* a clear hypothesis
-* a defined set of relevant roles
-* a minimal research context
-
----
-
-## ⚙️ Step 1 — Run Roles Layer
-
-Use the facilitator prompt.
+**Manual:** [templates/facilitator-prompt.md](../templates/facilitator-prompt.md)
 
 Input:
 
@@ -121,8 +90,9 @@ Input:
 
 Output:
 
-* role_outputs/*
-* hypothesis_summary.md
+* `role_outputs/*`
+* `hypothesis_summary.md`
+* `ready_for_synthesis.marker`
 
 Goal:
 
@@ -132,9 +102,13 @@ Goal:
 
 ---
 
-## 🌍 Step 2 — Run Market Layer
+## Step 2 — Run Market Layer
 
-Use the market prompt.
+**Cline:** skill `hypothesis-market-layer` or `/run-market-layer.md`
+
+**Manual:** [templates/market-prompt.md](../templates/market-prompt.md)
+
+**Confluence first:** search Confluence MCP for local signals before external sources.
 
 Input:
 
@@ -143,26 +117,23 @@ Input:
 
 Output:
 
-* market_analysis.md
-
-Goal:
-
-* validate problem existence
-* identify real users
-* detect existing solutions
-* measure signal strength
+* `market_analysis.md`
+* `market_analysis_complete.marker`
 
 Rules:
 
 * no evidence → no claim
 * sources must be explicit
 * distinguish facts from assumptions
+* label signal type: local / external / inferred
 
 ---
 
-## ⚡ Step 3 — Run Synthesis Layer
+## Step 3 — Run Synthesis Layer
 
-Use the synthesis prompt.
+**Cline:** skill `hypothesis-synthesis-layer` or `/run-synthesis.md`
+
+**Manual:** [templates/synthesis-prompt.md](../templates/synthesis-prompt.md)
 
 Input:
 
@@ -170,8 +141,9 @@ Input:
 
 Output:
 
-* hypothesis_map.md
-* hypothesis_digest.txt
+* `hypothesis_map.md`
+* `hypothesis_digest.txt`
+* `synthesis_complete.marker`
 
 Goal:
 
@@ -181,82 +153,57 @@ Goal:
 
 ---
 
-## 🧠 Interpretation Model
+## Interpretation Model
 
-The result falls into one of four categories:
+### Validated Opportunity
 
-### ✅ Validated Opportunity
+Internal and external signals align. → Proceed with development
 
-Internal and external signals align.
+### Internal Illusion
 
-→ Proceed with development
+Internal logic supports it, market does not. → Do NOT build
 
----
+### Blind Spot
 
-### ❌ Internal Illusion
+Market shows signal, internal model does not. → Investigate deeper
 
-Internal logic supports it, market does not.
+### Weak Signal
 
-→ Do NOT build
-
----
-
-### ⚠️ Blind Spot
-
-Market shows signal, internal model does not.
-
-→ Investigate deeper
+No strong evidence anywhere. → Low priority
 
 ---
 
-### 🟡 Weak Signal
+## Output Structure
 
-No strong evidence anywhere.
-
-→ Low priority
-
----
-
-## 📦 Output Structure
-
-Each run creates:
-
+```text
 RUN_DIR/
-outputs/
-role_outputs/
-hypothesis_summary.md
-market_analysis.md
-hypothesis_map.md
+  hypothesis.md
+  outputs/
+    role_outputs/
+    hypothesis_summary.md
+    market_analysis.md
+    hypothesis_map.md
+    hypothesis_digest.txt
+```
 
 ---
 
-## ⏱ Expected Time
+## Expected Time
 
-Typical run:
-
-* 5–15 minutes per hypothesis
+5–15 minutes per hypothesis (Cline assisted).
 
 ---
 
-## 💡 Tips
+## Tips
 
 * keep hypotheses narrow
 * define roles explicitly
-* provide minimal but concrete context
-* don’t skip synthesis
+* configure Confluence MCP for better local signals
+* don't skip synthesis
 
 ---
 
-## ⚠️ Common Mistakes
-
-* using LLM to confirm ideas
-* ignoring missing evidence
-* mixing layers prematurely
-* overcomplicating hypotheses
-
----
-
-## 🧬 Principle
+## Principle
 
 This is not about generating ideas.
 

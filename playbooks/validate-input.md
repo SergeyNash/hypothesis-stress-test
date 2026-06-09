@@ -1,6 +1,10 @@
+Language: **English** | [Русский](./validate-input.ru.md)
+
 # Validate Input
 
 Before running the system, validate the hypothesis input.
+
+**Cline:** `/validate-hypothesis-input.md` or skill `hypothesis-input-validation`
 
 ---
 

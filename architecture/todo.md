@@ -1,82 +1,52 @@
 # TODO
 
+## Cline Implementation
+
+- [x] Create `.clinerules/` with framework rules
+- [x] Create `.cline/skills/` for each layer
+- [x] Create workflows in `.clinerules/workflows/`
+- [x] Document Cline setup and contract
+- [x] Document Confluence-first MCP model
+- [x] Update README and playbooks for Cline-first path
+- [x] Archive RooCode assets to `assets/legacy/`
+
 ## Market Layer Improvements
 
 - [ ] Add structured research context to input
 - [ ] Improve source attribution rules
-- [ ] Separate local vs external signals
-- [ ] Introduce signal strength classification
-
----
+- [ ] Separate local vs external signals in validation
+- [ ] Introduce signal strength classification automation
 
 ## Roles Layer Improvements
 
 - [ ] Improve role selection strategy
-- [ ] Add role templates
-
----
+- [ ] Add reusable role profile templates in `/roles`
 
 ## Synthesis Layer
 
 - [ ] Improve conflict classification
-- [ ] Add confidence scoring
-
----
+- [ ] Add confidence scoring automation
 
 ## System
 
-- [ ] Define minimal viable input format
-- [ ] Standardize RUN_DIR structure
-
----
+- [x] Define minimal viable input format (`templates/input-schema.md`)
+- [x] Standardize RUN_DIR structure (`architecture/run-structure.md`)
 
 ## Input / Prompt Validation
 
-- [ ] Add validation step before Roles Layer
-- [ ] Detect missing roles
-- [ ] Detect missing research context
-- [ ] Ask clarifying questions before execution
+- [x] Add validation skill before Roles Layer
+- [ ] Detect missing roles automatically in workflow
+- [ ] Detect missing research context automatically
 
----
+## Documentation
 
-## Input Format
-
-- [ ] Define standard hypothesis input schema
-- [ ] Include roles + research context
-- [ ] Make format reusable across templates
-
----
-
-## Market Layer Improvements
-
-- [ ] Add signal strength classification (high / medium / low)
-- [ ] Separate:
-  - local knowledge signals
-  - external signals
-  - inferred signals
-
-
-## Documentation Improvements
-
-- [ ] Add product manager as primary system user in README
-- [ ] Emphasize that roles must come from real user research
+- [x] Add Cline as primary implementation
+- [x] Emphasize Confluence-first MCP for local signals
+- [x] Add product manager as primary user in README
 - [ ] Add examples of role profiles
 
-## Framework vs Tooling
+## Secondary MCP (future)
 
-- [ ] Add section in main README explaining "Framework vs Tooling"
-- [ ] Explicitly state tool-agnostic approach
-- [ ] Clarify that templates are not tied to RooCode or any IDE
-- [ ] Add examples usage without any specific tool
-
----
-
-## Implementations
-
-- [ ] Create /architecture/implementations.md
-- [ ] Describe RooCode as optional implementation
-- [ ] Show mapping:
-  - templates → system prompts
-  - RUN_DIR → local filesystem
-  - outputs → files
-- [ ] Add note about other possible implementations (API, ChatGPT, etc.)
+- [ ] Jira / Linear integration
+- [ ] Slack integration
+- [ ] Web search for external signals

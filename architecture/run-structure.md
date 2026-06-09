@@ -1,3 +1,5 @@
+Language: **English** | [Русский](./run-structure.ru.md)
+
 # RUN Structure
 
 Each hypothesis run follows a standard structure:

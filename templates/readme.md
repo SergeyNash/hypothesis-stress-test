@@ -1,12 +1,14 @@
 # Templates
 
-This directory contains execution templates for running the framework.
+This directory contains execution templates for running the framework manually.
 
 Templates define **how each layer is invoked**, not how the model is configured.
 
+For **Cline execution**, use skills in `.cline/skills/` instead — these templates are the source material for those skills.
+
 ---
 
-## 🧠 What are templates?
+## What are templates?
 
 Templates are structured prompts used to execute each layer:
 
@@ -18,17 +20,11 @@ They act as an **interface between the user and the system**.
 
 ---
 
-## ⚠️ Not system prompts
+## Not system prompts
 
 Templates are NOT full system prompts.
 
-They do not define:
-
-* model behavior
-* internal rules
-* full constraints
-
-Instead, they provide:
+They provide:
 
 * input structure
 * task definition
@@ -36,59 +32,36 @@ Instead, they provide:
 
 ---
 
-## ⚙️ How to use
+## How to use
 
-Templates can be used in different ways:
+### 1. Cline (recommended)
 
-### 1. Direct usage
+Use project skills and workflows:
 
-Copy the template, fill in:
+```text
+/run-hypothesis.md
+```
 
-* hypothesis
-* roles
-* context
+Skills map from templates:
 
-Run it as a standard prompt.
+| Template | Skill |
+|----------|-------|
+| `facilitator-prompt.md` | `hypothesis-roles-layer` |
+| `market-prompt.md` | `hypothesis-market-layer` |
+| `synthesis-prompt.md` | `hypothesis-synthesis-layer` |
+| `input-schema.md` | `hypothesis-input-validation` |
 
----
+### 2. Direct usage (manual)
 
-### 2. System prompt (advanced)
-
-Adapt the template into a system prompt:
-
-* extend with rules
-* add file outputs
-* integrate into tools (e.g. RooCode)
-
----
+Copy the template, fill in hypothesis, roles, and context. Run as a standard prompt in any LLM.
 
 ### 3. Internal workflow
 
-Use templates as a thinking structure:
-
-* follow steps manually
-* no automation required
+Follow steps manually without automation.
 
 ---
 
-## 🔄 Why this design
-
-Templates are intentionally minimal.
-
-They allow:
-
-* portability across tools
-* flexibility of implementation
-* gradual adoption
-
-The framework defines **what to do**,
-templates define **how to start**.
-
----
-
-## 📦 What each template includes
-
-Each template defines:
+## What each template includes
 
 * required inputs
 * task description
@@ -96,15 +69,16 @@ Each template defines:
 
 ---
 
-## 🧬 Relationship with other parts
+## Relationship with other parts
 
 * Playbook → describes the process
-* Templates → execute each step
+* Templates → manual execution
+* Skills → Cline automated execution
 * Layers → define reasoning logic
 
 ---
 
-## ⚠️ Important
+## Important
 
 Templates assume:
 
@@ -116,7 +90,7 @@ If input is weak → output will be weak.
 
 ---
 
-## 📘 Next
+## Next
 
 See:
 

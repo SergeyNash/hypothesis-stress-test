@@ -26,8 +26,11 @@ Provide minimal but concrete context:
 
 Validate whether this problem exists in reality.
 
+**Confluence first (if MCP available):** search internal wiki for local signals before external sources.
+
 You MUST:
 
+* search Confluence for related internal evidence (local signals)
 * identify if similar problems exist
 * identify who experiences them
 * identify how they are currently solved
@@ -55,13 +58,17 @@ Classify findings:
 
 ## Output Requirements
 
-Generate:
+Generate `RUN_DIR/outputs/market_analysis.md` with sections:
 
-1. Market analysis file:
-   RUN_DIR/outputs/market_analysis.md
+* MCP Status
+* Local Signals (Confluence)
+* External Signals
+* Inferred Signals
+* Signal Summary
 
-2. Completion marker:
-   RUN_DIR/outputs/market_analysis_complete.marker
+Generate completion marker:
+
+`RUN_DIR/outputs/market_analysis_complete.marker`
 
 ---
 

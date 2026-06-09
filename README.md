@@ -1,14 +1,9 @@
 <p align="right">
-  🌐 Language:
-  <b>English</b> |
-  <a href="./README.ru.md">Русский</a>
-</p>
-
-<p align="right">
   <sub>
     🌐 <b>Language:</b>
     <b>🇬🇧 English</b> ·
-    <a href="./README.ru.md">🇷🇺 Русский</a>
+    <a href="./README.ru.md">🇷🇺 Русский</a> ·
+    <a href="./implementations/quick-start.ru.md">Quick Start (RU)</a>
   </sub>
 </p>
 
@@ -19,15 +14,19 @@
 </p>
 
 <p align="center">
-  A lightweight, tool-agnostic framework for product decision-making with LLM.
+  A layered framework for product decision-making — run in VS Code with <a href="https://cline.bot/">Cline</a>, skills, and Confluence MCP.
 </p>
 
 <p align="center">
-  <a href="./playbooks/run-hypothesis.md"><b>Start with the Playbook</b></a>
+  <a href="./implementations/cline-setup.md"><b>Cline Setup</b></a>
   ·
-  <a href="./examples/example-001/"><b>View Example</b></a>
+  <a href="./playbooks/run-hypothesis.md"><b>Playbook</b></a>
+  ·
+  <a href="./examples/example-001/"><b>Example</b></a>
   ·
   <a href="./architecture/overview.md"><b>Architecture</b></a>
+  ·
+  <a href="./implementations/README.ru.md"><b>Документация (RU)</b></a>
 </p>
 
 <p align="center">
@@ -42,7 +41,7 @@
 
 ## Why this exists
 
-Most product teams don’t fail because they lack ideas.
+Most product teams don't fail because they lack ideas.
 
 They fail because they:
 
@@ -79,16 +78,33 @@ The framework separates reasoning into three layers:
 | **Market Layer**    | Checks external reality     | evidence-based signals |
 | **Synthesis Layer** | Exposes contradictions      | decision boundaries    |
 
+Run end-to-end in Cline with `/run-hypothesis.md` or layer by layer via skills and workflows.
+
+---
+
+## Cline implementation
+
+<p align="center">
+  <img src="./assets/cline-workflow.svg" width="800"/>
+</p>
+
+| Component | Location | Purpose |
+|-----------|----------|---------|
+| **Rules** | `.clinerules/` | Persistent framework invariants |
+| **Skills** | `.cline/skills/` | On-demand layer execution |
+| **Workflows** | `.clinerules/workflows/` | Slash commands (`/run-hypothesis.md`) |
+| **Confluence MCP** | MCP config | Primary local signal source |
+
+Setup: [implementations/cline-setup.md](./implementations/cline-setup.md)
+
+Confluence MCP: [implementations/confluence-mcp.md](./implementations/confluence-mcp.md)
+
 ---
 
 ## Decision model
 
 <p align="center">
   <img src="./assets/signal-model.svg" width="660"/>
-</p>
-
-<p align="center">
-  <a href="./assets/signal-model.svg">Open signal model</a>
 </p>
 
 The system classifies a hypothesis into four decision patterns:
@@ -106,110 +122,66 @@ The system classifies a hypothesis into four decision patterns:
   <img src="./assets/artifact-flow.svg" width="820"/>
 </p>
 
-<p align="center">
-  <a href="./assets/artifact-flow.svg">Open artifact flow</a>
-</p>
-
 Every run creates a traceable decision trail:
 
 ```text
-outputs/
-  role_outputs/*
-  hypothesis_summary.md
-  market_analysis.md
-  hypothesis_map.md
-  hypothesis_digest.txt
+RUN_DIR/
+  hypothesis.md
+  outputs/
+    role_outputs/*
+    hypothesis_summary.md
+    market_analysis.md
+    hypothesis_map.md
+    hypothesis_digest.txt
 ```
 
 ---
 
-## Who this is for
+## Quick start (Cline)
 
-Primary user:
+1. Install [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) in VS Code
+2. Open this repository
+3. Configure [Confluence MCP](./implementations/confluence-mcp.md)
+4. Create `RUN_DIR/hypothesis.md` (see [templates/input-schema.md](./templates/input-schema.md))
+5. In Cline chat: `/run-hypothesis.md` with your `RUN_DIR`
 
-> **Product Manager**
-
-This framework assumes that you:
-
-* know your users
-* have done interviews
-* understand your domain
-* have some internal or external knowledge to reason from
-
-It does not replace discovery.
-
-It amplifies it.
-
----
-
-## Quick start
-
-1. Define a hypothesis
-2. Select relevant roles
-3. Add research context
-4. Run the layers
-5. Read the synthesis
-
-Start here:
-
-```text
-playbooks/run-hypothesis.md
-```
+Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
 
 ---
 
 ## Example
 
-See:
-
 ```text
 examples/example-001/
 ```
 
-The example shows a B2B hypothesis where the initial framing:
-
-> “reduce production risk”
-
-is reframed into:
-
-> “improve operational efficiency”
-
-That reframing is the point of the framework.
+A B2B AppSec hypothesis reframed from "reduce production risk" to "improve operational efficiency" — that reframing is the point.
 
 ---
 
 ## Framework vs tooling
 
-This is not a tool.
-
-It is a framework.
-
 ```text
-Framework → how to think
-Tools     → how to run it
+Framework  → how to think (layers, contracts, decision model)
+Cline      → how to run it (rules, skills, workflows, MCP)
 ```
 
-You can use:
-
-* ChatGPT
-* local LLMs
-* APIs
-* LLM-based IDE tools
-* internal AI platforms
-
-No specific setup is required.
+The framework is tool-agnostic. Cline is the primary supported implementation. Manual and API modes are also possible.
 
 ---
 
 ## Repository structure
 
 ```text
-layers/        reasoning model
-templates/     execution templates
-playbooks/     usage workflows
-examples/      worked examples
-architecture/  system design
-assets/        diagrams
+.clinerules/       Cline rules and workflows
+.cline/skills/     Cline skills per layer
+layers/            reasoning model
+templates/         manual execution templates
+playbooks/         usage workflows
+examples/          worked examples
+architecture/      system design
+implementations/   Cline setup, Confluence MCP, contract
+assets/            diagrams
 ```
 
 ---
@@ -217,6 +189,7 @@ assets/        diagrams
 ## Principles
 
 * Separate internal and external signals
+* Confluence first for local evidence
 * No evidence → no claim
 * Contradictions matter more than consensus
 * Human makes the decision
@@ -226,24 +199,10 @@ assets/        diagrams
 
 ## What this is not
 
-This is not:
-
 * an idea generator
 * a replacement for real users
 * a market research substitute
 * an autonomous decision-maker
-* AI magic
-
----
-
-## Use it when
-
-Use this framework when:
-
-* time is limited
-* resources are limited
-* the hypothesis sounds “obvious”
-* the cost of building the wrong thing is high
 
 ---
 

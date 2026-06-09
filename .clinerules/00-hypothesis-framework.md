@@ -1,0 +1,49 @@
+# Hypothesis Stress Test Framework
+
+This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
+
+## Core principle
+
+Do not ask the LLM to generate more ideas. Use it to apply pressure to ideas you already have.
+
+```text
+idea → stress test → decision
+```
+
+## Three layers (never mix prematurely)
+
+| Layer | Purpose | Output |
+|-------|---------|--------|
+| **Roles** | Internal perspectives | role_outputs/*, hypothesis_summary.md |
+| **Market** | External reality | market_analysis.md |
+| **Synthesis** | Conflict analysis | hypothesis_map.md, hypothesis_digest.txt |
+
+## Execution order
+
+1. Validate input (hypothesis, roles, research context)
+2. Run Roles Layer
+3. Run Market Layer (Confluence MCP first for local signals)
+4. Run Synthesis Layer
+
+Layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data.
+
+## Human-in-the-loop
+
+- The human makes the final decision.
+- Cline proposes analysis; the user approves file writes and MCP tool calls.
+- Bad ideas should die early.
+
+## What this is NOT
+
+- Not an idea generator
+- Not a replacement for real users
+- Not an autonomous decision-maker
+
+## Skills and workflows
+
+Use project skills from `.cline/skills/` or invoke workflows:
+
+- `/validate-hypothesis-input.md` — check input before running
+- `/run-hypothesis.md` — full end-to-end run
+- `/run-market-layer.md` — Market Layer only
+- `/run-synthesis.md` — Synthesis Layer only
