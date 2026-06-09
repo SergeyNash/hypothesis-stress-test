@@ -1,117 +1,111 @@
-# Hypothesis Map
+# Unified Hypothesis Summary
 
-## Classification
-
-Mixed:
-
-* Validated Opportunity
-* Internal Illusion
-* Blind Spot
+Manual SAST scan queue prioritization by AppSec engineers is positioned as reducing production risk. After signal collision: operational pain is real and market-confirmed, but the risk-reduction framing is not supported. Reframe toward operational efficiency and time-to-action.
 
 ---
 
-## Alignment
+# Confirmed Signals
 
-* Roles Layer confirms a strong operational pain:
-
-  * queue overload
-  * lack of control over scan order
-
-* Market Layer confirms:
-
-  * queue-based limitations are common
-  * prioritization needs exist in practice
+* **Validated Opportunity (partial):** Queue overload and prioritization needs — roles (CRITICAL pain for AppSec) + market (common queue limitations)
+* Scan queue management under resource constraints is a real, recurring problem
 
 ---
 
-## Contradictions
+# Internal Illusions
 
-### 1. Efficiency vs Risk
-
-* Internal assumption:
-  → earlier scanning reduces production risk
-
-* External signal:
-  → prioritization improves workflow efficiency
-  → direct impact on risk reduction is not clearly supported
+* **Earlier scanning reduces production risk** — internal assumption strong, market does not clearly link scan order to risk outcomes (Internal Illusion)
+* **Engineers have business-criticality context** — assumed in hypothesis, weakly evidenced in role analysis
 
 ---
 
-### 2. Control vs Governance
+# Missed Opportunities
 
-* AppSec perspective:
-  → manual prioritization increases control and responsiveness
-
-* CISO perspective:
-  → manual prioritization introduces inconsistency and weakens governance
+* Hybrid model (policy automation + manual exceptions) mentioned in alternatives but not in original hypothesis
+* Governance and audit trail as product differentiator — CISO pain underexplored in original framing
 
 ---
 
-### 3. Knowledge Gap
+# Local Optimization Traps
 
-* Assumption:
-  → engineers know which applications are business-critical
-
-* Reality:
-  → business context is often incomplete or not standardized
+* Roles YES + Market YES on queue pain, but **strategic business value** tied to "reduce production risk" is unconfirmed
+* Risk: building queue tooling that improves local workflow without moving enterprise risk metrics
 
 ---
 
-## Key Insights
+# Key Divergences
 
-1. The hypothesis solves a real and validated problem:
+### Efficiency vs Risk (HIGH)
 
-→ managing scan queues under resource constraints
+- Contradiction: internal frames outcome as risk reduction; market signals emphasize workflow efficiency
+- Business consequence: wrong product narrative and success metrics
+- Validation priority: HIGH
 
----
+### Control vs Governance (HIGH)
 
-2. The expected outcome is partially incorrect:
+- Contradiction: AppSec wants manual control; CISO wants policy consistency
+- Business consequence: adoption blocked at enterprise scale
+- Validation priority: HIGH
 
-→ the feature improves operational efficiency
-→ but does not reliably reduce production risk
+### Knowledge Gap (MEDIUM)
 
----
-
-3. The feature introduces organizational tension:
-
-→ decentralizes prioritization decisions
-→ may conflict with centralized risk management
-
----
-
-## Blind Spots
-
-* no clear prioritization criteria
-* no alignment between technical and business criticality
-* no governance model for prioritization
-* unclear impact on overall scan coverage
+- Contradiction: prioritization assumes business-criticality data exists
+- Business consequence: feature unusable without context integration
+- Validation priority: MEDIUM
 
 ---
 
-## Decision Interpretation
+# Blind Spots
 
-The hypothesis is valid at the **operational level**, but flawed at the **business outcome level**.
-
----
-
-## Recommended Reframe
-
-Instead of:
-
-→ reducing production risk
-
-Focus on:
-
-→ improving operational efficiency and time-to-action for critical findings
+* Who pays for prioritization tooling vs who experiences pain (buyer vs user)
+* Platform / CI/CD constraints on scan scheduling not modeled
+* Penetration Tester perspective underrepresented
+* Impact on overall scan coverage when queue is reprioritized
 
 ---
 
-## Conclusion
+# New Information
 
-The feature has real value, but:
+* Visible only after collision: the hypothesis solves a **different problem** than stated (efficiency, not risk)
+* Organizational tension between decentralization (AppSec) and centralization (CISO) is a **structural blocker**, not an edge case
+* Market does not validate scan queue prioritization as a **standalone product category**
 
-* solves a different problem than initially stated
-* introduces governance risks
-* requires additional constraints to be effective
+---
 
-The hypothesis should be reframed before further validation.
+# Applicability Boundaries
+
+## Works when
+
+* 10–50 projects, mature AppSec team, business-criticality metadata available
+* Hybrid: manual exceptions on policy-driven automation base
+
+## Does not work when
+
+* Scan duration already short; FIFO creates no pain
+* Fully automated risk-based scanning in place
+
+## Breaks when
+
+* Governance cannot audit prioritization decisions
+* Developers game queue ("everything is critical")
+* Enterprise scale without policy automation
+
+---
+
+# Impact on Original Hypothesis
+
+**Reframe Problem** — keep operational pain, change outcome from "reduce production risk" to "improve operational efficiency and time-to-action for critical findings"
+
+**Narrow Scope** — target mature AppSec teams with queue constraints, not enterprise-wide default
+
+**Require Validation** — link between prioritization and risk outcomes still unproven
+
+---
+
+# Validation Priorities
+
+| Priority | Objective |
+|----------|-----------|
+| HIGH | AppSec interviews: business-criticality data access and queue workflows |
+| HIGH | CISO workshop: governance model for manual vs automated prioritization |
+| MEDIUM | Pilot with 1 account: measure time-to-action, not risk reduction |
+| LOW | Market scan: standalone queue prioritization as purchase category |

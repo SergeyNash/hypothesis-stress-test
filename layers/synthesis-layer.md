@@ -1,206 +1,118 @@
 # Synthesis Layer
 
-The Synthesis Layer is the **classification / conflict layer** of the system.
+The Synthesis Layer is the **signal collision layer** of the system.
 
-It compares internal and external signals and exposes contradictions.
+It compares internal (roles) and external (market) signals and exposes what becomes visible only after comparison.
 
 ---
 
-## 🧠 Purpose
+## What this layer does NOT do
+
+- Does not summarize role or market outputs without comparison
+- Does not perform market research
+- Does not re-analyze roles
+- Does not make final product decisions
+
+---
+
+## Purpose
 
 The goal is not to summarize previous analysis.
 
-The goal is to determine:
+The goal is to discover:
 
-> What survives when internal logic meets external reality?
+> What becomes visible only when internal logic meets external reality?
 
----
-
-## ⚙️ What it does
-
-The layer consumes outputs from:
-
-* Roles Layer (internal signals)
-* Market Layer (external signals)
-
-It does not introduce new data.
-
-It works only with existing artifacts.
+Truth emerges from contradictions — not from agreement.
 
 ---
 
-## 🔍 Core Task
+## Inputs
 
-The layer compares:
+Required:
 
-```text
-internal signals vs external signals
-```
+- `hypothesis_summary.md`
+- `market_analysis.md`
+- `role_outputs/*`
 
-And identifies:
+Optional:
 
-* alignment
-* contradictions
-* missing perspectives
+- `validation_questions.md`
 
----
+## Start conditions
 
-## 🧠 How it thinks
-
-The layer follows strict rules:
-
-* no new assumptions
-* no external knowledge
-* no idea generation
-* no smoothing contradictions
-
-It assumes:
-
-> Contradictions are more valuable than agreement.
+- `ready_for_synthesis.marker`
+- `market_analysis_complete.marker`
 
 ---
 
-## ⚡ Classification Model
+## Signal model
 
-Each hypothesis is classified into one or more categories:
-
----
-
-### ✅ Validated Opportunity
-
-Internal and external signals align.
-
-Meaning:
-
-* roles confirm value
-* market confirms existence
-
-Action:
-→ proceed with development
+| Category | Pattern | Risk |
+|----------|---------|------|
+| **Validated Opportunity** | Roles YES + Market YES | Strong signal |
+| **Internal Illusion** | Roles YES + Market NO | Local problem may not exist systematically |
+| **Blind Spot** | Roles NO + Market YES | Organization misses opportunity |
+| **Weak Signal** | Weak everywhere | Decision based on assumptions |
+| **Local Optimization Trap** | Pain confirmed, no strategic value | Efficiency without strategic outcomes |
 
 ---
 
-### ❌ Internal Illusion
+## Analysis process
 
-Internal logic supports the hypothesis, but the market does not.
-
-Meaning:
-
-* looks correct internally
-* unsupported externally
-
-Action:
-→ do NOT build
+1. Internal alignment analysis (agreement / tension / conflict zones)
+2. Market validation analysis (confirmed / weak / unconfirmed problems)
+3. Cross-signal analysis with validation priority
+4. Applicability discovery
+5. Blind spot discovery
+6. New information discovery (mandatory — post-comparison only)
+7. Decision impact on original hypothesis
 
 ---
 
-### ⚠️ Blind Spot
+## Outputs
 
-Market shows a signal, but internal roles do not.
+| Artifact | Purpose |
+|----------|---------|
+| `hypothesis_map.md` | Full collision analysis |
+| `hypothesis_digest.txt` | Short digest (max 150 words) |
+| `synthesis_complete.marker` | Ready for Decision Review |
 
-Meaning:
+### hypothesis_map.md sections
 
-* opportunity exists
-* internal model is incomplete
+- Unified summary
+- Confirmed signals, internal illusions, missed opportunities
+- Local optimization traps, key divergences, blind spots
+- New information (post-comparison only)
+- Applicability boundaries
+- Impact on original hypothesis
+- Validation priorities
 
-Action:
-→ investigate further
-
----
-
-### 🟡 Weak Signal
-
-No strong signal from either side.
-
-Meaning:
-
-* unclear value
-* insufficient evidence
-
-Action:
-→ low priority
+Output language matches `hypothesis.md`.
 
 ---
 
-## 📊 Output structure
+## Review rules
 
-The layer produces:
-
-* hypothesis_map.md
-* hypothesis_digest.txt
-
----
-
-## 🧩 Output semantics
-
-The result is:
-
-* a classification of the hypothesis
-* explanation of reasoning
-* explicit contradictions
-* identified gaps
+- Never smooth contradictions
+- Never prioritize consensus
+- Never invent signals
+- Never summarize without comparison
+- Always search for reframing opportunities
 
 ---
 
-## ⚠️ What it does NOT do
+## Relationship with other layers
 
-* does not merge perspectives into consensus
-* does not hide conflicts
-* does not “average” opinions
-* does not produce final product decisions
-
----
-
-## 🔄 Relationship with other layers
-
-* Roles Layer → defines internal logic
-* Market Layer → defines external reality
-
-Synthesis Layer compares them.
+- Facilitator (Roles) → internal signals
+- Market Layer → external signals
+- **Synthesis** → signal collision
+- Decision Review → adversarial critique of synthesis conclusions
 
 ---
 
-## ⚠️ Common mistakes
+## Next
 
-* summarizing instead of analyzing
-* ignoring contradictions
-* over-explaining obvious points
-* forcing a single conclusion
-* treating all signals as equal
-
----
-
-## 🧬 Key principle
-
-> Alignment is a signal.
-> Contradiction is insight.
-
-The purpose of this layer is to make tension visible.
-
----
-
-## 🚀 Decision boundary
-
-This layer does not decide.
-
-It makes the decision obvious.
-
----
-
-## 📊 Confidence
-
-Each conclusion must include confidence level:
-
-- High — strong alignment + strong signals  
-- Medium — partial alignment  
-- Low — weak or missing signals  
-
----
-
-## 📘 Next
-
-After Synthesis, run **Decision Review** — see `decision-review-layer.md`.
-
-Return to:
-
-* `playbooks/run-hypothesis.md`
+- `decision-review-layer.md`
+- `templates/synthesis-prompt.md` — manual execution
+- `.cline/skills/hypothesis-synthesis/SKILL.md` — Cline execution

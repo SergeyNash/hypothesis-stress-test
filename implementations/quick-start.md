@@ -200,7 +200,7 @@ RUN_DIR: runs/my-hypothesis
 Cline will:
 
 1. Validate input
-2. Run Roles Layer
+2. Run Facilitator (Roles Layer)
 3. Run Market Layer (with Confluence search)
 4. Run Synthesis Layer
 5. Run Decision Review
@@ -223,6 +223,7 @@ Full analysis:
 outputs/
   role_outputs/*
   hypothesis_summary.md
+  validation_questions.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
@@ -231,8 +232,8 @@ outputs/
 
 | Artifact | Contents |
 |----------|----------|
-| `hypothesis_digest.txt` | Short summary: classification, conflict, next step |
-| `hypothesis_map.md` | Full synthesis: contradictions and classification |
+| `hypothesis_digest.txt` | Short digest (max 150 words): viability, conflict, illusion, blind spot, next step |
+| `hypothesis_map.md` | Signal collision: divergences, blind spots, new information, applicability, reframe impact |
 | `decision_review.md` | Adversarial review: confidence, risks, validation plan |
 | `market_analysis.md` | Internal and external signals with sources |
 

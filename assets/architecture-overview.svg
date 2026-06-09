@@ -60,9 +60,10 @@
     <rect x="230" y="175" width="175" height="160" rx="24" fill="url(#rolesGrad)" stroke="#2563EB" stroke-width="2"/>
     <text x="255" y="215" class="label">LAYER 1</text>
     <text x="255" y="245" class="card-title">Roles</text>
-    <text x="255" y="272" class="card-sub">internal perspectives</text>
-    <text x="255" y="300" class="small">- value boundaries</text>
-    <text x="255" y="318" class="small">- hidden assumptions</text>
+    <text x="255" y="268" class="card-sub">facilitator</text>
+    <text x="255" y="288" class="card-sub">internal perspectives</text>
+    <text x="255" y="308" class="small">- value boundaries</text>
+    <text x="255" y="324" class="small">- hidden assumptions</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -78,9 +79,9 @@
     <rect x="640" y="175" width="175" height="160" rx="24" fill="url(#synthGrad)" stroke="#7C3AED" stroke-width="2"/>
     <text x="665" y="215" class="label">LAYER 3</text>
     <text x="665" y="245" class="card-title">Synthesis</text>
-    <text x="665" y="272" class="card-sub">conflict analysis</text>
+    <text x="665" y="272" class="card-sub">signal collision</text>
     <text x="665" y="300" class="small">- contradictions</text>
-    <text x="665" y="318" class="small">- classification</text>
+    <text x="665" y="318" class="small">- reframe impact</text>
   </g>
 
   <g filter="url(#shadow)">

@@ -32,7 +32,7 @@ Rules, skills, workflows и Confluence MCP на пути выполнения.
   <img src="../assets/signal-model.svg" width="660"/>
 </p>
 
-Четыре паттерна решений на основе силы внутренних и внешних сигналов.
+Пять паттернов synthesis на основе столкновения внутренних и внешних сигналов (включая Local Optimization Trap).
 
 ## Интеграция Confluence MCP
 

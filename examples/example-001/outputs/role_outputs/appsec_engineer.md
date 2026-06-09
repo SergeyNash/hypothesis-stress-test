@@ -34,4 +34,30 @@ Main pain points:
 * keeping FIFO as the default model
 
 ---
-* scan duration is already short
+
+## Failure Context
+
+* scan duration is already short relative to release cycles
+* business-criticality data is unavailable or unreliable
+* organization lacks operational maturity for manual decisions
+* political pressure makes prioritization unsustainable
+
+---
+
+## Applicability Boundaries
+
+### Works when
+
+* queue wait times block critical findings
+* engineer has access to business-criticality context
+* team size is 10–50 projects with mature AppSec process
+
+### Does not work when
+
+* automated risk-based scanning already handles prioritization
+* FIFO queue creates no operational pain
+
+### Harms when
+
+* decisions cannot be audited or reproduced
+* developers systematically bypass or game the queue

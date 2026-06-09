@@ -77,11 +77,13 @@ Validate input before proceeding — skill `hypothesis-input-validation` or `/va
 
 ---
 
-## Step 1 — Run Roles Layer
+## Step 1 — Run Facilitator (Roles Layer / Hypothesis Stress Test)
 
-**Cline:** skill `hypothesis-roles-layer` or included in `/run-hypothesis.md`
+**Cline:** skill `hypothesis-facilitator` or `/run-facilitator.md` or included in `/run-hypothesis.md`
 
 **Manual:** [templates/facilitator-prompt.md](../templates/facilitator-prompt.md)
+
+This phase does **not**: make decisions, research the market, synthesize conclusions, or design experiments.
 
 Input:
 
@@ -92,17 +94,21 @@ Output:
 
 * `role_outputs/*`
 * `hypothesis_summary.md`
+* `validation_questions.md`
 * `ready_for_synthesis.marker`
 
 Goal:
 
-* identify hidden assumptions
-* understand internal value boundaries
-* detect friction and rejection conditions
+* expose hidden assumptions and applicability boundaries
+* show role conflicts
+* generate behavior-based validation questions
+* discover where the hypothesis breaks
+
+Output language matches `hypothesis.md`.
 
 ---
 
-## Step 2 — Run Market Layer
+## Step 2 — Run Market Layer (Market Reality Check)
 
 **Cline:** skill `hypothesis-market-layer` or `/run-market-layer.md`
 
@@ -131,25 +137,31 @@ Rules:
 
 ## Step 3 — Run Synthesis Layer
 
-**Cline:** skill `hypothesis-synthesis-layer` or `/run-synthesis.md`
+**Cline:** skill `hypothesis-synthesis` or `/run-synthesis.md`
 
 **Manual:** [templates/synthesis-prompt.md](../templates/synthesis-prompt.md)
 
+This phase does **not**: summarize without comparison, add market/role signals, or make final decisions.
+
+Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
+
 Input:
 
-* outputs from previous steps
+* `role_outputs/*`, `hypothesis_summary.md`, `market_analysis.md`
+* optional: `validation_questions.md`
 
 Output:
 
 * `hypothesis_map.md`
-* `hypothesis_digest.txt`
+* `hypothesis_digest.txt` (max 150 words)
 * `synthesis_complete.marker`
 
 Goal:
 
-* compare internal vs external signals
-* identify contradictions
-* classify hypothesis
+* collide internal vs external signals
+* discover contradictions, blind spots, local optimization traps
+* surface new information visible only after comparison
+* determine impact on original hypothesis framing
 
 ---
 
@@ -207,6 +219,10 @@ Market shows signal, internal model does not. → Investigate deeper
 
 No strong evidence anywhere. → Low priority
 
+### Local Optimization Trap
+
+Roles and market confirm pain, but solving it does not create strategic business value. → Reframe or narrow scope
+
 ---
 
 ## Output Structure
@@ -217,6 +233,7 @@ RUN_DIR/
   outputs/
     role_outputs/
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

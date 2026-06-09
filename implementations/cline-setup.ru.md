@@ -86,6 +86,7 @@ examples/example-001/
 Затем отдельные workflow по слоям:
 
 ```text
+/run-facilitator.md
 /run-market-layer.md
 /run-synthesis.md
 /run-decision-review.md
@@ -104,13 +105,14 @@ RUN_DIR: runs/my-hypothesis
 outputs/
   role_outputs/*
   hypothesis_summary.md
+  validation_questions.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
   decision_review.md
 ```
 
-Сначала `hypothesis_digest.txt`, затем `decision_review.md` — уверенность и рекомендация перед backlog decision.
+Сначала `hypothesis_digest.txt` (итог столкновения сигналов, макс. 150 слов), затем `decision_review.md` — уверенность и рекомендация перед backlog decision.
 
 ## Plan vs Act mode
 

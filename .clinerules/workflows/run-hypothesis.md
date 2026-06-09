@@ -8,10 +8,10 @@ End-to-end hypothesis stress test for a single `RUN_DIR`.
    - Invoke `/validate-hypothesis-input.md` or skill `hypothesis-input-validation`.
    - Stop if validation fails.
 
-2. **Roles Layer**
-   - Activate skill `hypothesis-roles-layer`.
-   - Produce `role_outputs/*`, `hypothesis_summary.md`, `ready_for_synthesis.marker`.
-   - Show user a brief summary before continuing.
+2. **Facilitator (Roles Layer)**
+   - Activate skill `hypothesis-facilitator`.
+   - Produce `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md`, `ready_for_synthesis.marker`.
+   - Show user a brief summary (assumptions, conflicts) before continuing.
 
 3. **Market Layer**
    - Activate skill `hypothesis-market-layer`.
@@ -20,7 +20,7 @@ End-to-end hypothesis stress test for a single `RUN_DIR`.
    - Show user signal summary before continuing.
 
 4. **Synthesis Layer**
-   - Activate skill `hypothesis-synthesis-layer`.
+   - Activate skill `hypothesis-synthesis`.
    - Produce `hypothesis_map.md`, `hypothesis_digest.txt`, `synthesis_complete.marker`.
 
 5. **Decision Review**

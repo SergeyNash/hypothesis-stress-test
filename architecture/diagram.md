@@ -32,7 +32,7 @@ Rules, skills, workflows, and Confluence MCP in the execution path.
   <img src="../assets/signal-model.svg" width="660"/>
 </p>
 
-Four decision patterns based on internal vs external signal strength.
+Five synthesis signal patterns based on internal vs external signal collision (including Local Optimization Trap).
 
 ## Confluence MCP integration
 

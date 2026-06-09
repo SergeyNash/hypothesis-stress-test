@@ -200,7 +200,7 @@ RUN_DIR: runs/my-hypothesis
 Cline выполнит:
 
 1. Валидацию входа
-2. Roles Layer
+2. Facilitator (Roles Layer)
 3. Market Layer (с поиском в Confluence)
 4. Synthesis Layer
 5. Decision Review
@@ -223,6 +223,7 @@ runs/my-hypothesis/outputs/hypothesis_digest.txt
 outputs/
   role_outputs/*
   hypothesis_summary.md
+  validation_questions.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
@@ -231,8 +232,8 @@ outputs/
 
 | Артефакт | Что внутри |
 |----------|------------|
-| `hypothesis_digest.txt` | Краткий итог: классификация, конфликт, следующий шаг |
-| `hypothesis_map.md` | Полный синтез: противоречия и классификация |
+| `hypothesis_digest.txt` | Краткий digest (макс. 150 слов): жизнеспособность, конфликт, иллюзия, слепая зона, следующий шаг |
+| `hypothesis_map.md` | Столкновение сигналов: дивергенции, слепые зоны, новая информация, границы, влияние на гипотезу |
 | `decision_review.md` | Adversarial review: уверенность, риски, план валидации |
 | `market_analysis.md` | Внешние и внутренние сигналы с источниками |
 

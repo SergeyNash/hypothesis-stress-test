@@ -35,12 +35,29 @@ Pain points:
 
 ---
 
-## Failure Conditions
-
-The feature breaks down when:
+## Failure Context
 
 * prioritization criteria are unclear
 * release deadlines are ignored
 * informal bypasses exist
 * release blocking becomes operationally destructive
 * developers receive no visibility into queue changes
+
+---
+
+## Applicability Boundaries
+
+### Works when
+
+* scan timing transparency is provided to development teams
+* prioritization rules are predictable and documented
+
+### Does not work when
+
+* queue changes are opaque and unpredictable
+* scan throughput is already sufficient for release cadence
+
+### Harms when
+
+* "everything is critical" behavior emerges
+* developers shift focus from code quality to queue manipulation

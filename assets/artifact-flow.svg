@@ -48,7 +48,7 @@
 
   <!-- Roles layer -->
   <rect class="container" x="330" y="115" width="270" height="190"/>
-  <text class="layer-title" x="365" y="150">Roles Layer (skill)</text>
+  <text class="layer-title" x="365" y="150">Facilitator (skill)</text>
   <rect class="role" x="360" y="175" width="210" height="70"/>
   <text class="label" x="392" y="205">Internal analysis</text>
   <text class="small" x="392" y="226">role-based signals</text>
@@ -56,11 +56,14 @@
   <rect class="output" x="680" y="95" width="260" height="55"/>
   <text class="label" x="710" y="128">role_outputs/*</text>
 
-  <rect class="output" x="680" y="165" width="260" height="55"/>
-  <text class="label" x="710" y="198">hypothesis_summary.md</text>
+  <rect class="output" x="680" y="155" width="260" height="45"/>
+  <text class="label" x="710" y="183">hypothesis_summary.md</text>
 
-  <rect class="marker" x="680" y="235" width="260" height="45"/>
-  <text class="label" x="710" y="264">ready_for_synthesis.marker</text>
+  <rect class="output" x="680" y="210" width="260" height="45"/>
+  <text class="label" x="710" y="238">validation_questions.md</text>
+
+  <rect class="marker" x="680" y="265" width="260" height="45"/>
+  <text class="label" x="710" y="293">ready_for_synthesis.marker</text>
 
   <!-- Market layer -->
   <rect class="container" x="330" y="340" width="270" height="155"/>
@@ -77,10 +80,10 @@
 
   <!-- Synthesis layer -->
   <rect class="container" x="60" y="340" width="210" height="150"/>
-  <text class="layer-title" x="95" y="375">Synthesis Layer (skill)</text>
+  <text class="layer-title" x="95" y="375">Synthesis (skill)</text>
   <rect class="synthesis" x="90" y="400" width="150" height="65"/>
-  <text class="label" x="115" y="428">Conflict</text>
-  <text class="small" x="112" y="448">comparison</text>
+  <text class="label" x="108" y="428">Signal collision</text>
+  <text class="small" x="105" y="448">cross-signal</text>
 
   <rect class="output" x="60" y="520" width="200" height="45"/>
   <text class="label" x="85" y="549">hypothesis_map.md</text>

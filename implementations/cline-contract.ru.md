@@ -33,9 +33,9 @@
 | Skill | Когда |
 |-------|-------|
 | `hypothesis-input-validation` | Перед любым слоем |
-| `hypothesis-roles-layer` | Roles Layer |
+| `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `hypothesis-market-layer` | Market Layer + Confluence MCP |
-| `hypothesis-synthesis-layer` | Synthesis Layer |
+| `hypothesis-synthesis` | Synthesis Layer (signal collision) |
 | `hypothesis-decision-review` | Decision Review (обязательный gate) |
 
 ### Workflows (slash-команды)
@@ -45,6 +45,7 @@
 | Workflow | Команда |
 |----------|---------|
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
+| `run-facilitator.md` | `/run-facilitator.md` |
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
@@ -55,9 +56,9 @@
 ```text
 Пользователь указывает RUN_DIR
   → валидация входа (skill или workflow)
-  → Roles Layer (skill) → role_outputs + summary + marker
+  → Facilitator (skill) → role_outputs + summary + validation_questions + marker
   → Market Layer (skill + Confluence MCP) → market_analysis + marker
-  → Synthesis Layer (skill) → hypothesis_map + digest + marker
+  → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
   → Decision Review (skill) → decision_review + marker
   → Решение человека (backlog)
 ```

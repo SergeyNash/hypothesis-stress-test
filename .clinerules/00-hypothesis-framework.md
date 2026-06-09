@@ -14,9 +14,9 @@ idea → stress test → decision
 
 | Layer | Purpose | Output |
 |-------|---------|--------|
-| **Roles** | Internal perspectives | role_outputs/*, hypothesis_summary.md |
+| **Roles** (facilitator / stress test) | Internal perspectives, assumptions, conflicts | role_outputs/*, hypothesis_summary.md, validation_questions.md |
 | **Market** | External reality | market_analysis.md |
-| **Synthesis** | Conflict analysis | hypothesis_map.md, hypothesis_digest.txt |
+| **Synthesis** | Signal collision | hypothesis_map.md, hypothesis_digest.txt |
 
 ## Decision Review (mandatory gate)
 
@@ -29,7 +29,7 @@ After Synthesis, run **Decision Review** — an adversarial critique of conclusi
 ## Execution order
 
 1. Validate input (hypothesis, roles, research context)
-2. Run Roles Layer
+2. Run Facilitator (Roles Layer) — skill `hypothesis-facilitator`
 3. Run Market Layer (Confluence MCP first for local signals)
 4. Run Synthesis Layer
 5. Run Decision Review
@@ -54,6 +54,7 @@ Analysis layers are **sequential** and **independent**. Synthesis consumes artif
 Use project skills from `.cline/skills/` or invoke workflows:
 
 - `/validate-hypothesis-input.md` — check input before running
+- `/run-facilitator.md` — Facilitator (Roles Layer) only
 - `/run-hypothesis.md` — full end-to-end run
 - `/run-market-layer.md` — Market Layer only
 - `/run-synthesis.md` — Synthesis Layer only

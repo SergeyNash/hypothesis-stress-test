@@ -1,7 +1,19 @@
-Hypothesis: REQUIRES VALIDATION
+Hypothesis: requires validation (reframe before build)
 
-Key Conflict: AppSec Engineer (CRITICAL pain, preference for manual prioritization) vs CISO / Market (preference for policy-driven automation and AI-assisted triage)
+Key conflict:
+Operational efficiency (roles + market) vs production risk reduction (original framing)
 
-Primary Risk: The feature may become a niche solution for a limited segment (10–50 projects, mature processes) without scalability to enterprise-level environments. The market does not explicitly validate scan queue prioritization as a standalone problem.
+Primary illusion:
+Earlier scanning reliably reduces production risk
 
-Next Step: Conduct interviews with AppSec engineers to validate: (1) whether they have access to business-criticality data, (2) whether audit processes for prioritization decisions exist, and (3) whether prioritization measurably reduces production risk. Explore a hybrid approach: manual prioritization for exceptions combined with policy-driven automation.
+Primary blind spot:
+Buyer/governance model — CISO centralization vs AppSec decentralization
+
+Primary risk:
+Local optimization trap — queue pain is real but strategic business value unproven
+
+Primary insight:
+Hypothesis solves a different problem than stated; reframe to efficiency and time-to-action
+
+Next step:
+AppSec interviews + CISO governance workshop; pilot measuring time-to-action, not risk metrics

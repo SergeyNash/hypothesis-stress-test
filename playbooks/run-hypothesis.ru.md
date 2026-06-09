@@ -77,11 +77,13 @@ RUN_DIR: runs/my-hypothesis
 
 ---
 
-## Шаг 1 — Roles Layer
+## Шаг 1 — Facilitator (Roles Layer / Hypothesis Stress Test)
 
-**Cline:** skill `hypothesis-roles-layer` или в составе `/run-hypothesis.md`
+**Cline:** skill `hypothesis-facilitator` или `/run-facilitator.md` или в составе `/run-hypothesis.md`
 
 **Ручной режим:** [templates/facilitator-prompt.md](../templates/facilitator-prompt.md)
+
+Эта фаза **не**: принимает решения, исследует рынок, синтезирует выводы, проектирует эксперименты.
 
 Вход:
 
@@ -92,17 +94,21 @@ RUN_DIR: runs/my-hypothesis
 
 * `role_outputs/*`
 * `hypothesis_summary.md`
+* `validation_questions.md`
 * `ready_for_synthesis.marker`
 
 Цель:
 
-* выявить скрытые допущения
-* понять границы внутренней ценности
-* обнаружить friction и условия отказа
+* вскрыть скрытые допущения и границы применимости
+* показать конфликты ролей
+* сгенерировать behavior-based вопросы для интервью
+* найти, где гипотеза ломается
+
+Язык outputs = язык `hypothesis.md`.
 
 ---
 
-## Шаг 2 — Market Layer
+## Шаг 2 — Market Layer (Market Reality Check)
 
 **Cline:** skill `hypothesis-market-layer` или `/run-market-layer.md`
 
@@ -131,25 +137,31 @@ RUN_DIR: runs/my-hypothesis
 
 ## Шаг 3 — Synthesis Layer
 
-**Cline:** skill `hypothesis-synthesis-layer` или `/run-synthesis.md`
+**Cline:** skill `hypothesis-synthesis` или `/run-synthesis.md`
 
 **Ручной режим:** [templates/synthesis-prompt.md](../templates/synthesis-prompt.md)
 
+Эта фаза **не**: пересказывает без сравнения, добавляет сигналы, принимает финальные решения.
+
+Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
+
 Вход:
 
-* outputs предыдущих шагов
+* `role_outputs/*`, `hypothesis_summary.md`, `market_analysis.md`
+* опционально: `validation_questions.md`
 
 Выход:
 
 * `hypothesis_map.md`
-* `hypothesis_digest.txt`
+* `hypothesis_digest.txt` (макс. 150 слов)
 * `synthesis_complete.marker`
 
 Цель:
 
-* сравнить внутренние и внешние сигналы
-* выявить противоречия
-* классифицировать гипотезу
+* столкнуть внутренние и внешние сигналы
+* выявить противоречия, слепые зоны, ловушки локальной оптимизации
+* показать новую информацию, видимую только после сравнения
+* определить влияние на исходную формулировку гипотезы
 
 ---
 
@@ -207,6 +219,10 @@ RUN_DIR: runs/my-hypothesis
 
 Нет сильных доказательств нигде. → Низкий приоритет
 
+### Local Optimization Trap
+
+Роли и рынок подтверждают боль, но решение не создаёт стратегической ценности. → Переформулировать или сузить scope
+
 ---
 
 ## Структура output
@@ -217,6 +233,7 @@ RUN_DIR/
   outputs/
     role_outputs/
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

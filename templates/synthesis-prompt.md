@@ -1,67 +1,79 @@
 # Synthesis Prompt
+
 This is an execution template, not a system prompt.
 
 RUN_DIR: [set your run directory]
 
 ---
 
-## Instructions
+## What this phase does NOT do
 
-Read all outputs from previous steps:
+- Does not summarize role or market outputs without comparison
+- Does not perform market research
+- Does not re-run role analysis
+- Does not make final product decisions
 
-* role_outputs/*
-* hypothesis_summary.md
-* market_analysis.md
+---
+
+## Prerequisites
+
+- `outputs/ready_for_synthesis.marker`
+- `outputs/market_analysis_complete.marker`
+- `outputs/role_outputs/*`
+- `outputs/hypothesis_summary.md`
+- `outputs/market_analysis.md`
 
 ---
 
 ## Task
 
-Compare internal and external signals.
+Compare internal (roles) vs external (market) signals. Discover what becomes visible only after collision.
 
-Do NOT generate new ideas.
-
-Do NOT add external assumptions.
+Do NOT generate new ideas. Do NOT add external assumptions. Do NOT smooth contradictions.
 
 ---
 
-## Classification Model
+## Signal model
 
-Classify the hypothesis into one or more categories:
-
-1. Validated Opportunity
-2. Internal Illusion
-3. Blind Spot
-4. Weak Signal
-
----
-
-## Analysis Requirements
-
-* identify where signals align
-* identify contradictions
-* identify missing perspectives
-* explain reasoning clearly
+1. Validated Opportunity — roles + market align
+2. Internal Illusion — roles yes, market no
+3. Blind Spot — market yes, roles no
+4. Weak Signal — weak evidence everywhere
+5. Local Optimization Trap — pain confirmed but no strategic business value
 
 ---
 
-## Output Requirements
+## Analysis process
 
-Generate:
-
-1. Full analysis:
-   RUN_DIR/outputs/hypothesis_map.md
-
-2. Short digest:
-   RUN_DIR/outputs/hypothesis_digest.txt
-
-3. Completion marker:
-   RUN_DIR/outputs/synthesis_complete.marker
+1. Internal alignment (agreement / tension / conflict zones)
+2. Market validation (confirmed / weak / unconfirmed problems, alternatives)
+3. Cross-signal analysis with validation priority (HIGH / MEDIUM / LOW)
+4. Applicability discovery
+5. Blind spot discovery
+6. New information discovery (mandatory — only post-comparison insights)
+7. Decision impact on original hypothesis (keep / narrow / expand / reframe / change audience / require validation / reject)
 
 ---
 
-## Important
+## Output language
 
-* focus on conflicts, not summaries
-* avoid smoothing contradictions
-* uncertainty is allowed and expected
+Match the language of `hypothesis.md`.
+
+---
+
+## Output requirements
+
+1. `RUN_DIR/outputs/hypothesis_map.md` — full synthesis (see skill for EN/RU structure)
+2. `RUN_DIR/outputs/hypothesis_digest.txt` — max 150 words
+3. `RUN_DIR/outputs/synthesis_complete.marker`
+
+---
+
+## Review rules
+
+- Focus on conflicts, not summaries
+- Never smooth contradictions
+- Never invent signals
+- Uncertainty is allowed and expected
+
+See `.cline/skills/hypothesis-synthesis/SKILL.md` for full output structures.

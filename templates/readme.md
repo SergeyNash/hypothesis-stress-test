@@ -47,9 +47,9 @@ Skills map from templates:
 
 | Template | Skill |
 |----------|-------|
-| `facilitator-prompt.md` | `hypothesis-roles-layer` |
+| `facilitator-prompt.md` | `hypothesis-facilitator` |
 | `market-prompt.md` | `hypothesis-market-layer` |
-| `synthesis-prompt.md` | `hypothesis-synthesis-layer` |
+| `synthesis-prompt.md` | `hypothesis-synthesis` |
 | `decision-review-prompt.md` | `hypothesis-decision-review` |
 | `input-schema.md` | `hypothesis-input-validation` |
 

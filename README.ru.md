@@ -71,9 +71,9 @@
 
 | Фаза                | Задача                 | Результат                  |
 | ------------------- | ---------------------- | -------------------------- |
-| **Roles Layer**     | Внутренняя перспектива | ограничения и логика ролей |
-| **Market Layer**    | Внешняя реальность     | сигналы и доказательства   |
-| **Synthesis Layer** | Конфликт               | карта классификации        |
+| **Roles Layer** (facilitator / stress test) | Внутренняя перспектива, допущения, конфликты | role_outputs, summary, validation_questions |
+| **Market Layer** (market reality check) | Внешняя реальность | сигналы и доказательства |
+| **Synthesis Layer** | Столкновение сигналов (roles vs market) | hypothesis_map, digest |
 | **Decision Review** | Оспаривание выводов    | decision_review.md         |
 
 Полный запуск в Cline: `/run-hypothesis.md` или по фазам через skills и workflows.
@@ -105,12 +105,13 @@ Confluence MCP: [implementations/confluence-mcp.ru.md](./implementations/conflue
   <img src="./assets/signal-model.svg" width="660"/>
 </p>
 
-Система классифицирует гипотезу:
+Synthesis (`hypothesis-synthesis`) классифицирует столкновение сигналов:
 
 * **Validated Opportunity** — внутренние и внешние сигналы совпадают
 * **Internal Illusion** — внутри всё выглядит логично, но рынок не подтверждает
 * **Blind Spot** — рынок показывает возможность, но внутри её не видят
 * **Weak Signal** — слабые сигналы со всех сторон
+* **Local Optimization Trap** — боль подтверждена, но стратегической ценности нет
 
 ---
 
@@ -128,6 +129,7 @@ RUN_DIR/
   outputs/
     role_outputs/*
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

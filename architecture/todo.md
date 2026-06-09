@@ -19,12 +19,19 @@
 
 ## Roles Layer Improvements
 
+- [x] Add `hypothesis-facilitator` skill with 6-step stress-test process
+- [x] Add `validation_questions.md` artifact
 - [ ] Improve role selection strategy
 - [ ] Add reusable role profile templates in `/roles`
 
+## Experiment Design (future)
+
+- [ ] Add experiment design phase after Decision Review
+
 ## Synthesis Layer
 
-- [ ] Improve conflict classification
+- [x] Add `hypothesis-synthesis` skill with 7-step collision process and 5 signal categories
+- [ ] Improve conflict classification automation
 - [ ] Add confidence scoring automation
 
 ## Decision Review

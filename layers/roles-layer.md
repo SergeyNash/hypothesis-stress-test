@@ -1,215 +1,140 @@
-# Roles Layer
+# Roles Layer (Facilitator / Hypothesis Stress Test)
 
-The Roles Layer provides an **internal analysis** of a hypothesis.
+The Roles Layer provides an **internal stress-test** of a hypothesis through role-based analysis.
 
-It evaluates how the hypothesis behaves across **real user perspectives**, not abstract assumptions.
+Also known as the **facilitator phase** or **Hypothesis Stress Test** in the pipeline.
 
 ---
 
-## 🧠 Purpose
+## What this layer does NOT do
+
+- Does not make decisions
+- Does not research the market
+- Does not synthesize conclusions
+- Does not design experiments
+
+---
+
+## Purpose
 
 The goal is not to validate the hypothesis.
 
-The goal is to define:
+The goal is to:
+
+- expose the hypothesis
+- find weak points
+- surface hidden assumptions
+- show role conflicts
+- define applicability boundaries
 
 > Where this hypothesis creates value — and where it breaks.
 
 ---
 
-## ⚙️ What it does
+## Persona
 
-The layer analyzes the hypothesis through a set of **relevant roles**.
-
-Each role represents a real perspective, such as:
-
-* user
-* developer
-* business
-* operations
-
-The exact roles depend on the hypothesis.
+An experienced B2B product facilitator acting as an intellectual opponent — not supporting ideas, but expanding the author's perspective before development.
 
 ---
 
-## 📚 Role Source
+## What it does
 
-Roles are not invented during analysis.
+The layer analyzes the hypothesis through **relevant roles** from `hypothesis.md`.
 
-They should come from **real user understanding**:
-
-* interviews
-* customer development
-* product discovery
-* domain expertise
-
-In practice:
-
-> A product manager is expected to already know their users.
-
-This layer does not replace research — it uses it.
+Each role represents a real perspective (user, developer, security, operations, etc.).
 
 ---
 
-## 📁 Role Profiles
+## Analysis process
 
-Each role should be described as a structured profile.
-
-Example:
-
-```text
-Role: Developer
-
-Context:
-- works under deadlines
-- values speed and predictability
-
-Pain:
-- interruptions in workflow
-- unclear requirements
-
-Behavior:
-- prefers simple tools
-- avoids unnecessary complexity
-```
-
-These profiles can be stored, reused, and improved over time.
+1. **Extract hidden assumptions** — before role analysis
+2. **Define applicability boundaries** — value / no value / harmful / alternatives
+3. **Role analysis** — pain, new problems, alternatives, failure context per role
+4. **Conflict detection** — agreement, tension, conflict zones, blind spots
+5. **Validation questions** — behavior-based interview questions (no leading questions)
+6. **Hypothesis assessment** — promising / uncertain / risky — no implementation recommendation
 
 ---
 
-## 🔍 Core Questions
+## Core questions per role
 
-For each role, the layer answers:
+### Pain
 
-### 1. Pain Point
+Priority: CRITICAL / SECONDARY / DOES NOT ADDRESS PAIN
 
-What real problem does this solve?
+### New problems
 
-Classification:
+Operational friction, governance, maintenance, adoption friction
 
-* critical
-* secondary
-* none
+### Alternatives
 
----
+Including doing nothing
 
-### 2. New Problems
+### Failure context
 
-What new complexity does this introduce?
+When useless, harmful, or irrelevant
 
-Focus on:
+### Applicability boundaries
 
-* operational friction
-* process overhead
-* unintended consequences
+Works when / does not work when / harms when
 
 ---
 
-### 3. Alternatives
+## Validation questions rules
 
-What would this role do instead?
+**Allowed:** behavior-based (how you currently solve, walk me through the last time…)
 
-Including:
-
-* existing tools
-* manual workarounds
-* doing nothing
+**Forbidden:** Would you use this? / Do you need this? / Would you buy it?
 
 ---
 
-### 4. Failure Conditions
+## Output language
 
-When does this become useless or harmful?
-
-Examples:
-
-* edge cases
-* scale issues
-* misalignment with workflows
+Artifacts match the language of `hypothesis.md`.
 
 ---
 
-## 🧠 How it thinks
+## Output
 
-The layer operates under strict constraints:
-
-* no assumption of value
-* no approval bias
-* no generic statements
-
-It assumes:
-
-> Every hypothesis works only under specific conditions.
+| Artifact | Purpose |
+|----------|---------|
+| `role_outputs/{role_slug}.md` | Per-role analysis |
+| `hypothesis_summary.md` | Assumptions, boundaries, conflicts, assessment |
+| `validation_questions.md` | Interview questions per role |
+| `ready_for_synthesis.marker` | Phase complete, ready for Market Layer |
 
 ---
 
-## ⚠️ What it does NOT do
+## What it does NOT do (constraints)
 
 * does not confirm the hypothesis
 * does not consider market reality
 * does not generate solutions
 * does not replace user research
 
-It only defines boundaries.
-
 ---
 
-## 📦 Output
+## Relationship with other layers
 
-The Roles Layer produces:
-
-* per-role analysis
-* hypothesis summary
-* list of hidden assumptions
-
----
-
-## 🧩 Output semantics
-
-The result is:
-
-* an internal model of applicability
-* a set of constraints
-* a map of potential failure points
-
-This is not truth.
-
-This is a **structured internal signal**.
-
----
-
-## ⚠️ Common mistakes
-
-* including too many roles
-* using vague or generic roles
-* inventing roles instead of using real knowledge
-* mixing roles with personas
-* assuming all roles must agree
-
----
-
-## 🔄 Relationship with other layers
-
-* Market Layer → validates external reality
+* Market Layer (Market Reality Check) → validates external reality
 * Synthesis Layer → compares signals
+* Decision Review → challenges synthesis conclusions
 
 Roles Layer alone is insufficient.
 
 ---
 
-## 🧬 Key principle
+## Key principle
 
 > Internal logic is not reality.
 
-The Roles Layer defines how the hypothesis *should* work —
-not whether it actually does.
+The Roles Layer defines how the hypothesis *should* work — not whether it actually does.
 
 ---
 
-## 📘 Next
-
-See:
+## Next
 
 * `market-layer.md`
 * `synthesis-layer.md`
-
-Roles can be stored as reusable profiles in /roles directory.
+* `templates/facilitator-prompt.md` — manual execution
+* `.cline/skills/hypothesis-facilitator/SKILL.md` — Cline execution

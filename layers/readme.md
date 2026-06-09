@@ -41,7 +41,7 @@ After synthesis, **Decision Review** challenges conclusions before backlog plann
 
 ## 🔍 Types of layers
 
-### Roles Layer (Internal)
+### Roles Layer (Internal / Facilitator / Hypothesis Stress Test)
 
 Answers:
 
@@ -69,17 +69,24 @@ Focus:
 
 ---
 
-### Synthesis Layer (Conflict)
+### Synthesis Layer (Signal Collision)
+
+Skill: `hypothesis-synthesis`
 
 Answers:
 
-> What happens when internal and external signals collide?
+> What becomes visible only when internal and external signals collide?
 
 Focus:
 
-* alignment
-* contradictions
-* missing perspectives
+* cross-signal analysis (roles vs market)
+* contradictions and blind spots
+* local optimization traps
+* applicability boundaries and reframe impact
+
+Signal categories: Validated Opportunity, Internal Illusion, Blind Spot, Weak Signal, Local Optimization Trap.
+
+Does not summarize without comparison. Does not add new market or role data.
 
 ---
 

@@ -13,9 +13,9 @@ Processed through Hypothesis Stress Test framework using Cline skills:
 | Step | Skill / Workflow | Status |
 |------|------------------|--------|
 | Input validation | `hypothesis-input-validation` | complete |
-| Roles Layer | `hypothesis-roles-layer` | complete |
+| Facilitator (Roles Layer) | `hypothesis-facilitator` | complete |
 | Market Layer | `hypothesis-market-layer` | complete |
-| Synthesis Layer | `hypothesis-synthesis-layer` | complete |
+| Synthesis Layer | `hypothesis-synthesis` | complete |
 | Decision Review | `hypothesis-decision-review` | complete |
 
 ## Confluence MCP

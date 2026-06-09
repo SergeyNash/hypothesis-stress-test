@@ -33,9 +33,9 @@ Located in `.cline/skills/`:
 | Skill | Trigger |
 |-------|---------|
 | `hypothesis-input-validation` | Before any layer run |
-| `hypothesis-roles-layer` | Roles Layer execution |
+| `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `hypothesis-market-layer` | Market Layer with Confluence MCP |
-| `hypothesis-synthesis-layer` | Synthesis Layer |
+| `hypothesis-synthesis` | Synthesis Layer (signal collision) |
 | `hypothesis-decision-review` | Decision Review (mandatory gate) |
 
 ### Workflows (slash commands)
@@ -45,6 +45,7 @@ Located in `.clinerules/workflows/`:
 | Workflow | Command |
 |----------|---------|
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
+| `run-facilitator.md` | `/run-facilitator.md` |
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
@@ -55,9 +56,9 @@ Located in `.clinerules/workflows/`:
 ```text
 User provides RUN_DIR
   → validate input (skill or workflow)
-  → Roles Layer (skill) → role_outputs + summary + marker
+  → Facilitator (skill) → role_outputs + summary + validation_questions + marker
   → Market Layer (skill + Confluence MCP) → market_analysis + marker
-  → Synthesis Layer (skill) → hypothesis_map + digest + marker
+  → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
   → Decision Review (skill) → decision_review + marker
   → Human backlog decision
 ```

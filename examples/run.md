@@ -37,9 +37,9 @@ RUN_DIR: examples/example-001
 
 ---
 
-## Step 1 — Roles Layer
+## Step 1 — Facilitator (Roles Layer)
 
-**Cline skill:** `hypothesis-roles-layer`
+**Cline skill:** `hypothesis-facilitator`
 
 **Manual template:** `templates/facilitator-prompt.md`
 
@@ -54,15 +54,15 @@ Expected output:
 ```text
 outputs/role_outputs/
 outputs/hypothesis_summary.md
+outputs/validation_questions.md
 outputs/ready_for_synthesis.marker
 ```
 
 Purpose:
 
-* identify role-specific value
-* reveal hidden assumptions
-* detect internal friction
-* define failure conditions
+* expose hidden assumptions and applicability boundaries
+* show role conflicts
+* generate behavior-based validation questions
 
 ---
 
@@ -98,7 +98,7 @@ Purpose:
 
 ## Step 3 — Synthesis Layer
 
-**Cline skill:** `hypothesis-synthesis-layer`
+**Cline skill:** `hypothesis-synthesis`
 
 **Manual template:** `templates/synthesis-prompt.md`
 
@@ -118,10 +118,10 @@ outputs/synthesis_complete.marker
 
 Purpose:
 
-* compare internal and external signals
-* identify contradictions
-* classify the hypothesis
-* make decision boundaries visible
+* collide internal and external signals
+* discover contradictions, blind spots, local optimization traps
+* surface new information visible only after comparison
+* determine impact on original hypothesis framing
 
 ---
 
@@ -159,6 +159,7 @@ examples/example-001/
   outputs/
     role_outputs/
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

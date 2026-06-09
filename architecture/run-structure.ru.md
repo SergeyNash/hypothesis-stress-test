@@ -11,6 +11,7 @@ RUN_DIR/
   outputs/
     role_outputs/
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

@@ -75,9 +75,9 @@ The framework separates reasoning into three analysis layers, then a mandatory D
 
 | Phase               | Purpose                     | Output                 |
 | ------------------- | --------------------------- | ---------------------- |
-| **Roles Layer**     | Tests internal perspectives | role-based constraints |
-| **Market Layer**    | Checks external reality     | evidence-based signals |
-| **Synthesis Layer** | Exposes contradictions      | classification map     |
+| **Roles Layer** (facilitator / stress test) | Internal perspectives, assumptions, conflicts | role_outputs, summary, validation_questions |
+| **Market Layer** (market reality check) | Checks external reality | evidence-based signals |
+| **Synthesis Layer** | Signal collision (roles vs market) | hypothesis_map, digest |
 | **Decision Review** | Challenges conclusions      | decision_review.md     |
 
 Run end-to-end in Cline with `/run-hypothesis.md` or phase by phase via skills and workflows.
@@ -109,12 +109,13 @@ Confluence MCP: [implementations/confluence-mcp.md](./implementations/confluence
   <img src="./assets/signal-model.svg" width="660"/>
 </p>
 
-The system classifies a hypothesis into four decision patterns:
+The Synthesis layer (`hypothesis-synthesis`) classifies signal collisions into five patterns:
 
 * **Validated Opportunity** — internal and external signals align
-* **Internal Illusion** — internal logic looks strong, market signal is weak
+* **Internal Illusion** — internal logic looks strong, market does not confirm
 * **Blind Spot** — market signal exists, internal model misses it
 * **Weak Signal** — no strong evidence from either side
+* **Local Optimization Trap** — pain confirmed, but no strategic business value
 
 ---
 
@@ -132,6 +133,7 @@ RUN_DIR/
   outputs/
     role_outputs/*
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

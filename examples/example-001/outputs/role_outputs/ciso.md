@@ -34,4 +34,30 @@ However, mature organizations often prefer policy-based automation instead of ma
 * increased scanning capacity
 * CI/CD gating policies
 
-* security maturity is low
+---
+
+## Failure Context
+
+* security maturity is low — manual control adds chaos, not value
+* prioritization cannot be audited for compliance
+* dependency on individual AppSec engineers creates bus-factor risk
+* scale exceeds 50+ projects without governance automation
+
+---
+
+## Applicability Boundaries
+
+### Works when
+
+* hybrid model: policy automation with documented manual exceptions
+* visibility and audit trail for every prioritization decision
+
+### Does not work when
+
+* organization requires centralized, policy-driven risk allocation
+* manual prioritization replaces rather than supplements automation
+
+### Harms when
+
+* metrics are distorted to justify ad-hoc queue changes
+* escalation paths for prioritization conflicts are undefined

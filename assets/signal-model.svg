@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="800" height="500" xmlns="http://www.w3.org/2000/svg">
+<svg width="800" height="560" xmlns="http://www.w3.org/2000/svg">
 <style>
 .title { font: bold 20px sans-serif; }
 .label { font: 14px sans-serif; }
 .box { fill: #f4f6f8; stroke: #333; stroke-width: 1; }
 .header { font: bold 14px sans-serif; }
+.trap { fill: #fff7ed; stroke: #f59e0b; stroke-width: 1.5; }
 </style>
 
-<text x="250" y="30" class="title">Signal Model</text>
+<text x="250" y="30" class="title">Signal Model (Synthesis)</text>
 
 <!-- Axis labels -->
 <text x="350" y="60" class="header">Market Signal</text>
@@ -39,5 +40,11 @@
 
 <text x="470" y="320" class="header">Weak Signal</text>
 <text x="470" y="340" class="label">No strong signals</text>
+
+<!-- Fifth category -->
+<rect x="200" y="430" width="450" height="90" class="trap" rx="8"/>
+<text x="220" y="460" class="header">Local Optimization Trap</text>
+<text x="220" y="482" class="label">Roles YES + Market YES, but pain does not create strategic business value</text>
+<text x="220" y="502" class="label">Also: buyer does not pay / adoption blocked despite confirmed pain</text>
 
 </svg>

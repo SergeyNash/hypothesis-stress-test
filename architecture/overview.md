@@ -10,11 +10,11 @@ Three independent analysis layers produce structured signals:
 
 | Layer | Question | Output |
 |-------|----------|--------|
-| **Roles** | How does this behave across perspectives? | `role_outputs/*`, `hypothesis_summary.md` |
-| **Market** | Does this problem exist in reality? | `market_analysis.md` |
-| **Synthesis** | What survives when signals collide? | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Roles** (facilitator / stress test) | How does this behave across perspectives? | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
+| **Market** (market reality check) | Does this problem exist in reality? | `market_analysis.md` |
+| **Synthesis** (`hypothesis-synthesis`) | What becomes visible only when signals collide? | `hypothesis_map.md`, `hypothesis_digest.txt` |
 
-Layers do not mix signals prematurely. Synthesis compares artifacts from prior layers only.
+Layers do not mix signals prematurely. Synthesis collides facilitator and market artifacts — it does not re-analyze them.
 
 After Synthesis, **Decision Review** (mandatory gate) adversarially challenges conclusions before backlog planning. It does not add new signals.
 
@@ -51,12 +51,13 @@ Each run uses an isolated `RUN_DIR`. See [run-structure.md](./run-structure.md) 
 
 ## Decision model
 
-The Synthesis Layer classifies hypotheses into four patterns:
+The Synthesis Layer classifies signal collisions into five patterns:
 
 - **Validated Opportunity** — internal and external signals align
 - **Internal Illusion** — internal logic strong, market weak
 - **Blind Spot** — market signal exists, internal model misses it
 - **Weak Signal** — no strong evidence
+- **Local Optimization Trap** — pain confirmed, no strategic business value
 
 See [signal model diagram](../assets/signal-model.svg).
 

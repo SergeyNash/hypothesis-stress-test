@@ -75,8 +75,8 @@
 
   <g filter="url(#shadow)">
     <rect x="150" y="270" width="100" height="80" rx="14" fill="#DBEAFE" stroke="#2563EB"/>
-    <text x="175" y="300" class="card-title">Roles</text>
-    <text x="168" y="322" class="card-sub">layer skill</text>
+    <text x="158" y="300" class="card-title">Facilitator</text>
+    <text x="155" y="322" class="card-sub">stress test</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -88,7 +88,7 @@
   <g filter="url(#shadow)">
     <rect x="390" y="270" width="100" height="80" rx="14" fill="#EDE9FE" stroke="#7C3AED"/>
     <text x="400" y="300" class="card-title">Synthesis</text>
-    <text x="405" y="322" class="card-sub">layer skill</text>
+    <text x="388" y="322" class="card-sub">signal collision</text>
   </g>
 
   <g filter="url(#shadow)">
@@ -113,7 +113,7 @@
   <g filter="url(#shadow)">
     <rect x="50" y="400" width="950" height="90" rx="18" fill="#FFFFFF" stroke="#CBD5E1"/>
     <text x="75" y="430" class="label">RUN_DIR / OUTPUTS</text>
-    <text x="75" y="458" class="card-sub">hypothesis.md -&gt; role_outputs/* -&gt; market_analysis.md -&gt; hypothesis_map.md -&gt; decision_review.md</text>
+    <text x="75" y="458" class="card-sub">hypothesis.md -&gt; role_outputs/* -&gt; validation_questions.md -&gt; market_analysis.md -&gt; decision_review.md</text>
     <text x="75" y="478" class="tiny">Human approves file writes and MCP tool calls at each step</text>
   </g>
 

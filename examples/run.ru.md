@@ -37,9 +37,9 @@ RUN_DIR: examples/example-001
 
 ---
 
-## Шаг 1 — Roles Layer
+## Шаг 1 — Facilitator (Roles Layer)
 
-**Cline skill:** `hypothesis-roles-layer`
+**Cline skill:** `hypothesis-facilitator`
 
 **Ручной шаблон:** `templates/facilitator-prompt.md`
 
@@ -54,15 +54,15 @@ RUN_DIR: examples/example-001
 ```text
 outputs/role_outputs/
 outputs/hypothesis_summary.md
+outputs/validation_questions.md
 outputs/ready_for_synthesis.marker
 ```
 
 Цель:
 
-* выявить ценность для каждой роли
-* обнаружить скрытые допущения
-* зафиксировать внутренний friction
-* определить условия провала
+* вскрыть скрытые допущения и границы применимости
+* показать конфликты ролей
+* сгенерировать behavior-based вопросы для интервью
 
 ---
 
@@ -98,7 +98,7 @@ outputs/market_analysis_complete.marker
 
 ## Шаг 3 — Synthesis Layer
 
-**Cline skill:** `hypothesis-synthesis-layer`
+**Cline skill:** `hypothesis-synthesis`
 
 **Ручной шаблон:** `templates/synthesis-prompt.md`
 
@@ -118,10 +118,10 @@ outputs/synthesis_complete.marker
 
 Цель:
 
-* сравнить внутренние и внешние сигналы
-* выявить противоречия
-* классифицировать гипотезу
-* сделать границы решения видимыми
+* столкнуть внутренние и внешние сигналы
+* выявить противоречия, слепые зоны, ловушки локальной оптимизации
+* показать новую информацию, видимую только после сравнения
+* определить влияние на исходную формулировку гипотезы
 
 ---
 
@@ -159,6 +159,7 @@ examples/example-001/
   outputs/
     role_outputs/
     hypothesis_summary.md
+    validation_questions.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
