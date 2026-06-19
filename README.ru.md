@@ -2,7 +2,8 @@
   <sub>
     🌐 <b>Язык:</b>
     <a href="./README.md">🇬🇧 English</a> ·
-    <b>🇷🇺 Русский</b>
+    <b>🇷🇺 Русский</b> ·
+    <a href="./implementations/quick-start.ru.md">Быстрый старт</a>
   </sub>
 </p>
 
@@ -18,6 +19,8 @@
 
 <p align="center">
   <a href="./implementations/quick-start.ru.md"><b>Быстрый старт</b></a>
+  ·
+  <a href="./playbooks/run-hypothesis.ru.md"><b>Playbook</b></a>
   ·
   <a href="./implementations/README.ru.md"><b>Документация</b></a>
   ·
@@ -67,16 +70,30 @@
 
 ## Как это работает
 
-Фреймворк разделяет анализ на три слоя и обязательный Decision Review:
+Три слоя анализа, обязательный Decision Review и финальное решение человека:
 
-| Фаза                | Задача                 | Результат                  |
-| ------------------- | ---------------------- | -------------------------- |
-| **Roles Layer** (facilitator / stress test) | Внутренняя перспектива, допущения, конфликты | role_outputs, summary, validation_questions |
-| **Market Layer** (market reality check) | Внешняя реальность | сигналы и доказательства |
-| **Synthesis Layer** | Столкновение сигналов (roles vs market) | hypothesis_map, digest |
-| **Decision Review** | Оспаривание выводов    | decision_review.md         |
+| Фаза | Skill | Результат |
+|------|-------|-----------|
+| **Validate** | `hypothesis-input-validation` | готовый `hypothesis.md` |
+| **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
+| **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
+| **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
+| **Backlog Decision** (человек) | — | proceed / validate / research / reject |
 
-Полный запуск в Cline: `/run-hypothesis.md` или по фазам через skills и workflows.
+Полный прогон: `/run-hypothesis.md`
+
+По фазам:
+
+```text
+/validate-hypothesis-input.md
+/run-facilitator.md
+/run-market-layer.md
+/run-synthesis.md
+/run-decision-review.md
+```
+
+Указывайте `RUN_DIR` в сообщении Cline, например: `RUN_DIR: runs/my-hypothesis`
 
 ---
 
@@ -89,13 +106,15 @@
 | Компонент | Расположение | Назначение |
 |-----------|--------------|------------|
 | **Rules** | `.clinerules/` | Постоянные инварианты фреймворка |
-| **Skills** | `.cline/skills/` | Выполнение слоёв по запросу |
-| **Workflows** | `.clinerules/workflows/` | Slash-команды (`/run-hypothesis.md`) |
+| **Skills** | `.cline/skills/` | Выполнение фаз по запросу |
+| **Workflows** | `.clinerules/workflows/` | Slash-команды |
 | **Confluence MCP** | MCP config | Основной источник local signals |
 
 Настройка: [implementations/cline-setup.ru.md](./implementations/cline-setup.ru.md)
 
 Confluence MCP: [implementations/confluence-mcp.ru.md](./implementations/confluence-mcp.ru.md)
+
+Контракт: [implementations/cline-contract.ru.md](./implementations/cline-contract.ru.md)
 
 ---
 
@@ -134,7 +153,10 @@ RUN_DIR/
     hypothesis_map.md
     hypothesis_digest.txt
     decision_review.md
+    *.marker
 ```
+
+Язык артефактов совпадает с языком `hypothesis.md`.
 
 ---
 
@@ -146,12 +168,12 @@ RUN_DIR/
 
 1. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) в VS Code
 2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
-3. Symlink `.clinerules/` и `.cline/` в корень KB — см. quick start
+3. Symlink `.clinerules/` и `.cline/` в корень KB — см. [quick start](./implementations/quick-start.ru.md)
 4. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
-5. Создайте `runs/my-hypothesis/hypothesis.md`
+5. Создайте `runs/my-hypothesis/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md)
 6. В чате Cline: `RUN_DIR: runs/my-hypothesis` + `/run-hypothesis.md`
 
-Вся операционная документация на русском: [implementations/README.ru.md](./implementations/README.ru.md)
+Операционная документация: [implementations/README.ru.md](./implementations/README.ru.md)
 
 Ручной режим: [playbooks/run-hypothesis.ru.md](./playbooks/run-hypothesis.ru.md)
 
@@ -163,7 +185,7 @@ RUN_DIR/
 examples/example-001/
 ```
 
-B2B-гипотеза в AppSec: переформулировка из «снизить риски в проде» в «повысить операционную эффективность».
+B2B-гипотеза в AppSec: synthesis переформулирует гипотезу из «снизить риски в проде» в «повысить операционную эффективность»; `decision_review.md` рекомендует **Proceed with Validation**.
 
 ---
 
@@ -174,7 +196,7 @@ B2B-гипотеза в AppSec: переформулировка из «сниз
 Cline      → как запускать (rules, skills, workflows, MCP)
 ```
 
-Фреймворк не привязан к инструменту. Cline — основная поддерживаемая реализация.
+Фреймворк не привязан к инструменту. Cline — основная поддерживаемая реализация. Возможны ручной режим и API (см. [architecture/implementations.ru.md](./architecture/implementations.ru.md)).
 
 ---
 
@@ -182,11 +204,13 @@ Cline      → как запускать (rules, skills, workflows, MCP)
 
 ```text
 .clinerules/       правила и workflows Cline
-.cline/skills/     skills по слоям
+.cline/skills/     skills по фазам
 layers/            логика анализа
 templates/         шаблоны для ручного режима
 playbooks/         сценарии
 examples/          примеры
+runs/              прогоны гипотез (в KB workspace)
+knowledge-base/    гайд по Confluence / local signals
 architecture/      устройство системы
 implementations/   настройка Cline, Confluence MCP
 assets/            диаграммы
@@ -203,6 +227,15 @@ assets/            диаграммы
 * оспаривай выводы перед backlog
 * решение принимает человек
 * плохие идеи должны умирать рано
+
+---
+
+## Чем это не является
+
+* генератором идей
+* заменой реальным пользователям и интервью
+* substitute для полноценного market research
+* автономным decision-maker
 
 ---
 

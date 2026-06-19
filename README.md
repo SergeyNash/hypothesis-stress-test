@@ -19,9 +19,11 @@
 </p>
 
 <p align="center">
-  <a href="./implementations/cline-setup.md"><b>Cline Setup</b></a>
+  <a href="./implementations/quick-start.md"><b>Quick Start</b></a>
   ·
   <a href="./playbooks/run-hypothesis.md"><b>Playbook</b></a>
+  ·
+  <a href="./implementations/README.md"><b>Docs</b></a>
   ·
   <a href="./examples/example-001/"><b>Example</b></a>
   ·
@@ -71,16 +73,30 @@ idea → stress test → decision
 
 ## How it works
 
-The framework separates reasoning into three analysis layers, then a mandatory Decision Review gate:
+Three analysis layers, mandatory Decision Review, then human backlog decision:
 
-| Phase               | Purpose                     | Output                 |
-| ------------------- | --------------------------- | ---------------------- |
-| **Roles Layer** (facilitator / stress test) | Internal perspectives, assumptions, conflicts | role_outputs, summary, validation_questions |
-| **Market Layer** (market reality check) | Checks external reality | evidence-based signals |
-| **Synthesis Layer** | Signal collision (roles vs market) | hypothesis_map, digest |
-| **Decision Review** | Challenges conclusions      | decision_review.md     |
+| Phase | Skill | Output |
+|-------|-------|--------|
+| **Validate** | `hypothesis-input-validation` | ready `hypothesis.md` |
+| **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
+| **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
+| **Synthesis** (signal collision) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
+| **Backlog Decision** (human) | — | proceed / validate / research / reject |
 
-Run end-to-end in Cline with `/run-hypothesis.md` or phase by phase via skills and workflows.
+Full run: `/run-hypothesis.md`
+
+Phase by phase:
+
+```text
+/validate-hypothesis-input.md
+/run-facilitator.md
+/run-market-layer.md
+/run-synthesis.md
+/run-decision-review.md
+```
+
+Specify `RUN_DIR` in your Cline message, e.g. `RUN_DIR: runs/my-hypothesis`
 
 ---
 
@@ -93,13 +109,15 @@ Run end-to-end in Cline with `/run-hypothesis.md` or phase by phase via skills a
 | Component | Location | Purpose |
 |-----------|----------|---------|
 | **Rules** | `.clinerules/` | Persistent framework invariants |
-| **Skills** | `.cline/skills/` | On-demand layer execution |
-| **Workflows** | `.clinerules/workflows/` | Slash commands (`/run-hypothesis.md`) |
+| **Skills** | `.cline/skills/` | On-demand phase execution |
+| **Workflows** | `.clinerules/workflows/` | Slash commands |
 | **Confluence MCP** | MCP config | Primary local signal source |
 
 Setup: [implementations/cline-setup.md](./implementations/cline-setup.md)
 
 Confluence MCP: [implementations/confluence-mcp.md](./implementations/confluence-mcp.md)
+
+Contract: [implementations/cline-contract.md](./implementations/cline-contract.md)
 
 ---
 
@@ -138,17 +156,27 @@ RUN_DIR/
     hypothesis_map.md
     hypothesis_digest.txt
     decision_review.md
+    *.marker
 ```
+
+Output language matches `hypothesis.md`.
 
 ---
 
 ## Quick start (Cline)
 
+Full guide: **[implementations/quick-start.md](./implementations/quick-start.md)**
+
+In short:
+
 1. Install [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) in VS Code
-2. Open this repository
-3. Configure [Confluence MCP](./implementations/confluence-mcp.md)
-4. Create `RUN_DIR/hypothesis.md` (see [templates/input-schema.md](./templates/input-schema.md))
-5. In Cline chat: `/run-hypothesis.md` with your `RUN_DIR`
+2. Open **your knowledge base** and add the `hypothesis-stress-test/` folder (clone or submodule)
+3. Symlink `.clinerules/` and `.cline/` to the KB root — see [quick start](./implementations/quick-start.md)
+4. Configure [Confluence MCP](./implementations/confluence-mcp.md)
+5. Create `runs/my-hypothesis/hypothesis.md` — see [templates/input-schema.md](./templates/input-schema.md)
+6. In Cline chat: `RUN_DIR: runs/my-hypothesis` + `/run-hypothesis.md`
+
+Operational docs: [implementations/README.md](./implementations/README.md)
 
 Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
 
@@ -160,7 +188,7 @@ Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
 examples/example-001/
 ```
 
-A B2B AppSec hypothesis reframed from "reduce production risk" to "improve operational efficiency" — that reframing is the point.
+A B2B AppSec hypothesis: synthesis reframes from "reduce production risk" to "improve operational efficiency"; `decision_review.md` recommends **Proceed with Validation**.
 
 ---
 
@@ -171,7 +199,7 @@ Framework  → how to think (layers, contracts, decision model)
 Cline      → how to run it (rules, skills, workflows, MCP)
 ```
 
-The framework is tool-agnostic. Cline is the primary supported implementation. Manual and API modes are also possible.
+The framework is tool-agnostic. Cline is the primary supported implementation. Manual and API modes are also possible — see [architecture/implementations.md](./architecture/implementations.md).
 
 ---
 
@@ -179,11 +207,13 @@ The framework is tool-agnostic. Cline is the primary supported implementation. M
 
 ```text
 .clinerules/       Cline rules and workflows
-.cline/skills/     Cline skills per layer
+.cline/skills/     Cline skills per phase
 layers/            reasoning model
 templates/         manual execution templates
 playbooks/         usage workflows
 examples/          worked examples
+runs/              hypothesis runs (in KB workspace)
+knowledge-base/    Confluence / local signals guide
 architecture/      system design
 implementations/   Cline setup, Confluence MCP, contract
 assets/            diagrams
@@ -206,8 +236,8 @@ assets/            diagrams
 ## What this is not
 
 * an idea generator
-* a replacement for real users
-* a market research substitute
+* a replacement for real users and interviews
+* a substitute for full market research
 * an autonomous decision-maker
 
 ---
