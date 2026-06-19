@@ -63,7 +63,9 @@ Required:
 
 Optional:
 
-- role profiles
+- role profiles from `knowledge-base/personas/`
+- persona build logs from `knowledge-base/persona-builds/`
+- interview notes from `knowledge-base/interviews/`
 - interview notes
 - market research
 - customer feedback
@@ -153,6 +155,14 @@ Always identify:
 ### Step 3 — Role analysis
 
 For every relevant role in `hypothesis.md`:
+
+If a matching file exists in `knowledge-base/personas/`, use it as supporting context.
+
+Evidence handling:
+
+- Personas with empty `source_interviews` are weak local signals.
+- Personas backed by interviews or persona builds may be treated as stronger local context.
+- Do not invent interview evidence when a persona has no linked sources.
 
 **Pain** — priority: CRITICAL / SECONDARY / DOES NOT ADDRESS PAIN. Describe operational impact, business impact, urgency.
 

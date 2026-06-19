@@ -19,11 +19,27 @@ implementations/confluence-mcp.md
 When stress-testing a hypothesis, search for:
 
 - Customer discovery notes and interview summaries
+- Persona source materials and role research
 - Product requirement discussions
 - Architecture decision records
 - Past hypothesis or initiative evaluations
 - Support or operational pain reports
 - Competitive analysis stored internally
+
+## Local persona model
+
+The repository can store local role knowledge in three layers:
+
+```text
+knowledge-base/
+  interviews/      raw CustDev notes and interview summaries
+  persona-builds/  rebuild logs explaining how personas changed
+  personas/        current reusable role profiles
+```
+
+`personas/` are synthesized artifacts. They should not be treated as raw evidence.
+
+If a persona has no linked `source_interviews`, treat it as a weak local signal. If a persona is rebuilt from interviews, cite the underlying interviews or persona build when using it as local evidence.
 
 ## Signal labeling
 

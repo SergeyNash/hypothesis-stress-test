@@ -7,7 +7,7 @@ These rules apply to **Market Layer** and any MCP-backed research.
 Every finding in `market_analysis.md` must be labeled:
 
 | Type | Source | Trust |
-|------|--------|-------|
+| ------ | -------- | ------- |
 | **local** | Confluence (primary), internal docs | Highest |
 | **external** | Public sources, articles, vendor docs | Medium — cite URL |
 | **inferred** | Logical conclusion from available data | Lowest — mark explicitly |
@@ -28,6 +28,14 @@ For Market Layer:
 - Prefer uncertainty over hallucination
 - Do not invent market demand
 - Do not generalize without support
+
+## Persona evidence
+
+Personas in `knowledge-base/personas/` are synthesized role artifacts.
+
+- If `source_interviews` is empty, treat the persona as a weak local signal
+- If a persona cites interviews or persona builds, cite the underlying source when making claims
+- Do not treat persona statements as primary evidence unless they are backed by CustDev materials
 
 ## market_analysis.md structure
 

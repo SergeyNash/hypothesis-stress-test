@@ -45,10 +45,27 @@ Required sections:
 
 See `templates/input-schema.md` for the full schema.
 
+## Optional local role sources
+
+Reusable role profiles may exist in:
+
+```text
+knowledge-base/personas/
+```
+
+Raw CustDev inputs and persona rebuild logs may exist in:
+
+```text
+knowledge-base/interviews/
+knowledge-base/persona-builds/
+```
+
+Roles listed in `hypothesis.md` remain the run-specific source of scope. Persona files are supporting context, not a replacement for hypothesis-specific role selection.
+
 ## Output naming
 
 | Artifact | Path | Produced by |
-|----------|------|-------------|
+| ---------- | ------ | ------------- |
 | Per-role analysis | `outputs/role_outputs/{role_slug}.md` | Facilitator (Roles Layer) |
 | Internal summary | `outputs/hypothesis_summary.md` | Facilitator (Roles Layer) |
 | Interview questions | `outputs/validation_questions.md` | Facilitator (Roles Layer) |
@@ -76,7 +93,7 @@ Behavior-based interview questions per role. No leading or hypothetical question
 Markers signal that a layer finished and outputs are ready for the next step:
 
 | Marker | Created after |
-|--------|---------------|
+| -------- | --------------- |
 | `ready_for_synthesis.marker` | Facilitator (Roles Layer) |
 | `market_analysis_complete.marker` | Market Layer |
 | `synthesis_complete.marker` | Synthesis Layer |
