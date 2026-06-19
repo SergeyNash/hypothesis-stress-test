@@ -49,7 +49,7 @@ Check the Cline panel: Rules icon (scales) — framework rules should be listed 
 Your knowledge base and the framework wrapper are **different things**. You do **not** need two separate VS Code windows.
 
 | What | Source | Depends on open project? |
-|------|--------|--------------------------|
+| ------ | -------- | -------------------------- |
 | Wrapper (rules, skills, workflows) | `.clinerules/`, `.cline/skills/` | **Yes** — from open workspace root only |
 | Confluence (wiki) | Confluence MCP in Cline | **No** — configured once, works in any workspace |
 | Local KB files | Markdown notes in a repo | **Yes** — Cline reads files in the open project |
@@ -64,6 +64,10 @@ You already have a project open — **your knowledge base**. Add a folder with t
 ```text
 my-knowledge-base/                    ← open in VS Code
   discovery/                          ← your KB: notes, interviews, research
+  knowledge-base/
+    interviews/                        ← raw CustDev notes and interview summaries
+    persona-builds/                    ← logs of persona rebuilds from evidence
+    personas/                          ← reusable role profiles
   research/
   adr/
   runs/                               ← RUN_DIR for hypotheses (next to KB)
@@ -140,6 +144,14 @@ Open the framework repo as workspace. Best when KB is mainly in **Confluence**, 
 - Cline reads them during Market Layer via file tools.
 - Label such findings as **local** in `market_analysis.md` (source: file path).
 
+**Personas and interviews:**
+
+- Store raw CustDev materials in `knowledge-base/interviews/`.
+- Store current reusable role profiles in `knowledge-base/personas/`.
+- Store rebuild logs in `knowledge-base/persona-builds/`.
+- Roles Layer can use matching personas as supporting context.
+- A persona without linked `source_interviews` is a weak local signal, not primary evidence.
+
 Without Confluence and without local files in the workspace, Market Layer will record `missing local evidence`.
 
 ---
@@ -186,6 +198,8 @@ Full schema: `hypothesis-stress-test/templates/input-schema.md` (or [templates/i
 
 Example: `hypothesis-stress-test/examples/example-001/hypothesis.md`
 
+If `knowledge-base/personas/` contains matching role profiles, the Roles Layer can use them as supporting context. The role list in `hypothesis.md` still defines the scope for the current run.
+
 ---
 
 ## Step 5. Run
@@ -231,7 +245,7 @@ outputs/
 ```
 
 | Artifact | Contents |
-|----------|----------|
+| ---------- | ---------- |
 | `hypothesis_digest.txt` | Short digest (max 150 words): viability, conflict, illusion, blind spot, next step |
 | `hypothesis_map.md` | Signal collision: divergences, blind spots, new information, applicability, reframe impact |
 | `decision_review.md` | Adversarial review: confidence, risks, validation plan |
@@ -242,7 +256,7 @@ outputs/
 ## Troubleshooting
 
 | Issue | Fix |
-|-------|-----|
+| ------- | ----- |
 | Rules not visible | Check `.clinerules/` at **workspace root** (symlink from `hypothesis-stress-test/`); reload VS Code |
 | Workflow does not start | Specify `RUN_DIR:` explicitly in your message |
 | Confluence MCP fails | [confluence-mcp.md](./confluence-mcp.md) |

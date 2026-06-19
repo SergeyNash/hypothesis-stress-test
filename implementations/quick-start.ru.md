@@ -49,7 +49,7 @@ Cline автоматически подхватит из **корня workspace*
 База знаний и обвязка фреймворка — **разные вещи**. Открывать оба проекта одновременно **не обязательно**.
 
 | Что | Откуда | Зависит от открытого проекта? |
-|-----|--------|-------------------------------|
+| ----- | -------- | ------------------------------- |
 | Обвязка (rules, skills, workflows) | `.clinerules/`, `.cline/skills/` | **Да** — только из корня открытого workspace |
 | Confluence (wiki) | Confluence MCP в Cline | **Нет** — настраивается один раз, работает из любого workspace |
 | Локальные файлы KB | Markdown и заметки в репозитории | **Да** — Cline читает файлы открытого проекта |
@@ -64,6 +64,10 @@ Cline автоматически подхватит из **корня workspace*
 ```text
 my-knowledge-base/                    ← открыт в VS Code
   discovery/                          ← ваша KB: заметки, интервью, research
+  knowledge-base/
+    interviews/                        ← сырые CustDev-заметки и саммари интервью
+    persona-builds/                    ← логи пересборки персон из evidence
+    personas/                          ← переиспользуемые профили ролей
   research/
   adr/
   runs/                               ← RUN_DIR для гипотез (рядом с KB)
@@ -140,6 +144,14 @@ Cline подхватит rules/skills из корня `hypothesis-stress-test`. 
 - Cline читает их при Market Layer через file tools.
 - В `market_analysis.md` такие findings маркируйте как **local** (источник — путь к файлу).
 
+**Personas и интервью:**
+
+- Сырые CustDev-материалы храните в `knowledge-base/interviews/`.
+- Текущие переиспользуемые профили ролей храните в `knowledge-base/personas/`.
+- Логи пересборки персон храните в `knowledge-base/persona-builds/`.
+- Roles Layer может использовать совпадающие personas как supporting context.
+- Persona без связанных `source_interviews` — слабый локальный сигнал, а не первичное evidence.
+
 Без Confluence и без локальных файлов в workspace Market Layer зафиксирует `missing local evidence`.
 
 ---
@@ -186,6 +198,8 @@ runs/my-hypothesis/
 
 Пример: `hypothesis-stress-test/examples/example-001/hypothesis.md`
 
+Если в `knowledge-base/personas/` есть совпадающие профили ролей, Roles Layer может использовать их как supporting context. Список ролей в `hypothesis.md` всё равно задаёт scope конкретного прогона.
+
 ---
 
 ## Шаг 5. Запустить прогон
@@ -231,7 +245,7 @@ outputs/
 ```
 
 | Артефакт | Что внутри |
-|----------|------------|
+| ---------- | ------------ |
 | `hypothesis_digest.txt` | Краткий digest (макс. 150 слов): жизнеспособность, конфликт, иллюзия, слепая зона, следующий шаг |
 | `hypothesis_map.md` | Столкновение сигналов: дивергенции, слепые зоны, новая информация, границы, влияние на гипотезу |
 | `decision_review.md` | Adversarial review: уверенность, риски, план валидации |
@@ -242,7 +256,7 @@ outputs/
 ## Если что-то пошло не так
 
 | Проблема | Решение |
-|----------|---------|
+| ---------- | --------- |
 | Rules не видны | Проверьте `.clinerules/` в **корне** workspace (symlink из `hypothesis-stress-test/`); перезагрузите VS Code |
 | Workflow не запускается | Укажите `RUN_DIR:` явно в сообщении |
 | Confluence MCP не работает | [confluence-mcp.ru.md](./confluence-mcp.ru.md) |
