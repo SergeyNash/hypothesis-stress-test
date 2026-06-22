@@ -21,6 +21,35 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ---
 
+## [Unreleased]
+
+### Added
+
+- New phase **Customer Discovery Planning** between Synthesis and Decision Review.
+- New skill: `customer-discovery-planning`.
+- New workflow: `/run-customer-discovery-planning.md`.
+- New manual template: `templates/customer-discovery-planning-prompt.md`.
+- New layer docs: `layers/customer-discovery-planning-layer.md`.
+- New artifacts: `customer_discovery_plan.md` and `customer_discovery_planning_complete.marker`.
+- Example artifacts for `examples/example-001`:
+  - `outputs/customer_discovery_plan.md`
+  - `outputs/customer_discovery_planning_complete.marker`
+
+### Changed
+
+- Full pipeline order updated to:
+  - Validate -> Facilitator -> Market -> Synthesis -> Customer Discovery Planning -> Decision Review -> Human backlog decision.
+- Decision Review prerequisites now include Customer Discovery Planning outputs.
+- Synthesis next-step guidance now points to Customer Discovery Planning before Decision Review.
+- Artifact contracts, workflows, and docs updated across EN/RU:
+  - README, playbooks, quick start, architecture docs, Cline contract/setup docs.
+- Pipeline diagrams updated:
+  - `assets/architecture-overview.svg`
+  - `assets/artifact-flow.svg`
+  - `assets/cline-workflow.svg`
+
+---
+
 ## [2.0.0] - 2026-06-22
 
 ### Changed

@@ -21,6 +21,35 @@
 
 ---
 
+## [Unreleased]
+
+### Добавлено
+
+- Новый этап **Customer Discovery Planning** между Synthesis и Decision Review.
+- Новый skill: `customer-discovery-planning`.
+- Новый workflow: `/run-customer-discovery-planning.md`.
+- Новый manual template: `templates/customer-discovery-planning-prompt.md`.
+- Новый layer doc: `layers/customer-discovery-planning-layer.md`.
+- Новые артефакты: `customer_discovery_plan.md` и `customer_discovery_planning_complete.marker`.
+- Добавлены примерные артефакты для `examples/example-001`:
+  - `outputs/customer_discovery_plan.md`
+  - `outputs/customer_discovery_planning_complete.marker`
+
+### Изменено
+
+- Порядок полного пайплайна обновлён:
+  - Validate -> Facilitator -> Market -> Synthesis -> Customer Discovery Planning -> Decision Review -> Human backlog decision.
+- Prerequisites для Decision Review теперь учитывают outputs Customer Discovery Planning.
+- В Synthesis следующий шаг теперь ведёт сначала в Customer Discovery Planning, затем в Decision Review.
+- Контракты артефактов, workflows и документация синхронизированы в EN/RU:
+  - README, playbooks, quick start, architecture docs, Cline contract/setup docs.
+- Обновлены диаграммы пайплайна:
+  - `assets/architecture-overview.svg`
+  - `assets/artifact-flow.svg`
+  - `assets/cline-workflow.svg`
+
+---
+
 ## [2.0.0] - 2026-06-22
 
 ### Изменено
