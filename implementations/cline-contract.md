@@ -36,6 +36,7 @@ Located in `.cline/skills/`:
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `hypothesis-market-layer` | Market Layer with Confluence MCP |
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
+| `customer-discovery-planning` | Customer Discovery Planning (interview-ready research plan) |
 | `hypothesis-decision-review` | Decision Review (mandatory gate) |
 
 ### Workflows (slash commands)
@@ -49,6 +50,7 @@ Located in `.clinerules/workflows/`:
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
+| `run-customer-discovery-planning.md` | `/run-customer-discovery-planning.md` |
 | `run-decision-review.md` | `/run-decision-review.md` |
 
 ## Execution flow
@@ -59,6 +61,7 @@ User provides RUN_DIR
   → Facilitator (skill) → role_outputs + summary + validation_questions + marker
   → Market Layer (skill + Confluence MCP) → market_analysis + marker
   → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
+  → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker
   → Human backlog decision
 ```

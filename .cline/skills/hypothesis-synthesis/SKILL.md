@@ -350,7 +350,7 @@ Roles analyzed.
 Market analyzed.
 Contradictions identified.
 Applicability boundaries discovered.
-Ready for Decision Review.
+Ready for Customer Discovery Planning.
 ```
 
 ## Review rules
@@ -375,7 +375,7 @@ The goal is to discover what becomes visible only after signal collision.
 
 ## Next step
 
-After synthesis completes, run skill `hypothesis-decision-review` or workflow `/run-decision-review.md`.
+After synthesis completes, run skill `customer-discovery-planning` or workflow `/run-customer-discovery-planning.md`.
 
 ## Reference
 

@@ -125,7 +125,32 @@ outputs/synthesis_complete.marker
 
 ---
 
-## Шаг 4 — Decision Review
+## Шаг 4 — Customer Discovery Planning
+
+**Cline skill:** `customer-discovery-planning`
+
+**Ручной шаблон:** `templates/customer-discovery-planning-prompt.md`
+
+Вход:
+
+* артефакты synthesis и предыдущих слоёв
+
+Ожидаемый output:
+
+```text
+outputs/customer_discovery_plan.md
+outputs/customer_discovery_planning_complete.marker
+```
+
+Цель:
+
+* перевести неопределённость в практичный план CustDev-исследования
+* приоритизировать неизвестные по влиянию на решение
+* определить роли для интервью и behavior-based гайд
+
+---
+
+## Шаг 5 — Decision Review
 
 **Cline skill:** `hypothesis-decision-review`
 
@@ -164,6 +189,7 @@ examples/example-001/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
     *.marker
 ```

@@ -90,6 +90,7 @@ Then ask Cline to run each layer, or use individual workflows:
 /run-facilitator.md
 /run-market-layer.md
 /run-synthesis.md
+/run-customer-discovery-planning.md
 /run-decision-review.md
 ```
 
@@ -112,10 +113,11 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  customer_discovery_plan.md
   decision_review.md
 ```
 
-Read `hypothesis_digest.txt` first (signal collision summary, max 150 words), then `decision_review.md` for confidence and recommendation before backlog decision.
+Read `hypothesis_digest.txt` first (signal collision summary, max 150 words), then `customer_discovery_plan.md` (interview-ready research plan), then `decision_review.md` for confidence and recommendation before backlog decision.
 
 ## Plan vs Act mode
 

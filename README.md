@@ -79,7 +79,7 @@ idea → stress test → decision
 
 ## How it works
 
-Three analysis layers, mandatory Decision Review, then human backlog decision:
+Three analysis layers, Customer Discovery Planning, mandatory Decision Review, then human backlog decision:
 
 | Phase | Skill | Output |
 |-------|-------|--------|
@@ -87,6 +87,7 @@ Three analysis layers, mandatory Decision Review, then human backlog decision:
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (signal collision) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
 | **Backlog Decision** (human) | — | proceed / validate / research / reject |
 
@@ -99,6 +100,7 @@ Phase by phase:
 /run-facilitator.md
 /run-market-layer.md
 /run-synthesis.md
+/run-customer-discovery-planning.md
 /run-decision-review.md
 ```
 
@@ -164,6 +166,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
     *.marker
 ```

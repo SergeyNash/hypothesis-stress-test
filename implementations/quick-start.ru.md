@@ -227,7 +227,8 @@ Cline выполнит:
 2. Facilitator (Roles Layer)
 3. Market Layer (с поиском в Confluence)
 4. Synthesis Layer
-5. Decision Review
+5. Customer Discovery Planning
+6. Decision Review
 
 Подтверждайте запись файлов и вызовы MCP по запросу.
 
@@ -251,6 +252,7 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  customer_discovery_plan.md
   decision_review.md
 ```
 
@@ -258,6 +260,7 @@ outputs/
 | ---------- | ------------ |
 | `hypothesis_digest.txt` | Краткий digest (макс. 150 слов): жизнеспособность, конфликт, иллюзия, слепая зона, следующий шаг |
 | `hypothesis_map.md` | Столкновение сигналов: дивергенции, слепые зоны, новая информация, границы, влияние на гипотезу |
+| `customer_discovery_plan.md` | Практичный CustDev-план: неизвестные, приоритеты, роли, гайд интервью |
 | `decision_review.md` | Adversarial review: уверенность, риски, план валидации |
 | `market_analysis.md` | Внешние и внутренние сигналы с источниками |
 

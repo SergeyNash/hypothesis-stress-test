@@ -23,12 +23,17 @@ End-to-end hypothesis stress test for a single `RUN_DIR`.
    - Activate skill `hypothesis-synthesis`.
    - Produce `hypothesis_map.md`, `hypothesis_digest.txt`, `synthesis_complete.marker`.
 
-5. **Decision Review**
+5. **Customer Discovery Planning**
+   - Activate skill `customer-discovery-planning`.
+   - Produce `customer_discovery_plan.md`, `customer_discovery_planning_complete.marker`.
+   - Show user critical unknowns and high-priority interview targets.
+
+6. **Decision Review**
    - Activate skill `hypothesis-decision-review`.
    - Produce `decision_review.md`, `decision_review_complete.marker`.
    - Show user confidence and recommendation before continuing.
 
-6. **Report**
+7. **Report**
    - Display `hypothesis_digest.txt` and key verdict from `decision_review.md`.
    - Remind: human makes the final backlog decision.
 

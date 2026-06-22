@@ -17,6 +17,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
     *.marker
 ```

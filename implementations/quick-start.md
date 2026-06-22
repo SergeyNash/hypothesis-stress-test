@@ -227,7 +227,8 @@ Cline will:
 2. Run Facilitator (Roles Layer)
 3. Run Market Layer (with Confluence search)
 4. Run Synthesis Layer
-5. Run Decision Review
+5. Run Customer Discovery Planning
+6. Run Decision Review
 
 Approve file writes and MCP tool calls when prompted.
 
@@ -251,6 +252,7 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  customer_discovery_plan.md
   decision_review.md
 ```
 
@@ -258,6 +260,7 @@ outputs/
 | ---------- | ---------- |
 | `hypothesis_digest.txt` | Short digest (max 150 words): viability, conflict, illusion, blind spot, next step |
 | `hypothesis_map.md` | Signal collision: divergences, blind spots, new information, applicability, reframe impact |
+| `customer_discovery_plan.md` | Interview-ready CustDev plan: unknowns, priorities, target roles, interview guide |
 | `decision_review.md` | Adversarial review: confidence, risks, validation plan |
 | `market_analysis.md` | Internal and external signals with sources |
 

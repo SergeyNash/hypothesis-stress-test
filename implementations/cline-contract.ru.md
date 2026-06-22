@@ -36,6 +36,7 @@
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `hypothesis-market-layer` | Market Layer + Confluence MCP |
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
+| `customer-discovery-planning` | Customer Discovery Planning (практичный план интервью) |
 | `hypothesis-decision-review` | Decision Review (обязательный gate) |
 
 ### Workflows (slash-команды)
@@ -49,6 +50,7 @@
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
+| `run-customer-discovery-planning.md` | `/run-customer-discovery-planning.md` |
 | `run-decision-review.md` | `/run-decision-review.md` |
 
 ## Поток выполнения
@@ -59,6 +61,7 @@
   → Facilitator (skill) → role_outputs + summary + validation_questions + marker
   → Market Layer (skill + Confluence MCP) → market_analysis + marker
   → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
+  → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker
   → Решение человека (backlog)
 ```

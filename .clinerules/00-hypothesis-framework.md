@@ -20,9 +20,17 @@ idea → stress test → decision
 | **Market** | External reality | market_analysis.md |
 | **Synthesis** | Signal collision | hypothesis_map.md, hypothesis_digest.txt |
 
+## Customer Discovery Planning
+
+After Synthesis, run **Customer Discovery Planning** to transform uncertainty into an interview-ready research plan. It does not validate hypotheses and does not make product decisions.
+
+| Phase | Purpose | Output |
+|-------|---------|--------|
+| **Customer Discovery Planning** | Turn uncertainty into practical research plan | customer_discovery_plan.md |
+
 ## Decision Review (mandatory gate)
 
-After Synthesis, run **Decision Review** — an adversarial critique of conclusions. It does not add new signals; it challenges existing ones.
+After Customer Discovery Planning, run **Decision Review** — an adversarial critique of conclusions. It does not add new signals; it challenges existing ones.
 
 | Phase | Purpose | Output |
 |-------|---------|--------|
@@ -34,10 +42,11 @@ After Synthesis, run **Decision Review** — an adversarial critique of conclusi
 2. Run Facilitator (Roles Layer) — skill `hypothesis-facilitator`
 3. Run Market Layer (Confluence MCP first for local signals)
 4. Run Synthesis Layer
-5. Run Decision Review
-6. Human backlog decision
+5. Run Customer Discovery Planning
+6. Run Decision Review
+7. Human backlog decision
 
-Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Decision Review critiques artifacts only — it does not add new data.
+Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Customer Discovery Planning converts uncertainty into research actions without validating hypotheses. Decision Review critiques artifacts only — it does not add new data.
 
 ## Human-in-the-loop
 
@@ -60,4 +69,5 @@ Use project skills from `.cline/skills/` or invoke workflows:
 - `/run-hypothesis.md` — full end-to-end run
 - `/run-market-layer.md` — Market Layer only
 - `/run-synthesis.md` — Synthesis Layer only
+- `/run-customer-discovery-planning.md` — Customer Discovery Planning only
 - `/run-decision-review.md` — Decision Review only

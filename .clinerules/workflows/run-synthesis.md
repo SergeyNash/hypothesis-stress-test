@@ -22,7 +22,7 @@ If missing, stop and tell the user which layer to run first.
 4. Write `RUN_DIR/outputs/hypothesis_map.md`.
 5. Write `RUN_DIR/outputs/hypothesis_digest.txt` (max 150 words).
 6. Write `RUN_DIR/outputs/synthesis_complete.marker`.
-7. Display digest to the user.
+7. Display digest to the user and recommend running `/run-customer-discovery-planning.md`.
 
 ## What this phase does NOT do
 

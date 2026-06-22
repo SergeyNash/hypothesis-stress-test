@@ -76,7 +76,7 @@
 
 ## Как это работает
 
-Три слоя анализа, обязательный Decision Review и финальное решение человека:
+Три слоя анализа, Customer Discovery Planning, обязательный Decision Review и финальное решение человека:
 
 | Фаза | Skill | Результат |
 |------|-------|-----------|
@@ -84,6 +84,7 @@
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
 | **Backlog Decision** (человек) | — | proceed / validate / research / reject |
 
@@ -96,6 +97,7 @@
 /run-facilitator.md
 /run-market-layer.md
 /run-synthesis.md
+/run-customer-discovery-planning.md
 /run-decision-review.md
 ```
 
@@ -161,6 +163,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
     *.marker
 ```

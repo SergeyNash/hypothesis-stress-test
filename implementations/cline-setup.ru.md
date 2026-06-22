@@ -90,6 +90,7 @@ examples/example-001/
 /run-facilitator.md
 /run-market-layer.md
 /run-synthesis.md
+/run-customer-discovery-planning.md
 /run-decision-review.md
 ```
 
@@ -110,10 +111,11 @@ outputs/
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
+  customer_discovery_plan.md
   decision_review.md
 ```
 
-Сначала `hypothesis_digest.txt` (итог столкновения сигналов, макс. 150 слов), затем `decision_review.md` — уверенность и рекомендация перед backlog decision.
+Сначала `hypothesis_digest.txt` (итог столкновения сигналов, макс. 150 слов), затем `customer_discovery_plan.md` (практичный план CustDev-интервью), затем `decision_review.md` — уверенность и рекомендация перед backlog decision.
 
 ## Plan vs Act mode
 

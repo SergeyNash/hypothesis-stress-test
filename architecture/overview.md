@@ -16,7 +16,9 @@ Three independent analysis layers produce structured signals:
 
 Layers do not mix signals prematurely. Synthesis collides facilitator and market artifacts — it does not re-analyze them.
 
-After Synthesis, **Decision Review** (mandatory gate) adversarially challenges conclusions before backlog planning. It does not add new signals.
+After Synthesis, **Customer Discovery Planning** converts unresolved uncertainty into a practical interview and research plan. It does not validate hypotheses and does not make decisions.
+
+After Customer Discovery Planning, **Decision Review** (mandatory gate) adversarially challenges conclusions before backlog planning. It does not add new signals.
 
 ## Cline adapter
 
@@ -40,6 +42,8 @@ input/hypothesis.md
   → Market Layer (skill + Confluence MCP)
   → Synthesis Layer (skill)
   → hypothesis_map.md + hypothesis_digest.txt
+  → Customer Discovery Planning (skill)
+  → customer_discovery_plan.md
   → Decision Review (skill)
   → decision_review.md
   → Human backlog decision

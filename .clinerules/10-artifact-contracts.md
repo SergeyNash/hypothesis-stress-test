@@ -17,10 +17,12 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
     ready_for_synthesis.marker
     market_analysis_complete.marker
     synthesis_complete.marker
+    customer_discovery_planning_complete.marker
     decision_review_complete.marker
 ```
 
@@ -81,6 +83,7 @@ Roles listed in `input/hypothesis.md` remain the run-specific source of scope. P
 | Market analysis | `outputs/market_analysis.md` | Market Layer |
 | Full synthesis | `outputs/hypothesis_map.md` | Synthesis Layer |
 | Short digest | `outputs/hypothesis_digest.txt` | Synthesis Layer |
+| Customer discovery plan | `outputs/customer_discovery_plan.md` | Customer Discovery Planning |
 | Decision review | `outputs/decision_review.md` | Decision Review |
 
 Role slugs: lowercase, underscores (e.g. `appsec_engineer`, `ciso`).
@@ -106,6 +109,7 @@ Markers signal that a layer finished and outputs are ready for the next step:
 | `ready_for_synthesis.marker` | Facilitator (Roles Layer) |
 | `market_analysis_complete.marker` | Market Layer |
 | `synthesis_complete.marker` | Synthesis Layer |
+| `customer_discovery_planning_complete.marker` | Customer Discovery Planning |
 | `decision_review_complete.marker` | Decision Review |
 
 ### hypothesis_map.md (synthesis)
@@ -116,9 +120,15 @@ Must include: confirmed signals, internal illusions, missed opportunities, local
 
 Max 150 words: viability, key conflict, primary illusion, blind spot, risk, insight, next step. Language matches `input/hypothesis.md`.
 
+### customer_discovery_plan.md (customer discovery planning)
+
+Must include: research objective, what is already known, critical unknowns with risk type and priority, recommended interview roles, behavior-based interview guide, research priorities (HIGH / MEDIUM / LOW), expected learning outcomes. Language matches `input/hypothesis.md`.
+
 Do not run Synthesis until both Facilitator and Market markers exist (`ready_for_synthesis.marker` + `market_analysis_complete.marker`, or equivalent output files).
 
-Do not run Decision Review until Synthesis completes (`synthesis_complete.marker` or `hypothesis_map.md` + `hypothesis_digest.txt` present).
+Do not run Customer Discovery Planning until Synthesis completes (`synthesis_complete.marker` or `hypothesis_map.md` + `hypothesis_digest.txt` present).
+
+Do not run Decision Review until Customer Discovery Planning completes (`customer_discovery_planning_complete.marker` or `customer_discovery_plan.md` present).
 
 ## RUN_DIR examples
 

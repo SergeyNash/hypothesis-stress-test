@@ -125,7 +125,32 @@ Purpose:
 
 ---
 
-## Step 4 — Decision Review
+## Step 4 — Customer Discovery Planning
+
+**Cline skill:** `customer-discovery-planning`
+
+**Manual template:** `templates/customer-discovery-planning-prompt.md`
+
+Input:
+
+* synthesis outputs and prior artifacts
+
+Expected output:
+
+```text
+outputs/customer_discovery_plan.md
+outputs/customer_discovery_planning_complete.marker
+```
+
+Purpose:
+
+* transform uncertainty into a practical customer research plan
+* prioritize unknowns by decision impact
+* define interview roles and behavior-based interview guide
+
+---
+
+## Step 5 — Decision Review
 
 **Cline skill:** `hypothesis-decision-review`
 
@@ -164,6 +189,7 @@ examples/example-001/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
     *.marker
 ```

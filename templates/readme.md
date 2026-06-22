@@ -15,6 +15,7 @@ Templates are structured prompts used to execute each layer:
 * Roles Layer
 * Market Layer
 * Synthesis Layer
+* Customer Discovery Planning
 * Decision Review
 
 They act as an **interface between the user and the system**.
@@ -50,6 +51,7 @@ Skills map from templates:
 | `facilitator-prompt.md` | `hypothesis-facilitator` |
 | `market-prompt.md` | `hypothesis-market-layer` |
 | `synthesis-prompt.md` | `hypothesis-synthesis` |
+| `customer-discovery-planning-prompt.md` | `customer-discovery-planning` |
 | `decision-review-prompt.md` | `hypothesis-decision-review` |
 | `input-schema.md` | `hypothesis-input-validation` |
 
@@ -99,4 +101,5 @@ See:
 * `facilitator-prompt.md`
 * `market-prompt.md`
 * `synthesis-prompt.md`
+* `customer-discovery-planning-prompt.md`
 * `decision-review-prompt.md`

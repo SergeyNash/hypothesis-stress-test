@@ -76,7 +76,7 @@ Optional:
 |----------|---------|
 | `hypothesis_map.md` | Full collision analysis |
 | `hypothesis_digest.txt` | Short digest (max 150 words) |
-| `synthesis_complete.marker` | Ready for Decision Review |
+| `synthesis_complete.marker` | Ready for Customer Discovery Planning |
 
 ### hypothesis_map.md sections
 
@@ -107,12 +107,13 @@ Output language matches `input/hypothesis.md`.
 - Facilitator (Roles) → internal signals
 - Market Layer → external signals
 - **Synthesis** → signal collision
+- Customer Discovery Planning → interview-focused research plan
 - Decision Review → adversarial critique of synthesis conclusions
 
 ---
 
 ## Next
 
-- `decision-review-layer.md`
+- `customer-discovery-planning-layer.md`
 - `templates/synthesis-prompt.md` — manual execution
 - `.cline/skills/hypothesis-synthesis/SKILL.md` — Cline execution

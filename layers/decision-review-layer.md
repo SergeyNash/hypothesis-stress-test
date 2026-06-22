@@ -1,6 +1,6 @@
 # Decision Review
 
-Decision Review is the **adversarial gate** after Synthesis.
+Decision Review is the **adversarial gate** after Customer Discovery Planning.
 
 It does not re-analyze the hypothesis. It challenges conclusions already produced by the framework.
 
@@ -46,6 +46,7 @@ Optional:
 
 - `role_outputs/*`
 - `hypothesis_digest.txt`
+- `customer_discovery_plan.md`
 
 ---
 
@@ -94,6 +95,7 @@ Optional:
 - Roles Layer → internal signals
 - Market Layer → external signals
 - Synthesis Layer → conflict classification
+- Customer Discovery Planning → interview-focused learning plan
 - **Decision Review** → adversarial critique of synthesis conclusions
 - **Human** → backlog decision
 

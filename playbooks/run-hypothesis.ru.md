@@ -165,7 +165,32 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 4 — Decision Review
+## Шаг 4 — Customer Discovery Planning
+
+**Cline:** skill `customer-discovery-planning` или `/run-customer-discovery-planning.md`
+
+**Ручной режим:** [templates/customer-discovery-planning-prompt.md](../templates/customer-discovery-planning-prompt.md)
+
+Эта фаза **не**: валидирует гипотезу, принимает продуктовые решения, рекомендует имплементацию.
+
+Вход:
+
+* артефакты synthesis и предыдущих слоёв
+
+Выход:
+
+* `customer_discovery_plan.md`
+* `customer_discovery_planning_complete.marker`
+
+Цель:
+
+* выделить критические неизвестные и непроверенные допущения
+* определить отсутствующие evidence и нужные customer conversations
+* собрать практичный план интервью и ролей
+
+---
+
+## Шаг 5 — Decision Review
 
 **Cline:** skill `hypothesis-decision-review` или `/run-decision-review.md`
 
@@ -190,7 +215,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 5 — Backlog Decision (человек)
+## Шаг 6 — Backlog Decision (человек)
 
 Изучите `decision_review.md` и примите финальное решение:
 
@@ -238,6 +263,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
 ```
 
@@ -254,7 +280,7 @@ RUN_DIR/
 * формулируйте гипотезы узко
 * явно определяйте роли
 * настройте Confluence MCP для лучших local signals
-* не пропускайте synthesis и decision review
+* не пропускайте customer discovery planning и decision review
 
 ---
 

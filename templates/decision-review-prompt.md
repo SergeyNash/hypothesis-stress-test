@@ -15,6 +15,7 @@ Synthesis must be complete. Read:
 - `outputs/market_analysis.md`
 - `outputs/hypothesis_map.md`
 - `outputs/hypothesis_digest.txt` (optional)
+- `outputs/customer_discovery_plan.md` (recommended)
 - `outputs/role_outputs/*` (optional)
 
 ---

@@ -18,6 +18,7 @@ Processed through Hypothesis Stress Test framework using Cline skills:
 | Facilitator (Roles Layer) | `hypothesis-facilitator` | complete |
 | Market Layer | `hypothesis-market-layer` | complete |
 | Synthesis Layer | `hypothesis-synthesis` | complete |
+| Customer Discovery Planning | `customer-discovery-planning` | complete |
 | Decision Review | `hypothesis-decision-review` | complete |
 
 ## Confluence MCP
@@ -26,7 +27,7 @@ Example outputs were produced with framework layers. For live runs, configure Co
 
 ## Result summary
 
-See `outputs/hypothesis_digest.txt` for the synthesis digest and `outputs/decision_review.md` for the adversarial review.
+See `outputs/hypothesis_digest.txt` for the synthesis digest, `outputs/customer_discovery_plan.md` for the interview-ready research plan, and `outputs/decision_review.md` for the adversarial review.
 
 Classification: Mixed — Validated Opportunity, Internal Illusion, Blind Spot.
 

@@ -75,7 +75,7 @@ If Confluence MCP is not configured:
 
 ## Decision Review
 
-Decision Review applies to **Synthesis outputs only**:
+Decision Review applies to **Synthesis + Customer Discovery Planning outputs only**:
 
 - Do not generate new market or role signals
 - Do not cite sources not already present in prior artifacts

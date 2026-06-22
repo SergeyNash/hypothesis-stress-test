@@ -165,7 +165,32 @@ Goal:
 
 ---
 
-## Step 4 — Run Decision Review
+## Step 4 — Run Customer Discovery Planning
+
+**Cline:** skill `customer-discovery-planning` or `/run-customer-discovery-planning.md`
+
+**Manual:** [templates/customer-discovery-planning-prompt.md](../templates/customer-discovery-planning-prompt.md)
+
+This phase does **not**: validate hypotheses, make product decisions, or recommend implementation.
+
+Input:
+
+* synthesis outputs and prior artifacts
+
+Output:
+
+* `customer_discovery_plan.md`
+* `customer_discovery_planning_complete.marker`
+
+Goal:
+
+* extract critical unknowns and unvalidated assumptions
+* identify missing evidence and required customer conversations
+* produce a practical interview guide and participant plan
+
+---
+
+## Step 5 — Run Decision Review
 
 **Cline:** skill `hypothesis-decision-review` or `/run-decision-review.md`
 
@@ -190,7 +215,7 @@ Do not skip this step. Decision Review does not repeat synthesis — it adds adv
 
 ---
 
-## Step 5 — Backlog Decision (Human)
+## Step 6 — Backlog Decision (Human)
 
 Review `decision_review.md` and make the final backlog decision:
 
@@ -238,6 +263,7 @@ RUN_DIR/
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
+    customer_discovery_plan.md
     decision_review.md
 ```
 
@@ -254,7 +280,7 @@ RUN_DIR/
 * keep hypotheses narrow
 * define roles explicitly
 * configure Confluence MCP for better local signals
-* don't skip synthesis or decision review
+* don't skip customer discovery planning or decision review
 
 ---
 

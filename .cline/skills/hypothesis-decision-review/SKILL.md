@@ -26,10 +26,11 @@ The goal is to improve decision quality before a hypothesis enters backlog plann
 
 ## Prerequisites
 
-Read `RUN_DIR/outputs/synthesis_complete.marker` or confirm synthesis artifacts exist:
+Read `RUN_DIR/outputs/customer_discovery_planning_complete.marker` (recommended) and `RUN_DIR/outputs/synthesis_complete.marker`, or confirm required artifacts exist:
 
 - `RUN_DIR/outputs/hypothesis_map.md`
 - `RUN_DIR/outputs/hypothesis_digest.txt`
+- `RUN_DIR/outputs/customer_discovery_plan.md` (recommended)
 
 Do not run if Synthesis outputs are missing. Ask user to complete Synthesis first.
 
@@ -46,6 +47,7 @@ Optional:
 
 - `RUN_DIR/outputs/role_outputs/*`
 - `RUN_DIR/outputs/hypothesis_digest.txt`
+- `RUN_DIR/outputs/customer_discovery_plan.md`
 - additional market research
 - interview notes
 
