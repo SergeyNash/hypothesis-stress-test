@@ -3,6 +3,37 @@
 План развития фреймворка Hypothesis Stress Test.  
 Документ только на русском языке.
 
+## Обзор
+
+> Сроки на диаграмме **ориентировочные** — для навигации по приоритетам и зависимостям. Детали — в разделах ниже.
+
+```mermaid
+gantt
+    title Roadmap — задачи по приоритетам
+    dateFormat YYYY-MM-DD
+    axisFormat %b %Y
+    todayMarker on
+
+    section P0 — критично
+    Неструктурированная KB                  :crit, p0kb, 2026-07-01, 8w
+    Business Context & Value Check            :crit, p0biz, after p0kb, 6w
+
+    section P1 — важно
+    Onboarding (2 сценария)                   :p1on, 2026-07-15, 5w
+    Windows-safe rules/skills                 :p1win, after p1on, 3w
+
+    section P2 — расширения
+    Доп. источники local signals              :p2sig, 2026-10-01, 8w
+```
+
+| Задача | Приоритет | Статус | Зависимости |
+| ------ | --------- | ------ | ----------- |
+| [Неструктурированная KB](#p0--поддержка-неструктурированной-базы-знаний) | P0 #1 | запланировано | — |
+| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #2 | запланировано | P0 #1 (частично; при структурированной KB — можно раньше) |
+| [Onboarding (2 сценария)](#p1--упрощение-onboarding-два-пользовательских-сценария) | P1 | запланировано | — |
+| [Windows-safe rules/skills](#p1--windows-safe-подключение-rulesskills) | P1 | запланировано | Onboarding |
+| [Доп. источники local signals](#p2--дополнительные-источники-local-signals) | P2 | идея | P0 #1 (желательно) |
+
 Приоритеты:
 
 | Уровень | Значение |
