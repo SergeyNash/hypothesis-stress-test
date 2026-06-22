@@ -20,7 +20,9 @@ gantt
 
     section P1 — важно
     Onboarding (2 сценария)                   :p1on, 2026-07-15, 5w
+    Human output HTML report фаза 1             :p1html, 2026-08-01, 5w
     Windows-safe rules/skills                 :p1win, after p1on, 3w
+    Режим артефактов full/minimal фаза 2      :p1modes, after p1on, 4w
 
     section P2 — расширения
     Доп. источники local signals              :p2sig, 2026-10-01, 8w
@@ -31,6 +33,7 @@ gantt
 | [Неструктурированная KB](#p0--поддержка-неструктурированной-базы-знаний) | P0 #1 | запланировано | — |
 | [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #2 | запланировано | P0 #1 (частично; при структурированной KB — можно раньше) |
 | [Onboarding (2 сценария)](#p1--упрощение-onboarding-два-пользовательских-сценария) | P1 | запланировано | — |
+| [Human output и режим артефактов](#p1--human-output-и-режим-артефактов) | P1 | запланировано (фаза 1 — MVP) | Decision Review (текущий пайплайн) |
 | [Windows-safe rules/skills](#p1--windows-safe-подключение-rulesskills) | P1 | запланировано | Onboarding |
 | [Доп. источники local signals](#p2--дополнительные-источники-local-signals) | P2 | идея | P0 #1 (желательно) |
 
@@ -356,6 +359,8 @@ Decision Review
 
 Без этих материалов Business Context & Value Check создаст `missing_business_context.md` вместо анализа.
 
+В **фазе 2** [Human output](#p1--human-output-и-режим-артефактов) onboarding должен спрашивать предпочтение режима артефактов: `full` (все `.md` на виду) или `minimal` (только финальный HTML-отчёт).
+
 Включить Windows-safe инструкции (копирование по умолчанию, junction как advanced).
 
 ---
@@ -367,6 +372,107 @@ Decision Review
 - Документировать `robocopy` как дефолт для синхронизации `.clinerules` и `.cline`
 - Junction (`mklink /J`) — как продвинутый вариант
 - Убрать из quick-start неоднозначные команды (`&&` в PowerShell 5.1, `mklink` без `cmd /c`)
+
+---
+
+## P1 — Human output и режим артефактов
+
+**Статус:** запланировано (фаза 1 — первая реализация)  
+**Приоритет:** P1 — важно для adoption, не блокирует текущий прогон
+
+### Проблема
+
+Полный прогон создаёт **слишком много текста** для ручного чтения:
+
+| Слой | Артефакты |
+| ---- | --------- |
+| Facilitator | `role_outputs/*.md`, `hypothesis_summary.md`, `validation_questions.md` |
+| Market | `market_analysis.md` |
+| Synthesis | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| CustDev | `customer_discovery_plan.md` |
+| Decision | `decision_review.md` |
+| Служебные | 5× `*.marker` |
+
+Уже есть попытка сжать вывод (`hypothesis_digest.txt`, Executive Summary в `decision_review.md`), но workflow и документация по-прежнему ориентируют человека на чтение цепочки Markdown.
+
+Человеку нужен **один финальный срез**, а не 10+ файлов.  
+Агентам нужны детальные артефакты — но это не обязательно human-facing формат.
+
+### Целевая модель
+
+Два класса артефактов:
+
+```text
+Machine-facing (между слоями)     Human-facing (для человека)
+─────────────────────────────     ────────────────────────────
+role_outputs/*.md                   human_report.html
+market_analysis.md                  (открыть в браузере)
+hypothesis_map.md
+*.marker
+```
+
+- **Промежуточные** — контракт между слоями/skills (сегодня Markdown; в будущем — JSON).
+- **Human-facing** — один удобный отчёт (фаза 1: HTML).
+
+### Фазы
+
+| Фаза | Scope | Статус |
+| ---- | ----- | ------ |
+| **1** | HTML-экспорт финала после Decision Review | первая реализация (MVP) |
+| **2** | Настраиваемый режим при старте прогона (`full` / `minimal`) | запланировано |
+| **3** | Machine-readable JSON между агентами в режиме `minimal` | идея / после фазы 2 |
+
+#### Фаза 1 — HTML final report (MVP)
+
+**Триггер:** после `decision_review_complete.marker`.
+
+**Новый артефакт:** `outputs/human_report.html`
+
+**Содержимое** (human slice, без дублирования всего pipeline):
+
+- метаданные и statement из `input/hypothesis.md`
+- `hypothesis_digest.txt`
+- Executive Summary + Recommendation + Confidence из `decision_review.md`
+- краткий блок «что делать дальше» из `customer_discovery_plan.md` (top priorities)
+- опционально: ссылки «подробнее» на исходные `.md` (drill-down), без встраивания всего `hypothesis_map.md`
+
+**Ограничения MVP:**
+
+- статический HTML + inline CSS
+- без сборщика, открывается локально в браузере
+- все `.md` остаются источником истины (обратная совместимость)
+
+#### Фаза 2 — настройка при старте (запланировано)
+
+Вопрос пользователю в начале прогона (связь с [P1 onboarding](#p1--упрощение-onboarding-два-пользовательских-сценария)):
+
+| Режим | Поведение |
+| ----- | --------- |
+| `full` (по умолчанию сейчас) | все `.md` как сейчас + HTML в конце |
+| `minimal` | человеку — только `human_report.html`; промежуточные файлы не акцентируются в workflow |
+
+Где хранить настройку — открытый вопрос: поле в `input/hypothesis.md` (Metadata) или отдельный `run_config`.
+
+#### Фаза 3 — JSON между агентами (идея)
+
+- В режиме `minimal` слои обмениваются структурированными snapshot (JSON schema TBD)
+- Markdown остаётся для режима `full` и для отладки
+- **Вне scope фазы 1**
+
+### Критерии готовности (фаза 1)
+
+- После полного прогона в `RUN_DIR/outputs/` есть открываемый `human_report.html`
+- Человек получает verdict (confidence + recommendation) и next steps **без обязательного чтения** `hypothesis_map.md` / `role_outputs/*`
+- Промежуточные `.md` по-прежнему создаются
+- Целевой пример: `examples/example-001/outputs/human_report.html` (при будущей реализации)
+
+### Затрагиваемые компоненты (будущая реализация)
+
+- новый skill или post-step: `human-report-export` (рабочее имя)
+- workflow: `/run-human-report-export.md` или шаг в `run-decision-review`
+- template HTML + mapping из существующих артефактов
+- `.clinerules/10-artifact-contracts.md`, playbooks, `run-hypothesis.md` — после roadmap
+- P1 onboarding — вопрос о режиме `full` / `minimal` (фаза 2)
 
 ---
 
