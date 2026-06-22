@@ -10,6 +10,10 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
+  <sub>Версия фреймворка <b>2.0.0</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
+</p>
+
+<p align="center">
   <b>Проверяйте продуктовые гипотезы до того, как начнёте их реализовывать.</b>
 </p>
 
@@ -27,6 +31,8 @@
   <a href="./examples/example-001/"><b>Пример</b></a>
   ·
   <a href="./architecture/overview.ru.md"><b>Архитектура</b></a>
+  ·
+  <a href="./CHANGELOG.ru.md"><b>Changelog</b></a>
 </p>
 
 <p align="center">
@@ -74,7 +80,7 @@
 
 | Фаза | Skill | Результат |
 |------|-------|-----------|
-| **Validate** | `hypothesis-input-validation` | готовый `hypothesis.md` |
+| **Validate** | `hypothesis-input-validation` | готовый `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
@@ -93,7 +99,7 @@
 /run-decision-review.md
 ```
 
-Указывайте `RUN_DIR` в сообщении Cline, например: `RUN_DIR: runs/my-hypothesis`
+Указывайте `RUN_DIR` в сообщении Cline, например: `RUN_DIR: runs/HYP-2026-06-22-001`
 
 ---
 
@@ -144,7 +150,10 @@ Synthesis (`hypothesis-synthesis`) классифицирует столкнов
 
 ```text
 RUN_DIR/
-  hypothesis.md
+  input/
+    hypothesis.md
+    attachments/
+  run.md
   outputs/
     role_outputs/*
     hypothesis_summary.md
@@ -156,7 +165,7 @@ RUN_DIR/
     *.marker
 ```
 
-Язык артефактов совпадает с языком `hypothesis.md`.
+Язык артефактов совпадает с языком `input/hypothesis.md`.
 
 ---
 
@@ -170,8 +179,8 @@ RUN_DIR/
 2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
 3. Symlink `.clinerules/` и `.cline/` в корень KB — см. [quick start](./implementations/quick-start.ru.md)
 4. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
-5. Создайте `runs/my-hypothesis/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md)
-6. В чате Cline: `RUN_DIR: runs/my-hypothesis` + `/run-hypothesis.md`
+5. Создайте `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md)
+6. В чате Cline: `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
 
 Операционная документация: [implementations/README.ru.md](./implementations/README.ru.md)
 
@@ -214,6 +223,8 @@ knowledge-base/    гайд по Confluence / local signals
 architecture/      устройство системы
 implementations/   настройка Cline, Confluence MCP
 assets/            диаграммы
+CHANGELOG.ru.md    история версий фреймворка
+VERSION            текущая версия фреймворка
 ```
 
 ---

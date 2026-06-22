@@ -13,11 +13,11 @@ Playbook описывает, как проверить продуктовую г
 
 1. Установить Cline — [implementations/cline-setup.ru.md](../implementations/cline-setup.ru.md)
 2. Настроить Confluence MCP — [implementations/confluence-mcp.ru.md](../implementations/confluence-mcp.ru.md)
-3. Создать `RUN_DIR/hypothesis.md`
+3. Создать `RUN_DIR/input/hypothesis.md`
 4. В чате Cline:
 
 ```text
-RUN_DIR: runs/my-hypothesis
+RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
@@ -43,7 +43,7 @@ RUN_DIR: runs/my-hypothesis
 
 ## Шаг 0 — Сформулировать гипотезу
 
-Напишите чёткое, проверяемое утверждение в `RUN_DIR/hypothesis.md`.
+Напишите чёткое, проверяемое утверждение в `RUN_DIR/input/hypothesis.md`.
 
 Дополнительно определите:
 
@@ -104,7 +104,7 @@ RUN_DIR: runs/my-hypothesis
 * сгенерировать behavior-based вопросы для интервью
 * найти, где гипотеза ломается
 
-Язык outputs = язык `hypothesis.md`.
+Язык outputs = язык `input/hypothesis.md`.
 
 ---
 
@@ -229,7 +229,8 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ```text
 RUN_DIR/
-  hypothesis.md
+  input/
+    hypothesis.md
   outputs/
     role_outputs/
     hypothesis_summary.md

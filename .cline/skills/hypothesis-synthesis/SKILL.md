@@ -55,7 +55,7 @@ Never write files outside this directory.
 
 ## Output language
 
-Write all artifact headings and body text in the **same language as `hypothesis.md`**.
+Write all artifact headings and body text in the **same language as `input/hypothesis.md`**.
 
 ## Start conditions
 

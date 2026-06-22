@@ -52,14 +52,14 @@ You work as an intellectual opponent who helps discover weak points before the i
 
 ## Prerequisites
 
-- `RUN_DIR/hypothesis.md` exists and passed validation
+- `RUN_DIR/input/hypothesis.md` exists and passed validation
 - Roles are listed in the input file
 
 ## Inputs
 
 Required:
 
-- `RUN_DIR/hypothesis.md`
+- `RUN_DIR/input/hypothesis.md`
 
 Optional:
 
@@ -81,7 +81,7 @@ Never create files outside this directory.
 
 ## Output language
 
-Write all artifact headings and body text in the **same language as `hypothesis.md`**.
+Write all artifact headings and body text in the **same language as `input/hypothesis.md`**.
 
 - English hypothesis → English outputs
 - Russian hypothesis → Russian outputs
@@ -154,7 +154,7 @@ Always identify:
 
 ### Step 3 — Role analysis
 
-For every relevant role in `hypothesis.md`:
+For every relevant role in `input/hypothesis.md`:
 
 If a matching file exists in `knowledge-base/personas/`, use it as supporting context.
 

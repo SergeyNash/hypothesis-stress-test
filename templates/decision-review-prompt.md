@@ -10,7 +10,7 @@ RUN_DIR: [set your run directory]
 
 Synthesis must be complete. Read:
 
-- `hypothesis.md`
+- `input/hypothesis.md`
 - `outputs/hypothesis_summary.md`
 - `outputs/market_analysis.md`
 - `outputs/hypothesis_map.md`

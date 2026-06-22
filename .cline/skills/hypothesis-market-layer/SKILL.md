@@ -9,7 +9,7 @@ Validate whether the problem exists in reality using evidence-based analysis.
 
 ## Prerequisites
 
-- `RUN_DIR/hypothesis.md` exists
+- `RUN_DIR/input/hypothesis.md` exists
 - Roles Layer outputs are optional but recommended
 
 ## Step 1 — Confluence MCP (required first)

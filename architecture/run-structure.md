@@ -2,11 +2,13 @@ Language: **English** | [Русский](./run-structure.ru.md)
 
 # RUN Structure
 
-Each hypothesis run follows a standard structure:
+Each hypothesis run follows a standard archive structure:
 
 ```text
 RUN_DIR/
-  hypothesis.md
+  input/
+    hypothesis.md
+    attachments/
   run.md
   outputs/
     role_outputs/
@@ -16,7 +18,10 @@ RUN_DIR/
     hypothesis_map.md
     hypothesis_digest.txt
     decision_review.md
+    *.marker
 ```
+
+`RUN_DIR` naming pattern: `runs/HYP-YYYY-MM-DD-NNN/`
 
 ---
 

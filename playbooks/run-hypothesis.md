@@ -13,11 +13,11 @@ This playbook describes how to validate a product hypothesis using the framework
 
 1. Install Cline — see [implementations/cline-setup.md](../implementations/cline-setup.md)
 2. Configure Confluence MCP — see [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
-3. Create `RUN_DIR/hypothesis.md`
+3. Create `RUN_DIR/input/hypothesis.md`
 4. In Cline chat:
 
 ```text
-RUN_DIR: runs/my-hypothesis
+RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
@@ -43,7 +43,7 @@ Determine whether a hypothesis:
 
 ## Step 0 — Define Hypothesis
 
-Write a clear, testable statement in `RUN_DIR/hypothesis.md`.
+Write a clear, testable statement in `RUN_DIR/input/hypothesis.md`.
 
 Additionally, define:
 
@@ -104,7 +104,7 @@ Goal:
 * generate behavior-based validation questions
 * discover where the hypothesis breaks
 
-Output language matches `hypothesis.md`.
+Output language matches `input/hypothesis.md`.
 
 ---
 
@@ -229,7 +229,8 @@ Roles and market confirm pain, but solving it does not create strategic business
 
 ```text
 RUN_DIR/
-  hypothesis.md
+  input/
+    hypothesis.md
   outputs/
     role_outputs/
     hypothesis_summary.md

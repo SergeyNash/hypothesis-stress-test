@@ -57,11 +57,12 @@ Without Confluence, Market Layer will mark `missing local evidence`.
 ## 4. Create a run directory
 
 ```text
-runs/my-hypothesis/
-  hypothesis.md
+runs/HYP-2026-06-22-001/
+  input/
+    hypothesis.md
 ```
 
-Use `templates/input-schema.md` as reference for `hypothesis.md` format.
+Use `templates/input-schema.md` as reference for `input/hypothesis.md` format.
 
 Or copy the example:
 
@@ -95,7 +96,7 @@ Then ask Cline to run each layer, or use individual workflows:
 Specify `RUN_DIR` in your message, e.g.:
 
 ```text
-RUN_DIR: runs/my-hypothesis
+RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 

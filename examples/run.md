@@ -11,7 +11,7 @@ This file describes how the hypothesis was processed through the framework.
 Hypothesis file:
 
 ```text
-examples/example-001/hypothesis.md
+examples/example-001/input/hypothesis.md
 ```
 
 ---
@@ -154,7 +154,8 @@ Purpose:
 
 ```text
 examples/example-001/
-  hypothesis.md
+  input/
+    hypothesis.md
   run.md
   outputs/
     role_outputs/

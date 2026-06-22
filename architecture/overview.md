@@ -34,7 +34,7 @@ See [implementations/cline-contract.md](../implementations/cline-contract.md) fo
 ## Data flow
 
 ```text
-hypothesis.md
+input/hypothesis.md
   → Input Validation
   → Roles Layer (skill)
   → Market Layer (skill + Confluence MCP)

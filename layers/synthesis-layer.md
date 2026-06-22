@@ -88,7 +88,7 @@ Optional:
 - Impact on original hypothesis
 - Validation priorities
 
-Output language matches `hypothesis.md`.
+Output language matches `input/hypothesis.md`.
 
 ---
 

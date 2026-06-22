@@ -4,7 +4,7 @@ Execute the facilitator stress-test for an existing `RUN_DIR`.
 
 ## Prerequisites
 
-- `RUN_DIR/hypothesis.md` exists
+- `RUN_DIR/input/hypothesis.md` exists
 - Input passed validation (`hypothesis-input-validation` or `/validate-hypothesis-input.md`)
 
 If validation was skipped, run validation first.
@@ -12,7 +12,7 @@ If validation was skipped, run validation first.
 ## Steps
 
 1. Activate skill `hypothesis-facilitator`.
-2. Read `RUN_DIR/hypothesis.md` and optional context.
+2. Read `RUN_DIR/input/hypothesis.md` and optional context.
 3. Execute the 6-step analysis process.
 4. Write `RUN_DIR/outputs/role_outputs/{role_slug}.md` for each role.
 5. Write `RUN_DIR/outputs/hypothesis_summary.md`.

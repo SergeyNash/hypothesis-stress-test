@@ -39,7 +39,7 @@ An experienced B2B product facilitator acting as an intellectual opponent — no
 
 ## What it does
 
-The layer analyzes the hypothesis through **relevant roles** from `hypothesis.md`.
+The layer analyzes the hypothesis through **relevant roles** from `input/hypothesis.md`.
 
 Each role represents a real perspective (user, developer, security, operations, etc.).
 
@@ -90,7 +90,7 @@ Works when / does not work when / harms when
 
 ## Output language
 
-Artifacts match the language of `hypothesis.md`.
+Artifacts match the language of `input/hypothesis.md`.
 
 ---
 

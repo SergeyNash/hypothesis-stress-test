@@ -4,6 +4,15 @@ A minimal hypothesis input must include:
 
 ## Required
 
+### Metadata
+
+- **Hypothesis ID** — stable identifier, format `HYP-YYYY-MM-DD-NNN`
+- **Created at** — date the run archive was created (`YYYY-MM-DD`)
+- **Run ID** — identifier for this execution, format `RUN-YYYY-MM-DD-NNN`
+- **Status** — `draft` | `running` | `completed` | `archived`
+
+---
+
 ### Hypothesis
 
 A clear, testable statement.
@@ -18,35 +27,59 @@ Only roles directly impacted.
 
 ### Research Context
 
-* Domain
-* Target audience
-* Scenario
+- Domain
+- Target audience
+- Scenario
 
 ---
 
 ## Optional
 
-* Constraints
-* Known assumptions
+- Constraints
+- Known assumptions
+- Owner
 
 ---
 
 ## Example
 
-```yaml
-hypothesis: >
-  Allowing application security engineers to prioritize SAST scans
-  reduces time to detect critical vulnerabilities
+```markdown
+# Hypothesis
 
-roles:
-  - AppSec Engineer
-  - CISO
+## Metadata
 
-context:
-  domain: Application Security
-  audience: Security teams
-  scenario: Queue-based scan execution
+- Hypothesis ID: HYP-2026-06-22-001
+- Created at: 2026-06-22
+- Run ID: RUN-2026-06-22-001
+- Status: draft
+
+## Statement
+
+If Application Security engineers are able to manually prioritize projects in the SAST scanning queue, then business-critical applications will be scanned first, reducing the time required to detect high-risk vulnerabilities.
+
+## Relevant Roles
+
+* AppSec Engineer
+* CISO
+
+## Research Context
+
+* Domain: Application Security
+* Target audience: Security teams in mid-to-large enterprises
+* Scenario: Queue-based SAST scan execution with competing project priorities
 ```
+
+---
+
+## Archive location
+
+Store the input file at:
+
+```text
+RUN_DIR/input/hypothesis.md
+```
+
+Where `RUN_DIR` is the hypothesis run archive, e.g. `runs/HYP-2026-06-22-001/`.
 
 ---
 

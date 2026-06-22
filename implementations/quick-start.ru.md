@@ -71,8 +71,9 @@ my-knowledge-base/                    ← открыт в VS Code
   research/
   adr/
   runs/                               ← RUN_DIR для гипотез (рядом с KB)
-    my-hypothesis-001/
-      hypothesis.md
+    HYP-2026-06-22-001/
+      input/
+        hypothesis.md
       outputs/
   hypothesis-stress-test/               ← весь репозиторий фреймворка
     .clinerules/                      ← rules + workflows (/run-hypothesis.md)
@@ -124,7 +125,7 @@ cp -r hypothesis-stress-test/.cline .
 }
 ```
 
-Cline подхватит rules/skills из корня `hypothesis-stress-test`. `RUN_DIR` — в KB: `runs/my-hypothesis-001/`. Контекст — через `@discovery/...`.
+Cline подхватит rules/skills из корня `hypothesis-stress-test`. `RUN_DIR` — в KB: `runs/HYP-2026-06-22-001/`. Контекст — через `@discovery/...`.
 
 ### Вариант C: только hypothesis-stress-test
 
@@ -169,14 +170,23 @@ Market Layer ищет **local signals** сначала в Confluence.
 ## Шаг 4. Создать RUN_DIR
 
 ```text
-runs/my-hypothesis/
-  hypothesis.md
+runs/HYP-2026-06-22-001/
+  input/
+    hypothesis.md
+    attachments/
 ```
 
-Минимальный пример `hypothesis.md`:
+Минимальный пример `input/hypothesis.md`:
 
 ```markdown
 # Hypothesis
+
+## Metadata
+
+- Hypothesis ID: HYP-2026-06-22-001
+- Created at: 2026-06-22
+- Run ID: RUN-2026-06-22-001
+- Status: draft
 
 ## Statement
 
@@ -196,9 +206,9 @@ runs/my-hypothesis/
 
 Полная схема: `hypothesis-stress-test/templates/input-schema.md` (или [templates/input-schema.md](../templates/input-schema.md) если workspace = фреймворк).
 
-Пример: `hypothesis-stress-test/examples/example-001/hypothesis.md`
+Пример: `hypothesis-stress-test/examples/example-001/input/hypothesis.md`
 
-Если в `knowledge-base/personas/` есть совпадающие профили ролей, Roles Layer может использовать их как supporting context. Список ролей в `hypothesis.md` всё равно задаёт scope конкретного прогона.
+Если в `knowledge-base/personas/` есть совпадающие профили ролей, Roles Layer может использовать их как supporting context. Список ролей в `input/hypothesis.md` всё равно задаёт scope конкретного прогона.
 
 ---
 
@@ -207,7 +217,7 @@ runs/my-hypothesis/
 В чате Cline:
 
 ```text
-RUN_DIR: runs/my-hypothesis
+RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
@@ -228,7 +238,7 @@ Cline выполнит:
 Сначала откройте:
 
 ```text
-runs/my-hypothesis/outputs/hypothesis_digest.txt
+runs/HYP-2026-06-22-001/outputs/hypothesis_digest.txt
 ```
 
 Полный анализ:

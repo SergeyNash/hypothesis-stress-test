@@ -57,8 +57,9 @@ Cline автоматически обнаружит из корня:
 ## 4. Создать директорию прогона
 
 ```text
-runs/my-hypothesis/
-  hypothesis.md
+runs/HYP-2026-06-22-001/
+  input/
+    hypothesis.md
 ```
 
 Формат входа: [templates/input-schema.md](../templates/input-schema.md)
@@ -95,7 +96,7 @@ examples/example-001/
 Укажите `RUN_DIR` в сообщении:
 
 ```text
-RUN_DIR: runs/my-hypothesis
+RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 

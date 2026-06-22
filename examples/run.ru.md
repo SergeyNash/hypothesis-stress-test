@@ -11,7 +11,7 @@
 Файл гипотезы:
 
 ```text
-examples/example-001/hypothesis.md
+examples/example-001/input/hypothesis.md
 ```
 
 ---
@@ -154,7 +154,8 @@ outputs/decision_review_complete.marker
 
 ```text
 examples/example-001/
-  hypothesis.md
+  input/
+    hypothesis.md
   run.md
   outputs/
     role_outputs/

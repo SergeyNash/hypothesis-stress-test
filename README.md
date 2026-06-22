@@ -11,6 +11,10 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
+  <sub>Framework version <b>2.0.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
+</p>
+
+<p align="center">
   <b>Challenge product hypotheses before you waste time building them.</b>
 </p>
 
@@ -28,6 +32,8 @@
   <a href="./examples/example-001/"><b>Example</b></a>
   ·
   <a href="./architecture/overview.md"><b>Architecture</b></a>
+  ·
+  <a href="./CHANGELOG.md"><b>Changelog</b></a>
   ·
   <a href="./implementations/README.ru.md"><b>Документация (RU)</b></a>
 </p>
@@ -77,7 +83,7 @@ Three analysis layers, mandatory Decision Review, then human backlog decision:
 
 | Phase | Skill | Output |
 |-------|-------|--------|
-| **Validate** | `hypothesis-input-validation` | ready `hypothesis.md` |
+| **Validate** | `hypothesis-input-validation` | ready `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (signal collision) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
@@ -96,7 +102,7 @@ Phase by phase:
 /run-decision-review.md
 ```
 
-Specify `RUN_DIR` in your Cline message, e.g. `RUN_DIR: runs/my-hypothesis`
+Specify `RUN_DIR` in your Cline message, e.g. `RUN_DIR: runs/HYP-2026-06-22-001`
 
 ---
 
@@ -147,7 +153,10 @@ Every run creates a traceable decision trail:
 
 ```text
 RUN_DIR/
-  hypothesis.md
+  input/
+    hypothesis.md
+    attachments/
+  run.md
   outputs/
     role_outputs/*
     hypothesis_summary.md
@@ -159,7 +168,7 @@ RUN_DIR/
     *.marker
 ```
 
-Output language matches `hypothesis.md`.
+Output language matches `input/hypothesis.md`.
 
 ---
 
@@ -173,8 +182,8 @@ In short:
 2. Open **your knowledge base** and add the `hypothesis-stress-test/` folder (clone or submodule)
 3. Symlink `.clinerules/` and `.cline/` to the KB root — see [quick start](./implementations/quick-start.md)
 4. Configure [Confluence MCP](./implementations/confluence-mcp.md)
-5. Create `runs/my-hypothesis/hypothesis.md` — see [templates/input-schema.md](./templates/input-schema.md)
-6. In Cline chat: `RUN_DIR: runs/my-hypothesis` + `/run-hypothesis.md`
+5. Create `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — see [templates/input-schema.md](./templates/input-schema.md)
+6. In Cline chat: `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
 
 Operational docs: [implementations/README.md](./implementations/README.md)
 
@@ -217,6 +226,8 @@ knowledge-base/    Confluence / local signals guide
 architecture/      system design
 implementations/   Cline setup, Confluence MCP, contract
 assets/            diagrams
+CHANGELOG.md       framework version history
+VERSION            current framework version
 ```
 
 ---

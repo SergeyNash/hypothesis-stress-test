@@ -1,15 +1,17 @@
 # Artifact Contracts
 
-Every hypothesis run uses an isolated workspace directory (`RUN_DIR`).
+Every hypothesis run uses an isolated workspace directory (`RUN_DIR`) — a hypothesis run archive.
 
 ## RUN_DIR structure
 
 ```text
 RUN_DIR/
-  hypothesis.md          # input: statement, roles, research context
-  run.md                 # optional: execution log
+  input/
+    hypothesis.md          # input: metadata, statement, roles, research context
+    attachments/           # optional: supporting files
+  run.md                   # optional: execution log
   outputs/
-    role_outputs/        # one file per role
+    role_outputs/          # one file per role
     hypothesis_summary.md
     validation_questions.md
     market_analysis.md
@@ -22,12 +24,19 @@ RUN_DIR/
     decision_review_complete.marker
 ```
 
-## Input: hypothesis.md
+## Input: input/hypothesis.md
 
 Required sections:
 
 ```markdown
 # Hypothesis
+
+## Metadata
+
+- Hypothesis ID: HYP-YYYY-MM-DD-NNN
+- Created at: YYYY-MM-DD
+- Run ID: RUN-YYYY-MM-DD-NNN
+- Status: draft | running | completed | archived
 
 ## Statement
 [Clear, testable statement]
@@ -60,7 +69,7 @@ knowledge-base/interviews/
 knowledge-base/persona-builds/
 ```
 
-Roles listed in `hypothesis.md` remain the run-specific source of scope. Persona files are supporting context, not a replacement for hypothesis-specific role selection.
+Roles listed in `input/hypothesis.md` remain the run-specific source of scope. Persona files are supporting context, not a replacement for hypothesis-specific role selection.
 
 ## Output naming
 
@@ -78,15 +87,15 @@ Role slugs: lowercase, underscores (e.g. `appsec_engineer`, `ciso`).
 
 ### hypothesis_summary.md (facilitator)
 
-Must include: hidden assumptions, applicability boundaries, role conflicts, key risks, key uncertainties, assessment (promising / uncertain / risky / requires validation). Language matches `hypothesis.md`.
+Must include: hidden assumptions, applicability boundaries, role conflicts, key risks, key uncertainties, assessment (promising / uncertain / risky / requires validation). Language matches `input/hypothesis.md`.
 
 ### role_outputs/{role_slug}.md (facilitator)
 
-Must include: pain, new problems, alternatives, failure context, applicability boundaries. Language matches `hypothesis.md`.
+Must include: pain, new problems, alternatives, failure context, applicability boundaries. Language matches `input/hypothesis.md`.
 
 ### validation_questions.md (facilitator)
 
-Behavior-based interview questions per role. No leading or hypothetical questions (e.g. "Would you use this?"). Language matches `hypothesis.md`.
+Behavior-based interview questions per role. No leading or hypothetical questions (e.g. "Would you use this?"). Language matches `input/hypothesis.md`.
 
 ## Completion markers
 
@@ -101,11 +110,11 @@ Markers signal that a layer finished and outputs are ready for the next step:
 
 ### hypothesis_map.md (synthesis)
 
-Must include: confirmed signals, internal illusions, missed opportunities, local optimization traps, key divergences, blind spots, new information (post-comparison only), applicability boundaries, impact on original hypothesis, validation priorities. Language matches `hypothesis.md`.
+Must include: confirmed signals, internal illusions, missed opportunities, local optimization traps, key divergences, blind spots, new information (post-comparison only), applicability boundaries, impact on original hypothesis, validation priorities. Language matches `input/hypothesis.md`.
 
 ### hypothesis_digest.txt (synthesis)
 
-Max 150 words: viability, key conflict, primary illusion, blind spot, risk, insight, next step. Language matches `hypothesis.md`.
+Max 150 words: viability, key conflict, primary illusion, blind spot, risk, insight, next step. Language matches `input/hypothesis.md`.
 
 Do not run Synthesis until both Facilitator and Market markers exist (`ready_for_synthesis.marker` + `market_analysis_complete.marker`, or equivalent output files).
 
@@ -114,8 +123,15 @@ Do not run Decision Review until Synthesis completes (`synthesis_complete.marker
 ## RUN_DIR examples
 
 ```text
-examples/example-001/          # canonical example
-runs/my-hypothesis-2026-06-09/ # user-created run
+examples/example-001/              # canonical example
+runs/HYP-2026-06-22-001/           # user-created run archive
 ```
 
-When the user does not specify `RUN_DIR`, ask for it or default to a new directory under `runs/`.
+When the user does not specify `RUN_DIR`, ask for it or default to a new directory under `runs/` using the naming pattern `HYP-YYYY-MM-DD-NNN`.
+
+## Migration note
+
+```text
+Old: runs/my-hypothesis/hypothesis.md
+New: runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md
+```

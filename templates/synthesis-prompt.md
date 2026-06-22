@@ -57,7 +57,7 @@ Do NOT generate new ideas. Do NOT add external assumptions. Do NOT smooth contra
 
 ## Output language
 
-Match the language of `hypothesis.md`.
+Match the language of `input/hypothesis.md`.
 
 ---
 

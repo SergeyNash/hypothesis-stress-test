@@ -16,7 +16,7 @@ Framework layers (Roles → Market → Synthesis → Decision Review) with Cline
   <img src="../assets/artifact-flow.svg" width="820"/>
 </p>
 
-How `hypothesis.md` becomes structured decision artifacts through Cline skills and workflows.
+How `input/hypothesis.md` becomes structured decision artifacts through Cline skills and workflows.
 
 ## Cline execution flow
 

@@ -5,14 +5,22 @@ description: Validate hypothesis input before running the stress-test framework.
 
 # Hypothesis Input Validation
 
-Validate `RUN_DIR/hypothesis.md` before any layer executes.
+Validate `RUN_DIR/input/hypothesis.md` before any layer executes.
 
 ## Read input
 
 1. Locate `RUN_DIR` (ask user if not specified).
-2. Read `RUN_DIR/hypothesis.md`.
+2. Read `RUN_DIR/input/hypothesis.md`.
 
 ## Required checks
+
+### Metadata
+
+- Hypothesis ID present and matches `HYP-YYYY-MM-DD-NNN` format?
+- Created at date present?
+- Run ID present?
+- Status defined (`draft` | `running` | `completed` | `archived`)?
+- If `RUN_DIR` folder name includes a hypothesis ID, it should match `Hypothesis ID` in metadata.
 
 ### Hypothesis statement
 
@@ -45,6 +53,7 @@ Do NOT run any layer. Ask clarifying questions:
 
 Confirm readiness and list:
 
+- Hypothesis ID and Run ID
 - Hypothesis statement (one line)
 - Roles selected
 - Research context summary

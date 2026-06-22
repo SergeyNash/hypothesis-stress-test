@@ -34,7 +34,7 @@ The framework defines layers and reasoning contracts. Cline provides execution, 
 1. Install Cline extension in VS Code
 2. Open this repository
 3. Configure [Confluence MCP](../implementations/confluence-mcp.md)
-4. Create `RUN_DIR/hypothesis.md`
+4. Create `RUN_DIR/input/hypothesis.md`
 5. Run `/run-hypothesis.md` in Cline chat
 
 ### Mapping

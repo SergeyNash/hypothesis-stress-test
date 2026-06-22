@@ -37,7 +37,7 @@ Do not run if Synthesis outputs are missing. Ask user to complete Synthesis firs
 
 Required:
 
-- `RUN_DIR/hypothesis.md`
+- `RUN_DIR/input/hypothesis.md`
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/market_analysis.md`
 - `RUN_DIR/outputs/hypothesis_map.md`

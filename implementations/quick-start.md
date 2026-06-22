@@ -71,8 +71,9 @@ my-knowledge-base/                    ← open in VS Code
   research/
   adr/
   runs/                               ← RUN_DIR for hypotheses (next to KB)
-    my-hypothesis-001/
-      hypothesis.md
+    HYP-2026-06-22-001/
+      input/
+        hypothesis.md
       outputs/
   hypothesis-stress-test/               ← full framework repository
     .clinerules/                      ← rules + workflows (/run-hypothesis.md)
@@ -124,7 +125,7 @@ Two repos, one VS Code window. Create `my-work.code-workspace`:
 }
 ```
 
-Cline picks up rules/skills from the `hypothesis-stress-test` root. `RUN_DIR` — in KB: `runs/my-hypothesis-001/`. Context via `@discovery/...`.
+Cline picks up rules/skills from the `hypothesis-stress-test` root. `RUN_DIR` — in KB: `runs/HYP-2026-06-22-001/`. Context via `@discovery/...`.
 
 ### Option C: hypothesis-stress-test only
 
@@ -169,14 +170,23 @@ Without Confluence, Market Layer marks `missing local evidence` — the run stil
 ## Step 4. Create RUN_DIR
 
 ```text
-runs/my-hypothesis/
-  hypothesis.md
+runs/HYP-2026-06-22-001/
+  input/
+    hypothesis.md
+    attachments/
 ```
 
-Minimal `hypothesis.md` example:
+Minimal `input/hypothesis.md` example:
 
 ```markdown
 # Hypothesis
+
+## Metadata
+
+- Hypothesis ID: HYP-2026-06-22-001
+- Created at: 2026-06-22
+- Run ID: RUN-2026-06-22-001
+- Status: draft
 
 ## Statement
 
@@ -196,9 +206,9 @@ If [action], then [expected outcome for a specific audience].
 
 Full schema: `hypothesis-stress-test/templates/input-schema.md` (or [templates/input-schema.md](../templates/input-schema.md) if workspace = framework).
 
-Example: `hypothesis-stress-test/examples/example-001/hypothesis.md`
+Example: `hypothesis-stress-test/examples/example-001/input/hypothesis.md`
 
-If `knowledge-base/personas/` contains matching role profiles, the Roles Layer can use them as supporting context. The role list in `hypothesis.md` still defines the scope for the current run.
+If `knowledge-base/personas/` contains matching role profiles, the Roles Layer can use them as supporting context. The role list in `input/hypothesis.md` still defines the scope for the current run.
 
 ---
 
@@ -207,7 +217,7 @@ If `knowledge-base/personas/` contains matching role profiles, the Roles Layer c
 In Cline chat:
 
 ```text
-RUN_DIR: runs/my-hypothesis
+RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
@@ -228,7 +238,7 @@ Approve file writes and MCP tool calls when prompted.
 Start with:
 
 ```text
-runs/my-hypothesis/outputs/hypothesis_digest.txt
+runs/HYP-2026-06-22-001/outputs/hypothesis_digest.txt
 ```
 
 Full analysis:

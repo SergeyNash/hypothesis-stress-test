@@ -4,7 +4,7 @@ Execute Market Layer only for an existing `RUN_DIR`.
 
 ## Steps
 
-1. Confirm `RUN_DIR/hypothesis.md` exists.
+1. Confirm `RUN_DIR/input/hypothesis.md` exists.
 2. Activate skill `hypothesis-market-layer`.
 3. **Confluence first**: search Confluence MCP for local signals related to the hypothesis.
 4. If Confluence MCP unavailable — document `missing local evidence` in output.

@@ -37,7 +37,7 @@ Your task is to identify why the recommendation may fail.
 
 Required:
 
-- `hypothesis.md`
+- `input/hypothesis.md`
 - `hypothesis_summary.md`
 - `market_analysis.md`
 - `hypothesis_map.md`

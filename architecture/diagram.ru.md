@@ -16,7 +16,7 @@
   <img src="../assets/artifact-flow.svg" width="820"/>
 </p>
 
-Как `hypothesis.md` превращается в структурированные артефакты решения через Cline skills и workflows.
+Как `input/hypothesis.md` превращается в структурированные артефакты решения через Cline skills и workflows.
 
 ## Поток выполнения Cline
 

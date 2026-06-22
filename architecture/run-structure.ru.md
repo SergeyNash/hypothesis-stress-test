@@ -2,11 +2,13 @@
 
 # Структура RUN_DIR
 
-Каждый прогон гипотезы следует стандартной структуре:
+Каждый прогон гипотезы следует стандартной структуре архива:
 
 ```text
 RUN_DIR/
-  hypothesis.md
+  input/
+    hypothesis.md
+    attachments/
   run.md
   outputs/
     role_outputs/
@@ -16,7 +18,10 @@ RUN_DIR/
     hypothesis_map.md
     hypothesis_digest.txt
     decision_review.md
+    *.marker
 ```
+
+Шаблон имени `RUN_DIR`: `runs/HYP-YYYY-MM-DD-NNN/`
 
 ---
 

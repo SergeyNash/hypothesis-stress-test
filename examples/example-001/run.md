@@ -6,6 +6,8 @@
 examples/example-001
 ```
 
+Hypothesis input: `input/hypothesis.md` (ID: `HYP-2026-06-09-001`)
+
 ## Execution
 
 Processed through Hypothesis Stress Test framework using Cline skills:
@@ -24,7 +26,7 @@ Example outputs were produced with framework layers. For live runs, configure Co
 
 ## Result summary
 
-See `hypothesis_digest.txt` for the synthesis digest and `decision_review.md` for the adversarial review.
+See `outputs/hypothesis_digest.txt` for the synthesis digest and `outputs/decision_review.md` for the adversarial review.
 
 Classification: Mixed — Validated Opportunity, Internal Illusion, Blind Spot.
 

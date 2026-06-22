@@ -6,7 +6,7 @@ Execute Decision Review for an existing `RUN_DIR` after Synthesis completes.
 
 Confirm these files exist:
 
-- `RUN_DIR/hypothesis.md`
+- `RUN_DIR/input/hypothesis.md`
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/market_analysis.md`
 - `RUN_DIR/outputs/hypothesis_map.md`
