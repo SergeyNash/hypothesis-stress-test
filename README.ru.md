@@ -32,6 +32,8 @@
   ·
   <a href="./architecture/overview.ru.md"><b>Архитектура</b></a>
   ·
+  <a href="./roadmap/README.md"><b>Roadmap</b></a>
+  ·
   <a href="./CHANGELOG.ru.md"><b>Changelog</b></a>
 </p>
 
@@ -225,6 +227,7 @@ runs/              прогоны гипотез (в KB workspace)
 knowledge-base/    гайд по Confluence / local signals
 architecture/      устройство системы
 implementations/   настройка Cline, Confluence MCP
+roadmap/           дорожная карта (RU)
 assets/            диаграммы
 CHANGELOG.ru.md    история версий фреймворка
 VERSION            текущая версия фреймворка

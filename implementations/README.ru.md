@@ -39,6 +39,12 @@
 |------|----------|
 | [knowledge-base/README.ru.md](../knowledge-base/README.ru.md) | Поиск в Confluence |
 
+## Roadmap
+
+| Гайд | Описание |
+|------|----------|
+| [roadmap/README.md](../roadmap/README.md) | Дорожная карта развития фреймворка (только RU) |
+
 ## Пример
 
 - [examples/run.ru.md](../examples/run.ru.md) — как обработан example-001
