@@ -1,6 +1,6 @@
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.2.1 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.2.2 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
 
@@ -64,7 +64,7 @@ Analysis layers are **sequential** and **independent**. Synthesis consumes artif
 
 Use project skills from `.cline/skills/` or invoke workflows:
 
-- `/run-hypothesis-conversational.md` — **chat-first** full run (guided intake → auto `RUN_DIR` → validate → pipeline)
+- `/run-hypothesis-conversational.md` — **chat-first** full run (intake → dialog confirm `RUN_DIR` → bootstrap → validate → pipeline)
 - `/validate-hypothesis-input.md` — check input before running
 - `/run-facilitator.md` — Facilitator (Roles Layer) only
 - `/run-hypothesis.md` — full end-to-end run (file-first; requires existing `RUN_DIR`)
@@ -77,5 +77,8 @@ Use project skills from `.cline/skills/` or invoke workflows:
 
 | Mode | When to use |
 | ---- | ----------- |
-| **Chat-first** | New hypothesis; describe idea in chat — `/run-hypothesis-conversational.md` |
+| **Chat-first (new)** | New hypothesis without `RUN_DIR:` — `/run-hypothesis-conversational.md`; agent proposes new `HYP-*-NNN` in dialog; never silently reuses an existing archive |
+| **Chat-first (continue)** | Re-run existing archive — `RUN_DIR: runs/HYP-...` + `/run-hypothesis-conversational.md` or `/run-hypothesis.md` |
 | **File-first** | Existing `RUN_DIR/input/hypothesis.md` — `/run-hypothesis.md` |
+
+New hypothesis = new isolated `runs/HYP-YYYY-MM-DD-NNN/`. Open files from a previous run must not become the write target.

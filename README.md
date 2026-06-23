@@ -11,7 +11,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Framework version <b>2.2.1</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
+  <sub>Framework version <b>2.2.2</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
 </p>
 
 <p align="center">

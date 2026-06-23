@@ -53,16 +53,21 @@
 
 ## Conversational Run (chat-first) — P0 #2
 
-См. [roadmap/README.md](../roadmap/README.md#p0--conversational-run-chat-first-запуск-из-чата). Релизы: **v2.2.0** (базовый flow), **v2.2.1** (dirty input + trigger-теги).
+См. [roadmap/README.md](../roadmap/README.md#p0--conversational-run-chat-first-запуск-из-чата). Релизы: **v2.2.0** (базовый flow), **v2.2.1** (dirty input + trigger-теги), **v2.2.2** (dialog RUN_DIR + isolation).
 
 - [x] Skill `conversational-hypothesis-intake` — guided Q&A, draft preview, confirm/revise/cancel
-- [x] Workflow `/run-hypothesis-conversational.md` — intake → auto `RUN_DIR` bootstrap → validate → pipeline
+- [x] Workflow `/run-hypothesis-conversational.md` — intake → dialog-confirmed `RUN_DIR` bootstrap → validate → pipeline
 - [x] Auto ID assignment (`HYP-*`, `RUN-*`) и правила в `10-artifact-contracts.md`
 - [x] Chat-first как recommended path в quick-start, README, playbooks (EN/RU)
 - [x] Примеры `examples/chat-first-run.md` / `.ru.md`
 - [x] Trigger-теги intake: `#гипотеза` / `#hypothesis`, `#контекст` / `#context`, `#роли` / `#roles`
 - [x] Dirty input mode: извлечение из Q&A / CustDev + валидация mapping с пользователем
-- [x] Статус до confirm: `runs/ ещё НЕ создан`
+- [x] Статус до confirm RUN_DIR: `runs/ ещё НЕ создан`
+- [x] Двойной confirm: draft гипотезы + предложенный `RUN_DIR` (Step 4a/4b)
+- [x] New run isolation: без `RUN_DIR:` — новый archive; не reuse открытых табов
+- [x] Trigger `#новая` / `#new-run`; continue-existing только с явным `RUN_DIR:`
+- [x] Artifact allowlist в conversational flow (без несуществующих артефактов)
+- [x] Пример C: вторая гипотеза в тот же день (`002` vs `001`)
 - [ ] E2E-пример: реальный `runs/HYP-*` с артефактами после chat-first прогона (не только walkthrough-doc)
 - [ ] Доп. input patterns: FR/требования, Jira/Linear paste, многоязычные заголовки в `input/hypothesis.md`
 - [ ] Шаблоны быстрых тегов в onboarding (P1): подсказка тегов при первом запуске

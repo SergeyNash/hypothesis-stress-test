@@ -29,6 +29,27 @@
 
 ---
 
+## [2.2.2] - 2026-06-23
+
+### Добавлено
+
+- **Двойной confirm** для conversational run: (1) draft гипотезы (2) предложенный `RUN_DIR` (`HYP-YYYY-MM-DD-NNN`).
+- **Диалог RUN_DIR** (Step 4b): сканирование прогонов за день, предложение следующего suffix, список существующих — «не трогаю».
+- **New run isolation**: без явного `RUN_DIR:` в сообщении — всегда новый archive, без reuse открытых табов.
+- **Trigger-тег** `#new-run` / `#новая` / `#новый-прогон` для явного указания нового прогона.
+- **Artifact allowlist**: запрет несуществующих в контракте файлов (например `product_specification.md`) в conversational flow.
+- Пример C (вторая гипотеза в тот же день → `002` vs `001`) в `examples/chat-first-run.md` и `.ru.md`.
+
+### Изменено
+
+- Skill `conversational-hypothesis-intake`: разделение Step 4a/4b, правила isolation, continue-existing только с `RUN_DIR:`.
+- Workflow `run-hypothesis-conversational.md`: диалог RUN_DIR между confirm draft и bootstrap; do-not rules.
+- `.clinerules/10-artifact-contracts.md` — dialog-confirmed bootstrap вместо автоматического.
+- `.clinerules/00-hypothesis-framework.md` — режимы входа: новая гипотеза = новый `HYP-*-NNN` через диалог.
+- Quick start, playbooks, cline-setup (EN/RU) — двойной confirm и guidance по `#новая`.
+
+---
+
 ## [2.2.1] - 2026-06-23
 
 ### Добавлено
@@ -192,6 +213,7 @@
 - Manual templates в `templates/`.
 - Модель слоёв в `layers/`.
 
+[2.2.2]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.0.0...v2.1.0

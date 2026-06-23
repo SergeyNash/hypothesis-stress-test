@@ -23,10 +23,10 @@ This playbook describes how to validate a product hypothesis using the framework
 Describe your hypothesis in natural language.
 ```
 
-**Intake tags:** `#hypothesis` (ready If…then), `#context` (dirty Q&A / discovery notes), `#roles`.  
-`runs/` is created only after **Confirm and run** — see [examples/chat-first-run.md](../examples/chat-first-run.md).
+**Intake tags:** `#hypothesis`, `#context`, `#roles`, `#new-run`.  
+**Two-step confirm:** draft card → proposed `RUN_DIR` (e.g. `002` if `001` exists). See [examples/chat-first-run.md](../examples/chat-first-run.md).
 
-The agent collects input through guided questions, shows a draft card for confirmation, auto-creates `RUN_DIR`, validates, and runs the full pipeline.
+The agent collects input, shows draft, proposes new `RUN_DIR` in dialog, creates folder only after confirm, validates, and runs the pipeline.
 
 ### File-first (fallback)
 

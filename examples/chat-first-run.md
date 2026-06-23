@@ -17,10 +17,11 @@ Place a tag at the start of your message (after the slash command) to control ho
 | `#hypothesis` | You already have a clear If…then statement |
 | `#context` | Dirty discovery notes, Q&A tables, CustDev paste |
 | `#roles` | You listed roles; need help with statement and context |
+| `#new-run` | Explicit new archive (implied when no `RUN_DIR:`) |
 
-Aliases: `#гипотеза`, `#контекст`, `#discovery`, `#custdev`, `#роли`.
+Aliases: `#гипотеза`, `#контекст`, `#discovery`, `#custdev`, `#роли`, `#новая`, `#новый-прогон`.
 
-**Important:** `runs/` is created only after you explicitly confirm the draft (`Confirm and run` / `Подтвердить и запустить`). Until then the agent shows: `runs/ NOT created yet`.
+**Important:** `runs/` is created only after **two** confirms: (1) draft card (2) proposed `RUN_DIR`. Until then: `runs/ NOT created yet`. Agent must not write to an existing run when starting a new hypothesis.
 
 ---
 
@@ -95,23 +96,37 @@ If Application Security engineers can manually prioritize projects in the SAST s
 
 ---
 
-## Step 4 — Confirm
+## Step 4a — Confirm draft
 
 The agent asks:
 
 ```text
-Confirm and run / Revise / Cancel
+Status: draft ready. runs/ NOT created yet.
+Confirm draft / Revise / Cancel
 ```
 
-User responds: **Confirm and run**
+User responds: **Confirm draft**
 
-No files are written until this step.
+## Step 4b — RUN_DIR dialog
+
+```text
+Will create new run:
+  RUN_DIR: runs/HYP-2026-06-23-001
+
+Confirm create 001 / Specify other ID / Cancel
+```
+
+If `001` already exists from an earlier hypothesis today, agent proposes `002` and lists `001` as «will not modify».
+
+User responds: **Confirm create**
+
+No files are written until Step 4b completes.
 
 ---
 
 ## Step 5 — Automatic bootstrap
 
-Workflow `run-hypothesis-conversational.md` creates:
+After RUN_DIR confirm, workflow creates the confirmed path, e.g.:
 
 ```text
 runs/HYP-2026-06-23-001/
@@ -182,8 +197,8 @@ Full outputs under `outputs/` — same structure as [example-001/outputs/](./exa
 | | Chat-first | File-first |
 | - | ---------- | ---------- |
 | Entry | `/run-hypothesis-conversational.md` | Manual `input/hypothesis.md` + `/run-hypothesis.md` |
-| RUN_DIR | Auto-created | User-created |
-| Confirm step | Required before bootstrap | Implicit (user wrote the file) |
+| RUN_DIR | Dialog-confirmed new archive | User-created |
+| Confirm step | Draft + proposed RUN_DIR (two steps) | Implicit (user wrote the file) |
 | Pipeline | Same `/run-hypothesis.md` after validation | Direct |
 
 ---
@@ -239,13 +254,59 @@ Correct? (yes / revise / cancel)
 
 User: **yes**
 
-### Step 3 — Draft card → confirm → bootstrap
+### Step 3 — Draft card → two-step confirm → bootstrap
 
-Same flow as Example A (Steps 3–8). Agent shows full `input/hypothesis.md` preview, then:
+Same flow as Example A (Steps 3–8), with **two** confirm steps:
+
+**4a — Draft:**
 
 ```text
 Status: draft ready. runs/ NOT created yet.
-Confirm and run / Revise / Cancel
+Confirm draft / Revise / Cancel
 ```
 
-User: **Confirm and run** → `runs/HYP-YYYY-MM-DD-NNN/` is created.
+User: **Confirm draft**
+
+**4b — RUN_DIR dialog:**
+
+```text
+Will create new run:
+  RUN_DIR: runs/HYP-2026-06-23-002
+
+Already exists today:
+  - runs/HYP-2026-06-23-001 (will not modify)
+
+Confirm create 002 / Specify other ID / Cancel
+```
+
+User: **Confirm create 002** → `runs/HYP-2026-06-23-002/` is created.
+
+---
+
+## Example C — Second hypothesis same day (`#new-run`)
+
+`runs/HYP-2026-06-23-001/` already has outputs from a previous hypothesis.  
+You start a **new** hypothesis — agent must propose `002`, not write into `001`.
+
+### Trigger
+
+```text
+/run-hypothesis-conversational.md
+#контекст #новая
+
+[new discovery context — unrelated to 001]
+```
+
+### Expected behavior
+
+1. Agent does **not** read/write `001/outputs/` as the target for this hypothesis
+2. After draft confirm, proposes `runs/HYP-2026-06-23-002`
+3. Lists `001` as existing — «will not modify»
+4. Creates `002/` only after **Confirm create 002**
+5. Does **not** create `product_specification.md` or other non-contract files
+
+### Wrong behavior (guardrails prevent)
+
+- Writing analysis into `runs/HYP-2026-06-23-001/`
+- Skipping RUN_DIR dialog and reusing open tabs
+- Creating files before user confirms proposed `RUN_DIR`

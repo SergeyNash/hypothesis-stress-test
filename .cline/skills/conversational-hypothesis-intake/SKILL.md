@@ -1,33 +1,58 @@
 ---
 name: conversational-hypothesis-intake
-description: Collect a product hypothesis through guided chat dialogue, draft input/hypothesis.md, and obtain user confirmation before run bootstrap. Supports trigger tags for ready hypotheses (#hypothesis) and dirty discovery context (#context). Use when the user wants to start a stress test without manually creating RUN_DIR or editing hypothesis files.
+description: Collect a product hypothesis through guided chat dialogue, draft input/hypothesis.md, propose a new RUN_DIR in dialog, and obtain user confirmation before bootstrap. Supports trigger tags (#hypothesis, #context, #new-run). Use when starting a new stress test without manually creating RUN_DIR.
 ---
 
 # Conversational Hypothesis Intake
 
-Collect hypothesis input through chat, produce a canonical `input/hypothesis.md` draft, and obtain explicit user confirmation before any run bootstrap or pipeline execution.
+Collect hypothesis input through chat, produce a canonical `input/hypothesis.md` draft, propose a **new** `runs/HYP-*-NNN/` in dialog, and obtain explicit user confirmation before any file writes or pipeline execution.
 
 ## When to use
 
 - User describes a hypothesis in natural language
-- User invokes `/run-hypothesis-conversational.md`
+- User invokes `/run-hypothesis-conversational.md` **without** `RUN_DIR:` (new hypothesis)
 - User pastes dirty discovery notes, Q&A tables, or CustDev context
 - User wants to avoid manual `RUN_DIR` setup and file editing
 - Validation failed and targeted repair is needed for specific sections
 
 ## When NOT to use
 
-- User already provided a valid `RUN_DIR` with `input/hypothesis.md` — use `/validate-hypothesis-input.md` or `/run-hypothesis.md` instead
+- User provided `RUN_DIR: runs/HYP-...` in the same message — use **continue existing run** path in workflow (validate + pipeline), not new intake
+- User already has a valid `input/hypothesis.md` and only wants to re-run layers — use `/run-hypothesis.md`
 - User explicitly wants file-first workflow
 
 ## Core rules
 
-- Do NOT create `RUN_DIR` or write files until the user confirms the draft card
+### New run isolation
+
+- `/run-hypothesis-conversational` **without** `RUN_DIR:` = always a **new** hypothesis archive
+- Auto-apply `#new-run` semantics even if the tag is omitted
+- Do NOT write to an existing `runs/HYP-*` folder unless the user explicitly provided `RUN_DIR:` to continue that run
+- Open files or tabs from a previous run are **read-only context** — never the write target for a new hypothesis
+- If `runs/HYP-YYYY-MM-DD-001` exists and the user starts a new hypothesis the same day, propose `002` (next free suffix) — do not reuse `001`
+
+### Two-step confirm
+
+1. **Step 4a** — confirm hypothesis draft card
+2. **Step 4b** — confirm proposed new `RUN_DIR` (dialog)
+
+Do NOT create `RUN_DIR` or write any files until **both** steps pass.
+
+### Other rules
+
 - Do NOT invoke `/run-hypothesis.md` until bootstrap is complete and validation passes
 - Draft markdown MUST follow `templates/input-schema.md` and `.clinerules/10-artifact-contracts.md`
 - Use English section headings (`## Metadata`, `## Statement`, etc.) even when body text is Russian
-- Metadata IDs are placeholders until bootstrap assigns final values
-- Always show intake status before confirm (see **Status messages**)
+- Metadata IDs are placeholders until bootstrap assigns final values after Step 4b
+- Always show intake status before each confirm step (see **Status messages**)
+
+### Artifact allowlist
+
+During conversational intake and bootstrap, write **only** files defined in `.clinerules/10-artifact-contracts.md`.
+
+Forbidden examples: `product_specification.md`, `implementation_plan.md`, or any ad-hoc analysis doc under `runs/`.
+
+Do NOT run ad-hoc multi-step analysis plans instead of the intake flow.
 
 ## Intake modes and trigger tags
 
@@ -35,13 +60,16 @@ Detect mode from explicit tags in the user message, or auto-detect from input sh
 
 ### Trigger tags (user places at start of message)
 
-| Tag | Aliases | Mode | Behavior |
-| --- | ------- | ---- | -------- |
+| Tag | Aliases | Mode / intent | Behavior |
+| --- | ------- | ------------- | -------- |
 | `#hypothesis` | `#гипотеза`, `#if-then` | **ready** | User already has a testable statement; minimize questions |
 | `#context` | `#контекст`, `#discovery`, `#custdev` | **dirty** | Extract fields from notes, tables, Q&A; validate mapping with user first |
 | `#roles` | `#роли` | **roles-only** | User provided roles; collect statement and research context |
+| `#new-run` | `#новая`, `#новый-прогон` | **new archive** | Explicit: do not reuse any existing `RUN_DIR` |
 
-Tags are optional. If absent, auto-detect (see below).
+`#new-run` is implied when `/run-hypothesis-conversational` is invoked without `RUN_DIR:`.
+
+Tags are optional except new-run semantics (always on for new hypothesis).
 
 ### Auto-detect (no tag)
 
@@ -55,8 +83,8 @@ Tags are optional. If absent, auto-detect (see below).
 Announce detected mode in chat:
 
 ```text
-Режим intake: #контекст (dirty discovery)
-Mode: #context (dirty discovery)
+Режим intake: #контекст (dirty discovery), новый прогон (#new-run)
+Mode: #context (dirty discovery), new run (#new-run)
 ```
 
 ## Dirty input handling (`#context` mode)
@@ -115,9 +143,10 @@ Do NOT skip this step for dirty input unless the user used `#hypothesis` explici
 
 Accept the user's first message as the starting point.
 
-1. Check for trigger tags (`#hypothesis`, `#context`, `#roles` and aliases)
-2. If no tag, auto-detect mode
-3. Extract what is already present: statement, roles, domain, audience, scenario
+1. If message contains `RUN_DIR: runs/HYP-...` → stop intake; hand off to workflow **continue existing run**
+2. Check for trigger tags (`#hypothesis`, `#context`, `#roles`, `#new-run` and aliases)
+3. If no intake tag, auto-detect mode
+4. Extract what is already present: statement, roles, domain, audience, scenario
 
 If mode is **ready** and fields are complete, skip redundant questions.
 
@@ -185,11 +214,12 @@ Omit optional Research Context lines when not provided.
 Show a short human summary before the draft:
 
 - Intake mode used (`#hypothesis` / `#context` / auto)
+- New run (`#new-run` implied)
 - Statement (one line)
 - Roles
 - Domain / audience / scenario
 
-### Step 4 — Confirm, revise, or cancel
+### Step 4a — Confirm hypothesis draft
 
 Show status message (mandatory):
 
@@ -197,29 +227,59 @@ Show status message (mandatory):
 Статус: draft готов. runs/ ещё НЕ создан.
 Status: draft ready. runs/ NOT created yet.
 
-Подтвердить и запустить / Исправить / Отменить
-Confirm and run / Revise / Cancel
+Подтвердить карточку / Исправить / Отменить
+Confirm draft / Revise / Cancel
 ```
 
 Match the user's language.
 
-### Confirm triggers (bootstrap only after these)
-
-Treat as explicit confirm:
-
-- `Подтвердить и запустить`, `подтвердить`, `да, запускай`, `запускай`
-- `Confirm and run`, `confirm`, `yes, run`, `run it`
-- Tag `#confirm` / `#запуск` when user adds it after reviewing draft
+| Response | Action |
+| -------- | ------ |
+| Confirm draft | Proceed to Step 4b (RUN_DIR dialog) |
+| Revise | Ask what to change; update draft; show preview again; repeat Step 4a |
+| Cancel | Stop; do not propose RUN_DIR or bootstrap |
 
 Do NOT treat silence, «ок», or continuing the conversation as confirm.
 
+### Step 4b — RUN_DIR dialog (new archive)
+
+After Step 4a confirm only:
+
+1. Scan `runs/` for directories matching `HYP-YYYY-MM-DD-*` (today's date)
+2. List existing runs for transparency (read-only)
+3. Propose the **next available** suffix `NNN` (e.g. `002` if `001` exists)
+4. Show dialog:
+
+```text
+Создам новый прогон:
+  RUN_DIR: runs/HYP-2026-06-23-002
+
+Сегодня уже есть:
+  - runs/HYP-2026-06-23-001 (не трогаю)
+
+Подтвердить создание 002 / Указать другой ID / Отмена
+Confirm create 002 / Specify other ID / Cancel
+```
+
+Rules:
+
+- Never propose reusing an existing folder for a new hypothesis
+- User may override: «используй 003» — verify suffix is free, then confirm
+- If proposed path already exists, pick next free suffix and explain
+
+### RUN_DIR confirm triggers (bootstrap only after these)
+
+- `Подтвердить создание`, `да, создай`, `создай 002`
+- `Confirm create`, `yes, create`, `create 002`
+- Tag `#запуск` / `#confirm` after reviewing proposed `RUN_DIR`
+
 | Response | Action |
 | -------- | ------ |
-| Confirm | Return confirmed draft to workflow for bootstrap (do not write files in this skill) |
-| Revise | Ask what to change; update draft; show preview again; repeat Step 4 |
+| Confirm RUN_DIR | Return confirmed draft + `proposed_rundir` to workflow for bootstrap |
+| Specify other ID | Validate free suffix; re-show dialog; repeat Step 4b |
 | Cancel | Stop; do not bootstrap or run |
 
-Do NOT proceed past this step without explicit confirmation.
+Do NOT write any files in this skill — workflow executes bootstrap after Step 4b.
 
 ## Field mapping (chat → hypothesis.md)
 
@@ -241,22 +301,25 @@ When invoked after failed validation:
 1. Read validation feedback (which sections failed and why)
 2. Ask only about failing sections — do not re-ask for valid fields
 3. Update draft preview
-4. Return to Step 4 (confirm / revise / cancel)
+4. Return to Step 4a (confirm draft), then Step 4b if RUN_DIR not yet confirmed
 
 ## Output to workflow
 
-On confirmation, provide:
+After Step 4b confirm, provide:
 
 - `confirmed: true`
+- `draft_confirmed: true`
+- `rundir_confirmed: true`
+- `proposed_rundir`: `runs/HYP-YYYY-MM-DD-NNN`
 - `intake_mode`: `ready` | `dirty` | `roles-only` | `auto`
-- `draft_hypothesis_md` — full markdown body (Metadata may still have placeholders)
+- `draft_hypothesis_md` — full markdown body (Metadata placeholders filled at bootstrap)
 - `summary` — one-line statement, roles, context
 
-The workflow `run-hypothesis-conversational.md` handles ID assignment, `RUN_DIR` creation, file writes, validation, and pipeline handoff.
+The workflow `run-hypothesis-conversational.md` creates files only after receiving `rundir_confirmed`.
 
 ## Reference
 
 - `templates/input-schema.md` — canonical input schema
 - `.cline/skills/hypothesis-input-validation/SKILL.md` — validation gate
 - `.clinerules/workflows/run-hypothesis-conversational.md` — bootstrap and run orchestration
-- `examples/chat-first-run.md` — ready and dirty input examples
+- `examples/chat-first-run.md` — ready, dirty, and second-run-same-day examples

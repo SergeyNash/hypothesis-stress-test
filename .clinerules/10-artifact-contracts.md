@@ -179,18 +179,30 @@ runs/HYP-2026-06-22-001/           # user-created run archive
 
 When the user does not specify `RUN_DIR`:
 
-- **Chat-first (preferred):** invoke `/run-hypothesis-conversational.md` — intake skill collects input, workflow bootstraps `runs/HYP-YYYY-MM-DD-NNN/` automatically.
-- **File-first (fallback):** ask for `RUN_DIR` or default to a new directory under `runs/` using the naming pattern `HYP-YYYY-MM-DD-NNN`.
+- **Chat-first (preferred):** invoke `/run-hypothesis-conversational.md` — intake collects input, agent **proposes** new `runs/HYP-YYYY-MM-DD-NNN/` in dialog, user confirms, then bootstrap.
+- **File-first (fallback):** ask for `RUN_DIR` or create a new directory under `runs/` using the naming pattern `HYP-YYYY-MM-DD-NNN`.
 
-### Automatic ID assignment (conversational bootstrap)
+When the user **does** specify `RUN_DIR: runs/HYP-...` — continue that existing archive; do not create a new folder.
 
-When creating a new run via `/run-hypothesis-conversational.md`:
+### Conversational bootstrap (dialog-confirmed)
 
-1. Use today's date (`YYYY-MM-DD`)
-2. Scan `runs/` for existing `HYP-YYYY-MM-DD-*` directories
-3. Assign next available `NNN` suffix (001, 002, …)
-4. Set `Hypothesis ID` = folder name; `Run ID` = `RUN-YYYY-MM-DD-NNN`
-5. Folder name must match `Hypothesis ID` in metadata
+When creating a new run via `/run-hypothesis-conversational.md` (no `RUN_DIR:` in message):
+
+**Two-step confirm:**
+
+1. User confirms hypothesis draft card
+2. Agent proposes next free `HYP-YYYY-MM-DD-NNN`, lists existing runs for today, user confirms `RUN_DIR`
+
+**Only after step 2** — create directory and write `input/hypothesis.md`.
+
+**New run isolation:**
+
+- Never reuse an existing `runs/HYP-*` for a new hypothesis
+- Open editor tabs from a previous run are not a write target
+- Scan `runs/` for `HYP-YYYY-MM-DD-*`, propose next `NNN` (001, 002, …)
+- Set `Hypothesis ID` = folder name; `Run ID` = `RUN-YYYY-MM-DD-NNN`
+- Folder name must match `Hypothesis ID` in metadata
+- Write only contract artifacts from this document — no ad-hoc files (e.g. `product_specification.md`)
 
 ## Migration note
 

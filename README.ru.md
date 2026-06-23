@@ -10,7 +10,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Версия фреймворка <b>2.2.1</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
+  <sub>Версия фреймворка <b>2.2.2</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
 </p>
 
 <p align="center">

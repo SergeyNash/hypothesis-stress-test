@@ -66,8 +66,8 @@ In Cline chat:
 Describe your hypothesis in natural language.
 ```
 
-Use `#context` for dirty discovery notes (Q&A tables, CustDev paste). Use `#hypothesis` for ready If…then statements.  
-`runs/` is created only after you confirm the draft. See [examples/chat-first-run.md](../examples/chat-first-run.md).
+Use `#context` for dirty discovery notes. Use `#new-run` when a previous run exists the same day.  
+`runs/` is created only after **two** confirms: draft + proposed RUN_DIR. See [examples/chat-first-run.md](../examples/chat-first-run.md).
 
 ### File-first (fallback)
 

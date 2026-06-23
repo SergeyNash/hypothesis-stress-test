@@ -147,25 +147,30 @@ gantt
 
 ### Цель
 
-Основной сценарий запуска через чат: агент собирает карточку гипотезы, пользователь подтверждает, система автоматически создаёт `RUN_DIR` и запускает полный pipeline.
+Основной сценарий запуска через чат: агент собирает карточку гипотезы, пользователь подтверждает draft и предложенный `RUN_DIR`, система создаёт новый archive и запускает полный pipeline.
 
 ### Реализованные компоненты
 
 - Skill: `conversational-hypothesis-intake` — guided Q&A, draft preview, confirm/revise/cancel
-- Workflow: `/run-hypothesis-conversational.md` — intake → auto `RUN_DIR` bootstrap → validate → pipeline
-- **Trigger-теги intake:** `#гипотеза` / `#hypothesis` (готовая формулировка), `#контекст` / `#context` (сырые discovery-заметки), `#роли` / `#roles`
+- Workflow: `/run-hypothesis-conversational.md` — intake → **dialog-confirmed** `RUN_DIR` bootstrap → validate → pipeline
+- **Двойной confirm:** (1) draft гипотезы (2) предложенный `RUN_DIR` (`HYP-YYYY-MM-DD-NNN`)
+- **New run isolation:** без `RUN_DIR:` в сообщении — всегда новый archive; не reuse открытых табов
+- **Trigger-теги intake:** `#гипотеза` / `#hypothesis` (готовая формулировка), `#контекст` / `#context` (сырые discovery-заметки), `#роли` / `#roles`, `#новая` / `#new-run` (явно новый прогон)
 - **Dirty input mode:** извлечение полей из Q&A таблиц и CustDev paste + валидация mapping с пользователем
-- Статус до confirm: `runs/ ещё НЕ создан`
+- **Artifact allowlist:** только файлы из `10-artifact-contracts.md` (без `product_specification.md` и др.)
+- Статус до confirm RUN_DIR: `runs/ ещё НЕ создан`
 - Документация: chat-first как recommended path в quick-start, README, playbooks
-- Пример: [examples/chat-first-run.md](../examples/chat-first-run.md) (примеры A и B)
+- Пример: [examples/chat-first-run.md](../examples/chat-first-run.md) (примеры A, B и C)
 
 ### Критерии готовности (выполнены)
 
 - Запуск новой гипотезы без ручного создания `RUN_DIR` и без редактирования `input/hypothesis.md`
-- Обязательный confirm-step перед bootstrap
+- Двойной confirm-step: draft + предложенный `RUN_DIR` перед bootstrap
+- Новая гипотеза в тот же день получает следующий `HYP-*-NNN`, не пишет в предыдущий run
 - Созданный файл соответствует `templates/input-schema.md` и проходит validation
-- File-first путь сохранён как fallback
+- File-first путь сохранён как fallback; continue-existing только с явным `RUN_DIR:` в сообщении
 - Поддержка «грязных» входов через `#контекст` с валидацией mapping (v2.2.1)
+- Dialog bootstrap и isolation guardrails (v2.2.2)
 
 ### Релизы
 
@@ -173,6 +178,7 @@ gantt
 | ------ | --------- |
 | **2.2.0** | Базовый chat-first: intake skill, workflow, auto bootstrap, docs |
 | **2.2.1** | Trigger-теги, dirty input mode, статус `runs/ NOT created yet`, пример B |
+| **2.2.2** | Dialog RUN_DIR (двойной confirm), new run isolation, `#новая`, artifact allowlist, пример C |
 
 ### Бэклог (follow-up, не блокирует использование)
 

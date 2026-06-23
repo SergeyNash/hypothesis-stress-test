@@ -29,6 +29,27 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ---
 
+## [2.2.2] - 2026-06-23
+
+### Added
+
+- **Two-step confirm** for conversational run: (1) hypothesis draft (2) proposed `RUN_DIR` (`HYP-YYYY-MM-DD-NNN`).
+- **RUN_DIR dialog** (Step 4b): scan today's runs, propose next suffix, list existing runs as «will not modify».
+- **New run isolation**: without explicit `RUN_DIR:` in message, always create a new archive — never reuse open tabs.
+- **Trigger tag** `#new-run` / `#новая` / `#новый-прогон` for explicit new-run intent.
+- **Artifact allowlist** guardrail: no non-contract files (e.g. `product_specification.md`) in conversational flow.
+- Example C (second hypothesis same day → `002` vs `001`) in `examples/chat-first-run.md` and `.ru.md`.
+
+### Changed
+
+- `conversational-hypothesis-intake` skill: Step 4a/4b split, isolation rules, continue-existing only with `RUN_DIR:`.
+- `run-hypothesis-conversational.md` workflow: RUN_DIR dialog between draft confirm and bootstrap; do-not rules.
+- `.clinerules/10-artifact-contracts.md` — dialog-confirmed bootstrap replaces automatic bootstrap.
+- `.clinerules/00-hypothesis-framework.md` — entry modes: new hypothesis = new `HYP-*-NNN` via dialog.
+- Quick start, playbooks, cline-setup (EN/RU) — two-step confirm and `#new-run` guidance.
+
+---
+
 ## [2.2.1] - 2026-06-23
 
 ### Added
@@ -192,6 +213,7 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 - Manual execution templates in `templates/`.
 - Layer reasoning model in `layers/`.
 
+[2.2.2]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.0.0...v2.1.0
