@@ -242,6 +242,8 @@ Example candidate paths:
 
 ## 10) Phase split
 
-Phase A (this task): design + roadmap alignment.
+Phase A: design + roadmap alignment — **completed**.
 
-Phase B (separate epic): implement skill/workflow/docs/contracts updates.
+Phase B: skill/workflow/docs/contracts integration — **completed** (v2.3.0).
+
+See `examples/example-001/` for canonical mixed-source discovery outputs.

@@ -16,7 +16,7 @@ gantt
 
     section P0 — критично
     Conversational Run (chat-first)           :done, p0conv, 2026-06-01, 3w
-    Неструктурированная KB                  :crit, p0kb, 2026-07-01, 8w
+    Неструктурированная KB                  :done, p0kb, 2026-07-01, 8w
     Business Context & Value Check            :crit, p0biz, after p0kb, 6w
 
     section P1 — важно
@@ -31,9 +31,9 @@ gantt
 
 | Задача | Приоритет | Статус | Зависимости |
 | ------ | --------- | ------ | ----------- |
-| [Неструктурированная KB](#p0--поддержка-неструктурированной-базы-знаний) | P0 #1 | запланировано | — |
+| [Неструктурированная KB](#p0--поддержка-неструктурированной-базы-знаний) | P0 #1 | **реализовано** | — |
 | [Conversational Run (chat-first)](#p0--conversational-run-chat-first-запуск-из-чата) | P0 #2 | **реализовано** | — |
-| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #3 | запланировано | P0 #1 (частично; при структурированной KB — можно раньше) |
+| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #3 | запланировано | P0 #1 (реализован; при структурированной KB — можно раньше) |
 | [Onboarding (2 сценария)](#p1--упрощение-onboarding-два-пользовательских-сценария) | P1 | запланировано | — |
 | [Human output и режим артефактов](#p1--human-output-и-режим-артефактов) | P1 | запланировано (фаза 1 — MVP) | Decision Review (текущий пайплайн) |
 | [Windows-safe rules/skills](#p1--windows-safe-подключение-rulesskills) | P1 | запланировано | Onboarding |
@@ -51,8 +51,8 @@ gantt
 
 ## P0 — Поддержка неструктурированной базы знаний
 
-**Статус:** запланировано  
-**Приоритет:** первый пункт roadmap
+**Статус:** реализовано  
+**Приоритет:** первый пункт roadmap (P0 #1)
 
 ### Зачем
 
@@ -76,63 +76,59 @@ gantt
 
 Научить фреймворк находить, интерпретировать и цитировать evidence из неструктурированной KB, сохраняя правила качества доказательств (`local` / `external` / `inferred`, no evidence → no claim).
 
-### Область работ
+### Реализованные компоненты
 
-- Поддержка гетерогенных локальных источников:
-  - markdown и plain text
-  - изображения (png, jpg, webp, скриншоты)
-  - аудио (метаданные, транскрипты, ссылки на файлы)
-- Стратегия discovery по «грязным» папкам KB без обязательной схемы именования
-- Извлечение сигналов с привязкой к конкретному файлу/фрагменту
-- Маппинг в существующую модель сигналов Market Layer
-- Обратная совместимость с текущими контрактами `RUN_DIR`
+- **Local Evidence Discovery** (не «поиск по знаниям», а сбор трассируемых evidence items)
+- Skill: `local-knowledge-retrieval` — preview, atomic extraction, guardrails
+- Workflow: `/run-knowledge-retrieval.md` — standalone discovery step
+- Интеграция в `/run-hypothesis.md` (шаг 3, между Facilitator и Market)
+- Market Layer: inventory-first, затем Confluence MCP; каналы сигналов разделены
+- Артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`
+- Контракт evidence: `evidence_type`, `relevance_reason`, `extraction_note`, атомарность
+- Design-doc: [`architecture/local-knowledge-retrieval.md`](../architecture/local-knowledge-retrieval.md)
+- Layer doc: [`layers/local-evidence-discovery-layer.md`](../layers/local-evidence-discovery-layer.md)
+- Manual template: [`templates/knowledge-retrieval-prompt.md`](../templates/knowledge-retrieval-prompt.md)
+- Пример mixed-source: [`examples/example-001/`](../examples/example-001/) (`kb-samples/` + outputs)
 
-### Вне scope (на этом этапе)
+### V1 guardrails
 
-- Полная замена Confluence-first поведения
-- Считать вывод модели доказательством без ссылки на источник
-- Принудительная жёсткая схема KB для пользователя
+- `max_files_scanned`: 200
+- `max_file_size`: 2 MB
+- `max_evidence_items`: 20
+- `skip_binary_by_default`: true
+- Preview обязателен; extraction продолжается автоматически (без confirm gate)
+- Исключения scan: `hypothesis-stress-test/`, `runs/`, `.git/`, `.clinerules/`, `.cline/`
 
-### Ожидаемые результаты
+### Критерии готовности (выполнены)
 
-- Спецификация discovery для неструктурированных источников
-- Правила извлечения evidence из заметок, изображений и аудио
-- Обновление Market Layer, evidence rules и связанной документации
-- Пример прогона с mixed-source local evidence
+- Прогон собирает local signals из «грязной» KB с guardrails
+- `market_analysis.md` содержит findings со ссылками на `EVID-NNN` и исходные файлы
+- Структурированные workflow (`RUN_DIR`, personas, interviews) работают без breaking changes
+- Каналы сигналов разделены: Local KB / Confluence / External / Inferred
 
-### Фазы реализации
+### Релизы
 
-**Фаза A (завершено): дизайн**
+| Версия | Что вошло |
+| ------ | --------- |
+| **2.3.0** | Local Evidence Discovery: skill, workflow, contracts, docs, example-001 mixed-source |
 
-- design-doc: [`architecture/local-knowledge-retrieval.md`](../architecture/local-knowledge-retrieval.md)
-- формализация `discovery_preview.md` и `evidence_inventory.md`
-- контракт evidence (`evidence_type`, `relevance_reason`, `extraction_note`, атомарность)
-- пример workflow на уровне спецификации (без кода)
+### Бэклог (follow-up, не блокирует использование)
 
-**Фаза B (в работе): реализация**
+- [ ] Поддержка `.pdf` / `.docx` / `.html` (сейчас `skipped_unreadable` в V1)
+- [ ] Confirm gate после preview (опционально, post-V1)
+- [ ] E2E на реальном Obsidian vault в `runs/HYP-*` (пример — canonical `example-001`)
 
-- новый skill/workflow для Local Evidence Discovery
-- интеграция с Market Layer и контрактами артефактов
-- обновление playbooks/docs/examples
+См. также [architecture/todo.md](../architecture/todo.md#local-evidence-discovery--p0-1).
 
-Фаза B реализуется после review design-doc и уточняет контракты, workflow и документацию.
+### Затрагиваемые файлы
 
-### Критерии готовности
-
-- Прогон даёт полезные local signals даже при «грязной» KB
-- `market_analysis.md` содержит findings со ссылками на конкретные источники (файл, страница, фрагмент)
-- Структурированные workflow (`RUN_DIR`, personas, interviews) продолжают работать без изменений для пользователя
-
-### Затрагиваемые компоненты (план)
-
-- **Фаза A (дизайн):**
-  - `architecture/local-knowledge-retrieval.md`
-  - `roadmap/README.md` (этот раздел)
-- **Фаза B (реализация, позже):**
-  - `hypothesis-market-layer` — расширение local signal retrieval
-  - `.clinerules/20-evidence-rules.md` — правила для mixed-format sources
-  - `knowledge-base/` — документация по неструктурированным материалам
-  - `implementations/quick-start.ru.md` — сценарии «есть своя KB»
+- `.cline/skills/local-knowledge-retrieval/SKILL.md`
+- `.clinerules/workflows/run-knowledge-retrieval.md`
+- `.clinerules/workflows/run-hypothesis.md`, `run-market-layer.md`
+- `.cline/skills/hypothesis-market-layer/SKILL.md`
+- `.clinerules/10-artifact-contracts.md`, `20-evidence-rules.md`
+- `architecture/local-knowledge-retrieval.md`, playbooks, quick-start, SVG diagrams
+- `examples/example-001/kb-samples/`, `outputs/discovery_preview.md`, `outputs/evidence_inventory.md`
 
 ---
 
@@ -207,14 +203,15 @@ gantt
 
 ```text
 P0 #2 (Conversational Run)     ← независим, реализован
-P0 #1 (Unstructured KB)
-  → находит strategy/okr/business-model в KB
+P0 #1 (Unstructured KB)        ← реализован (Local Evidence Discovery)
+  → находит evidence в неструктурированной KB
 P0 #3 (Business Context & Value Check)
   → строит карту ценности и strategic fit
   → передаёт сигнал в Market / Synthesis
 ```
 
-Без P0 #1 слой P0 #3 может работать только при уже структурированной KB.  
+Без P0 #1 слой P0 #3 может работать только при уже структурированной KB (или после ручного размещения материалов стратегии в KB).  
+P0 #1 реализован — discovery находит evidence в неструктурированных папках; для P0 #3 всё ещё нужны сами материалы стратегии.  
 Без материалов стратегии в KB P0 #3 не анализирует гипотезу, а фиксирует gap (`missing_business_context.md`).
 
 ---

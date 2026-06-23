@@ -29,6 +29,33 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ---
 
+## [2.3.0] - 2026-06-23
+
+### Added
+
+- **Local Evidence Discovery** — pre-Market step to collect traceable evidence from unstructured local KB (not document search).
+- New skill: `local-knowledge-retrieval` (preview, guardrails, atomic `EVID-NNN` items).
+- New workflow: `/run-knowledge-retrieval.md`.
+- New layer doc: `layers/local-evidence-discovery-layer.md`.
+- New manual template: `templates/knowledge-retrieval-prompt.md`.
+- Design reference: `architecture/local-knowledge-retrieval.md`.
+- New artifacts: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
+- Evidence contract fields: `evidence_type`, `relevance_reason`, `extraction_note`; atomicity rules.
+- Example mixed-source KB: `examples/example-001/kb-samples/` with discovery outputs.
+
+### Changed
+
+- `/run-hypothesis.md` — Local Evidence Discovery as Step 3 (between Facilitator and Market).
+- `hypothesis-market-layer` skill — inventory-first, then Confluence MCP; four signal channels in output.
+- `/run-market-layer.md` — read `evidence_inventory.md` before Confluence search.
+- `.clinerules/10-artifact-contracts.md`, `20-evidence-rules.md` — discovery artifacts and channel separation.
+- Market output structure: `Local Signals from Knowledge Base`, `Confluence Signals`, `External Market Signals`, `Inferred Signals`.
+- Playbooks, quick-start, cline-setup, architecture docs, SVG diagrams — inventory-first flow.
+- `examples/example-001/outputs/market_analysis.md` — local signals with `EVID-*` references.
+- `roadmap/README.md` — P0 #1 marked implemented; `architecture/todo.md` — P0 #1 checklist.
+
+---
+
 ## [2.2.2] - 2026-06-23
 
 ### Added

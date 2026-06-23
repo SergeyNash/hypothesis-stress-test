@@ -6,7 +6,33 @@ Confluence MCP: not configured (example run — canonical outputs produced witho
 
 ## Local Signals from Knowledge Base
 
-missing local file evidence — example artifacts do not include discovery inventory
+- Critical projects experience multi-hour scan queue delays
+  - signal: strong
+  - type: local
+  - evidence: EVID-001, EVID-004
+  - evidence_type: quote, image_observation
+  - source: `workshop_queue.md`, `whiteboard_scan_queues.txt`
+
+- Queue backlog surfaces only when releases are blocked
+  - signal: medium
+  - type: local
+  - evidence: EVID-002
+  - evidence_type: quote
+  - source: `workshop_queue.md`
+
+- Business-critical apps are not automatically prioritized in current workflow
+  - signal: strong
+  - type: local
+  - evidence: EVID-003
+  - evidence_type: transcript_excerpt
+  - source: `2025-03-appsec-interview-excerpt.md`
+
+- Manual flagging required for tier-1 / escalated apps
+  - signal: medium
+  - type: local
+  - evidence: EVID-001, EVID-003
+  - evidence_type: quote, transcript_excerpt
+  - note: tribal knowledge and Slack-driven reordering described in sources
 
 ## Confluence Signals
 
@@ -39,12 +65,12 @@ missing confluence evidence — example artifacts; configure Confluence MCP for 
 - Security vs Delivery conflict is structural in enterprise AppSec
   - signal: strong
   - type: inferred
-  - basis: combination of pipeline friction and adoption failure signals
+  - basis: EVID-002 (release blocking) + external pipeline friction signals
 
 - Manual prioritization scalability issues at enterprise scale
   - signal: medium
   - type: inferred
-  - basis: policy-driven automation trend vs manual queue control
+  - basis: EVID-003 (manual flagging) + external policy-automation trend
 
 ## Key Stakeholders
 
@@ -74,8 +100,8 @@ missing confluence evidence — example artifacts; configure Confluence MCP for 
 
 ## Signal Summary
 
-- Overall local KB signal: none (inventory not included in canonical example)
+- Overall local KB signal: strong (4 extractable items from mixed markdown/text/custdev sources)
 - Overall confluence signal: none (MCP not used in example)
 - Overall external signal: strong (related problems), weak (standalone queue prioritization)
-- Missing evidence: internal Confluence research on AppSec queue workflows, customer interview summaries
-- Opportunity window: MEDIUM
+- Missing evidence: internal Confluence research on AppSec queue workflows; full audio transcript (EVID-005 metadata only)
+- Opportunity window: MEDIUM–HIGH (local evidence supports queue pain; external category still weak)

@@ -29,6 +29,33 @@
 
 ---
 
+## [2.3.0] - 2026-06-23
+
+### Добавлено
+
+- **Local Evidence Discovery** — шаг до Market Layer для сбора трассируемых evidence из неструктурированной локальной KB (не «поиск по документам»).
+- Skill: `local-knowledge-retrieval` (preview, guardrails, атомарные `EVID-NNN`).
+- Workflow: `/run-knowledge-retrieval.md`.
+- Layer doc: `layers/local-evidence-discovery-layer.md`.
+- Manual template: `templates/knowledge-retrieval-prompt.md`.
+- Design reference: `architecture/local-knowledge-retrieval.md`.
+- Артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
+- Контракт evidence: `evidence_type`, `relevance_reason`, `extraction_note`; правила атомарности.
+- Пример mixed-source KB: `examples/example-001/kb-samples/` + discovery outputs.
+
+### Изменено
+
+- `/run-hypothesis.md` — Local Evidence Discovery как шаг 3 (между Facilitator и Market).
+- Skill `hypothesis-market-layer` — inventory-first, затем Confluence MCP; четыре канала сигналов в output.
+- `/run-market-layer.md` — читать `evidence_inventory.md` до Confluence search.
+- `.clinerules/10-artifact-contracts.md`, `20-evidence-rules.md` — артефакты discovery и разделение каналов.
+- Структура Market output: Local KB / Confluence / External / Inferred.
+- Playbooks, quick-start, cline-setup, architecture docs, SVG diagrams — inventory-first flow.
+- `examples/example-001/outputs/market_analysis.md` — local signals со ссылками на `EVID-*`.
+- `roadmap/README.md` — P0 #1 отмечен как реализовано; `architecture/todo.md` — чеклист P0 #1.
+
+---
+
 ## [2.2.2] - 2026-06-23
 
 ### Добавлено

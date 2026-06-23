@@ -1,0 +1,8 @@
+Whiteboard photo description (2025-02-07) — scan queue workflow sketch
+
+Labels visible on photo:
+- "CI commit" -> "SAST queue" -> "waiting 4h+" box highlighted in red
+- sticky: "manual override?"
+- arrow to "AppSec engineer reorders"
+
+No readable participant names. Photo file: whiteboard_scan_queues.png (not stored in repo; observation derived from facilitator caption).

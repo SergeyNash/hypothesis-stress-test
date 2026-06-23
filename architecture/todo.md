@@ -51,6 +51,24 @@
 - [ ] Detect missing roles automatically in workflow
 - [ ] Detect missing research context automatically
 
+## Local Evidence Discovery — P0 #1
+
+См. [roadmap/README.md](../roadmap/README.md#p0--поддержка-неструктурированной-базы-знаний). Релиз: **v2.3.0**.
+
+- [x] Design-doc: `architecture/local-knowledge-retrieval.md`
+- [x] Skill `local-knowledge-retrieval` — preview, guardrails, atomic evidence extraction
+- [x] Workflow `/run-knowledge-retrieval.md`
+- [x] Layer doc + manual template (`layers/local-evidence-discovery-layer.md`, `templates/knowledge-retrieval-prompt.md`)
+- [x] Интеграция в `/run-hypothesis.md` (шаг 3) и Market Layer (inventory-first)
+- [x] Артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`
+- [x] Контракты: `10-artifact-contracts.md`, `20-evidence-rules.md`
+- [x] Документация, playbooks, SVG diagrams
+- [x] Пример mixed-source: `examples/example-001/kb-samples/` + discovery outputs
+- [ ] Поддержка `.pdf` / `.docx` / `.html` (V2)
+- [ ] E2E на реальном Obsidian vault в `runs/HYP-*`
+
+---
+
 ## Conversational Run (chat-first) — P0 #2
 
 См. [roadmap/README.md](../roadmap/README.md#p0--conversational-run-chat-first-запуск-из-чата). Релизы: **v2.2.0** (базовый flow), **v2.2.1** (dirty input + trigger-теги), **v2.2.2** (dialog RUN_DIR + isolation).
@@ -77,7 +95,7 @@
 ## Documentation
 
 - [x] Add Cline as primary implementation
-- [x] Emphasize Confluence-first MCP for local signals
+- [x] Emphasize inventory-first local evidence, then Confluence MCP
 - [x] Add product manager as primary user in README
 - [ ] Add examples of role profiles
 

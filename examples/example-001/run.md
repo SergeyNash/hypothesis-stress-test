@@ -16,6 +16,7 @@ Processed through Hypothesis Stress Test framework using Cline skills:
 |------|------------------|--------|
 | Input validation | `hypothesis-input-validation` | complete |
 | Facilitator (Roles Layer) | `hypothesis-facilitator` | complete |
+| Local Evidence Discovery | `local-knowledge-retrieval` | complete |
 | Market Layer | `hypothesis-market-layer` | complete |
 | Synthesis Layer | `hypothesis-synthesis` | complete |
 | Customer Discovery Planning | `customer-discovery-planning` | complete |
@@ -23,7 +24,9 @@ Processed through Hypothesis Stress Test framework using Cline skills:
 
 ## Confluence MCP
 
-Example outputs were produced with framework layers. For live runs, configure Confluence MCP per [implementations/confluence-mcp.md](../../implementations/confluence-mcp.md) to enrich Market Layer with local signals.
+Example outputs were produced with framework layers. KB samples for Local Evidence Discovery: `kb-samples/` (workshop notes, custdev excerpt, whiteboard caption).
+
+For live runs, configure Confluence MCP per [implementations/confluence-mcp.md](../../implementations/confluence-mcp.md) to enrich Market Layer with additional internal signals after inventory-first discovery.
 
 ## Result summary
 
