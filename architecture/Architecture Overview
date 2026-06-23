@@ -21,7 +21,7 @@ It transforms a hypothesis into:
 The system consists of four stages:
 
 ```text id="m2xg5u"
-Input → Roles Layer → Market Layer → Synthesis Layer → Decision Insight
+Input → Roles Layer → Local Evidence Discovery → Market Layer → Synthesis Layer → Decision Insight
 ```
 
 ---

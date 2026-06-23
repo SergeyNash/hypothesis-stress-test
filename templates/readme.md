@@ -13,6 +13,7 @@ For **Cline execution**, use skills in `.cline/skills/` instead — these templa
 Templates are structured prompts used to execute each layer:
 
 * Roles Layer
+* Local Evidence Discovery
 * Market Layer
 * Synthesis Layer
 * Customer Discovery Planning
@@ -49,6 +50,7 @@ Skills map from templates:
 | Template | Skill |
 |----------|-------|
 | `facilitator-prompt.md` | `hypothesis-facilitator` |
+| `knowledge-retrieval-prompt.md` | `local-knowledge-retrieval` |
 | `market-prompt.md` | `hypothesis-market-layer` |
 | `synthesis-prompt.md` | `hypothesis-synthesis` |
 | `customer-discovery-planning-prompt.md` | `customer-discovery-planning` |
@@ -99,6 +101,7 @@ If input is weak → output will be weak.
 See:
 
 * `facilitator-prompt.md`
+* `knowledge-retrieval-prompt.md`
 * `market-prompt.md`
 * `synthesis-prompt.md`
 * `customer-discovery-planning-prompt.md`

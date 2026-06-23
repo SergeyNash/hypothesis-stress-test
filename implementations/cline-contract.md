@@ -11,7 +11,7 @@ This document defines how the Hypothesis Stress Test framework maps to Cline.
 | Layer invariants | `.clinerules/*.md` |
 | Layer execution | `.cline/skills/*/SKILL.md` |
 | End-to-end run | `.clinerules/workflows/run-hypothesis.md` |
-| Local knowledge (Market) | Confluence MCP |
+| Local evidence retrieval | `local-knowledge-retrieval` skill + KB files |
 | Artifacts | Files under `RUN_DIR/outputs/` |
 
 ## Components
@@ -24,7 +24,7 @@ Located in `.clinerules/`:
 |------|---------|
 | `00-hypothesis-framework.md` | Framework overview, layer order |
 | `10-artifact-contracts.md` | RUN_DIR structure, naming, markers |
-| `20-evidence-rules.md` | Confluence-first evidence, signal types |
+| `20-evidence-rules.md` | KB evidence + Confluence + external/inferred channel rules |
 
 ### Skills (on-demand)
 
@@ -34,7 +34,8 @@ Located in `.cline/skills/`:
 |-------|---------|
 | `hypothesis-input-validation` | Before any layer run |
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
-| `hypothesis-market-layer` | Market Layer with Confluence MCP |
+| `local-knowledge-retrieval` | Local Evidence Discovery (preview + inventory) |
+| `hypothesis-market-layer` | Market Layer with KB inventory + Confluence MCP |
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
 | `customer-discovery-planning` | Customer Discovery Planning (interview-ready research plan) |
 | `hypothesis-decision-review` | Decision Review (mandatory gate) |
@@ -47,6 +48,7 @@ Located in `.clinerules/workflows/`:
 |----------|---------|
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
 | `run-facilitator.md` | `/run-facilitator.md` |
+| `run-knowledge-retrieval.md` | `/run-knowledge-retrieval.md` |
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
@@ -59,7 +61,8 @@ Located in `.clinerules/workflows/`:
 User provides RUN_DIR
   → validate input (skill or workflow)
   → Facilitator (skill) → role_outputs + summary + validation_questions + marker
-  → Market Layer (skill + Confluence MCP) → market_analysis + marker
+  → Local Evidence Discovery (skill) → discovery_preview + evidence_inventory + marker
+  → Market Layer (skill + inventory + Confluence MCP) → market_analysis + marker
   → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
   → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker

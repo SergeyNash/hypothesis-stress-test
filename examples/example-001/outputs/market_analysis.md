@@ -4,11 +4,15 @@
 
 Confluence MCP: not configured (example run — canonical outputs produced without live Confluence search)
 
-## Local Signals (Confluence)
+## Local Signals from Knowledge Base
 
-missing local evidence — example artifacts; configure Confluence MCP for live runs per [implementations/confluence-mcp.md](../../../implementations/confluence-mcp.md)
+missing local file evidence — example artifacts do not include discovery inventory
 
-## External Signals
+## Confluence Signals
+
+missing confluence evidence — example artifacts; configure Confluence MCP for live runs per [implementations/confluence-mcp.md](../../../implementations/confluence-mcp.md)
+
+## External Market Signals
 
 - Pipeline blocking friction in CI/CD security gates
   - signal: strong
@@ -70,7 +74,8 @@ missing local evidence — example artifacts; configure Confluence MCP for live 
 
 ## Signal Summary
 
-- Overall local signal: none (MCP not used in example)
+- Overall local KB signal: none (inventory not included in canonical example)
+- Overall confluence signal: none (MCP not used in example)
 - Overall external signal: strong (related problems), weak (standalone queue prioritization)
 - Missing evidence: internal Confluence research on AppSec queue workflows, customer interview summaries
 - Opportunity window: MEDIUM

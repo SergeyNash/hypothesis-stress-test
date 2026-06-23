@@ -1,9 +1,9 @@
 ---
 name: hypothesis-market-layer
-description: Execute the Market Layer with Confluence-first local signal retrieval. Validate external reality for a hypothesis and produce market_analysis.md. Use after Roles Layer or when external validation is needed.
+description: Execute Market Layer with explicit signal channels (KB inventory, Confluence, external, inferred). Validate external reality for a hypothesis and produce market_analysis.md.
 ---
 
-# Market Layer (Confluence-first)
+# Market Layer (Evidence-channel separation)
 
 Validate whether the problem exists in reality using evidence-based analysis.
 
@@ -11,8 +11,22 @@ Validate whether the problem exists in reality using evidence-based analysis.
 
 - `RUN_DIR/input/hypothesis.md` exists
 - Roles Layer outputs are optional but recommended
+- `RUN_DIR/outputs/evidence_inventory.md` is optional but recommended
 
-## Step 1 — Confluence MCP (required first)
+## Step 0 — Local KB inventory (if present)
+
+If `RUN_DIR/outputs/evidence_inventory.md` exists:
+
+- Read local evidence items (`EVID-NNN`)
+- Keep evidence atomic (do not rewrite as synthesis)
+- Preserve `evidence_type` and `relevance_reason`
+- If item is `metadata_only`, do not promote it to factual claim
+
+If inventory is missing:
+
+- Add explicit gap note in Local KB section: `missing local file evidence`
+
+## Step 1 — Confluence MCP
 
 Search Confluence for local signals related to the hypothesis:
 
@@ -24,7 +38,7 @@ Search Confluence for local signals related to the hypothesis:
 
 For each finding, record:
 
-- Signal type: **local**
+- Signal type: **local (confluence)**
 - Signal strength: strong / weak / none
 - Source: page title, space, URL or page ID
 
@@ -35,7 +49,7 @@ If Confluence MCP is not available, add:
 Confluence MCP: not configured
 ```
 
-Mark local signals as `missing local evidence`. Do not fabricate internal knowledge.
+Do not fabricate internal knowledge.
 
 ## Step 2 — External signals (secondary)
 
@@ -55,6 +69,7 @@ Logical conclusions from available data only. Label as **inferred** with explici
 - Distinguish facts from assumptions
 - Prefer uncertainty over hallucination
 - Do not invent market demand
+- Keep channels separate (KB / Confluence / External / Inferred)
 
 ## Output
 
@@ -66,17 +81,21 @@ Write `RUN_DIR/outputs/market_analysis.md` with sections:
 ## MCP Status
 Confluence MCP: configured | not configured
 
-## Local Signals (Confluence)
+## Local Signals from Knowledge Base
+- [finding] — signal: strong|weak|none — evidence_id: EVID-NNN — evidence_type: ... — source: [path]
+
+## Confluence Signals
 ...
 
-## External Signals
+## External Market Signals
 ...
 
 ## Inferred Signals
 ...
 
 ## Signal Summary
-- Overall local signal: strong|weak|none
+- Overall local KB signal: strong|weak|none
+- Overall confluence signal: strong|weak|none
 - Overall external signal: strong|weak|none
 - Missing evidence: ...
 ```

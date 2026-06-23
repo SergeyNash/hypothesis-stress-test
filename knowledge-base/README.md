@@ -4,7 +4,10 @@ Language: **English** | [Русский](./README.ru.md)
 
 Your personal knowledge base is a **separate project** (notes, discovery, research). Add the framework as a `hypothesis-stress-test/` folder inside it. See [quick-start.md](../implementations/quick-start.md#knowledge-base-and-workspace).
 
-The Market Layer retrieves **local signals** primarily from **Confluence** via MCP, and from **local files** in your KB project.
+The framework now separates local retrieval and analysis:
+
+- **Local Evidence Discovery** collects file-based local evidence into `discovery_preview.md` and `evidence_inventory.md`.
+- **Market Layer** interprets inventory + Confluence + external signals.
 
 ## Primary source: Confluence
 
@@ -43,14 +46,25 @@ If a persona has no linked `source_interviews`, treat it as a weak local signal.
 
 ## Signal labeling
 
-All Confluence findings go into `market_analysis.md` under **Local Signals (Confluence)** with:
+Market findings should keep channels separated:
+
+- `Local Signals from Knowledge Base`
+- `Confluence Signals`
+- `External Market Signals`
+- `Inferred Signals`
+
+All Confluence findings go into `market_analysis.md` under **Confluence Signals** with:
 
 - Signal strength: strong / weak / none
 - Source citation (page title + URL)
 
 ## Without Confluence
 
-If MCP is not configured, Market Layer documents `missing local evidence`. External sources are secondary and require explicit user approval.
+If MCP is not configured:
+
+- Local KB inventory can still provide local file evidence
+- Market Layer should mark Confluence channel as missing
+- External sources remain secondary and require explicit user approval
 
 ## Future extensions
 

@@ -136,14 +136,15 @@ Cline подхватит rules/skills из корня `hypothesis-stress-test`. 
 **Confluence (основной путь):**
 
 1. Настройте Confluence MCP — [confluence-mcp.ru.md](./confluence-mcp.ru.md).
-2. Market Layer ищет страницы при `/run-market-layer.md` или полном прогоне.
-3. Результаты попадают в `market_analysis.md` как **Local Signals (Confluence)**.
+2. Запустите Local Evidence Discovery (`/run-knowledge-retrieval.md`) для inventory локальных файлов.
+3. Market Layer читает inventory и затем ищет сигналы в Confluence.
+4. Результаты пишутся в `market_analysis.md` с раздельными каналами: KB / Confluence / External / Inferred.
 
 **Локальные файлы:**
 
 - Откройте репозиторий, где лежат заметки (вариант A или B).
-- Cline читает их при Market Layer через file tools.
-- В `market_analysis.md` такие findings маркируйте как **local** (источник — путь к файлу).
+- Cline читает их на шаге Local Evidence Discovery.
+- File-based findings сначала попадают в `outputs/evidence_inventory.md`, затем интерпретируются в Market Layer.
 
 **Personas и интервью:**
 
@@ -153,13 +154,13 @@ Cline подхватит rules/skills из корня `hypothesis-stress-test`. 
 - Roles Layer может использовать совпадающие personas как supporting context.
 - Persona без связанных `source_interviews` — слабый локальный сигнал, а не первичное evidence.
 
-Без Confluence и без локальных файлов в workspace Market Layer зафиксирует `missing local evidence`.
+Без Confluence и без локальных файлов retrieval + market зафиксируют gap по local evidence.
 
 ---
 
 ## Шаг 3. Настроить Confluence MCP
 
-Market Layer ищет **local signals** сначала в Confluence.
+Market Layer сначала использует `evidence_inventory.md`, затем Confluence MCP.
 
 Минимальная настройка — см. [confluence-mcp.ru.md](./confluence-mcp.ru.md).
 
@@ -225,10 +226,11 @@ Cline выполнит:
 
 1. Валидацию входа
 2. Facilitator (Roles Layer)
-3. Market Layer (с поиском в Confluence)
-4. Synthesis Layer
-5. Customer Discovery Planning
-6. Decision Review
+3. Local Evidence Discovery (preview + inventory)
+4. Market Layer (inventory + поиск в Confluence)
+5. Synthesis Layer
+6. Customer Discovery Planning
+7. Decision Review
 
 Подтверждайте запись файлов и вызовы MCP по запросу.
 
@@ -249,6 +251,8 @@ outputs/
   role_outputs/*
   hypothesis_summary.md
   validation_questions.md
+  discovery_preview.md
+  evidence_inventory.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
@@ -262,7 +266,7 @@ outputs/
 | `hypothesis_map.md` | Столкновение сигналов: дивергенции, слепые зоны, новая информация, границы, влияние на гипотезу |
 | `customer_discovery_plan.md` | Практичный CustDev-план: неизвестные, приоритеты, роли, гайд интервью |
 | `decision_review.md` | Adversarial review: уверенность, риски, план валидации |
-| `market_analysis.md` | Внешние и внутренние сигналы с источниками |
+| `market_analysis.md` | Раздельные каналы KB + Confluence + external + inferred с источниками |
 
 ---
 

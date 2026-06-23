@@ -34,6 +34,11 @@
 - Добавлены примерные артефакты для `examples/example-001`:
   - `outputs/customer_discovery_plan.md`
   - `outputs/customer_discovery_planning_complete.marker`
+- Новый skill: `local-knowledge-retrieval` (**Local Evidence Discovery**).
+- Новый workflow: `/run-knowledge-retrieval.md`.
+- Новый manual template: `templates/knowledge-retrieval-prompt.md`.
+- Новый layer doc: `layers/local-evidence-discovery-layer.md`.
+- Новые retrieval-артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
 
 ### Изменено
 
@@ -47,6 +52,20 @@
   - `assets/architecture-overview.svg`
   - `assets/artifact-flow.svg`
   - `assets/cline-workflow.svg`
+- Полный пайплайн теперь включает Local Evidence Discovery перед Market:
+  - Validate -> Facilitator -> Local Evidence Discovery -> Market -> Synthesis -> Customer Discovery Planning -> Decision Review -> Human backlog decision.
+- В Market Layer добавлено раздельное представление каналов:
+  - `Local Signals from Knowledge Base`
+  - `Confluence Signals`
+  - `External Market Signals`
+  - `Inferred Signals`
+- Market Layer теперь сначала использует `evidence_inventory.md`, затем Confluence, затем external/inferred.
+- Обновлены контракты артефактов и evidence-rules для атомарных evidence items (`evidence_type`, `relevance_reason`, `extraction_note`) и retrieval preview.
+- Синхронизирована EN/RU документация: architecture, playbooks, quick-start, Cline contract/setup, knowledge-base docs, templates.
+- Дополнительно обновлены диаграммы и reference-output под новый поток:
+  - `assets/cline-mcp-confluence.svg`
+  - `assets/artifact-flow-clean.svg`
+  - `examples/example-001/outputs/market_analysis.md`
 
 ---
 

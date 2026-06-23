@@ -238,7 +238,7 @@ VERSION            current framework version
 ## Principles
 
 * Separate internal and external signals
-* Confluence first for local evidence
+* Local evidence inventory first, then Confluence for internal wiki signals
 * No evidence → no claim
 * Contradictions matter more than consensus
 * Challenge conclusions before backlog planning

@@ -43,8 +43,8 @@
 
 <rect x="596" y="130" width="210" height="110" class="market"/>
 <text x="626" y="165" class="label">Market Layer</text>
-<text x="626" y="190" class="small">external signals</text>
-<text x="626" y="210" class="small">evidence + signal strength</text>
+<text x="626" y="190" class="small">inventory + Confluence</text>
+<text x="626" y="210" class="small">external/inferred signal strength</text>
 
 <rect x="866" y="130" width="210" height="110" class="synthesis"/>
 <text x="896" y="165" class="label">Synthesis Layer</text>
@@ -65,11 +65,13 @@
 <rect x="326" y="439" width="210" height="46" class="marker"/>
 <text x="350" y="468" class="small">ready_for_synthesis.marker</text>
 
-<text x="596" y="305" class="section">MARKET OUTPUTS</text>
+<text x="596" y="305" class="section">RETRIEVAL + MARKET OUTPUTS</text>
+<rect x="596" y="270" width="210" height="46" class="artifact"/>
+<text x="610" y="299" class="small">discovery_preview.md + evidence_inventory.md</text>
 <rect x="596" y="325" width="210" height="46" class="artifact"/>
 <text x="620" y="354" class="small">market_analysis.md</text>
 <rect x="596" y="382" width="210" height="46" class="marker"/>
-<text x="620" y="411" class="small">market_complete.marker</text>
+<text x="610" y="411" class="small">market_analysis_complete.marker</text>
 
 <text x="866" y="305" class="section">FINAL OUTPUTS</text>
 <rect x="866" y="325" width="210" height="46" class="artifact"/>
@@ -81,12 +83,12 @@
 
 <!-- Vertical artifact arrows -->
 <path d="M431 240 L431 318" class="arrow"/>
-<path d="M701 240 L701 318" class="arrow"/>
+<path d="M701 240 L701 264" class="arrow"/>
 <path d="M971 240 L971 318" class="arrow"/>
 
 <!-- Synthesis consumes artifact groups: clean bottom bus -->
 <path d="M431 485 L431 535 L971 535 L971 485" class="soft"/>
 <path d="M701 428 L701 535" class="soft"/>
-<text x="555" y="560" class="small">Synthesis reads Roles + Market artifacts and produces final decision artifacts</text>
+<text x="535" y="560" class="small">Synthesis reads Roles + retrieval/market artifacts and produces final decision artifacts</text>
 
 </svg>

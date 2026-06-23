@@ -108,13 +108,33 @@ Output language matches `input/hypothesis.md`.
 
 ---
 
-## Step 2 — Run Market Layer (Market Reality Check)
+## Step 2 — Run Local Evidence Discovery
+
+**Cline:** skill `local-knowledge-retrieval` or `/run-knowledge-retrieval.md`
+
+**Manual:** [templates/knowledge-retrieval-prompt.md](../templates/knowledge-retrieval-prompt.md)
+
+Output:
+
+* `discovery_preview.md`
+* `evidence_inventory.md`
+* `knowledge_retrieval_complete.marker`
+
+Rules:
+
+* one evidence item = one atomic signal
+* no synthesis in retrieval step
+* preview is always generated, extraction auto-continues in V1
+
+---
+
+## Step 3 — Run Market Layer (Market Reality Check)
 
 **Cline:** skill `hypothesis-market-layer` or `/run-market-layer.md`
 
 **Manual:** [templates/market-prompt.md](../templates/market-prompt.md)
 
-**Confluence first:** search Confluence MCP for local signals before external sources.
+**Inventory first:** use `evidence_inventory.md` from Local Evidence Discovery, then search Confluence MCP for additional internal signals.
 
 Input:
 
@@ -131,11 +151,11 @@ Rules:
 * no evidence → no claim
 * sources must be explicit
 * distinguish facts from assumptions
-* label signal type: local / external / inferred
+* keep channels separated: KB / Confluence / external / inferred
 
 ---
 
-## Step 3 — Run Synthesis Layer
+## Step 4 — Run Synthesis Layer
 
 **Cline:** skill `hypothesis-synthesis` or `/run-synthesis.md`
 
@@ -165,7 +185,7 @@ Goal:
 
 ---
 
-## Step 4 — Run Customer Discovery Planning
+## Step 5 — Run Customer Discovery Planning
 
 **Cline:** skill `customer-discovery-planning` or `/run-customer-discovery-planning.md`
 
@@ -190,7 +210,7 @@ Goal:
 
 ---
 
-## Step 5 — Run Decision Review
+## Step 6 — Run Decision Review
 
 **Cline:** skill `hypothesis-decision-review` or `/run-decision-review.md`
 
@@ -215,7 +235,7 @@ Do not skip this step. Decision Review does not repeat synthesis — it adds adv
 
 ---
 
-## Step 6 — Backlog Decision (Human)
+## Step 7 — Backlog Decision (Human)
 
 Review `decision_review.md` and make the final backlog decision:
 

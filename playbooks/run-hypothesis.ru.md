@@ -108,13 +108,33 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 ---
 
-## Шаг 2 — Market Layer (Market Reality Check)
+## Шаг 2 — Local Evidence Discovery
+
+**Cline:** skill `local-knowledge-retrieval` или `/run-knowledge-retrieval.md`
+
+**Ручной режим:** [templates/knowledge-retrieval-prompt.md](../templates/knowledge-retrieval-prompt.md)
+
+Выход:
+
+* `discovery_preview.md`
+* `evidence_inventory.md`
+* `knowledge_retrieval_complete.marker`
+
+Правила:
+
+* один evidence item = один атомарный сигнал
+* без синтеза в retrieval-шаге
+* preview всегда создаётся; в V1 извлечение продолжается автоматически
+
+---
+
+## Шаг 3 — Market Layer (Market Reality Check)
 
 **Cline:** skill `hypothesis-market-layer` или `/run-market-layer.md`
 
 **Ручной режим:** [templates/market-prompt.md](../templates/market-prompt.md)
 
-**Confluence first:** сначала поиск local signals в Confluence MCP.
+**Inventory first:** сначала используйте `evidence_inventory.md`, затем Confluence MCP для дополнительных внутренних сигналов.
 
 Вход:
 
@@ -131,11 +151,11 @@ RUN_DIR: runs/HYP-2026-06-22-001
 * нет evidence → нет утверждения
 * источники должны быть явными
 * разделяйте факты и допущения
-* тип сигнала: local / external / inferred
+* держите каналы раздельно: KB / Confluence / external / inferred
 
 ---
 
-## Шаг 3 — Synthesis Layer
+## Шаг 4 — Synthesis Layer
 
 **Cline:** skill `hypothesis-synthesis` или `/run-synthesis.md`
 
@@ -165,7 +185,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 4 — Customer Discovery Planning
+## Шаг 5 — Customer Discovery Planning
 
 **Cline:** skill `customer-discovery-planning` или `/run-customer-discovery-planning.md`
 
@@ -190,7 +210,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 5 — Decision Review
+## Шаг 6 — Decision Review
 
 **Cline:** skill `hypothesis-decision-review` или `/run-decision-review.md`
 
@@ -215,7 +235,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 6 — Backlog Decision (человек)
+## Шаг 7 — Backlog Decision (человек)
 
 Изучите `decision_review.md` и примите финальное решение:
 

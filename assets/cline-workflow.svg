@@ -19,7 +19,7 @@
 
   <rect width="1050" height="520" fill="#F8FAFC"/>
   <text x="50" y="45" class="title">Cline Execution Flow</text>
-  <text x="50" y="68" class="subtitle">Rules, skills, workflows, and Confluence MCP</text>
+  <text x="50" y="68" class="subtitle">Rules, skills, workflows, KB inventory retrieval, and Confluence MCP</text>
 
   <g filter="url(#shadow)">
     <rect x="50" y="110" width="120" height="70" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
@@ -81,34 +81,33 @@
 
   <g filter="url(#shadow)">
     <rect x="270" y="270" width="100" height="80" rx="14" fill="#DCFCE7" stroke="#16A34A"/>
-    <text x="288" y="300" class="card-title">Market</text>
-    <text x="282" y="322" class="card-sub">+ Confluence</text>
+    <text x="276" y="300" class="card-title">Local Evidence</text>
+    <text x="282" y="322" class="card-sub">preview + inventory</text>
   </g>
 
   <g filter="url(#shadow)">
     <rect x="390" y="270" width="100" height="80" rx="14" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="400" y="300" class="card-title">Synthesis</text>
-    <text x="388" y="322" class="card-sub">signal collision</text>
+    <text x="410" y="300" class="card-title">Market</text>
+    <text x="382" y="322" class="card-sub">inventory + Confluence</text>
   </g>
 
   <g filter="url(#shadow)">
     <rect x="510" y="270" width="115" height="80" rx="14" fill="#FEF9C3" stroke="#CA8A04"/>
-    <text x="518" y="300" class="card-title">Customer</text>
-    <text x="520" y="318" class="card-title">Discovery</text>
-    <text x="520" y="338" class="card-sub">planning</text>
+    <text x="520" y="300" class="card-title">Synthesis</text>
+    <text x="517" y="322" class="card-sub">signal collision</text>
   </g>
 
   <g filter="url(#shadow)">
     <rect x="645" y="270" width="115" height="80" rx="14" fill="#FFF1F2" stroke="#E11D48"/>
-    <text x="655" y="300" class="card-title">Decision</text>
-    <text x="663" y="318" class="card-title">Review</text>
-    <text x="660" y="338" class="card-sub">review skill</text>
+    <text x="653" y="300" class="card-title">Customer</text>
+    <text x="663" y="318" class="card-title">Discovery</text>
+    <text x="660" y="338" class="card-sub">planning</text>
   </g>
 
   <g filter="url(#shadow)">
     <rect x="780" y="270" width="100" height="80" rx="14" fill="#FFE4E6" stroke="#BE123C"/>
-    <text x="795" y="300" class="card-title">Backlog</text>
-    <text x="800" y="322" class="card-sub">human</text>
+    <text x="795" y="300" class="card-title">Decision</text>
+    <text x="800" y="322" class="card-sub">review</text>
   </g>
 
   <line x1="130" y1="310" x2="145" y2="310" stroke="#64748b" stroke-width="2" marker-end="url(#arrow)"/>
@@ -121,7 +120,7 @@
   <g filter="url(#shadow)">
     <rect x="50" y="400" width="950" height="90" rx="18" fill="#FFFFFF" stroke="#CBD5E1"/>
     <text x="75" y="430" class="label">RUN_DIR / OUTPUTS</text>
-    <text x="75" y="458" class="card-sub">hypothesis.md -&gt; role_outputs/* -&gt; validation_questions.md -&gt; market_analysis.md -&gt; customer_discovery_plan.md -&gt; decision_review.md</text>
+    <text x="75" y="458" class="card-sub">hypothesis.md -&gt; role_outputs/* -&gt; discovery_preview.md + evidence_inventory.md -&gt; market_analysis.md -&gt; hypothesis_map.md</text>
     <text x="75" y="478" class="tiny">Human approves file writes and MCP tool calls at each step</text>
   </g>
 

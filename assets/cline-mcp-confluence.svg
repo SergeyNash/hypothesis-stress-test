@@ -18,8 +18,8 @@
   </defs>
 
   <rect width="800" height="480" fill="#F8FAFC"/>
-  <text x="50" y="42" class="title">Confluence MCP - Local Signals</text>
-  <text x="50" y="65" class="subtitle">Primary knowledge source for Market Layer</text>
+  <text x="50" y="42" class="title">Confluence MCP - Confluence Signals Channel</text>
+  <text x="50" y="65" class="subtitle">Used by Market Layer after Local Evidence Discovery inventory</text>
 
   <g filter="url(#shadow)">
     <rect x="50" y="100" width="200" height="120" rx="18" fill="#DCFCE7" stroke="#16A34A" stroke-width="2"/>
@@ -39,7 +39,7 @@
     <rect x="470" y="100" width="200" height="120" rx="18" fill="#F0FDF4" stroke="#22C55E" stroke-width="2"/>
     <text x="495" y="135" class="label">MARKET LAYER</text>
     <text x="495" y="162" class="card-title">hypothesis-market</text>
-    <text x="495" y="184" class="card-sub">Confluence search first</text>
+    <text x="495" y="184" class="card-sub">Inventory first, then Confluence search</text>
     <text x="495" y="202" class="card-sub">then external (optional)</text>
   </g>
 
@@ -49,9 +49,9 @@
   <g filter="url(#shadow)">
     <rect x="50" y="280" width="620" height="150" rx="18" fill="#FFFFFF" stroke="#CBD5E1"/>
     <text x="75" y="310" class="label">market_analysis.md</text>
-    <text x="75" y="340" class="card-sub">## Local Signals (Confluence)</text>
+    <text x="75" y="340" class="card-sub">## Confluence Signals</text>
     <text x="95" y="362" class="tiny">- finding / signal: strong / source: Page Title</text>
-    <text x="75" y="390" class="card-sub">## External Signals (secondary)</text>
+    <text x="75" y="390" class="card-sub">## External Market Signals (secondary)</text>
     <text x="75" y="412" class="card-sub">## MCP Status / Confluence MCP: configured or not configured</text>
   </g>
 
@@ -62,5 +62,5 @@
     <text x="708" y="340" class="tiny" transform="rotate(90 708,340)">missing local evidence</text>
   </g>
 
-  <text x="50" y="460" class="tiny">Without Confluence MCP: document missing local evidence. Do not fabricate internal knowledge.</text>
+  <text x="50" y="460" class="tiny">Without Confluence MCP: keep KB inventory signals, mark Confluence channel missing, do not fabricate internal knowledge.</text>
 </svg>

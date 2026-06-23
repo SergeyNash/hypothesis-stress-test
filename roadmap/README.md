@@ -98,6 +98,23 @@ gantt
 - Обновление Market Layer, evidence rules и связанной документации
 - Пример прогона с mixed-source local evidence
 
+### Фазы реализации
+
+**Фаза A (завершено): дизайн**
+
+- design-doc: [`architecture/local-knowledge-retrieval.md`](../architecture/local-knowledge-retrieval.md)
+- формализация `discovery_preview.md` и `evidence_inventory.md`
+- контракт evidence (`evidence_type`, `relevance_reason`, `extraction_note`, атомарность)
+- пример workflow на уровне спецификации (без кода)
+
+**Фаза B (в работе): реализация**
+
+- новый skill/workflow для Local Evidence Discovery
+- интеграция с Market Layer и контрактами артефактов
+- обновление playbooks/docs/examples
+
+Фаза B реализуется после review design-doc и уточняет контракты, workflow и документацию.
+
 ### Критерии готовности
 
 - Прогон даёт полезные local signals даже при «грязной» KB
@@ -106,10 +123,14 @@ gantt
 
 ### Затрагиваемые компоненты (план)
 
-- `hypothesis-market-layer` — расширение local signal retrieval
-- `.clinerules/20-evidence-rules.md` — правила для mixed-format sources
-- `knowledge-base/` — документация по неструктурированным материалам
-- `implementations/quick-start.ru.md` — сценарии «есть своя KB»
+- **Фаза A (дизайн):**
+  - `architecture/local-knowledge-retrieval.md`
+  - `roadmap/README.md` (этот раздел)
+- **Фаза B (реализация, позже):**
+  - `hypothesis-market-layer` — расширение local signal retrieval
+  - `.clinerules/20-evidence-rules.md` — правила для mixed-format sources
+  - `knowledge-base/` — документация по неструктурированным материалам
+  - `implementations/quick-start.ru.md` — сценарии «есть своя KB»
 
 ---
 

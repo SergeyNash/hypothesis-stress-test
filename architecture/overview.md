@@ -39,7 +39,9 @@ See [implementations/cline-contract.md](../implementations/cline-contract.md) fo
 input/hypothesis.md
   → Input Validation
   → Roles Layer (skill)
-  → Market Layer (skill + Confluence MCP)
+  → Local Evidence Discovery (skill)
+  → discovery_preview.md + evidence_inventory.md
+  → Market Layer (skill + inventory + Confluence MCP)
   → Synthesis Layer (skill)
   → hypothesis_map.md + hypothesis_digest.txt
   → Customer Discovery Planning (skill)

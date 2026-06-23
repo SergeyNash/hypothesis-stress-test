@@ -66,13 +66,40 @@ Purpose:
 
 ---
 
-## Step 2 — Market Layer
+## Step 2 — Local Evidence Discovery
+
+**Cline skill:** `local-knowledge-retrieval`
+
+**Manual template:** `templates/knowledge-retrieval-prompt.md`
+
+Input:
+
+* hypothesis statement
+* optional facilitator summary
+
+Expected output:
+
+```text
+outputs/discovery_preview.md
+outputs/evidence_inventory.md
+outputs/knowledge_retrieval_complete.marker
+```
+
+Purpose:
+
+* discover source-linked local evidence before analysis
+* keep evidence atomic (no synthesis)
+* provide retrieval audit trail (scanned/skipped/candidates)
+
+---
+
+## Step 3 — Market Layer
 
 **Cline skill:** `hypothesis-market-layer`
 
 **Manual template:** `templates/market-prompt.md`
 
-**Confluence first:** search Confluence MCP for local signals before external sources.
+**Inventory first:** read `outputs/evidence_inventory.md`, then search Confluence MCP for additional internal signals.
 
 Input:
 
@@ -90,13 +117,13 @@ outputs/market_analysis_complete.marker
 Purpose:
 
 * validate whether the problem exists externally
-* retrieve local signals from Confluence
+* interpret local signals from KB inventory + Confluence
 * identify current solution patterns
 * classify signal strength
 
 ---
 
-## Step 3 — Synthesis Layer
+## Step 4 — Synthesis Layer
 
 **Cline skill:** `hypothesis-synthesis`
 
@@ -125,7 +152,7 @@ Purpose:
 
 ---
 
-## Step 4 — Customer Discovery Planning
+## Step 5 — Customer Discovery Planning
 
 **Cline skill:** `customer-discovery-planning`
 
@@ -150,7 +177,7 @@ Purpose:
 
 ---
 
-## Step 5 — Decision Review
+## Step 6 — Decision Review
 
 **Cline skill:** `hypothesis-decision-review`
 
@@ -186,6 +213,8 @@ examples/example-001/
     role_outputs/
     hypothesis_summary.md
     validation_questions.md
+    discovery_preview.md
+    evidence_inventory.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

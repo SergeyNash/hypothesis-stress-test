@@ -136,14 +136,15 @@ Open the framework repo as workspace. Best when KB is mainly in **Confluence**, 
 **Confluence (primary path):**
 
 1. Configure Confluence MCP — [confluence-mcp.md](./confluence-mcp.md).
-2. Market Layer searches Confluence during `/run-market-layer.md` or a full run.
-3. Results go to `market_analysis.md` as **Local Signals (Confluence)**.
+2. Run Local Evidence Discovery (`/run-knowledge-retrieval.md`) to build local file inventory.
+3. Market Layer reads inventory first, then searches Confluence.
+4. Results go to `market_analysis.md` with separate channels: KB / Confluence / External / Inferred.
 
 **Local files:**
 
 - Open the repository containing your notes (option A or B).
-- Cline reads them during Market Layer via file tools.
-- Label such findings as **local** in `market_analysis.md` (source: file path).
+- Cline reads them in Local Evidence Discovery.
+- File-based findings are stored in `outputs/evidence_inventory.md` before Market interpretation.
 
 **Personas and interviews:**
 
@@ -153,13 +154,13 @@ Open the framework repo as workspace. Best when KB is mainly in **Confluence**, 
 - Roles Layer can use matching personas as supporting context.
 - A persona without linked `source_interviews` is a weak local signal, not primary evidence.
 
-Without Confluence and without local files in the workspace, Market Layer will record `missing local evidence`.
+Without Confluence and without local files in the workspace, retrieval + market will record missing local evidence gaps.
 
 ---
 
 ## Step 3. Configure Confluence MCP
 
-Market Layer searches **local signals** in Confluence first.
+Market Layer uses `evidence_inventory.md` first, then Confluence MCP.
 
 Minimal setup: [confluence-mcp.md](./confluence-mcp.md).
 
@@ -225,10 +226,11 @@ Cline will:
 
 1. Validate input
 2. Run Facilitator (Roles Layer)
-3. Run Market Layer (with Confluence search)
-4. Run Synthesis Layer
-5. Run Customer Discovery Planning
-6. Run Decision Review
+3. Run Local Evidence Discovery (preview + inventory)
+4. Run Market Layer (inventory + Confluence search)
+5. Run Synthesis Layer
+6. Run Customer Discovery Planning
+7. Run Decision Review
 
 Approve file writes and MCP tool calls when prompted.
 
@@ -249,6 +251,8 @@ outputs/
   role_outputs/*
   hypothesis_summary.md
   validation_questions.md
+  discovery_preview.md
+  evidence_inventory.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
@@ -262,7 +266,7 @@ outputs/
 | `hypothesis_map.md` | Signal collision: divergences, blind spots, new information, applicability, reframe impact |
 | `customer_discovery_plan.md` | Interview-ready CustDev plan: unknowns, priorities, target roles, interview guide |
 | `decision_review.md` | Adversarial review: confidence, risks, validation plan |
-| `market_analysis.md` | Internal and external signals with sources |
+| `market_analysis.md` | KB signals + Confluence + external + inferred channels with sources |
 
 ---
 

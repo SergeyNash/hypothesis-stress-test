@@ -108,6 +108,8 @@ outputs/
   role_outputs/*
   hypothesis_summary.md
   validation_questions.md
+  discovery_preview.md
+  evidence_inventory.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
@@ -115,7 +117,7 @@ outputs/
   decision_review.md
 ```
 
-Сначала `hypothesis_digest.txt` (итог столкновения сигналов, макс. 150 слов), затем `customer_discovery_plan.md` (практичный план CustDev-интервью), затем `decision_review.md` — уверенность и рекомендация перед backlog decision.
+Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
 
 ## Plan vs Act mode
 

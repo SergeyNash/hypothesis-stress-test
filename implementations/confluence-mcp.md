@@ -4,7 +4,7 @@ Language: **English** | [Русский](./confluence-mcp.ru.md)
 
 Confluence is the **primary MCP source** for local signals in the Market Layer.
 
-## Why Confluence first
+## Why Confluence matters
 
 Internal Confluence often contains:
 
@@ -98,10 +98,10 @@ When running Market Layer (`hypothesis-market-layer` skill or `/run-market-layer
    - User research and customer feedback
    - Architectural or process constraints
 
-2. For each relevant finding, record in `market_analysis.md`:
+2. For each relevant finding, record in `market_analysis.md` under **Confluence Signals**:
 
 ```markdown
-## Local Signals (Confluence)
+## Confluence Signals
 
 - [finding description]
   - signal: strong | weak | none
@@ -112,7 +112,7 @@ When running Market Layer (`hypothesis-market-layer` skill or `/run-market-layer
 3. If no relevant pages found — state explicitly:
 
 ```markdown
-## Local Signals (Confluence)
+## Confluence Signals
 
 No relevant local evidence found.
 
@@ -128,8 +128,8 @@ Market Layer can still run, but must document:
 ## MCP Status
 Confluence MCP: not configured
 
-## Local Signals (Confluence)
-missing local evidence — MCP not available
+## Confluence Signals
+missing confluence evidence — MCP not available
 ```
 
 Do not fabricate internal knowledge. External signals may be used if the user approves.

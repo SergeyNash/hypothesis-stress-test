@@ -4,7 +4,10 @@
 
 Ваша личная база знаний — это **отдельный проект** (заметки, discovery, research). Фреймворк добавляется папкой `hypothesis-stress-test/` внутри него. См. [quick-start.ru.md](../implementations/quick-start.ru.md#база-знаний-и-workspace).
 
-Market Layer получает **local signals** прежде всего из **Confluence** через MCP, а также из **локальных файлов** вашего KB-проекта.
+Фреймворк теперь явно разделяет retrieval и анализ:
+
+- **Local Evidence Discovery** собирает file-based evidence в `discovery_preview.md` и `evidence_inventory.md`.
+- **Market Layer** интерпретирует inventory + Confluence + external сигналы.
 
 ## Основной источник: Confluence
 
@@ -43,14 +46,25 @@ knowledge-base/
 
 ## Маркировка сигналов
 
-Все findings из Confluence попадают в `market_analysis.md` в раздел **Local Signals (Confluence)** с указанием:
+В `market_analysis.md` каналы должны быть разделены:
+
+- `Local Signals from Knowledge Base`
+- `Confluence Signals`
+- `External Market Signals`
+- `Inferred Signals`
+
+Все findings из Confluence попадают в раздел **Confluence Signals** с указанием:
 
 - Силы сигнала: strong / weak / none
 - Цитаты источника (название страницы + URL)
 
 ## Без Confluence
 
-Если MCP не настроен, Market Layer фиксирует `missing local evidence`. External sources — вторичны и требуют явного одобрения пользователя.
+Если MCP не настроен:
+
+- локальный inventory из KB всё равно может дать local evidence
+- канал Confluence помечается как отсутствующий
+- external sources остаются вторичными и требуют явного одобрения пользователя
 
 ## Будущие расширения
 

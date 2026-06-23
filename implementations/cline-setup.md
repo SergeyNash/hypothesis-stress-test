@@ -110,6 +110,8 @@ outputs/
   role_outputs/*
   hypothesis_summary.md
   validation_questions.md
+  discovery_preview.md
+  evidence_inventory.md
   market_analysis.md
   hypothesis_map.md
   hypothesis_digest.txt
@@ -117,7 +119,7 @@ outputs/
   decision_review.md
 ```
 
-Read `hypothesis_digest.txt` first (signal collision summary, max 150 words), then `customer_discovery_plan.md` (interview-ready research plan), then `decision_review.md` for confidence and recommendation before backlog decision.
+For evidence traceability, inspect `discovery_preview.md` and `evidence_inventory.md` before reading `market_analysis.md`.
 
 ## Plan vs Act mode
 

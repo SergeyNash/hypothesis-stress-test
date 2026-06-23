@@ -1,4 +1,5 @@
 # Market Prompt
+
 This is an execution template, not a system prompt.
 
 RUN_DIR: [set your run directory]
@@ -26,7 +27,12 @@ Provide minimal but concrete context:
 
 Validate whether this problem exists in reality.
 
-**Confluence first (if MCP available):** search internal wiki for local signals before external sources.
+Use evidence channels in this order:
+
+1. Local KB inventory (`outputs/evidence_inventory.md`) if available
+2. Confluence MCP
+3. External sources (only if gaps remain and user approves)
+4. Inferred signals (last resort)
 
 You MUST:
 
@@ -61,8 +67,9 @@ Classify findings:
 Generate `RUN_DIR/outputs/market_analysis.md` with sections:
 
 * MCP Status
-* Local Signals (Confluence)
-* External Signals
+* Local Signals from Knowledge Base
+* Confluence Signals
+* External Market Signals
 * Inferred Signals
 * Signal Summary
 

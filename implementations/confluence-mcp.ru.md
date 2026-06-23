@@ -4,7 +4,7 @@
 
 Confluence — **основной MCP-источник** local signals для Market Layer.
 
-## Почему Confluence первым
+## Почему Confluence важен
 
 Внутренний Confluence часто содержит:
 
@@ -98,10 +98,10 @@ API token: Atlassian Account Settings → Security → API tokens.
    - user research и обратной связи
    - архитектурным и процессным ограничениям
 
-2. Для каждого finding записывайте в `market_analysis.md`:
+2. Для каждого finding записывайте в `market_analysis.md` в раздел **Confluence Signals**:
 
 ```markdown
-## Local Signals (Confluence)
+## Confluence Signals
 
 - [описание finding]
   - signal: strong | weak | none
@@ -112,7 +112,7 @@ API token: Atlassian Account Settings → Security → API tokens.
 3. Если релевантных страниц нет — явно укажите:
 
 ```markdown
-## Local Signals (Confluence)
+## Confluence Signals
 
 No relevant local evidence found.
 
@@ -128,8 +128,8 @@ Market Layer может работать, но обязан зафиксиров
 ## MCP Status
 Confluence MCP: not configured
 
-## Local Signals (Confluence)
-missing local evidence — MCP not available
+## Confluence Signals
+missing confluence evidence — MCP not available
 ```
 
 Не выдумывайте внутренние знания. External signals — только с одобрения пользователя.

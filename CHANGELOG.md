@@ -34,6 +34,11 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 - Example artifacts for `examples/example-001`:
   - `outputs/customer_discovery_plan.md`
   - `outputs/customer_discovery_planning_complete.marker`
+- New skill: `local-knowledge-retrieval` (**Local Evidence Discovery**).
+- New workflow: `/run-knowledge-retrieval.md`.
+- New manual template: `templates/knowledge-retrieval-prompt.md`.
+- New layer doc: `layers/local-evidence-discovery-layer.md`.
+- New retrieval artifacts: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
 
 ### Changed
 
@@ -47,6 +52,20 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
   - `assets/architecture-overview.svg`
   - `assets/artifact-flow.svg`
   - `assets/cline-workflow.svg`
+- Full pipeline order now includes Local Evidence Discovery before Market:
+  - Validate -> Facilitator -> Local Evidence Discovery -> Market -> Synthesis -> Customer Discovery Planning -> Decision Review -> Human backlog decision.
+- Market Layer updated to channel-separated output:
+  - `Local Signals from Knowledge Base`
+  - `Confluence Signals`
+  - `External Market Signals`
+  - `Inferred Signals`
+- Market now consumes `evidence_inventory.md` before Confluence search (inventory-first, then Confluence, then external/inferred).
+- Artifact contracts and evidence rules updated for atomic evidence items (`evidence_type`, `relevance_reason`, `extraction_note`) and retrieval preview.
+- EN/RU docs updated across architecture, playbooks, quick-start, Cline contract/setup, knowledge-base docs, and templates.
+- Additional diagrams and reference output updated for the new flow:
+  - `assets/cline-mcp-confluence.svg`
+  - `assets/artifact-flow-clean.svg`
+  - `examples/example-001/outputs/market_analysis.md`
 
 ---
 

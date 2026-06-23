@@ -14,12 +14,15 @@ RUN_DIR/
     role_outputs/          # one file per role
     hypothesis_summary.md
     validation_questions.md
+    discovery_preview.md
+    evidence_inventory.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
     ready_for_synthesis.marker
+    knowledge_retrieval_complete.marker
     market_analysis_complete.marker
     synthesis_complete.marker
     customer_discovery_planning_complete.marker
@@ -80,6 +83,8 @@ Roles listed in `input/hypothesis.md` remain the run-specific source of scope. P
 | Per-role analysis | `outputs/role_outputs/{role_slug}.md` | Facilitator (Roles Layer) |
 | Internal summary | `outputs/hypothesis_summary.md` | Facilitator (Roles Layer) |
 | Interview questions | `outputs/validation_questions.md` | Facilitator (Roles Layer) |
+| Retrieval preview | `outputs/discovery_preview.md` | Local Evidence Discovery |
+| Evidence inventory | `outputs/evidence_inventory.md` | Local Evidence Discovery |
 | Market analysis | `outputs/market_analysis.md` | Market Layer |
 | Full synthesis | `outputs/hypothesis_map.md` | Synthesis Layer |
 | Short digest | `outputs/hypothesis_digest.txt` | Synthesis Layer |
@@ -100,6 +105,38 @@ Must include: pain, new problems, alternatives, failure context, applicability b
 
 Behavior-based interview questions per role. No leading or hypothetical questions (e.g. "Would you use this?"). Language matches `input/hypothesis.md`.
 
+### discovery_preview.md (local evidence discovery)
+
+Must include:
+
+- limits applied (`max_files_scanned`, `max_file_size`, `max_evidence_items`)
+- files scanned
+- files skipped with reasons
+- candidate files
+- top relevant files with planned evidence type
+
+Preview is mandatory and generated before evidence extraction.
+
+### evidence_inventory.md (local evidence discovery)
+
+Must include atomic `EVID-NNN` items. Each item should capture one signal only.
+
+Required fields per item:
+
+- `source_path`
+- `source_kind`
+- `evidence_type` (`quote`, `transcript_excerpt`, `image_observation`, `metadata_only`, `observation`)
+- `observation`
+- `relevance`
+- `relevance_reason`
+- `retrieved_by`
+
+Optional fields:
+
+- `location`
+- `companion_source`
+- `extraction_note` (required for `image_observation`)
+
 ## Completion markers
 
 Markers signal that a layer finished and outputs are ready for the next step:
@@ -107,6 +144,7 @@ Markers signal that a layer finished and outputs are ready for the next step:
 | Marker | Created after |
 | -------- | --------------- |
 | `ready_for_synthesis.marker` | Facilitator (Roles Layer) |
+| `knowledge_retrieval_complete.marker` | Local Evidence Discovery |
 | `market_analysis_complete.marker` | Market Layer |
 | `synthesis_complete.marker` | Synthesis Layer |
 | `customer_discovery_planning_complete.marker` | Customer Discovery Planning |
@@ -123,6 +161,8 @@ Max 150 words: viability, key conflict, primary illusion, blind spot, risk, insi
 ### customer_discovery_plan.md (customer discovery planning)
 
 Must include: research objective, what is already known, critical unknowns with risk type and priority, recommended interview roles, behavior-based interview guide, research priorities (HIGH / MEDIUM / LOW), expected learning outcomes. Language matches `input/hypothesis.md`.
+
+Do not run Market Layer until Facilitator completes (`ready_for_synthesis.marker` or equivalent facilitator outputs). Local Evidence Discovery is recommended before Market but optional for backward compatibility.
 
 Do not run Synthesis until both Facilitator and Market markers exist (`ready_for_synthesis.marker` + `market_analysis_complete.marker`, or equivalent output files).
 

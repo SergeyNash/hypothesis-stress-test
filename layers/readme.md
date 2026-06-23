@@ -28,8 +28,9 @@ This leads to:
 Instead of mixing signals, the system separates them into distinct layers:
 
 1. Internal perspectives
-2. External reality
-3. Conflict-based synthesis
+2. Local evidence discovery (pre-market retrieval)
+3. External reality
+4. Conflict-based synthesis
 
 Each analysis layer operates independently.
 
@@ -66,6 +67,25 @@ Focus:
 * real demand
 * existing solutions
 * signal strength
+
+---
+
+### Local Evidence Discovery (Pre-Market Retrieval)
+
+Answers:
+
+> What local evidence exists in the KB before market interpretation?
+
+Focus:
+
+* traceable source-linked evidence items
+* retrieval preview (scanned/skipped/candidates)
+* atomic observations without synthesis
+
+Produces:
+
+* `discovery_preview.md`
+* `evidence_inventory.md`
 
 ---
 
@@ -119,10 +139,11 @@ The system is designed to expose tension, not remove it.
 Layers are executed sequentially:
 
 1. Roles Layer
-2. Market Layer
-3. Synthesis Layer
-4. Decision Review (mandatory gate)
-5. Human backlog decision
+2. Local Evidence Discovery
+3. Market Layer
+4. Synthesis Layer
+5. Decision Review (mandatory gate)
+6. Human backlog decision
 
 Each analysis layer:
 
@@ -155,5 +176,6 @@ See:
 
 * `roles-layer.md`
 * `market-layer.md`
+* `local-evidence-discovery-layer.md`
 * `synthesis-layer.md`
 * `decision-review-layer.md`

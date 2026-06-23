@@ -66,13 +66,40 @@ outputs/ready_for_synthesis.marker
 
 ---
 
-## Шаг 2 — Market Layer
+## Шаг 2 — Local Evidence Discovery
+
+**Cline skill:** `local-knowledge-retrieval`
+
+**Ручной шаблон:** `templates/knowledge-retrieval-prompt.md`
+
+Вход:
+
+* формулировка гипотезы
+* опционально summary из Facilitator
+
+Ожидаемый output:
+
+```text
+outputs/discovery_preview.md
+outputs/evidence_inventory.md
+outputs/knowledge_retrieval_complete.marker
+```
+
+Цель:
+
+* собрать source-linked local evidence до анализа рынка
+* сохранить атомарность evidence (без синтеза)
+* дать audit trail retrieval (scanned/skipped/candidates)
+
+---
+
+## Шаг 3 — Market Layer
 
 **Cline skill:** `hypothesis-market-layer`
 
 **Ручной шаблон:** `templates/market-prompt.md`
 
-**Confluence first:** сначала поиск local signals в Confluence MCP.
+**Inventory first:** сначала читать `outputs/evidence_inventory.md`, затем Confluence MCP для дополнительных внутренних сигналов.
 
 Вход:
 
@@ -90,13 +117,13 @@ outputs/market_analysis_complete.marker
 Цель:
 
 * проверить, существует ли проблема вовне
-* получить local signals из Confluence
+* интерпретировать local signals из KB inventory + Confluence
 * выявить текущие паттерны решений
 * классифицировать силу сигналов
 
 ---
 
-## Шаг 3 — Synthesis Layer
+## Шаг 4 — Synthesis Layer
 
 **Cline skill:** `hypothesis-synthesis`
 
@@ -125,7 +152,7 @@ outputs/synthesis_complete.marker
 
 ---
 
-## Шаг 4 — Customer Discovery Planning
+## Шаг 5 — Customer Discovery Planning
 
 **Cline skill:** `customer-discovery-planning`
 
@@ -150,7 +177,7 @@ outputs/customer_discovery_planning_complete.marker
 
 ---
 
-## Шаг 5 — Decision Review
+## Шаг 6 — Decision Review
 
 **Cline skill:** `hypothesis-decision-review`
 
@@ -186,6 +213,8 @@ examples/example-001/
     role_outputs/
     hypothesis_summary.md
     validation_questions.md
+    discovery_preview.md
+    evidence_inventory.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

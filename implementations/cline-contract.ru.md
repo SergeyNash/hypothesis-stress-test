@@ -11,7 +11,7 @@
 | Инварианты слоёв | `.clinerules/*.md` |
 | Выполнение слоя | `.cline/skills/*/SKILL.md` |
 | End-to-end прогон | `.clinerules/workflows/run-hypothesis.md` |
-| Local knowledge (Market) | Confluence MCP |
+| Local evidence retrieval | skill `local-knowledge-retrieval` + KB files |
 | Артефакты | Файлы в `RUN_DIR/outputs/` |
 
 ## Компоненты
@@ -24,7 +24,7 @@
 |------|------------|
 | `00-hypothesis-framework.md` | Обзор фреймворка, порядок слоёв |
 | `10-artifact-contracts.md` | Структура RUN_DIR, именование, markers |
-| `20-evidence-rules.md` | Confluence-first, типы сигналов |
+| `20-evidence-rules.md` | правила каналов KB evidence + Confluence + external/inferred |
 
 ### Skills (по запросу)
 
@@ -34,7 +34,8 @@
 |-------|-------|
 | `hypothesis-input-validation` | Перед любым слоем |
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
-| `hypothesis-market-layer` | Market Layer + Confluence MCP |
+| `local-knowledge-retrieval` | Local Evidence Discovery (preview + inventory) |
+| `hypothesis-market-layer` | Market Layer + KB inventory + Confluence MCP |
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
 | `customer-discovery-planning` | Customer Discovery Planning (практичный план интервью) |
 | `hypothesis-decision-review` | Decision Review (обязательный gate) |
@@ -47,6 +48,7 @@
 |----------|---------|
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
 | `run-facilitator.md` | `/run-facilitator.md` |
+| `run-knowledge-retrieval.md` | `/run-knowledge-retrieval.md` |
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
@@ -59,7 +61,8 @@
 Пользователь указывает RUN_DIR
   → валидация входа (skill или workflow)
   → Facilitator (skill) → role_outputs + summary + validation_questions + marker
-  → Market Layer (skill + Confluence MCP) → market_analysis + marker
+  → Local Evidence Discovery (skill) → discovery_preview + evidence_inventory + marker
+  → Market Layer (skill + inventory + Confluence MCP) → market_analysis + marker
   → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
   → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker

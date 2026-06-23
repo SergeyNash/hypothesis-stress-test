@@ -50,7 +50,7 @@
   <rect width="1480" height="720" rx="0" fill="#F8FAFC"/>
 
   <text x="80" y="70" class="title">Hypothesis Stress Test</text>
-  <text x="80" y="100" class="subtitle">Three analysis layers + Customer Discovery Planning + Decision Review gate + human backlog decision</text>
+  <text x="80" y="100" class="subtitle">Roles + Local Evidence Discovery + Market + Synthesis + Customer Discovery + Decision Review + human backlog decision</text>
 
   <g filter="url(#shadow)">
     <rect x="50" y="190" width="150" height="130" rx="22" fill="url(#inputGrad)" stroke="#F59E0B" stroke-width="2"/>
@@ -74,8 +74,8 @@
     <rect x="435" y="175" width="175" height="160" rx="24" fill="url(#marketGrad)" stroke="#16A34A" stroke-width="2"/>
     <text x="460" y="215" class="label">LAYER 2</text>
     <text x="460" y="245" class="card-title">Market</text>
-    <text x="460" y="272" class="card-sub">external reality</text>
-    <text x="460" y="300" class="small">- evidence signals</text>
+    <text x="460" y="272" class="card-sub">inventory + Confluence</text>
+    <text x="460" y="300" class="small">- separated channels</text>
     <text x="460" y="318" class="small">- source references</text>
   </g>
 
@@ -144,7 +144,7 @@
   <line x1="705" y1="486" x2="720" y2="486" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
   <line x1="910" y1="486" x2="925" y2="486" stroke="#94A3B8" stroke-width="2" marker-end="url(#arrow)"/>
 
-  <text x="260" y="535" class="tiny">Each phase produces structured artifacts. Customer Discovery Planning turns uncertainty into interviews before Decision Review.</text>
+  <text x="260" y="535" class="tiny">Each phase produces structured artifacts. Local Evidence Discovery builds preview + inventory before Market interpretation.</text>
 
   <g filter="url(#shadow)">
     <rect x="50" y="455" width="150" height="110" rx="22" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.5"/>
@@ -155,7 +155,7 @@
   </g>
 
   <rect x="230" y="600" width="995" height="50" rx="14" fill="#EEF2FF" stroke="#6366F1" stroke-width="1.5"/>
-  <text x="250" y="632" class="tiny">Cline: .clinerules/ + .cline/skills/ + /run-hypothesis.md + Confluence MCP (local signals first)</text>
+  <text x="250" y="632" class="tiny">Cline: .clinerules/ + .cline/skills/ + /run-hypothesis.md + inventory-first + Confluence channel</text>
 
   <text x="80" y="690" class="tiny">Framework core is tool-agnostic / Cline is the primary implementation / Human-in-the-loop</text>
 </svg>

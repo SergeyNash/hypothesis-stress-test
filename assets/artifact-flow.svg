@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="1100" height="700" viewBox="0 0 1100 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Artifact Flow</title>
-  <desc id="desc">Flow of files through Roles, Market, Synthesis, Customer Discovery Planning, and Decision Review.</desc>
+  <desc id="desc">Flow of files through Roles, Local Evidence Discovery, Market, Synthesis, Customer Discovery Planning, and Decision Review.</desc>
 
   <defs>
     <style>
@@ -39,7 +39,7 @@
   <rect class="bg" x="0" y="0" width="1100" height="700"/>
 
   <text class="title" x="60" y="55">Artifact Flow</text>
-  <text class="subtitle" x="60" y="82">Cline skills produce structured artifacts through analysis layers and Decision Review</text>
+  <text class="subtitle" x="60" y="82">Cline skills produce structured artifacts through retrieval, analysis layers, and Decision Review</text>
 
   <!-- Input -->
   <rect class="file" x="60" y="145" width="210" height="90"/>
@@ -66,18 +66,28 @@
   <rect class="marker" x="680" y="265" width="260" height="45"/>
   <text class="label" x="710" y="293">ready_for_synthesis.marker</text>
 
+  <!-- Local evidence discovery outputs -->
+  <rect class="output" x="680" y="315" width="260" height="40"/>
+  <text class="label" x="710" y="340">discovery_preview.md</text>
+
+  <rect class="output" x="680" y="360" width="260" height="40"/>
+  <text class="label" x="710" y="385">evidence_inventory.md</text>
+
+  <rect class="marker" x="680" y="405" width="260" height="35"/>
+  <text class="small" x="710" y="427">knowledge_retrieval_complete.marker</text>
+
   <!-- Market layer -->
   <rect class="container" x="330" y="340" width="270" height="155"/>
-  <text class="layer-title" x="365" y="375">Market Layer (skill + Confluence MCP)</text>
+  <text class="layer-title" x="365" y="375">Market Layer (inventory + Confluence MCP)</text>
   <rect class="market" x="360" y="400" width="210" height="70"/>
   <text class="label" x="392" y="430">External validation</text>
   <text class="small" x="392" y="451">market signals</text>
 
-  <rect class="output" x="680" y="345" width="260" height="55"/>
-  <text class="label" x="710" y="378">market_analysis.md</text>
+  <rect class="output" x="680" y="445" width="260" height="45"/>
+  <text class="label" x="710" y="472">market_analysis.md</text>
 
-  <rect class="marker" x="680" y="415" width="260" height="45"/>
-  <text class="label" x="710" y="444">market_analysis_complete.marker</text>
+  <rect class="marker" x="680" y="495" width="260" height="40"/>
+  <text class="small" x="710" y="518">market_analysis_complete.marker</text>
 
   <!-- Synthesis layer -->
   <rect class="container" x="60" y="340" width="210" height="150"/>
@@ -128,8 +138,8 @@
   <path class="soft-arrow" d="M570 230 C620 245, 635 257, 680 257"/>
 
   <path class="arrow" d="M165 235 C165 300, 250 430, 330 430"/>
-  <path class="arrow" d="M570 430 C620 410, 640 377, 680 372"/>
-  <path class="soft-arrow" d="M570 442 C620 442, 640 432, 680 432"/>
+  <path class="arrow" d="M570 430 C620 410, 640 465, 680 468"/>
+  <path class="soft-arrow" d="M570 442 C620 442, 640 515, 680 515"/>
 
   <path class="soft-arrow" d="M680 122 C510 125, 300 320, 230 420"/>
   <path class="soft-arrow" d="M680 192 C510 195, 300 330, 230 435"/>
