@@ -76,7 +76,7 @@ my-knowledge-base/                    ← open in VS Code
         hypothesis.md
       outputs/
   hypothesis-stress-test/               ← full framework repository
-    .clinerules/                      ← rules + workflows (/run-hypothesis.md)
+    .clinerules/                      ← rules + workflows (/run-hypothesis-conversational.md, /run-hypothesis.md)
     .cline/skills/                    ← per-layer skills
     templates/                        ← manual mode templates
     playbooks/
@@ -168,7 +168,31 @@ Without Confluence, Market Layer marks `missing local evidence` — the run stil
 
 ---
 
-## Step 4. Create RUN_DIR
+## Step 4. Run (chat-first — recommended)
+
+In Cline chat:
+
+```text
+/run-hypothesis-conversational.md
+
+If [action], then [expected outcome for a specific audience].
+```
+
+The agent will:
+
+1. Ask short guided questions for any missing fields
+2. Show a draft hypothesis card for your confirmation
+3. Auto-create `runs/HYP-YYYY-MM-DD-NNN/` with `input/hypothesis.md`
+4. Validate input
+5. Run the full pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
+
+Approve file writes and MCP tool calls when prompted.
+
+Walkthrough: [examples/chat-first-run.md](../examples/chat-first-run.md)
+
+---
+
+## Step 4b. Create RUN_DIR (file-first — fallback)
 
 ```text
 runs/HYP-2026-06-22-001/
@@ -213,7 +237,7 @@ If `knowledge-base/personas/` contains matching role profiles, the Roles Layer c
 
 ---
 
-## Step 5. Run
+## Step 5. Run (file-first)
 
 In Cline chat:
 
@@ -275,7 +299,7 @@ outputs/
 | Issue | Fix |
 | ------- | ----- |
 | Rules not visible | Check `.clinerules/` at **workspace root** (symlink from `hypothesis-stress-test/`); reload VS Code |
-| Workflow does not start | Specify `RUN_DIR:` explicitly in your message |
+| Workflow does not start | Specify `RUN_DIR:` explicitly for file-first, or use `/run-hypothesis-conversational.md` for chat-first |
 | Confluence MCP fails | [confluence-mcp.md](./confluence-mcp.md) |
 | Missing outputs | Check which layer did not finish (marker files in `outputs/`) |
 

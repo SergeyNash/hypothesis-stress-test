@@ -177,7 +177,20 @@ examples/example-001/              # canonical example
 runs/HYP-2026-06-22-001/           # user-created run archive
 ```
 
-When the user does not specify `RUN_DIR`, ask for it or default to a new directory under `runs/` using the naming pattern `HYP-YYYY-MM-DD-NNN`.
+When the user does not specify `RUN_DIR`:
+
+- **Chat-first (preferred):** invoke `/run-hypothesis-conversational.md` — intake skill collects input, workflow bootstraps `runs/HYP-YYYY-MM-DD-NNN/` automatically.
+- **File-first (fallback):** ask for `RUN_DIR` or default to a new directory under `runs/` using the naming pattern `HYP-YYYY-MM-DD-NNN`.
+
+### Automatic ID assignment (conversational bootstrap)
+
+When creating a new run via `/run-hypothesis-conversational.md`:
+
+1. Use today's date (`YYYY-MM-DD`)
+2. Scan `runs/` for existing `HYP-YYYY-MM-DD-*` directories
+3. Assign next available `NNN` suffix (001, 002, …)
+4. Set `Hypothesis ID` = folder name; `Run ID` = `RUN-YYYY-MM-DD-NNN`
+5. Folder name must match `Hypothesis ID` in metadata
 
 ## Migration note
 

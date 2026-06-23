@@ -6,6 +6,8 @@ Before running the system, validate the hypothesis input.
 
 **Cline:** `/validate-hypothesis-input.md` or skill `hypothesis-input-validation`
 
+**Chat-first:** if input is collected via `/run-hypothesis-conversational.md`, validation runs automatically after bootstrap. On failure, skill `conversational-hypothesis-intake` repairs the draft before re-validation.
+
 ---
 
 ## Checks

@@ -81,6 +81,10 @@ RUN_DIR/input/hypothesis.md
 
 Where `RUN_DIR` is the hypothesis run archive, e.g. `runs/HYP-2026-06-22-001/`.
 
+**Chat-first:** use `/run-hypothesis-conversational.md` — the workflow creates `RUN_DIR` and writes this file after user confirms the draft. See [examples/chat-first-run.md](../examples/chat-first-run.md).
+
+**File-first:** create `RUN_DIR` and `input/hypothesis.md` manually before `/run-hypothesis.md`.
+
 ---
 
 ## Principle

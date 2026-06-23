@@ -32,6 +32,7 @@
 
 | Skill | Когда |
 |-------|-------|
+| `conversational-hypothesis-intake` | Chat-first сбор гипотезы перед bootstrap |
 | `hypothesis-input-validation` | Перед любым слоем |
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `local-knowledge-retrieval` | Local Evidence Discovery (preview + inventory) |
@@ -46,6 +47,7 @@
 
 | Workflow | Команда |
 |----------|---------|
+| `run-hypothesis-conversational.md` | `/run-hypothesis-conversational.md` |
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
 | `run-facilitator.md` | `/run-facilitator.md` |
 | `run-knowledge-retrieval.md` | `/run-knowledge-retrieval.md` |
@@ -56,6 +58,19 @@
 | `run-decision-review.md` | `/run-decision-review.md` |
 
 ## Поток выполнения
+
+### Chat-first (рекомендуется)
+
+```text
+Пользователь описывает гипотезу в чате
+  → conversational intake (skill) → draft карточки → подтверждение
+  → bootstrap RUN_DIR + input/hypothesis.md
+  → валидация входа (skill или workflow)
+  → полный pipeline через /run-hypothesis.md
+  → Решение человека (backlog)
+```
+
+### File-first (fallback)
 
 ```text
 Пользователь указывает RUN_DIR

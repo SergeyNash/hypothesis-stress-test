@@ -76,7 +76,7 @@ my-knowledge-base/                    ← открыт в VS Code
         hypothesis.md
       outputs/
   hypothesis-stress-test/               ← весь репозиторий фреймворка
-    .clinerules/                      ← rules + workflows (/run-hypothesis.md)
+    .clinerules/                      ← rules + workflows (/run-hypothesis-conversational.md, /run-hypothesis.md)
     .cline/skills/                    ← skills по слоям
     templates/                        ← шаблоны для ручного режима
     playbooks/
@@ -168,7 +168,31 @@ Market Layer сначала использует `evidence_inventory.md`, зат
 
 ---
 
-## Шаг 4. Создать RUN_DIR
+## Шаг 4. Запустить прогон (chat-first — рекомендуется)
+
+В чате Cline:
+
+```text
+/run-hypothesis-conversational.md
+
+Если [действие], то [ожидаемый результат для конкретной аудитории].
+```
+
+Агент:
+
+1. Задаст короткие уточняющие вопросы по недостающим полям
+2. Покажет draft карточки гипотезы для подтверждения
+3. Автоматически создаст `runs/HYP-YYYY-MM-DD-NNN/` с `input/hypothesis.md`
+4. Провалидирует вход
+5. Запустит полный pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
+
+Подтверждайте запись файлов и вызовы MCP по запросу.
+
+Пошаговый пример: [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md)
+
+---
+
+## Шаг 4b. Создать RUN_DIR (file-first — fallback)
 
 ```text
 runs/HYP-2026-06-22-001/
@@ -213,7 +237,7 @@ runs/HYP-2026-06-22-001/
 
 ---
 
-## Шаг 5. Запустить прогон
+## Шаг 5. Запустить прогон (file-first)
 
 В чате Cline:
 
@@ -275,7 +299,7 @@ outputs/
 | Проблема | Решение |
 | ---------- | --------- |
 | Rules не видны | Проверьте `.clinerules/` в **корне** workspace (symlink из `hypothesis-stress-test/`); перезагрузите VS Code |
-| Workflow не запускается | Укажите `RUN_DIR:` явно в сообщении |
+| Workflow не запускается | Укажите `RUN_DIR:` явно для file-first или используйте `/run-hypothesis-conversational.md` для chat-first |
 | Confluence MCP не работает | [confluence-mcp.ru.md](./confluence-mcp.ru.md) |
 | Нет outputs | Проверьте, какой слой не завершился (marker-файлы в `outputs/`) |
 

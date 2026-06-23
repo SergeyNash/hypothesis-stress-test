@@ -11,7 +11,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Framework version <b>2.0.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
+  <sub>Framework version <b>2.2.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
 </p>
 
 <p align="center">
@@ -91,7 +91,9 @@ Three analysis layers, Customer Discovery Planning, mandatory Decision Review, t
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
 | **Backlog Decision** (human) | — | proceed / validate / research / reject |
 
-Full run: `/run-hypothesis.md`
+Full run (chat-first): `/run-hypothesis-conversational.md`
+
+Full run (file-first): `/run-hypothesis.md`
 
 Phase by phase:
 
@@ -185,8 +187,8 @@ In short:
 2. Open **your knowledge base** and add the `hypothesis-stress-test/` folder (clone or submodule)
 3. Symlink `.clinerules/` and `.cline/` to the KB root — see [quick start](./implementations/quick-start.md)
 4. Configure [Confluence MCP](./implementations/confluence-mcp.md)
-5. Create `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — see [templates/input-schema.md](./templates/input-schema.md)
-6. In Cline chat: `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
+5. **Chat-first (recommended):** in Cline chat, invoke `/run-hypothesis-conversational.md` and describe your hypothesis — the agent collects details, creates `RUN_DIR`, and runs the full pipeline
+6. **File-first (fallback):** create `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — see [templates/input-schema.md](./templates/input-schema.md), then `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
 
 Operational docs: [implementations/README.md](./implementations/README.md)
 
@@ -199,6 +201,8 @@ Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
 ```text
 examples/example-001/
 ```
+
+Chat-first walkthrough: [examples/chat-first-run.md](./examples/chat-first-run.md)
 
 A B2B AppSec hypothesis: synthesis reframes from "reduce production risk" to "improve operational efficiency"; `decision_review.md` recommends **Proceed with Validation**.
 

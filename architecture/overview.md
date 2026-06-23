@@ -84,4 +84,5 @@ The framework can also run manually via `templates/` without Cline.
 | Confluence MCP | [implementations/confluence-mcp.md](../implementations/confluence-mcp.md) |
 | Cline contract | [implementations/cline-contract.md](../implementations/cline-contract.md) |
 | Run playbook | [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) |
+| Chat-first run | [examples/chat-first-run.md](../examples/chat-first-run.md) |
 | Example | [examples/example-001/](../examples/example-001/) |

@@ -10,7 +10,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Версия фреймворка <b>2.0.0</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
+  <sub>Версия фреймворка <b>2.2.0</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
 </p>
 
 <p align="center">
@@ -90,7 +90,9 @@
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
 | **Backlog Decision** (человек) | — | proceed / validate / research / reject |
 
-Полный прогон: `/run-hypothesis.md`
+Полный прогон (chat-first): `/run-hypothesis-conversational.md`
+
+Полный прогон (file-first): `/run-hypothesis.md`
 
 По фазам:
 
@@ -184,8 +186,8 @@ RUN_DIR/
 2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
 3. Symlink `.clinerules/` и `.cline/` в корень KB — см. [quick start](./implementations/quick-start.ru.md)
 4. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
-5. Создайте `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md)
-6. В чате Cline: `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
+5. **Chat-first (рекомендуется):** в чате Cline вызовите `/run-hypothesis-conversational.md` и опишите гипотезу — агент соберёт данные, создаст `RUN_DIR` и запустит полный pipeline
+6. **File-first (fallback):** создайте `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md), затем `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
 
 Операционная документация: [implementations/README.ru.md](./implementations/README.ru.md)
 
@@ -198,6 +200,8 @@ RUN_DIR/
 ```text
 examples/example-001/
 ```
+
+Chat-first walkthrough: [examples/chat-first-run.ru.md](./examples/chat-first-run.ru.md)
 
 B2B-гипотеза в AppSec: synthesis переформулирует гипотезу из «снизить риски в проде» в «повысить операционную эффективность»; `decision_review.md` рекомендует **Proceed with Validation**.
 

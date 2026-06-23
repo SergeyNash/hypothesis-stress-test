@@ -1,6 +1,6 @@
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.0.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.2.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
 
@@ -64,10 +64,18 @@ Analysis layers are **sequential** and **independent**. Synthesis consumes artif
 
 Use project skills from `.cline/skills/` or invoke workflows:
 
+- `/run-hypothesis-conversational.md` — **chat-first** full run (guided intake → auto `RUN_DIR` → validate → pipeline)
 - `/validate-hypothesis-input.md` — check input before running
 - `/run-facilitator.md` — Facilitator (Roles Layer) only
-- `/run-hypothesis.md` — full end-to-end run
+- `/run-hypothesis.md` — full end-to-end run (file-first; requires existing `RUN_DIR`)
 - `/run-market-layer.md` — Market Layer only
 - `/run-synthesis.md` — Synthesis Layer only
 - `/run-customer-discovery-planning.md` — Customer Discovery Planning only
 - `/run-decision-review.md` — Decision Review only
+
+### Entry modes
+
+| Mode | When to use |
+| ---- | ----------- |
+| **Chat-first** | New hypothesis; describe idea in chat — `/run-hypothesis-conversational.md` |
+| **File-first** | Existing `RUN_DIR/input/hypothesis.md` — `/run-hypothesis.md` |

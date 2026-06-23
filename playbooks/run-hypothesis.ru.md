@@ -11,10 +11,26 @@ Playbook описывает, как проверить продуктовую г
 
 ## Быстрый путь через Cline
 
+### Chat-first (рекомендуется)
+
 1. Установить Cline — [implementations/cline-setup.ru.md](../implementations/cline-setup.ru.md)
 2. Настроить Confluence MCP — [implementations/confluence-mcp.ru.md](../implementations/confluence-mcp.ru.md)
-3. Создать `RUN_DIR/input/hypothesis.md`
-4. В чате Cline:
+3. В чате Cline:
+
+```text
+/run-hypothesis-conversational.md
+
+Опишите гипотезу естественным языком.
+```
+
+Агент собирает вход через guided questions, показывает draft карточки для подтверждения, автоматически создаёт `RUN_DIR`, валидирует и запускает полный pipeline.
+
+Пошаговый пример: [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md)
+
+### File-first (fallback)
+
+1. Создать `RUN_DIR/input/hypothesis.md` — см. [templates/input-schema.md](../templates/input-schema.md)
+2. В чате Cline:
 
 ```text
 RUN_DIR: runs/HYP-2026-06-22-001

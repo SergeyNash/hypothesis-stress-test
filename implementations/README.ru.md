@@ -6,8 +6,9 @@
 
 ## Быстрый старт
 
-- **[quick-start.ru.md](./quick-start.ru.md)** — короткий путь от нуля до первого прогона (включая базу знаний и варианты workspace)
+- **[quick-start.ru.md](./quick-start.ru.md)** — короткий путь от нуля до первого прогона; **chat-first рекомендуется** (`/run-hypothesis-conversational.md`)
 - [Quick Start (EN)](./quick-start.md) — английская версия
+- [Chat-first walkthrough](../examples/chat-first-run.ru.md) — пошаговый conversational прогон
 
 ## Настройка и MCP
 
@@ -47,5 +48,6 @@
 
 ## Пример
 
-- [examples/run.ru.md](../examples/run.ru.md) — как обработан example-001
+- [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md) — chat-first сценарий входа
+- [examples/run.ru.md](../examples/run.ru.md) — как обработан example-001 (file-first)
 - [examples/example-001/](../examples/example-001/) — эталонные артефакты

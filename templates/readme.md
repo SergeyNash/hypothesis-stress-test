@@ -39,7 +39,13 @@ They provide:
 
 ### 1. Cline (recommended)
 
-Use project skills and workflows:
+**Chat-first (new hypothesis):**
+
+```text
+/run-hypothesis-conversational.md
+```
+
+**File-first (existing RUN_DIR):**
 
 ```text
 /run-hypothesis.md
@@ -56,6 +62,7 @@ Skills map from templates:
 | `customer-discovery-planning-prompt.md` | `customer-discovery-planning` |
 | `decision-review-prompt.md` | `hypothesis-decision-review` |
 | `input-schema.md` | `hypothesis-input-validation` |
+| `input-schema.md` | `conversational-hypothesis-intake` (draft generation) |
 
 ### 2. Direct usage (manual)
 

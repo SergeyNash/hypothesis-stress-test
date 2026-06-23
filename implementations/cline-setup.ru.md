@@ -54,7 +54,23 @@ Cline автоматически обнаружит из корня:
 
 Без Confluence Market Layer пометит `missing local evidence`.
 
-## 4. Создать директорию прогона
+## 4. Запустить гипотезу
+
+### Chat-first (рекомендуется)
+
+В чате Cline:
+
+```text
+/run-hypothesis-conversational.md
+
+Опишите гипотезу естественным языком.
+```
+
+Агент собирает вход, создаёт `RUN_DIR`, валидирует и запускает полный pipeline. См. [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md).
+
+### File-first (fallback)
+
+Создайте директорию прогона:
 
 ```text
 runs/HYP-2026-06-22-001/
@@ -70,7 +86,7 @@ runs/HYP-2026-06-22-001/
 examples/example-001/
 ```
 
-## 5. Запустить гипотезу
+## 5. Запустить гипотезу (file-first)
 
 В чате Cline:
 

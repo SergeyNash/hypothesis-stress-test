@@ -58,7 +58,7 @@ Confirm readiness and list:
 - Roles selected
 - Research context summary
 
-Suggest next step: run Roles Layer or invoke `/run-hypothesis.md` workflow.
+Suggest next step: invoke `/run-hypothesis.md` workflow, or `/run-hypothesis-conversational.md` for a new chat-first run.
 
 ## Reference
 

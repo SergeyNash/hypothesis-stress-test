@@ -34,8 +34,8 @@ Cline impl = как запускать (rules, skills, workflows, MCP)
 1. Установить расширение Cline в VS Code
 2. Открыть репозиторий
 3. Настроить [Confluence MCP](../implementations/confluence-mcp.ru.md)
-4. Создать `RUN_DIR/input/hypothesis.md`
-5. Запустить `/run-hypothesis.md` в чате Cline
+4. **Chat-first:** вызвать `/run-hypothesis-conversational.md` в чате Cline — см. [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md)
+5. **File-first:** создать `RUN_DIR/input/hypothesis.md`, затем `/run-hypothesis.md`
 
 Подробнее: [implementations/quick-start.ru.md](../implementations/quick-start.ru.md)
 

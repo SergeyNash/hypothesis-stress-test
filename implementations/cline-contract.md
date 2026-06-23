@@ -32,6 +32,7 @@ Located in `.cline/skills/`:
 
 | Skill | Trigger |
 |-------|---------|
+| `conversational-hypothesis-intake` | Chat-first hypothesis collection before bootstrap |
 | `hypothesis-input-validation` | Before any layer run |
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `local-knowledge-retrieval` | Local Evidence Discovery (preview + inventory) |
@@ -46,6 +47,7 @@ Located in `.clinerules/workflows/`:
 
 | Workflow | Command |
 |----------|---------|
+| `run-hypothesis-conversational.md` | `/run-hypothesis-conversational.md` |
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
 | `run-facilitator.md` | `/run-facilitator.md` |
 | `run-knowledge-retrieval.md` | `/run-knowledge-retrieval.md` |
@@ -56,6 +58,19 @@ Located in `.clinerules/workflows/`:
 | `run-decision-review.md` | `/run-decision-review.md` |
 
 ## Execution flow
+
+### Chat-first (recommended)
+
+```text
+User describes hypothesis in chat
+  → conversational intake (skill) → draft card → user confirms
+  → bootstrap RUN_DIR + input/hypothesis.md
+  → validate input (skill or workflow)
+  → full pipeline via /run-hypothesis.md
+  → Human backlog decision
+```
+
+### File-first (fallback)
 
 ```text
 User provides RUN_DIR

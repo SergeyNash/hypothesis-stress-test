@@ -54,7 +54,23 @@ See [confluence-mcp.md](./confluence-mcp.md).
 
 Without Confluence, Market Layer will mark `missing local evidence`.
 
-## 4. Create a run directory
+## 4. Run a hypothesis
+
+### Chat-first (recommended)
+
+In Cline chat:
+
+```text
+/run-hypothesis-conversational.md
+
+Describe your hypothesis in natural language.
+```
+
+The agent collects input, creates `RUN_DIR`, validates, and runs the full pipeline. See [examples/chat-first-run.md](../examples/chat-first-run.md).
+
+### File-first (fallback)
+
+Create a run directory:
 
 ```text
 runs/HYP-2026-06-22-001/
@@ -70,7 +86,7 @@ Or copy the example:
 examples/example-001/
 ```
 
-## 5. Run a hypothesis
+## 5. Run a hypothesis (file-first)
 
 In Cline chat, type:
 

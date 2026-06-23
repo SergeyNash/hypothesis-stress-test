@@ -15,6 +15,7 @@ gantt
     todayMarker on
 
     section P0 — критично
+    Conversational Run (chat-first)           :done, p0conv, 2026-06-01, 3w
     Неструктурированная KB                  :crit, p0kb, 2026-07-01, 8w
     Business Context & Value Check            :crit, p0biz, after p0kb, 6w
 
@@ -31,7 +32,8 @@ gantt
 | Задача | Приоритет | Статус | Зависимости |
 | ------ | --------- | ------ | ----------- |
 | [Неструктурированная KB](#p0--поддержка-неструктурированной-базы-знаний) | P0 #1 | запланировано | — |
-| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #2 | запланировано | P0 #1 (частично; при структурированной KB — можно раньше) |
+| [Conversational Run (chat-first)](#p0--conversational-run-chat-first-запуск-из-чата) | P0 #2 | **реализовано** | — |
+| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #3 | запланировано | P0 #1 (частично; при структурированной KB — можно раньше) |
 | [Onboarding (2 сценария)](#p1--упрощение-onboarding-два-пользовательских-сценария) | P1 | запланировано | — |
 | [Human output и режим артефактов](#p1--human-output-и-режим-артефактов) | P1 | запланировано (фаза 1 — MVP) | Decision Review (текущий пайплайн) |
 | [Windows-safe rules/skills](#p1--windows-safe-подключение-rulesskills) | P1 | запланировано | Onboarding |
@@ -134,30 +136,68 @@ gantt
 
 ---
 
+## P0 — Conversational Run (chat-first запуск из чата)
+
+**Статус:** реализовано  
+**Приоритет:** второй пункт roadmap (P0 #2)
+
+### Зачем
+
+Ручной UX (`создать RUN_DIR` → заполнить `input/hypothesis.md` → `RUN_DIR: …` + `/run-hypothesis.md`) создаёт высокий порог входа. Пользователь должен уметь запускать stress test прямо из диалога в Cline.
+
+### Цель
+
+Основной сценарий запуска через чат: агент собирает карточку гипотезы, пользователь подтверждает, система автоматически создаёт `RUN_DIR` и запускает полный pipeline.
+
+### Реализованные компоненты
+
+- Skill: `conversational-hypothesis-intake` — guided Q&A, draft preview, confirm/revise/cancel
+- Workflow: `/run-hypothesis-conversational.md` — bootstrap `RUN_DIR`, validation, handoff в `/run-hypothesis.md`
+- Документация: chat-first как recommended path в quick-start, README, playbooks
+- Пример: [examples/chat-first-run.md](../examples/chat-first-run.md)
+
+### Критерии готовности (выполнены)
+
+- Запуск новой гипотезы без ручного создания `RUN_DIR` и без редактирования `input/hypothesis.md`
+- Обязательный confirm-step перед bootstrap
+- Созданный файл соответствует `templates/input-schema.md` и проходит validation
+- File-first путь сохранён как fallback
+
+### Затрагиваемые файлы
+
+- `.cline/skills/conversational-hypothesis-intake/SKILL.md`
+- `.clinerules/workflows/run-hypothesis-conversational.md`
+- `.clinerules/10-artifact-contracts.md` — правила auto ID assignment
+- `implementations/quick-start.md`, `README.md`, playbooks, examples
+
+---
+
 ## Зависимости между P0
 
-Два приоритетных пункта связаны между собой:
+Три приоритетных пункта P0 связаны так:
 
 1. **P0 #1 — неструктурированная KB** даёт доступ к материалам стратегии в «грязной» базе знаний (`strategy/*`, `okr/*`, `business-model/*` и эквиваленты).
-2. **P0 #2 — Business Context & Value Check** использует эти материалы для проверки бизнес-механизма ценности.
+2. **P0 #2 — Conversational Run** снижает порог входа; **не зависит** от P0 #1 и P0 #3, работает с текущим контрактом `input/hypothesis.md`.
+3. **P0 #3 — Business Context & Value Check** использует материалы стратегии для проверки бизнес-механизма ценности.
 
 ```text
+P0 #2 (Conversational Run)     ← независим, реализован
 P0 #1 (Unstructured KB)
   → находит strategy/okr/business-model в KB
-P0 #2 (Business Context & Value Check)
+P0 #3 (Business Context & Value Check)
   → строит карту ценности и strategic fit
   → передаёт сигнал в Market / Synthesis
 ```
 
-Без P0 #1 слой P0 #2 может работать только при уже структурированной KB.  
-Без материалов стратегии в KB P0 #2 не анализирует гипотезу, а фиксирует gap (`missing_business_context.md`).
+Без P0 #1 слой P0 #3 может работать только при уже структурированной KB.  
+Без материалов стратегии в KB P0 #3 не анализирует гипотезу, а фиксирует gap (`missing_business_context.md`).
 
 ---
 
 ## P0 — Business Context & Value Check (проверка бизнес-контекста и ценности)
 
 **Статус:** запланировано  
-**Приоритет:** второй пункт roadmap (зависит от P0 #1 и от наличия стратегии в KB)
+**Приоритет:** третий пункт roadmap (зависит от P0 #1 и от наличия стратегии в KB)
 
 ### Проблема
 
@@ -372,7 +412,7 @@ Decision Review
 1. **Нет своей базы знаний** — работа из корня `hypothesis-stress-test`, без bridge-папок
 2. **Есть своя база знаний** — `hypothesis-stress-test/` внутри KB + `.clinerules`/`.cline` в корне workspace (копия или junction)
 
-Для сценария «есть KB» рекомендуется хранить материалы стратегии — это prerequisite для P0 #2:
+Для сценария «есть KB» рекомендуется хранить материалы стратегии — это prerequisite для P0 #3:
 
 - `strategy/` — стратегия, positioning, GTM
 - `okr/` — цели и приоритеты

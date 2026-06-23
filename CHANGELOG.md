@@ -25,6 +25,36 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ### Added
 
+### Changed
+
+---
+
+## [2.2.0] - 2026-06-23
+
+### Added
+
+- **Conversational Run (chat-first)** — primary entry path for new hypothesis runs from Cline chat.
+- New skill: `conversational-hypothesis-intake` (guided Q&A, draft card preview, confirm/revise/cancel).
+- New workflow: `/run-hypothesis-conversational.md` (intake → auto `RUN_DIR` bootstrap → validate → full pipeline).
+- Automatic run archive creation under `runs/HYP-YYYY-MM-DD-NNN/` with `input/hypothesis.md` and `run.md`.
+- Automatic metadata assignment: `Hypothesis ID`, `Run ID`, `Created at`, `Status`.
+- Validation repair loop: failed input returns to conversational intake before re-validation.
+- Example walkthrough: `examples/chat-first-run.md` (EN) and `examples/chat-first-run.ru.md` (RU).
+
+### Changed
+
+- Chat-first documented as **recommended** entry path; file-first (`RUN_DIR` + `/run-hypothesis.md`) remains as fallback.
+- `.clinerules/10-artifact-contracts.md` — rules for conversational `RUN_DIR` bootstrap and ID assignment.
+- `.clinerules/00-hypothesis-framework.md` — entry modes table (chat-first vs file-first).
+- `roadmap/README.md` — Conversational Run marked **P0 #2 implemented**; Business Context renumbered to P0 #3.
+- EN/RU docs synchronized: README, quick-start, cline-setup, cline-contract, playbooks, validate-input, templates/readme, architecture/implementations, architecture/overview, implementations/README.
+
+---
+
+## [2.1.0] - 2026-06-23
+
+### Added
+
 - New phase **Customer Discovery Planning** between Synthesis and Decision Review.
 - New skill: `customer-discovery-planning`.
 - New workflow: `/run-customer-discovery-planning.md`.
@@ -142,6 +172,8 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 - Manual execution templates in `templates/`.
 - Layer reasoning model in `layers/`.
 
+[2.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.1.0...v2.2.0
+[2.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.1.0...v1.2.0

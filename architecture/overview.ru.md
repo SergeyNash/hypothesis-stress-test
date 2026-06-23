@@ -84,4 +84,5 @@ Cline impl → rules, skills, workflows, Confluence MCP
 | Confluence MCP | [implementations/confluence-mcp.ru.md](../implementations/confluence-mcp.ru.md) |
 | Контракт Cline | [implementations/cline-contract.ru.md](../implementations/cline-contract.ru.md) |
 | Playbook | [playbooks/run-hypothesis.ru.md](../playbooks/run-hypothesis.ru.md) |
+| Chat-first прогон | [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md) |
 | Пример | [examples/example-001/](../examples/example-001/) |

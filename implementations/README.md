@@ -6,9 +6,10 @@ Operational guides for running Hypothesis Stress Test with Cline.
 
 ## Quick start
 
-- [Quick Start](./quick-start.md) — short path to first run (includes knowledge base and workspace options)
+- [Quick Start](./quick-start.md) — short path to first run; **chat-first recommended** (`/run-hypothesis-conversational.md`)
 - [Быстрый старт (RU)](./quick-start.ru.md) — русская версия
 - [Cline Setup](./cline-setup.md) — full installation and configuration
+- [Chat-first walkthrough](../examples/chat-first-run.md) — step-by-step conversational run
 
 ## Setup and MCP
 
@@ -42,5 +43,6 @@ Operational guides for running Hypothesis Stress Test with Cline.
 
 ## Example
 
-- [examples/run.md](../examples/run.md) — how example-001 was processed
+- [examples/chat-first-run.md](../examples/chat-first-run.md) — chat-first entry path
+- [examples/run.md](../examples/run.md) — how example-001 was processed (file-first)
 - [examples/example-001/](../examples/example-001/) — canonical outputs

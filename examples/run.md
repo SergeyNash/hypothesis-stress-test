@@ -18,7 +18,9 @@ examples/example-001/input/hypothesis.md
 
 ## Execution Mode
 
-**Primary:** Cline in VS Code with project rules, skills, and workflows.
+**Primary:** Conversational (chat-first) via `/run-hypothesis-conversational.md` — see [chat-first-run.md](./chat-first-run.md)
+
+**File-first:**
 
 ```text
 RUN_DIR: examples/example-001

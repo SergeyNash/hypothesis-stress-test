@@ -9,7 +9,8 @@ Use the **hypothesis-input-validation** skill to check `RUN_DIR/input/hypothesis
 3. Read `RUN_DIR/input/hypothesis.md`.
 4. Run all validation checks (metadata, statement, roles, research context).
 5. If invalid — ask clarifying questions and stop.
-6. If valid — confirm readiness and suggest `/run-hypothesis.md` or individual layer workflows.
+   - In conversational flow (`/run-hypothesis-conversational.md`): return to skill `conversational-hypothesis-intake` for targeted repair, then re-validate.
+6. If valid — confirm readiness and suggest `/run-hypothesis.md`, `/run-hypothesis-conversational.md` (for a new run), or individual layer workflows.
 
 ## Do not
 

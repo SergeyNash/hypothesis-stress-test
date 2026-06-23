@@ -11,10 +11,26 @@ This playbook describes how to validate a product hypothesis using the framework
 
 ## Cline quick path
 
+### Chat-first (recommended)
+
 1. Install Cline — see [implementations/cline-setup.md](../implementations/cline-setup.md)
 2. Configure Confluence MCP — see [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
-3. Create `RUN_DIR/input/hypothesis.md`
-4. In Cline chat:
+3. In Cline chat:
+
+```text
+/run-hypothesis-conversational.md
+
+Describe your hypothesis in natural language.
+```
+
+The agent collects input through guided questions, shows a draft card for confirmation, auto-creates `RUN_DIR`, validates, and runs the full pipeline.
+
+Walkthrough: [examples/chat-first-run.md](../examples/chat-first-run.md)
+
+### File-first (fallback)
+
+1. Create `RUN_DIR/input/hypothesis.md` — see [templates/input-schema.md](../templates/input-schema.md)
+2. In Cline chat:
 
 ```text
 RUN_DIR: runs/HYP-2026-06-22-001

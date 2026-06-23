@@ -6,6 +6,8 @@
 
 **Cline:** `/validate-hypothesis-input.md` или skill `hypothesis-input-validation`
 
+**Chat-first:** при сборе входа через `/run-hypothesis-conversational.md` валидация запускается автоматически после bootstrap. При ошибке skill `conversational-hypothesis-intake` уточняет draft перед повторной валидацией.
+
 ---
 
 ## Проверки
