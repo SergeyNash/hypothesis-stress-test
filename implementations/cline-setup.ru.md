@@ -66,7 +66,8 @@ Cline автоматически обнаружит из корня:
 Опишите гипотезу естественным языком.
 ```
 
-Агент собирает вход, создаёт `RUN_DIR`, валидирует и запускает полный pipeline. См. [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md).
+Для сырых discovery-заметок используйте `#контекст`. Для готовой If…then — `#гипотеза`.  
+`runs/` создаётся только после подтверждения draft. См. [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md).
 
 ### File-first (fallback)
 

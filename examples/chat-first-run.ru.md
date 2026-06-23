@@ -8,6 +8,22 @@ File-first fallback: [run.ru.md](./run.ru.md) и [example-001/](./example-001/).
 
 ---
 
+## Trigger-теги intake
+
+Добавьте тег в начало сообщения (после slash-команды), чтобы задать режим разбора:
+
+| Тег | Когда использовать |
+| --- | ------------------ |
+| `#гипотеза` / `#hypothesis` | Уже есть чёткая формулировка If…then / Если…то |
+| `#контекст` / `#context` | Сырые заметки, таблица Q&A, CustDev |
+| `#роли` / `#roles` | Перечислены роли; нужно дособрать statement и context |
+
+Алиасы: `#discovery`, `#custdev`.
+
+**Важно:** `runs/` создаётся только после явного подтверждения draft (`Подтвердить и запустить`). До этого агент показывает: `runs/ ещё НЕ создан`.
+
+---
+
 ## Предварительные требования
 
 1. Установлено расширение Cline — [implementations/cline-setup.ru.md](../implementations/cline-setup.ru.md)
@@ -16,7 +32,7 @@ File-first fallback: [run.ru.md](./run.ru.md) и [example-001/](./example-001/).
 
 ---
 
-## Шаг 1 — Старт в чате
+## Шаг 1 — Старт в чате (пример A — готовая гипотеза)
 
 В чате Cline:
 
@@ -178,3 +194,58 @@ runs/HYP-2026-06-23-001/outputs/hypothesis_digest.txt
 - Workflow: `.clinerules/workflows/run-hypothesis-conversational.md`
 - Schema: `templates/input-schema.md`
 - Эталонные артефакты завершённого прогона: `examples/example-001/`
+
+---
+
+## Пример B — «Грязный» discovery-контекст (`#контекст`)
+
+Когда есть CustDev/sales заметки, а не готовая If…then формулировка.
+
+### Шаг 1 — Старт с тегом
+
+```text
+/run-hypothesis-conversational.md
+#контекст
+
+Моя гипотеза для AppSec инженеров, разработчиков и CISO:
+
+Какую задачу хочет решить клиент? Группировка проектов сканирования с общими параметрами (API + UI).
+Дополнительно: индивидуально настраиваемая ролевая модель.
+Как клиент решает сейчас? Вручную переключает проекты.
+Какой функциональности не хватает? Группировка + общие параметры сканирования + RBAC.
+Предложения: доработка UI и API.
+```
+
+### Шаг 2 — Валидация извлечения
+
+Агент объявляет режим и показывает mapping:
+
+```text
+Режим: #контекст (dirty discovery)
+
+Извлёк черновик:
+
+Statement:
+If we add project grouping with shared scan parameters (API + UI) and configurable RBAC,
+then AppSec engineers and developers can manage scan scope faster without manual per-project switching,
+and the CISO gets more predictable governance.
+
+Roles: AppSec Engineer, Developer, CISO
+Domain: Application Security (SAST)
+Scenario: Many scan projects without grouping or shared parameters
+
+Верно? (да / исправить / отмена)
+```
+
+Пользователь: **да**
+
+### Шаг 3 — Draft карточки → confirm → bootstrap
+
+Тот же flow, что в примере A (шаги 3–8). Агент показывает полный preview `input/hypothesis.md`, затем:
+
+```text
+Статус: draft готов. runs/ ещё НЕ создан.
+Подтвердить и запустить / Исправить / Отменить
+```
+
+Пользователь: **Подтвердить и запустить** → создаётся `runs/HYP-YYYY-MM-DD-NNN/`.

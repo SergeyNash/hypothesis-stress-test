@@ -152,9 +152,12 @@ gantt
 ### Реализованные компоненты
 
 - Skill: `conversational-hypothesis-intake` — guided Q&A, draft preview, confirm/revise/cancel
-- Workflow: `/run-hypothesis-conversational.md` — bootstrap `RUN_DIR`, validation, handoff в `/run-hypothesis.md`
+- Workflow: `/run-hypothesis-conversational.md` — intake → auto `RUN_DIR` bootstrap → validate → pipeline
+- **Trigger-теги intake:** `#гипотеза` / `#hypothesis` (готовая формулировка), `#контекст` / `#context` (сырые discovery-заметки), `#роли` / `#roles`
+- **Dirty input mode:** извлечение полей из Q&A таблиц и CustDev paste + валидация mapping с пользователем
+- Статус до confirm: `runs/ ещё НЕ создан`
 - Документация: chat-first как recommended path в quick-start, README, playbooks
-- Пример: [examples/chat-first-run.md](../examples/chat-first-run.md)
+- Пример: [examples/chat-first-run.md](../examples/chat-first-run.md) (примеры A и B)
 
 ### Критерии готовности (выполнены)
 
@@ -162,6 +165,22 @@ gantt
 - Обязательный confirm-step перед bootstrap
 - Созданный файл соответствует `templates/input-schema.md` и проходит validation
 - File-first путь сохранён как fallback
+- Поддержка «грязных» входов через `#контекст` с валидацией mapping (v2.2.1)
+
+### Релизы
+
+| Версия | Что вошло |
+| ------ | --------- |
+| **2.2.0** | Базовый chat-first: intake skill, workflow, auto bootstrap, docs |
+| **2.2.1** | Trigger-теги, dirty input mode, статус `runs/ NOT created yet`, пример B |
+
+### Бэклог (follow-up, не блокирует использование)
+
+- [ ] E2E-пример: реальный `runs/HYP-*` с outputs после chat-first (сейчас только walkthrough в `examples/chat-first-run.md`)
+- [ ] Расширить input patterns: FR-документы, Jira/Linear paste
+- [ ] Подсказка тегов в P1 onboarding при первом запуске
+
+См. также [architecture/todo.md](../architecture/todo.md#conversational-run-chat-first--p0-2).
 
 ### Затрагиваемые файлы
 

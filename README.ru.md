@@ -10,7 +10,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Версия фреймворка <b>2.2.0</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
+  <sub>Версия фреймворка <b>2.2.1</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
 </p>
 
 <p align="center">
@@ -186,7 +186,7 @@ RUN_DIR/
 2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
 3. Symlink `.clinerules/` и `.cline/` в корень KB — см. [quick start](./implementations/quick-start.ru.md)
 4. Настройте [Confluence MCP](./implementations/confluence-mcp.ru.md)
-5. **Chat-first (рекомендуется):** в чате Cline вызовите `/run-hypothesis-conversational.md` и опишите гипотезу — агент соберёт данные, создаст `RUN_DIR` и запустит полный pipeline
+5. **Chat-first (рекомендуется):** в чате Cline вызовите `/run-hypothesis-conversational.md` — `#гипотеза` для готовой формулировки или `#контекст` для сырых заметок; подтвердите draft до создания `runs/`
 6. **File-first (fallback):** создайте `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md), затем `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
 
 Операционная документация: [implementations/README.ru.md](./implementations/README.ru.md)

@@ -29,6 +29,26 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ---
 
+## [2.2.1] - 2026-06-23
+
+### Added
+
+- **Intake trigger tags** for conversational run: `#hypothesis`, `#context`, `#roles` (and RU aliases `#гипотеза`, `#контекст`, `#роли`).
+- **Dirty input mode** (`#context`): extract hypothesis fields from Q&A tables, CustDev notes, and unstructured discovery paste.
+- **Extraction validation step**: agent shows mapped Statement/Roles/Context and asks user to confirm before draft card.
+- **Status messages** before bootstrap: `runs/ NOT created yet` until explicit confirm.
+- Example B (dirty `#context` flow) in `examples/chat-first-run.md` and `.ru.md`.
+
+### Changed
+
+- `conversational-hypothesis-intake` skill: intake modes (ready / dirty / roles-only), auto-detect, confirm triggers.
+- `run-hypothesis-conversational.md` workflow: Step 0 mode detection; dirty-input example.
+- Quick start, playbooks, cline-setup, README (EN/RU) — trigger tags and dirty-input guidance.
+- `roadmap/README.md` — P0 #2 release table (2.2.0 / 2.2.1), follow-up backlog.
+- `architecture/todo.md` — Conversational Run (P0 #2) completed and open items.
+
+---
+
 ## [2.2.0] - 2026-06-23
 
 ### Added
@@ -172,6 +192,7 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 - Manual execution templates in `templates/`.
 - Layer reasoning model in `layers/`.
 
+[2.2.1]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.3.0...v2.0.0

@@ -6,14 +6,33 @@ Start a full hypothesis stress test from chat dialogue. The user does not need t
 
 ## Steps
 
+### 0. Detect intake mode (optional tags)
+
+Before collecting input, check the user message for trigger tags:
+
+| Tag | Mode |
+| --- | ---- |
+| `#hypothesis`, `#гипотеза`, `#if-then` | Ready statement — fast path |
+| `#context`, `#контекст`, `#discovery`, `#custdev` | Dirty discovery notes — extract + validate mapping |
+| `#roles`, `#роли` | Roles provided — collect statement and context |
+
+If no tag and input looks like Q&A table or discovery notes without `If … then …`, treat as **dirty** mode.
+
+If ambiguous, ask once: «`#гипотеза` (готовая формулировка) или `#контекст` (сырые заметки)?»
+
+Announce mode to the user before intake continues.
+
 ### 1. Conversational intake
 
 Activate skill `conversational-hypothesis-intake`.
 
 - Accept the user's hypothesis in natural language (or continue from an in-progress intake)
-- Collect missing fields through guided questions
+- Apply intake mode (ready / dirty / roles-only)
+- For **dirty** input: extract fields, validate mapping with user, then build draft
+- Collect missing fields through guided questions (only gaps)
 - Show draft `input/hypothesis.md` preview
-- Wait for explicit user confirmation (`Confirm and run` / `Подтвердить и запустить`)
+- Show status: `runs/ NOT created yet`
+- Wait for explicit user confirmation (`Confirm and run` / `Подтвердить и запустить` / `#запуск`)
 
 Stop if the user cancels.
 
@@ -61,6 +80,7 @@ Write a minimal `run.md` log:
 ## Input
 
 Created from conversational intake on [date].
+Intake mode: [ready | dirty | roles-only | auto]
 
 ## Pipeline
 
@@ -104,17 +124,35 @@ After pipeline completes, display:
 
 ## User trigger examples
 
-```text
-/run-hypothesis-conversational.md
-
-I want to test this hypothesis: if AppSec engineers can manually prioritize SAST queue items, critical apps get scanned first.
-```
+**Ready hypothesis (`#hypothesis` optional):**
 
 ```text
 /run-hypothesis-conversational.md
+
+If AppSec engineers can manually prioritize SAST queue items, critical apps get scanned first.
 ```
 
-(Then answer guided questions in chat.)
+**Dirty discovery context:**
+
+```text
+/run-hypothesis-conversational.md
+#контекст
+
+Моя гипотеза для AppSec инженеров, разработчиков и CISO:
+Какую задачу хочет решить клиент? Группировка проектов сканирования с общими параметрами (API + UI).
+Как клиент решает сейчас? Вручную переключает проекты.
+Чего не хватает? Группировка + настраиваемая ролевая модель.
+```
+
+Agent extracts fields, shows mapping for confirmation, then draft card, then waits for `Подтвердить и запустить`.
+
+**Minimal start:**
+
+```text
+/run-hypothesis-conversational.md
+```
+
+(Then answer guided questions or use `#контекст` + paste notes.)
 
 ## Fallback
 
@@ -128,6 +166,8 @@ RUN_DIR: runs/HYP-2026-06-22-001
 ## Do not
 
 - Skip the confirmation step before bootstrap
+- Create `runs/` before user confirms draft
+- Treat «ок» or continued chat as confirmation
 - Start pipeline before validation passes
 - Change downstream artifact contracts or layer skills
 
@@ -135,5 +175,6 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 - Skill: `conversational-hypothesis-intake`
 - Schema: `templates/input-schema.md`
+- Examples: `examples/chat-first-run.md`
 - Full pipeline: `run-hypothesis.md`
 - Playbook: `playbooks/run-hypothesis.md`

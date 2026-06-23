@@ -178,13 +178,34 @@ Market Layer сначала использует `evidence_inventory.md`, зат
 Если [действие], то [ожидаемый результат для конкретной аудитории].
 ```
 
+**Сырые discovery-заметки?** Начните с `#контекст` (или `#context`):
+
+```text
+/run-hypothesis-conversational.md
+#контекст
+
+[вставьте таблицу Q&A, CustDev или неструктурированный контекст клиента]
+```
+
+### Trigger-теги intake
+
+| Тег | Когда |
+| --- | ----- |
+| `#гипотеза` / `#hypothesis` | Уже есть чёткая If…then / Если…то формулировка |
+| `#контекст` / `#context` | Сырые заметки, таблицы, discovery |
+| `#роли` / `#roles` | Перечислены роли; нужен statement и context |
+
+`runs/` создаётся **только после** подтверждения draft (`Подтвердить и запустить`). До этого: `runs/ ещё НЕ создан`.
+
 Агент:
 
-1. Задаст короткие уточняющие вопросы по недостающим полям
-2. Покажет draft карточки гипотезы для подтверждения
-3. Автоматически создаст `runs/HYP-YYYY-MM-DD-NNN/` с `input/hypothesis.md`
-4. Провалидирует вход
-5. Запустит полный pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
+1. Определит режим intake (тег или auto-detect)
+2. Для `#контекст`: извлечёт поля, покажет mapping для подтверждения, затем draft карточки
+3. Задаст короткие вопросы только по недостающим полям
+4. Покажет draft и дождётся **Подтвердить и запустить**
+5. Автоматически создаст `runs/HYP-YYYY-MM-DD-NNN/` с `input/hypothesis.md`
+6. Провалидирует вход
+7. Запустит полный pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
 
 Подтверждайте запись файлов и вызовы MCP по запросу.
 

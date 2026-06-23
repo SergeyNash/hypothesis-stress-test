@@ -8,6 +8,22 @@ File-first fallback: [run.md](./run.md) and [example-001/](./example-001/).
 
 ---
 
+## Intake trigger tags
+
+Place a tag at the start of your message (after the slash command) to control how the agent parses input:
+
+| Tag | When to use |
+| --- | ----------- |
+| `#hypothesis` | You already have a clear If…then statement |
+| `#context` | Dirty discovery notes, Q&A tables, CustDev paste |
+| `#roles` | You listed roles; need help with statement and context |
+
+Aliases: `#гипотеза`, `#контекст`, `#discovery`, `#custdev`, `#роли`.
+
+**Important:** `runs/` is created only after you explicitly confirm the draft (`Confirm and run` / `Подтвердить и запустить`). Until then the agent shows: `runs/ NOT created yet`.
+
+---
+
 ## Prerequisites
 
 1. Cline extension installed — [implementations/cline-setup.md](../implementations/cline-setup.md)
@@ -18,7 +34,7 @@ File-first fallback: [run.md](./run.md) and [example-001/](./example-001/).
 
 ## Step 1 — Start in chat
 
-In Cline chat:
+In Cline chat (Example A — ready hypothesis):
 
 ```text
 /run-hypothesis-conversational.md
@@ -178,3 +194,58 @@ Full outputs under `outputs/` — same structure as [example-001/outputs/](./exa
 - Workflow: `.clinerules/workflows/run-hypothesis-conversational.md`
 - Schema: `templates/input-schema.md`
 - Canonical completed example artifacts: `examples/example-001/`
+
+---
+
+## Example B — Dirty discovery context (`#context`)
+
+Use when you have CustDev or sales notes, not a polished If…then statement.
+
+### Step 1 — Start with tag
+
+```text
+/run-hypothesis-conversational.md
+#context
+
+Hypothesis for AppSec engineers, developers, and CISO:
+
+What job does the client want to solve? Group scan projects with shared parameters (API + UI).
+Additionally: individually configurable RBAC.
+How do they solve it today? Manual per-project switching only.
+What is missing? Project grouping + shared scan params + configurable role model.
+Proposed implementation: UI and API changes.
+```
+
+### Step 2 — Extraction validation
+
+Agent announces mode and shows mapping:
+
+```text
+Mode: #context (dirty discovery)
+
+Extracted draft:
+
+Statement:
+If we add project grouping with shared scan parameters (API + UI) and configurable RBAC,
+then AppSec engineers and developers can manage scan scope faster without manual per-project switching,
+and the CISO gets more predictable governance.
+
+Roles: AppSec Engineer, Developer, CISO
+Domain: Application Security (SAST)
+Scenario: Many scan projects without grouping or shared parameters
+
+Correct? (yes / revise / cancel)
+```
+
+User: **yes**
+
+### Step 3 — Draft card → confirm → bootstrap
+
+Same flow as Example A (Steps 3–8). Agent shows full `input/hypothesis.md` preview, then:
+
+```text
+Status: draft ready. runs/ NOT created yet.
+Confirm and run / Revise / Cancel
+```
+
+User: **Confirm and run** → `runs/HYP-YYYY-MM-DD-NNN/` is created.

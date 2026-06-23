@@ -51,6 +51,24 @@
 - [ ] Detect missing roles automatically in workflow
 - [ ] Detect missing research context automatically
 
+## Conversational Run (chat-first) — P0 #2
+
+См. [roadmap/README.md](../roadmap/README.md#p0--conversational-run-chat-first-запуск-из-чата). Релизы: **v2.2.0** (базовый flow), **v2.2.1** (dirty input + trigger-теги).
+
+- [x] Skill `conversational-hypothesis-intake` — guided Q&A, draft preview, confirm/revise/cancel
+- [x] Workflow `/run-hypothesis-conversational.md` — intake → auto `RUN_DIR` bootstrap → validate → pipeline
+- [x] Auto ID assignment (`HYP-*`, `RUN-*`) и правила в `10-artifact-contracts.md`
+- [x] Chat-first как recommended path в quick-start, README, playbooks (EN/RU)
+- [x] Примеры `examples/chat-first-run.md` / `.ru.md`
+- [x] Trigger-теги intake: `#гипотеза` / `#hypothesis`, `#контекст` / `#context`, `#роли` / `#roles`
+- [x] Dirty input mode: извлечение из Q&A / CustDev + валидация mapping с пользователем
+- [x] Статус до confirm: `runs/ ещё НЕ создан`
+- [ ] E2E-пример: реальный `runs/HYP-*` с артефактами после chat-first прогона (не только walkthrough-doc)
+- [ ] Доп. input patterns: FR/требования, Jira/Linear paste, многоязычные заголовки в `input/hypothesis.md`
+- [ ] Шаблоны быстрых тегов в onboarding (P1): подсказка тегов при первом запуске
+
+---
+
 ## Documentation
 
 - [x] Add Cline as primary implementation

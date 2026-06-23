@@ -178,13 +178,34 @@ In Cline chat:
 If [action], then [expected outcome for a specific audience].
 ```
 
+**Dirty discovery notes?** Start with `#context` (or `#контекст`):
+
+```text
+/run-hypothesis-conversational.md
+#context
+
+[paste Q&A table, CustDev notes, or unstructured client context]
+```
+
+### Intake trigger tags
+
+| Tag | Use when |
+| --- | -------- |
+| `#hypothesis` | Clear If…then statement already |
+| `#context` | Dirty notes, Q&A tables, discovery paste |
+| `#roles` | Roles listed; need statement and context |
+
+`runs/` is created **only after** you confirm the draft (`Confirm and run`). Until then: `runs/ NOT created yet`.
+
 The agent will:
 
-1. Ask short guided questions for any missing fields
-2. Show a draft hypothesis card for your confirmation
-3. Auto-create `runs/HYP-YYYY-MM-DD-NNN/` with `input/hypothesis.md`
-4. Validate input
-5. Run the full pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
+1. Detect intake mode (tag or auto-detect)
+2. For `#context`: extract fields, validate mapping with you, then show draft card
+3. Ask short guided questions only for missing fields
+4. Show draft hypothesis card and wait for **Confirm and run**
+5. Auto-create `runs/HYP-YYYY-MM-DD-NNN/` with `input/hypothesis.md`
+6. Validate input
+7. Run the full pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
 
 Approve file writes and MCP tool calls when prompted.
 

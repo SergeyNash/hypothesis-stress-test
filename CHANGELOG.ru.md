@@ -29,6 +29,26 @@
 
 ---
 
+## [2.2.1] - 2026-06-23
+
+### Добавлено
+
+- **Trigger-теги intake** для conversational run: `#hypothesis`, `#context`, `#roles` (и RU-алиасы `#гипотеза`, `#контекст`, `#роли`).
+- **Режим dirty input** (`#контекст`): извлечение полей гипотезы из таблиц Q&A, CustDev-заметок и неструктурированного discovery.
+- **Шаг валидации извлечения**: агент показывает mapping Statement/Roles/Context и спрашивает подтверждение до draft карточки.
+- **Статус-сообщения** до bootstrap: `runs/ ещё НЕ создан` до явного confirm.
+- Пример B (dirty `#контекст`) в `examples/chat-first-run.md` и `.ru.md`.
+
+### Изменено
+
+- Skill `conversational-hypothesis-intake`: режимы intake (ready / dirty / roles-only), auto-detect, триггеры confirm.
+- Workflow `run-hypothesis-conversational.md`: Step 0 определение режима; пример dirty input.
+- Quick start, playbooks, cline-setup, README (EN/RU) — теги и guidance для грязных входов.
+- `roadmap/README.md` — таблица релизов P0 #2 (2.2.0 / 2.2.1), follow-up бэклог.
+- `architecture/todo.md` — секция Conversational Run (P0 #2): выполненное и открытые пункты.
+
+---
+
 ## [2.2.0] - 2026-06-23
 
 ### Добавлено
@@ -172,6 +192,7 @@
 - Manual templates в `templates/`.
 - Модель слоёв в `layers/`.
 
+[2.2.1]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.1.0...v2.2.0
 [2.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.3.0...v2.0.0

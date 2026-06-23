@@ -23,9 +23,10 @@ Playbook описывает, как проверить продуктовую г
 Опишите гипотезу естественным языком.
 ```
 
-Агент собирает вход через guided questions, показывает draft карточки для подтверждения, автоматически создаёт `RUN_DIR`, валидирует и запускает полный pipeline.
+**Теги intake:** `#гипотеза` (готовая If…then), `#контекст` (сырые Q&A / discovery), `#роли`.  
+`runs/` создаётся только после **Подтвердить и запустить** — см. [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md).
 
-Пошаговый пример: [examples/chat-first-run.ru.md](../examples/chat-first-run.ru.md)
+Агент собирает вход через guided questions, показывает draft карточки для подтверждения, автоматически создаёт `RUN_DIR`, валидирует и запускает полный pipeline.
 
 ### File-first (fallback)
 
