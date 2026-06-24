@@ -92,6 +92,21 @@
 
 ---
 
+## Human Decision Report — P1 Phase 1
+
+См. [roadmap/README.md](../roadmap/README.md#p1--human-output-и-режим-артефактов).
+
+- [x] Skill `human-report-export` — compile `human_report.html` from existing artifacts
+- [x] Workflow `/run-human-report-export.md`
+- [x] Template `templates/human-report-template.html`
+- [x] Contract in `10-artifact-contracts.md` — What changed?, Decision Readiness, grouped links
+- [x] Integration in `/run-hypothesis.md`
+- [x] Example `examples/example-001/outputs/human_report.html`
+- [ ] Phase 2: artifact mode `full` / `minimal` at run start
+- [ ] Future: full run export `run_report.html`
+
+---
+
 ## Documentation
 
 - [x] Add Cline as primary implementation

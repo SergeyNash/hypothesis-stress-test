@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Decision Report — HYP-2026-06-09-001</title>
+  <style>
+    :root {
+      --bg: #f8f9fb;
+      --surface: #ffffff;
+      --text: #1a1d23;
+      --muted: #5c6370;
+      --border: #e2e6ed;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --success: #059669;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: .75rem 1.5rem;
+    }
+    .topbar-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem;
+    }
+    .topbar h1 { font-size: 1rem; font-weight: 600; flex: 1 1 200px; }
+    .badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .badge {
+      display: inline-block; padding: .2rem .65rem;
+      border-radius: 999px; font-size: .75rem; font-weight: 600;
+      border: 1px solid var(--border); background: var(--bg);
+    }
+    .badge-confidence { background: var(--accent-soft); border-color: #bfdbfe; color: var(--accent); }
+    .badge-readiness { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+    .badge-recommendation { background: #ecfdf5; border-color: #a7f3d0; color: var(--success); }
+    nav.topnav { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-size: .8rem; }
+    nav.topnav a { color: var(--accent); text-decoration: none; }
+    nav.topnav a:hover { text-decoration: underline; }
+    main { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    section h2 {
+      font-size: 1.1rem; margin-bottom: 1rem;
+      padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    section h3 { font-size: .95rem; margin: 1rem 0 .5rem; color: var(--muted); }
+    .meta-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: .75rem; margin-bottom: 1rem; font-size: .85rem;
+    }
+    .meta-item label { display: block; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .03em; }
+    .statement {
+      font-size: 1.05rem; font-weight: 500; margin-bottom: 1rem;
+      padding: 1rem; background: var(--accent-soft); border-radius: var(--radius);
+      border-left: 4px solid var(--accent);
+    }
+    .digest {
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      font-size: .85rem; white-space: pre-wrap;
+      background: var(--bg); padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .card {
+      padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border); background: var(--bg);
+    }
+    .card .label { font-size: .75rem; color: var(--muted); text-transform: uppercase; }
+    .card .value { font-size: 1rem; font-weight: 600; margin-top: .25rem; }
+    .reframe-grid { display: grid; gap: 1rem; }
+    @media (min-width: 600px) { .reframe-grid { grid-template-columns: 1fr 1fr; } }
+    .reframe-box {
+      padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .reframe-box.original { background: #fef2f2; border-color: #fecaca; }
+    .reframe-box.reframed { background: #ecfdf5; border-color: #a7f3d0; }
+    .reframe-box .label { font-size: .75rem; font-weight: 600; text-transform: uppercase; margin-bottom: .5rem; }
+    ul { padding-left: 1.25rem; margin: .5rem 0; }
+    li { margin: .35rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; margin: .75rem 0; }
+    th, td { border: 1px solid var(--border); padding: .5rem .75rem; text-align: left; }
+    th { background: var(--bg); font-weight: 600; }
+    .artifact-groups { display: grid; gap: 1rem; }
+    .artifact-group h3 { margin: 0 0 .5rem; font-size: .9rem; }
+    .artifact-group ul { list-style: none; padding: 0; }
+    .artifact-group li { margin: .25rem 0; }
+    .artifact-group a { color: var(--accent); text-decoration: none; font-size: .875rem; }
+    .artifact-group a:hover { text-decoration: underline; }
+    footer {
+      text-align: center; color: var(--muted); font-size: .8rem;
+      padding: 2rem 1rem 3rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>HYP-2026-06-09-001</h1>
+      <div class="badges">
+        <span class="badge badge-confidence">Medium confidence</span>
+        <span class="badge badge-recommendation">Proceed with Validation</span>
+        <span class="badge badge-readiness">Needs interviews</span>
+      </div>
+      <nav class="topnav">
+        <a href="#summary">Summary</a>
+        <a href="#what-changed">What changed?</a>
+        <a href="#decision">Decision</a>
+        <a href="#validation">Validation</a>
+        <a href="#signal">Signal</a>
+        <a href="#artifacts">Details</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="summary">
+      <h2>Executive Overview</h2>
+      <div class="meta-grid">
+        <div class="meta-item"><label>Run ID</label>RUN-2026-06-09-001</div>
+        <div class="meta-item"><label>Created</label>2026-06-09</div>
+        <div class="meta-item"><label>Status</label>completed</div>
+        <div class="meta-item"><label>Roles</label>AppSec, CISO, Developer</div>
+      </div>
+      <div class="statement">If Application Security engineers are able to manually prioritize projects in the SAST scanning queue, then business-critical applications will be scanned first, reducing the time required to detect high-risk vulnerabilities and lowering overall production risk.</div>
+      <h3>Digest</h3>
+      <div class="digest">Hypothesis: requires validation (reframe before build)
+
+Key conflict:
+Operational efficiency (roles + market) vs production risk reduction (original framing)
+
+Primary illusion:
+Earlier scanning reliably reduces production risk
+
+Primary blind spot:
+Buyer/governance model — CISO centralization vs AppSec decentralization
+
+Primary risk:
+Local optimization trap — queue pain is real but strategic business value unproven
+
+Primary insight:
+Hypothesis solves a different problem than stated; reframe to efficiency and time-to-action
+
+Next step:
+AppSec interviews + CISO governance workshop; pilot measuring time-to-action, not risk metrics</div>
+      <div class="cards">
+        <div class="card"><div class="label">Confidence</div><div class="value">Medium</div></div>
+        <div class="card"><div class="label">Recommendation</div><div class="value">Proceed with Validation</div></div>
+        <div class="card"><div class="label">Decision Readiness</div><div class="value">Needs interviews</div><p style="font-size:.8rem;color:var(--muted);margin-top:.5rem">Validation-first recommendation; critical unknowns on context availability and governance remain.</p></div>
+      </div>
+    </section>
+
+    <section id="what-changed">
+      <h2>What changed?</h2>
+      <div class="reframe-grid">
+        <div class="reframe-box original">
+          <div class="label">Original framing</div>
+          <p>Manual SAST queue prioritization reduces production risk by scanning business-critical applications first.</p>
+        </div>
+        <div class="reframe-box reframed">
+          <div class="label">Reframed as</div>
+          <p>Improve operational efficiency and time-to-action for critical findings in an overloaded scan queue — not a proven production risk reduction play.</p>
+        </div>
+      </div>
+      <h3>Why the framing changed</h3>
+      <p>Synthesis collision shows operational pain is real, but the link between scan order and risk outcomes is weak. Market signals emphasize workflow efficiency over risk reduction. Decision review confirms scalability and governance assumptions remain under-tested.</p>
+    </section>
+
+    <section id="decision">
+      <h2>Decision Summary</h2>
+      <p>Synthesis correctly identifies operational pain and reframes the hypothesis from risk reduction to efficiency. However, scalability and governance assumptions remain under-tested.</p>
+      <h3>Final Recommendation</h3>
+      <p>Proceed with validation, not full build. Confidence is medium because operational pain is real but the outcome framing and scalability path are uncertain.</p>
+      <h3>Next step</h3>
+      <p>Run the engineer interviews and CISO workshop before backlog commitment. Reframe product narrative around operational efficiency, not production risk reduction.</p>
+    </section>
+
+    <section id="validation">
+      <h2>Validation Priorities</h2>
+      <h3>Critical unknowns (HIGH)</h3>
+      <table>
+        <thead><tr><th>Unknown</th><th>Risk type</th></tr></thead>
+        <tbody>
+          <tr><td>Do AppSec engineers have reliable business-criticality context to prioritize correctly?</td><td>Workflow Risk</td></tr>
+          <tr><td>Does queue prioritization materially reduce time-to-action for critical findings?</td><td>Severity Risk</td></tr>
+          <tr><td>Does the buyer (CISO / security leadership) accept a hybrid manual + policy model?</td><td>Buyer Risk</td></tr>
+        </tbody>
+      </table>
+      <h3>High-priority research</h3>
+      <ul>
+        <li>Verify context availability for safe prioritization decisions</li>
+        <li>Verify measurable efficiency impact (time-to-action, queue delay reduction)</li>
+        <li>Verify governance acceptance for hybrid manual + policy model</li>
+      </ul>
+      <h3>Recommended interview roles</h3>
+      <ul>
+        <li>AppSec Engineer</li>
+        <li>Security Team Lead / AppSec Manager</li>
+        <li>CISO / Security Director</li>
+        <li>Developer / Engineering Manager</li>
+        <li>Platform / DevOps Engineer</li>
+      </ul>
+    </section>
+
+    <section id="signal">
+      <h2>Signal Snapshot</h2>
+      <ul>
+        <li><strong>Local KB signal:</strong> strong (4 extractable items from mixed sources)</li>
+        <li><strong>Confluence signal:</strong> none (MCP not used in example)</li>
+        <li><strong>External signal:</strong> strong (related problems), weak (standalone queue prioritization)</li>
+        <li><strong>Opportunity window:</strong> MEDIUM–HIGH</li>
+      </ul>
+    </section>
+
+    <section id="artifacts">
+      <h2>Detailed Artifacts</h2>
+      <p style="font-size:.875rem;color:var(--muted);margin-bottom:1rem">Source Markdown files — machine-readable details for drill-down.</p>
+      <div class="artifact-groups">
+        <div class="artifact-group">
+          <h3>Input</h3>
+          <ul><li><a href="../input/hypothesis.md">hypothesis.md</a></li></ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Role Analysis</h3>
+          <ul>
+            <li><a href="hypothesis_summary.md">hypothesis_summary.md</a></li>
+            <li><a href="validation_questions.md">validation_questions.md</a></li>
+            <li><a href="role_outputs/appsec_engineer.md">role_outputs/appsec_engineer.md</a></li>
+            <li><a href="role_outputs/ciso.md">role_outputs/ciso.md</a></li>
+            <li><a href="role_outputs/developer.md">role_outputs/developer.md</a></li>
+          </ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Evidence</h3>
+          <ul>
+            <li><a href="discovery_preview.md">discovery_preview.md</a></li>
+            <li><a href="evidence_inventory.md">evidence_inventory.md</a></li>
+          </ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Market</h3>
+          <ul><li><a href="market_analysis.md">market_analysis.md</a></li></ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Synthesis</h3>
+          <ul>
+            <li><a href="hypothesis_digest.txt">hypothesis_digest.txt</a></li>
+            <li><a href="hypothesis_map.md">hypothesis_map.md</a></li>
+          </ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Customer Discovery</h3>
+          <ul><li><a href="customer_discovery_plan.md">customer_discovery_plan.md</a></li></ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Decision Review</h3>
+          <ul><li><a href="decision_review.md">decision_review.md</a></li></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Human Decision Report — generated from Hypothesis Stress Test run artifacts. Markdown remains source of truth.</footer>
+
+  <script>
+    document.querySelectorAll('nav.topnav a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var t = document.querySelector(this.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>

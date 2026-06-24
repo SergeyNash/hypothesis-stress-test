@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Decision Report — {{HYPOTHESIS_ID}}</title>
+  <style>
+    :root {
+      --bg: #f8f9fb;
+      --surface: #ffffff;
+      --text: #1a1d23;
+      --muted: #5c6370;
+      --border: #e2e6ed;
+      --accent: #2563eb;
+      --accent-soft: #eff6ff;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --radius: 10px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      padding: .75rem 1.5rem;
+    }
+    .topbar-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem;
+    }
+    .topbar h1 { font-size: 1rem; font-weight: 600; flex: 1 1 200px; }
+    .badges { display: flex; flex-wrap: wrap; gap: .5rem; }
+    .badge {
+      display: inline-block; padding: .2rem .65rem;
+      border-radius: 999px; font-size: .75rem; font-weight: 600;
+      border: 1px solid var(--border); background: var(--bg);
+    }
+    .badge-confidence { background: var(--accent-soft); border-color: #bfdbfe; color: var(--accent); }
+    .badge-readiness { background: #fef3c7; border-color: #fcd34d; color: #92400e; }
+    .badge-recommendation { background: #ecfdf5; border-color: #a7f3d0; color: var(--success); }
+    nav.topnav { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-size: .8rem; }
+    nav.topnav a { color: var(--accent); text-decoration: none; }
+    nav.topnav a:hover { text-decoration: underline; }
+    main { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+    section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.25rem;
+      box-shadow: var(--shadow);
+    }
+    section h2 {
+      font-size: 1.1rem; margin-bottom: 1rem;
+      padding-bottom: .5rem; border-bottom: 1px solid var(--border);
+    }
+    section h3 { font-size: .95rem; margin: 1rem 0 .5rem; color: var(--muted); }
+    .meta-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: .75rem; margin-bottom: 1rem; font-size: .85rem;
+    }
+    .meta-item label { display: block; color: var(--muted); font-size: .75rem; text-transform: uppercase; letter-spacing: .03em; }
+    .statement {
+      font-size: 1.05rem; font-weight: 500; margin-bottom: 1rem;
+      padding: 1rem; background: var(--accent-soft); border-radius: var(--radius);
+      border-left: 4px solid var(--accent);
+    }
+    .digest {
+      font-family: ui-monospace, "Cascadia Code", monospace;
+      font-size: .85rem; white-space: pre-wrap;
+      background: var(--bg); padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .card {
+      padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border); background: var(--bg);
+    }
+    .card .label { font-size: .75rem; color: var(--muted); text-transform: uppercase; }
+    .card .value { font-size: 1rem; font-weight: 600; margin-top: .25rem; }
+    .reframe-grid { display: grid; gap: 1rem; }
+    @media (min-width: 600px) { .reframe-grid { grid-template-columns: 1fr 1fr; } }
+    .reframe-box {
+      padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .reframe-box.original { background: #fef2f2; border-color: #fecaca; }
+    .reframe-box.reframed { background: #ecfdf5; border-color: #a7f3d0; }
+    .reframe-box .label { font-size: .75rem; font-weight: 600; text-transform: uppercase; margin-bottom: .5rem; }
+    ul, ol { padding-left: 1.25rem; margin: .5rem 0; }
+    li { margin: .35rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; margin: .75rem 0; }
+    th, td { border: 1px solid var(--border); padding: .5rem .75rem; text-align: left; }
+    th { background: var(--bg); font-weight: 600; }
+    .artifact-groups { display: grid; gap: 1rem; }
+    .artifact-group h3 { margin: 0 0 .5rem; font-size: .9rem; }
+    .artifact-group ul { list-style: none; padding: 0; }
+    .artifact-group li { margin: .25rem 0; }
+    .artifact-group a { color: var(--accent); text-decoration: none; font-size: .875rem; }
+    .artifact-group a:hover { text-decoration: underline; }
+    .na { color: var(--muted); font-style: italic; font-size: .875rem; }
+    footer {
+      text-align: center; color: var(--muted); font-size: .8rem;
+      padding: 2rem 1rem 3rem;
+    }
+    details { margin: .5rem 0; }
+    summary { cursor: pointer; font-weight: 500; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>{{HYPOTHESIS_ID}}</h1>
+      <div class="badges">
+        <span class="badge badge-confidence">{{CONFIDENCE}}</span>
+        <span class="badge badge-recommendation">{{RECOMMENDATION}}</span>
+        <span class="badge badge-readiness">{{DECISION_READINESS}}</span>
+      </div>
+      <nav class="topnav">
+        <a href="#summary">Summary</a>
+        <a href="#what-changed">What changed?</a>
+        <a href="#decision">Decision</a>
+        <a href="#validation">Validation</a>
+        <a href="#signal">Signal</a>
+        <a href="#artifacts">Details</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="summary">
+      <h2>Executive Overview</h2>
+      <div class="meta-grid">
+        <div class="meta-item"><label>Run ID</label>{{RUN_ID}}</div>
+        <div class="meta-item"><label>Created</label>{{CREATED_AT}}</div>
+        <div class="meta-item"><label>Status</label>{{STATUS}}</div>
+        <div class="meta-item"><label>Roles</label>{{ROLES_SHORT}}</div>
+      </div>
+      <div class="statement">{{STATEMENT}}</div>
+      <h3>Digest</h3>
+      <div class="digest">{{DIGEST}}</div>
+      <div class="cards">
+        <div class="card"><div class="label">Confidence</div><div class="value">{{CONFIDENCE}}</div></div>
+        <div class="card"><div class="label">Recommendation</div><div class="value">{{RECOMMENDATION}}</div></div>
+        <div class="card"><div class="label">Decision Readiness</div><div class="value">{{DECISION_READINESS}}</div><p style="font-size:.8rem;color:var(--muted);margin-top:.5rem">{{READINESS_RATIONALE}}</p></div>
+      </div>
+    </section>
+
+    <section id="what-changed">
+      <h2>What changed?</h2>
+      <div class="reframe-grid">
+        <div class="reframe-box original">
+          <div class="label">Original framing</div>
+          <p>{{ORIGINAL_FRAMING}}</p>
+        </div>
+        <div class="reframe-box reframed">
+          <div class="label">Reframed as</div>
+          <p>{{REFRAMED_AS}}</p>
+        </div>
+      </div>
+      <h3>Why the framing changed</h3>
+      <p>{{WHY_CHANGED}}</p>
+    </section>
+
+    <section id="decision">
+      <h2>Decision Summary</h2>
+      <p>{{EXECUTIVE_SUMMARY}}</p>
+      <h3>Final Recommendation</h3>
+      <p>{{FINAL_RECOMMENDATION}}</p>
+      <h3>Next step</h3>
+      <p>{{NEXT_STEP}}</p>
+    </section>
+
+    <section id="validation">
+      <h2>Validation Priorities</h2>
+      <h3>Critical unknowns (HIGH)</h3>
+      {{CRITICAL_UNKNOWNS_TABLE_OR_NA}}
+      <h3>High-priority research</h3>
+      {{HIGH_PRIORITY_LIST}}
+      <h3>Recommended interview roles</h3>
+      {{INTERVIEW_ROLES_LIST}}
+    </section>
+
+    <section id="signal">
+      <h2>Signal Snapshot</h2>
+      {{SIGNAL_SUMMARY_OR_NA}}
+    </section>
+
+    <section id="artifacts">
+      <h2>Detailed Artifacts</h2>
+      <p style="font-size:.875rem;color:var(--muted);margin-bottom:1rem">Source Markdown files — machine-readable details for drill-down.</p>
+      <div class="artifact-groups">
+        <div class="artifact-group">
+          <h3>Input</h3>
+          <ul><li><a href="../input/hypothesis.md">hypothesis.md</a></li></ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Role Analysis</h3>
+          <ul>{{ROLE_ANALYSIS_LINKS}}</ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Evidence</h3>
+          <ul>{{EVIDENCE_LINKS}}</ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Market</h3>
+          <ul>{{MARKET_LINKS}}</ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Synthesis</h3>
+          <ul>{{SYNTHESIS_LINKS}}</ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Customer Discovery</h3>
+          <ul>{{CUSTDEV_LINKS}}</ul>
+        </div>
+        <div class="artifact-group">
+          <h3>Decision Review</h3>
+          <ul>{{DECISION_LINKS}}</ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>Human Decision Report — generated from Hypothesis Stress Test run artifacts. Markdown remains source of truth.</footer>
+
+  <script>
+    document.querySelectorAll('nav.topnav a').forEach(function(a) {
+      a.addEventListener('click', function(e) {
+        var t = document.querySelector(this.getAttribute('href'));
+        if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      });
+    });
+  </script>
+</body>
+</html>

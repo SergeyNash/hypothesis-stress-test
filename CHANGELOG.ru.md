@@ -25,7 +25,20 @@
 
 ### Добавлено
 
+- **Human Decision Report MVP** — decision-facing `human_report.html` после Decision Review.
+- Skill: `human-report-export` — компиляция verdict, readiness, reframing, validation priorities из существующих артефактов.
+- Workflow: `/run-human-report-export.md`.
+- Template: `templates/human-report-template.html`.
+- Секции отчёта: What changed?, Decision Readiness, сгруппированные Detailed Artifacts с relative links.
+- Marker: `human_report_complete.marker`.
+- Пример: `examples/example-001/outputs/human_report.html`.
+
 ### Изменено
+
+- `/run-hypothesis.md` — Human Decision Report Export как шаг 8 (после Decision Review).
+- `.clinerules/10-artifact-contracts.md` — контракт `human_report.html`, mapping readiness, правила relative links.
+- Playbooks, examples, architecture run-structure, cline-contract — human report как основной human-facing output.
+- `roadmap/README.md` — P1 фаза 1 отмечена как реализована.
 
 ---
 

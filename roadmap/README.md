@@ -21,7 +21,7 @@ gantt
 
     section P1 — важно
     Onboarding (2 сценария)                   :p1on, 2026-07-15, 5w
-    Human output HTML report фаза 1             :p1html, 2026-08-01, 5w
+    Human output HTML report фаза 1             :done, p1html, 2026-08-01, 5w
     Windows-safe rules/skills                 :p1win, after p1on, 3w
     Режим артефактов full/minimal фаза 2      :p1modes, after p1on, 4w
 
@@ -35,7 +35,7 @@ gantt
 | [Conversational Run (chat-first)](#p0--conversational-run-chat-first-запуск-из-чата) | P0 #2 | **реализовано** | — |
 | [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #3 | запланировано | P0 #1 (реализован; при структурированной KB — можно раньше) |
 | [Onboarding (2 сценария)](#p1--упрощение-onboarding-два-пользовательских-сценария) | P1 | запланировано | — |
-| [Human output и режим артефактов](#p1--human-output-и-режим-артефактов) | P1 | запланировано (фаза 1 — MVP) | Decision Review (текущий пайплайн) |
+| [Human output и режим артефактов](#p1--human-output-и-режим-артефактов) | P1 | **фаза 1 реализовано**; фаза 2 запланировано | Decision Review |
 | [Windows-safe rules/skills](#p1--windows-safe-подключение-rulesskills) | P1 | запланировано | Onboarding |
 | [Доп. источники local signals](#p2--дополнительные-источники-local-signals) | P2 | идея | P0 #1 (желательно) |
 
@@ -460,7 +460,7 @@ Decision Review
 
 ## P1 — Human output и режим артефактов
 
-**Статус:** запланировано (фаза 1 — первая реализация)  
+**Статус:** фаза 1 реализовано; фаза 2–3 запланированы  
 **Приоритет:** P1 — важно для adoption, не блокирует текущий прогон
 
 ### Проблема
@@ -470,60 +470,57 @@ Decision Review
 | Слой | Артефакты |
 | ---- | --------- |
 | Facilitator | `role_outputs/*.md`, `hypothesis_summary.md`, `validation_questions.md` |
+| Discovery | `discovery_preview.md`, `evidence_inventory.md` |
 | Market | `market_analysis.md` |
 | Synthesis | `hypothesis_map.md`, `hypothesis_digest.txt` |
 | CustDev | `customer_discovery_plan.md` |
 | Decision | `decision_review.md` |
-| Служебные | 5× `*.marker` |
+| Служебные | 6× `*.marker` |
 
-Уже есть попытка сжать вывод (`hypothesis_digest.txt`, Executive Summary в `decision_review.md`), но workflow и документация по-прежнему ориентируют человека на чтение цепочки Markdown.
+Человеку нужен **один decision-facing срез**, а не 10+ файлов.
 
-Человеку нужен **один финальный срез**, а не 10+ файлов.  
-Агентам нужны детальные артефакты — но это не обязательно human-facing формат.
+### Реализовано (фаза 1 — Human Decision Report MVP)
 
-### Целевая модель
+- Skill: `human-report-export` — компиляция артефактов в HTML без повторного анализа
+- Workflow: `/run-human-report-export.md`
+- Template: `templates/human-report-template.html`
+- Артефакт: `outputs/human_report.html` — decision-facing отчёт для человека
+- Marker: `human_report_complete.marker`
+- Интеграция в `/run-hypothesis.md` (шаг 8, после Decision Review)
+- Пример: [`examples/example-001/outputs/human_report.html`](../examples/example-001/outputs/human_report.html)
 
-Два класса артефактов:
+**Содержимое отчёта:**
 
-```text
-Machine-facing (между слоями)     Human-facing (для человека)
-─────────────────────────────     ────────────────────────────
-role_outputs/*.md                   human_report.html
-market_analysis.md                  (открыть в браузере)
-hypothesis_map.md
-*.marker
-```
+- metadata и statement из `input/hypothesis.md`
+- digest из `hypothesis_digest.txt`
+- **What changed?** — original framing vs reframed as (из `hypothesis_map.md` / fallback)
+- **Decision Readiness** — отдельный статус: Ready for backlog / Needs interviews / Needs business context / Reject / reframe
+- confidence, recommendation, executive summary из `decision_review.md`
+- validation priorities из `customer_discovery_plan.md`
+- signal snapshot из `market_analysis.md` (только Signal Summary)
+- **Detailed Artifacts** — сгруппированные relative links (Input, Role Analysis, Evidence, Market, Synthesis, CustDev, Decision)
 
-- **Промежуточные** — контракт между слоями/skills (сегодня Markdown; в будущем — JSON).
-- **Human-facing** — один удобный отчёт (фаза 1: HTML).
+**Не в scope фазы 1:** full export всего pipeline в один HTML (`run_report.html` — будущая итерация).
 
 ### Фазы
 
 | Фаза | Scope | Статус |
 | ---- | ----- | ------ |
-| **1** | HTML-экспорт финала после Decision Review | первая реализация (MVP) |
-| **2** | Настраиваемый режим при старте прогона (`full` / `minimal`) | запланировано |
-| **3** | Machine-readable JSON между агентами в режиме `minimal` | идея / после фазы 2 |
+| **1** | Human Decision Report (`human_report.html`) | **реализовано** |
+| **2** | Настраиваемый режим при старте (`full` / `minimal`) | запланировано |
+| **3** | Machine-readable JSON между агентами в режиме `minimal` | идея |
+| **future** | Full run export (`run_report.html`) — весь pipeline в one-pager | идея |
 
-#### Фаза 1 — HTML final report (MVP)
+#### Фаза 1 — Human Decision Report (реализовано)
 
 **Триггер:** после `decision_review_complete.marker`.
 
-**Новый артефакт:** `outputs/human_report.html`
+**Ограничения:**
 
-**Содержимое** (human slice, без дублирования всего pipeline):
-
-- метаданные и statement из `input/hypothesis.md`
-- `hypothesis_digest.txt`
-- Executive Summary + Recommendation + Confidence из `decision_review.md`
-- краткий блок «что делать дальше» из `customer_discovery_plan.md` (top priorities)
-- опционально: ссылки «подробнее» на исходные `.md` (drill-down), без встраивания всего `hypothesis_map.md`
-
-**Ограничения MVP:**
-
-- статический HTML + inline CSS
+- статический HTML + inline CSS + minimal JS
 - без сборщика, открывается локально в браузере
-- все `.md` остаются источником истины (обратная совместимость)
+- все `.md` остаются источником истины
+- relative links из `outputs/human_report.html` (см. `10-artifact-contracts.md`)
 
 #### Фаза 2 — настройка при старте (запланировано)
 
@@ -542,20 +539,19 @@ hypothesis_map.md
 - Markdown остаётся для режима `full` и для отладки
 - **Вне scope фазы 1**
 
-### Критерии готовности (фаза 1)
+### Критерии готовности (фаза 1 — выполнены)
 
 - После полного прогона в `RUN_DIR/outputs/` есть открываемый `human_report.html`
-- Человек получает verdict (confidence + recommendation) и next steps **без обязательного чтения** `hypothesis_map.md` / `role_outputs/*`
+- Человек получает verdict, decision readiness, what changed, next steps без обязательного чтения `hypothesis_map.md` / `role_outputs/*`
 - Промежуточные `.md` по-прежнему создаются
-- Целевой пример: `examples/example-001/outputs/human_report.html` (при будущей реализации)
+- Пример: `examples/example-001/outputs/human_report.html`
 
-### Затрагиваемые компоненты (будущая реализация)
+### Затрагиваемые файлы (фаза 1)
 
-- новый skill или post-step: `human-report-export` (рабочее имя)
-- workflow: `/run-human-report-export.md` или шаг в `run-decision-review`
-- template HTML + mapping из существующих артефактов
-- `.clinerules/10-artifact-contracts.md`, playbooks, `run-hypothesis.md` — после roadmap
-- P1 onboarding — вопрос о режиме `full` / `minimal` (фаза 2)
+- `.cline/skills/human-report-export/SKILL.md`
+- `.clinerules/workflows/run-human-report-export.md`
+- `templates/human-report-template.html`
+- `.clinerules/10-artifact-contracts.md`, `run-hypothesis.md`, playbooks
 
 ---
 

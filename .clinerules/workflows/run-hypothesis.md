@@ -39,8 +39,14 @@ End-to-end hypothesis stress test for a single `RUN_DIR`.
    - Produce `decision_review.md`, `decision_review_complete.marker`.
    - Show user confidence and recommendation before continuing.
 
-8. **Report**
+8. **Human Decision Report Export**
+   - Activate skill `human-report-export`.
+   - Produce `human_report.html`, `human_report_complete.marker`.
+   - Show user path to `human_report.html` and decision readiness summary.
+
+9. **Report**
    - Display `hypothesis_digest.txt` and key verdict from `decision_review.md`.
+   - Point user to `outputs/human_report.html` as the main human-facing decision report.
    - Remind: human makes the final backlog decision.
 
 ## Expected time

@@ -25,7 +25,20 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ### Added
 
+- **Human Decision Report MVP** — decision-facing `human_report.html` after Decision Review.
+- Skill: `human-report-export` — compile verdict, readiness, reframing, validation priorities from existing artifacts.
+- Workflow: `/run-human-report-export.md`.
+- Template: `templates/human-report-template.html`.
+- Report sections: What changed?, Decision Readiness, grouped Detailed Artifacts with relative links.
+- Marker: `human_report_complete.marker`.
+- Example: `examples/example-001/outputs/human_report.html`.
+
 ### Changed
+
+- `/run-hypothesis.md` — Human Decision Report Export as Step 8 (after Decision Review).
+- `.clinerules/10-artifact-contracts.md` — `human_report.html` contract, readiness mapping, relative-link rules.
+- Playbooks, examples, architecture run-structure, cline-contract — human report as main human-facing output.
+- `roadmap/README.md` — P1 Phase 1 marked implemented.
 
 ---
 

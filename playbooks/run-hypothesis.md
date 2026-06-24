@@ -252,9 +252,34 @@ Do not skip this step. Decision Review does not repeat synthesis — it adds adv
 
 ---
 
-## Step 7 — Backlog Decision (Human)
+## Step 7 — Human Decision Report Export
 
-Review `decision_review.md` and make the final backlog decision:
+**Cline:** skill `human-report-export` or `/run-human-report-export.md`
+
+**Template:** [templates/human-report-template.html](../templates/human-report-template.html)
+
+Input:
+
+* completed decision review and prior artifacts
+
+Output:
+
+* `human_report.html`
+* `human_report_complete.marker`
+
+Goal:
+
+* compile a decision-facing HTML report for humans
+* show confidence, recommendation, decision readiness, what changed, validation priorities
+* provide grouped links to detailed Markdown artifacts
+
+Open `outputs/human_report.html` in a browser. Markdown artifacts remain the source of truth.
+
+---
+
+## Step 8 — Backlog Decision (Human)
+
+Review `human_report.html` (or `decision_review.md`) and make the final backlog decision:
 
 * Proceed
 * Proceed with Validation
@@ -302,6 +327,7 @@ RUN_DIR/
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
 ```
 
 ---

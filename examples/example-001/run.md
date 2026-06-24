@@ -21,6 +21,7 @@ Processed through Hypothesis Stress Test framework using Cline skills:
 | Synthesis Layer | `hypothesis-synthesis` | complete |
 | Customer Discovery Planning | `customer-discovery-planning` | complete |
 | Decision Review | `hypothesis-decision-review` | complete |
+| Human Decision Report Export | `human-report-export` | complete |
 
 ## Confluence MCP
 
@@ -30,7 +31,7 @@ For live runs, configure Confluence MCP per [implementations/confluence-mcp.md](
 
 ## Result summary
 
-See `outputs/hypothesis_digest.txt` for the synthesis digest, `outputs/customer_discovery_plan.md` for the interview-ready research plan, and `outputs/decision_review.md` for the adversarial review.
+See `outputs/hypothesis_digest.txt` for the synthesis digest, `outputs/customer_discovery_plan.md` for the interview-ready research plan, `outputs/decision_review.md` for the adversarial review, and **`outputs/human_report.html`** for the decision-facing HTML report (open in browser).
 
 Classification: Mixed — Validated Opportunity, Internal Illusion, Blind Spot.
 

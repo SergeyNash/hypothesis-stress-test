@@ -306,10 +306,12 @@ outputs/
   hypothesis_digest.txt
   customer_discovery_plan.md
   decision_review.md
+  human_report.html
 ```
 
 | Artifact | Contents |
 | ---------- | ---------- |
+| `human_report.html` | **Open in browser** — decision report: confidence, readiness, what changed, next steps, grouped artifact links |
 | `hypothesis_digest.txt` | Short digest (max 150 words): viability, conflict, illusion, blind spot, next step |
 | `hypothesis_map.md` | Signal collision: divergences, blind spots, new information, applicability, reframe impact |
 | `customer_discovery_plan.md` | Interview-ready CustDev plan: unknowns, priorities, target roles, interview guide |

@@ -40,6 +40,7 @@
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
 | `customer-discovery-planning` | Customer Discovery Planning (практичный план интервью) |
 | `hypothesis-decision-review` | Decision Review (обязательный gate) |
+| `human-report-export` | Human Decision Report Export (`human_report.html`) |
 
 ### Workflows (slash-команды)
 
@@ -56,6 +57,7 @@
 | `run-synthesis.md` | `/run-synthesis.md` |
 | `run-customer-discovery-planning.md` | `/run-customer-discovery-planning.md` |
 | `run-decision-review.md` | `/run-decision-review.md` |
+| `run-human-report-export.md` | `/run-human-report-export.md` |
 
 ## Поток выполнения
 
@@ -81,6 +83,7 @@
   → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
   → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker
+  → Human Decision Report Export (skill) → human_report.html + marker
   → Решение человека (backlog)
 ```
 

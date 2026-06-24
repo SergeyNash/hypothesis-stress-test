@@ -21,6 +21,7 @@ RUN_DIR/
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
     ready_for_synthesis.marker
     knowledge_retrieval_complete.marker
     market_analysis_complete.marker
@@ -90,6 +91,7 @@ Roles listed in `input/hypothesis.md` remain the run-specific source of scope. P
 | Short digest | `outputs/hypothesis_digest.txt` | Synthesis Layer |
 | Customer discovery plan | `outputs/customer_discovery_plan.md` | Customer Discovery Planning |
 | Decision review | `outputs/decision_review.md` | Decision Review |
+| Human decision report | `outputs/human_report.html` | Human Report Export |
 
 Role slugs: lowercase, underscores (e.g. `appsec_engineer`, `ciso`).
 
@@ -149,6 +151,72 @@ Markers signal that a layer finished and outputs are ready for the next step:
 | `synthesis_complete.marker` | Synthesis Layer |
 | `customer_discovery_planning_complete.marker` | Customer Discovery Planning |
 | `decision_review_complete.marker` | Decision Review |
+| `human_report_complete.marker` | Human Report Export |
+
+### human_report.html (human report export)
+
+Decision-facing HTML report for humans. Generated after Decision Review. Does not replace Markdown artifacts as source of truth.
+
+**Prerequisites:** `decision_review_complete.marker` or `decision_review.md`.
+
+**Source artifacts (read-only):**
+
+| Section | Primary sources |
+| ------- | --------------- |
+| Header / metadata | `input/hypothesis.md` |
+| Digest | `hypothesis_digest.txt` |
+| What changed? | `hypothesis_map.md` (`Impact on Original Hypothesis`), fallback: digest + `decision_review.md` |
+| Confidence / Recommendation | `decision_review.md` |
+| Decision Readiness | derived from `decision_review.md` (see mapping below) |
+| Validation priorities | `customer_discovery_plan.md` |
+| Signal snapshot | `market_analysis.md` (`Signal Summary` only) |
+| Detailed artifacts | grouped links to all contract artifacts present in `RUN_DIR` |
+
+**Required HTML sections:**
+
+1. Sticky header — Hypothesis ID, confidence, recommendation, decision readiness badges
+2. Executive overview — statement, digest, status cards
+3. What changed? — original framing, reframed as, why changed
+4. Decision summary — executive summary, final recommendation, next step
+5. Validation priorities — high-priority unknowns, research actions, interview roles
+6. Signal snapshot — opportunity window / signal summary (if available)
+7. Detailed artifacts — grouped relative links
+
+**Decision Readiness mapping** (choose one most action-guiding status):
+
+| Status | Typical signal |
+| ------ | -------------- |
+| `Ready for backlog` | recommendation supports build/commit and confidence is high |
+| `Needs interviews` | validation-first recommendation, customer discovery next, critical unknowns remain |
+| `Needs business context` | strategic fit, buyer, budget, or business value evidence missing |
+| `Reject / reframe` | reject/reframe recommendation or original hypothesis materially wrong |
+
+**Relative link rules** (report lives at `RUN_DIR/outputs/human_report.html`):
+
+| Target | Link from `human_report.html` |
+| ------ | ----------------------------- |
+| Input | `../input/hypothesis.md` |
+| Sibling output | `hypothesis_digest.txt`, `decision_review.md`, etc. |
+| Role output | `role_outputs/{role_slug}.md` |
+
+**Detailed artifact groups:**
+
+- Input: `../input/hypothesis.md`
+- Role Analysis: `hypothesis_summary.md`, `validation_questions.md`, `role_outputs/*.md`
+- Evidence: `discovery_preview.md`, `evidence_inventory.md`
+- Market: `market_analysis.md`
+- Synthesis: `hypothesis_digest.txt`, `hypothesis_map.md`
+- Customer Discovery: `customer_discovery_plan.md`
+- Decision Review: `decision_review.md`
+
+Omit links to files that do not exist. Show "not available" only for optional sections, not for missing grouped links.
+
+**Constraints:**
+
+- Single static file, inline CSS and minimal vanilla JS only
+- No CDN, npm, build tools, or external assets
+- Must open via `file://`
+- Language matches `input/hypothesis.md`
 
 ### hypothesis_map.md (synthesis)
 
@@ -169,6 +237,8 @@ Do not run Synthesis until both Facilitator and Market markers exist (`ready_for
 Do not run Customer Discovery Planning until Synthesis completes (`synthesis_complete.marker` or `hypothesis_map.md` + `hypothesis_digest.txt` present).
 
 Do not run Decision Review until Customer Discovery Planning completes (`customer_discovery_planning_complete.marker` or `customer_discovery_plan.md` present).
+
+Do not run Human Report Export until Decision Review completes (`decision_review_complete.marker` or `decision_review.md` present).
 
 ## RUN_DIR examples
 

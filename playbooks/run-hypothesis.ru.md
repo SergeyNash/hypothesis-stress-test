@@ -252,9 +252,34 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 7 — Backlog Decision (человек)
+## Шаг 7 — Human Decision Report Export
 
-Изучите `decision_review.md` и примите финальное решение:
+**Cline:** skill `human-report-export` или `/run-human-report-export.md`
+
+**Шаблон:** [templates/human-report-template.html](../templates/human-report-template.html)
+
+Вход:
+
+* завершённый decision review и предыдущие артефакты
+
+Выход:
+
+* `human_report.html`
+* `human_report_complete.marker`
+
+Цель:
+
+* собрать decision-facing HTML-отчёт для человека
+* показать confidence, recommendation, decision readiness, what changed, validation priorities
+* дать сгруппированные ссылки на детальные Markdown-артефакты
+
+Откройте `outputs/human_report.html` в браузере. Markdown остаётся источником истины.
+
+---
+
+## Шаг 8 — Backlog Decision (человек)
+
+Изучите `human_report.html` (или `decision_review.md`) и примите финальное решение:
 
 * Proceed
 * Proceed with Validation
@@ -302,6 +327,7 @@ RUN_DIR/
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
 ```
 
 ---

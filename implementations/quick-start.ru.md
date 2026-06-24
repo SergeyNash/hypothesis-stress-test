@@ -306,10 +306,12 @@ outputs/
   hypothesis_digest.txt
   customer_discovery_plan.md
   decision_review.md
+  human_report.html
 ```
 
 | Артефакт | Что внутри |
 | ---------- | ------------ |
+| `human_report.html` | **Открыть в браузере** — decision report: confidence, readiness, what changed, next steps, сгруппированные ссылки |
 | `hypothesis_digest.txt` | Краткий digest (макс. 150 слов): жизнеспособность, конфликт, иллюзия, слепая зона, следующий шаг |
 | `hypothesis_map.md` | Столкновение сигналов: дивергенции, слепые зоны, новая информация, границы, влияние на гипотезу |
 | `customer_discovery_plan.md` | Практичный CustDev-план: неизвестные, приоритеты, роли, гайд интервью |

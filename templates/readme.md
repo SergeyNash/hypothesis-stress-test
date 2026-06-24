@@ -18,6 +18,7 @@ Templates are structured prompts used to execute each layer:
 * Synthesis Layer
 * Customer Discovery Planning
 * Decision Review
+* Human Decision Report Export
 
 They act as an **interface between the user and the system**.
 
@@ -61,6 +62,7 @@ Skills map from templates:
 | `synthesis-prompt.md` | `hypothesis-synthesis` |
 | `customer-discovery-planning-prompt.md` | `customer-discovery-planning` |
 | `decision-review-prompt.md` | `hypothesis-decision-review` |
+| `human-report-template.html` | `human-report-export` |
 | `input-schema.md` | `hypothesis-input-validation` |
 | `input-schema.md` | `conversational-hypothesis-intake` (draft generation) |
 
@@ -113,3 +115,4 @@ See:
 * `synthesis-prompt.md`
 * `customer-discovery-planning-prompt.md`
 * `decision-review-prompt.md`
+* `human-report-template.html`

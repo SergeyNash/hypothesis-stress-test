@@ -109,6 +109,7 @@ Then ask Cline to run each layer, or use individual workflows:
 /run-synthesis.md
 /run-customer-discovery-planning.md
 /run-decision-review.md
+/run-human-report-export.md
 ```
 
 Specify `RUN_DIR` in your message, e.g.:
@@ -134,9 +135,10 @@ outputs/
   hypothesis_digest.txt
   customer_discovery_plan.md
   decision_review.md
+  human_report.html
 ```
 
-For evidence traceability, inspect `discovery_preview.md` and `evidence_inventory.md` before reading `market_analysis.md`.
+Open **`human_report.html`** in a browser for the decision-facing summary. For evidence traceability, inspect `discovery_preview.md` and `evidence_inventory.md` before reading `market_analysis.md`.
 
 ## Plan vs Act mode
 

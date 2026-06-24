@@ -204,6 +204,27 @@ outputs/decision_review_complete.marker
 
 ---
 
+## Шаг 7 — Human Decision Report Export
+
+**Cline skill:** `human-report-export`
+
+**Шаблон:** `templates/human-report-template.html`
+
+Ожидаемый output:
+
+```text
+outputs/human_report.html
+outputs/human_report_complete.marker
+```
+
+Цель:
+
+* собрать decision-facing HTML для человека
+* показать confidence, recommendation, decision readiness, what changed
+* дать ссылки на детальные Markdown-артефакты
+
+---
+
 ## Ожидаемый результат
 
 ```text
@@ -222,6 +243,7 @@ examples/example-001/
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
     *.marker
 ```
 

@@ -204,6 +204,27 @@ Purpose:
 
 ---
 
+## Step 7 — Human Decision Report Export
+
+**Cline skill:** `human-report-export`
+
+**Manual template:** `templates/human-report-template.html`
+
+Expected output:
+
+```text
+outputs/human_report.html
+outputs/human_report_complete.marker
+```
+
+Purpose:
+
+* compile decision-facing HTML for humans
+* show confidence, recommendation, decision readiness, what changed
+* link to detailed Markdown artifacts for drill-down
+
+---
+
 ## Expected Result
 
 ```text
@@ -222,6 +243,7 @@ examples/example-001/
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
     *.marker
 ```
 

@@ -21,6 +21,7 @@ RUN_DIR/
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
     knowledge_retrieval_complete.marker
     *.marker
 ```

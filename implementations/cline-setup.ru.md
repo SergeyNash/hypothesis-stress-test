@@ -109,6 +109,7 @@ examples/example-001/
 /run-synthesis.md
 /run-customer-discovery-planning.md
 /run-decision-review.md
+/run-human-report-export.md
 ```
 
 Укажите `RUN_DIR` в сообщении:
@@ -132,9 +133,10 @@ outputs/
   hypothesis_digest.txt
   customer_discovery_plan.md
   decision_review.md
+  human_report.html
 ```
 
-Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
+Откройте **`human_report.html`** в браузере для decision-facing сводки. Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
 
 ## Plan vs Act mode
 
