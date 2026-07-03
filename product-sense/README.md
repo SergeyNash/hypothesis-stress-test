@@ -14,13 +14,13 @@
 | [framework-laws.md](./framework-laws.md) | 7 принципов, которые можно унести с собой |
 | [llm-mistakes.md](./llm-mistakes.md) | Типичные ошибки LLM vs агентный конвейер |
 | [demo-script.md](./demo-script.md) | Сценарий живого демо |
-| [examples/appsec-story.md](./examples/appsec-story.md) | AppSec-кейс для слайдов |
-| [examples/non-appsec-story.md](./examples/non-appsec-story.md) | HR Tech-кейс для универсальности |
+| [examples/non-appsec-story.md](./examples/non-appsec-story.md) | HR Tech — **основное демо на сцене** |
+| [examples/appsec-story.md](./examples/appsec-story.md) | AppSec — производственный кейс (второй акт) |
 
 ## Эталонные demo-прогоны
 
-- AppSec: [examples/example-001](../examples/example-001/) — `outputs/human_report.html`
-- HR Tech: [examples/example-002](../examples/example-002/) — `outputs/human_report.html`
+- **На сцене первым:** HR Tech — [examples/example-002](../examples/example-002/) — `outputs/human_report.html`
+- **Производственный кейс:** AppSec — [examples/example-001](../examples/example-001/) — `outputs/human_report.html`
 
 Язык артефактов примеров совпадает с `input/hypothesis.md` (русский).
 
