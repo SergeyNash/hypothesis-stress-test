@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Human Decision Report — {{HYPOTHESIS_ID}}</title>
+  <title>Executive Decision Report — {{HYPOTHESIS_ID}}</title>
   <style>
     :root {
-      --bg: #f8f9fb;
+      --bg: #f4f6f9;
       --surface: #ffffff;
       --text: #1a1d23;
       --muted: #5c6370;
       --border: #e2e6ed;
-      --accent: #2563eb;
+      --accent: #1d4ed8;
       --accent-soft: #eff6ff;
       --success: #059669;
       --warning: #d97706;
@@ -35,10 +35,11 @@
       padding: .75rem 1.5rem;
     }
     .topbar-inner {
-      max-width: 960px; margin: 0 auto;
+      max-width: 980px; margin: 0 auto;
       display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1rem;
     }
     .topbar h1 { font-size: 1rem; font-weight: 600; flex: 1 1 200px; }
+    .subtitle { width: 100%; font-size: .8rem; color: var(--muted); margin-top: -.25rem; }
     .badges { display: flex; flex-wrap: wrap; gap: .5rem; }
     .badge {
       display: inline-block; padding: .2rem .65rem;
@@ -51,7 +52,7 @@
     nav.topnav { width: 100%; display: flex; flex-wrap: wrap; gap: .5rem 1rem; font-size: .8rem; }
     nav.topnav a { color: var(--accent); text-decoration: none; }
     nav.topnav a:hover { text-decoration: underline; }
-    main { max-width: 960px; margin: 0 auto; padding: 1.5rem; }
+    main { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
     section {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -81,7 +82,7 @@
       background: var(--bg); padding: 1rem; border-radius: var(--radius);
       border: 1px solid var(--border);
     }
-    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin: 1rem 0; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; margin: 1rem 0; }
     .card {
       padding: 1rem; border-radius: var(--radius);
       border: 1px solid var(--border); background: var(--bg);
@@ -97,6 +98,17 @@
     .reframe-box.original { background: #fef2f2; border-color: #fecaca; }
     .reframe-box.reframed { background: #ecfdf5; border-color: #a7f3d0; }
     .reframe-box .label { font-size: .75rem; font-weight: 600; text-transform: uppercase; margin-bottom: .5rem; }
+    .value-flow {
+      font-family: ui-monospace, monospace; font-size: .85rem;
+      background: var(--bg); padding: 1rem; border-radius: var(--radius);
+      border: 1px solid var(--border); white-space: pre-wrap;
+    }
+    .contradiction {
+      padding: .75rem 1rem; margin: .5rem 0;
+      border-left: 3px solid var(--warning);
+      background: #fffbeb; border-radius: 0 var(--radius) var(--radius) 0;
+    }
+    .contradiction strong { display: block; margin-bottom: .25rem; }
     ul, ol { padding-left: 1.25rem; margin: .5rem 0; }
     li { margin: .35rem 0; }
     table { width: 100%; border-collapse: collapse; font-size: .875rem; margin: .75rem 0; }
@@ -107,20 +119,15 @@
     .artifact-group ul { list-style: none; padding: 0; }
     .artifact-group li { margin: .25rem 0; }
     .artifact-group a { color: var(--accent); text-decoration: none; font-size: .875rem; }
-    .artifact-group a:hover { text-decoration: underline; }
     .na { color: var(--muted); font-style: italic; font-size: .875rem; }
-    footer {
-      text-align: center; color: var(--muted); font-size: .8rem;
-      padding: 2rem 1rem 3rem;
-    }
-    details { margin: .5rem 0; }
-    summary { cursor: pointer; font-weight: 500; }
+    footer { text-align: center; color: var(--muted); font-size: .8rem; padding: 2rem 1rem 3rem; }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <h1>{{HYPOTHESIS_ID}}</h1>
+      <p class="subtitle">Executive Decision Report — Hypothesis Stress Test</p>
       <div class="badges">
         <span class="badge badge-confidence">{{CONFIDENCE}}</span>
         <span class="badge badge-recommendation">{{RECOMMENDATION}}</span>
@@ -128,7 +135,9 @@
       </div>
       <nav class="topnav">
         <a href="#summary">Summary</a>
+        <a href="#business">Business</a>
         <a href="#what-changed">What changed?</a>
+        <a href="#contradictions">Contradictions</a>
         <a href="#decision">Decision</a>
         <a href="#validation">Validation</a>
         <a href="#signal">Signal</a>
@@ -156,6 +165,11 @@
       </div>
     </section>
 
+    <section id="business">
+      <h2>Business Value &amp; Strategic Fit</h2>
+      {{BUSINESS_VALUE_CONTENT_OR_NA}}
+    </section>
+
     <section id="what-changed">
       <h2>What changed?</h2>
       <div class="reframe-grid">
@@ -172,6 +186,11 @@
       <p>{{WHY_CHANGED}}</p>
     </section>
 
+    <section id="contradictions">
+      <h2>Top Contradictions</h2>
+      {{TOP_CONTRADICTIONS_OR_NA}}
+    </section>
+
     <section id="decision">
       <h2>Decision Summary</h2>
       <p>{{EXECUTIVE_SUMMARY}}</p>
@@ -183,6 +202,8 @@
 
     <section id="validation">
       <h2>Validation Priorities</h2>
+      <h3>Cheapest validation path</h3>
+      {{CHEAPEST_VALIDATION_LIST}}
       <h3>Critical unknowns (HIGH)</h3>
       {{CRITICAL_UNKNOWNS_TABLE_OR_NA}}
       <h3>High-priority research</h3>
@@ -200,39 +221,19 @@
       <h2>Detailed Artifacts</h2>
       <p style="font-size:.875rem;color:var(--muted);margin-bottom:1rem">Source Markdown files — machine-readable details for drill-down.</p>
       <div class="artifact-groups">
-        <div class="artifact-group">
-          <h3>Input</h3>
-          <ul><li><a href="../input/hypothesis.md">hypothesis.md</a></li></ul>
-        </div>
-        <div class="artifact-group">
-          <h3>Role Analysis</h3>
-          <ul>{{ROLE_ANALYSIS_LINKS}}</ul>
-        </div>
-        <div class="artifact-group">
-          <h3>Evidence</h3>
-          <ul>{{EVIDENCE_LINKS}}</ul>
-        </div>
-        <div class="artifact-group">
-          <h3>Market</h3>
-          <ul>{{MARKET_LINKS}}</ul>
-        </div>
-        <div class="artifact-group">
-          <h3>Synthesis</h3>
-          <ul>{{SYNTHESIS_LINKS}}</ul>
-        </div>
-        <div class="artifact-group">
-          <h3>Customer Discovery</h3>
-          <ul>{{CUSTDEV_LINKS}}</ul>
-        </div>
-        <div class="artifact-group">
-          <h3>Decision Review</h3>
-          <ul>{{DECISION_LINKS}}</ul>
-        </div>
+        <div class="artifact-group"><h3>Input</h3><ul><li><a href="../input/hypothesis.md">hypothesis.md</a></li></ul></div>
+        <div class="artifact-group"><h3>Role Analysis</h3><ul>{{ROLE_ANALYSIS_LINKS}}</ul></div>
+        <div class="artifact-group"><h3>Evidence</h3><ul>{{EVIDENCE_LINKS}}</ul></div>
+        <div class="artifact-group"><h3>Business Context</h3><ul>{{BUSINESS_CONTEXT_LINKS}}</ul></div>
+        <div class="artifact-group"><h3>Market</h3><ul>{{MARKET_LINKS}}</ul></div>
+        <div class="artifact-group"><h3>Synthesis</h3><ul>{{SYNTHESIS_LINKS}}</ul></div>
+        <div class="artifact-group"><h3>Customer Discovery</h3><ul>{{CUSTDEV_LINKS}}</ul></div>
+        <div class="artifact-group"><h3>Decision Review</h3><ul>{{DECISION_LINKS}}</ul></div>
       </div>
     </section>
   </main>
 
-  <footer>Human Decision Report — generated from Hypothesis Stress Test run artifacts. Markdown remains source of truth.</footer>
+  <footer>Executive Decision Report — generated from Hypothesis Stress Test run artifacts. Markdown remains source of truth.</footer>
 
   <script>
     document.querySelectorAll('nav.topnav a').forEach(function(a) {

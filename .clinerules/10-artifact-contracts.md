@@ -16,6 +16,8 @@ RUN_DIR/
     validation_questions.md
     discovery_preview.md
     evidence_inventory.md
+    business_context_analysis.md
+    missing_business_context.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
@@ -24,6 +26,7 @@ RUN_DIR/
     human_report.html
     ready_for_synthesis.marker
     knowledge_retrieval_complete.marker
+    business_context_complete.marker
     market_analysis_complete.marker
     synthesis_complete.marker
     customer_discovery_planning_complete.marker
@@ -86,6 +89,8 @@ Roles listed in `input/hypothesis.md` remain the run-specific source of scope. P
 | Interview questions | `outputs/validation_questions.md` | Facilitator (Roles Layer) |
 | Retrieval preview | `outputs/discovery_preview.md` | Local Evidence Discovery |
 | Evidence inventory | `outputs/evidence_inventory.md` | Local Evidence Discovery |
+| Business context analysis | `outputs/business_context_analysis.md` | Business Context & Value Check |
+| Missing business context | `outputs/missing_business_context.md` | Business Context & Value Check (gap only) |
 | Market analysis | `outputs/market_analysis.md` | Market Layer |
 | Full synthesis | `outputs/hypothesis_map.md` | Synthesis Layer |
 | Short digest | `outputs/hypothesis_digest.txt` | Synthesis Layer |
@@ -139,6 +144,14 @@ Optional fields:
 - `companion_source`
 - `extraction_note` (required for `image_observation`)
 
+### business_context_analysis.md (business context & value check)
+
+Must include: available context, missing context, stakeholder map, value flow (Problem → Beneficiary → Behavior change → Business effect), business effect type(s), strategic fit with citations, key risks, key opportunities, summary for downstream layers. Language matches `input/hypothesis.md`.
+
+### missing_business_context.md (business context gap)
+
+Created only when strategy/OKR/business-model materials are absent. Must list missing source types and what to add to KB. Do not substitute fabricated strategic fit.
+
 ## Completion markers
 
 Markers signal that a layer finished and outputs are ready for the next step:
@@ -147,6 +160,7 @@ Markers signal that a layer finished and outputs are ready for the next step:
 | -------- | --------------- |
 | `ready_for_synthesis.marker` | Facilitator (Roles Layer) |
 | `knowledge_retrieval_complete.marker` | Local Evidence Discovery |
+| `business_context_complete.marker` | Business Context & Value Check |
 | `market_analysis_complete.marker` | Market Layer |
 | `synthesis_complete.marker` | Synthesis Layer |
 | `customer_discovery_planning_complete.marker` | Customer Discovery Planning |
@@ -167,7 +181,11 @@ Decision-facing HTML report for humans. Generated after Decision Review. Does no
 | Digest | `hypothesis_digest.txt` |
 | What changed? | `hypothesis_map.md` (`Impact on Original Hypothesis`), fallback: digest + `decision_review.md` |
 | Confidence / Recommendation | `decision_review.md` |
-| Decision Readiness | derived from `decision_review.md` (see mapping below) |
+| Decision Readiness | derived from `decision_review.md` + business context (see mapping below) |
+| Business value summary | `business_context_analysis.md` (Strategic Fit, Business Effect Type, Summary) |
+| Stakeholder / value flow | `business_context_analysis.md` (Stakeholder Map, Value Flow) |
+| Top contradictions | `hypothesis_map.md` (`Key Divergences`, max 3) |
+| Cheapest validation path | `decision_review.md` (`Validation Plan`, lowest effort items) |
 | Validation priorities | `customer_discovery_plan.md` |
 | Signal snapshot | `market_analysis.md` (`Signal Summary` only) |
 | Detailed artifacts | grouped links to all contract artifacts present in `RUN_DIR` |
@@ -176,11 +194,14 @@ Decision-facing HTML report for humans. Generated after Decision Review. Does no
 
 1. Sticky header — Hypothesis ID, confidence, recommendation, decision readiness badges
 2. Executive overview — statement, digest, status cards
-3. What changed? — original framing, reframed as, why changed
-4. Decision summary — executive summary, final recommendation, next step
-5. Validation priorities — high-priority unknowns, research actions, interview roles
-6. Signal snapshot — opportunity window / signal summary (if available)
-7. Detailed artifacts — grouped relative links
+3. Business value — effect type, strategic fit, value flow (if `business_context_analysis.md` exists)
+4. What changed? — original framing, reframed as, why changed
+5. Top contradictions — up to 3 key divergences from synthesis
+6. Decision summary — executive summary, final recommendation, next step
+7. Cheapest validation — lowest-effort validation plan items from decision review
+8. Validation priorities — high-priority unknowns, research actions, interview roles
+9. Signal snapshot — opportunity window / signal summary (if available)
+10. Detailed artifacts — grouped relative links (include Business Context group when present)
 
 **Decision Readiness mapping** (choose one most action-guiding status):
 
@@ -204,6 +225,7 @@ Decision-facing HTML report for humans. Generated after Decision Review. Does no
 - Input: `../input/hypothesis.md`
 - Role Analysis: `hypothesis_summary.md`, `validation_questions.md`, `role_outputs/*.md`
 - Evidence: `discovery_preview.md`, `evidence_inventory.md`
+- Business Context: `business_context_analysis.md`, `missing_business_context.md`
 - Market: `market_analysis.md`
 - Synthesis: `hypothesis_digest.txt`, `hypothesis_map.md`
 - Customer Discovery: `customer_discovery_plan.md`
@@ -230,7 +252,9 @@ Max 150 words: viability, key conflict, primary illusion, blind spot, risk, insi
 
 Must include: research objective, what is already known, critical unknowns with risk type and priority, recommended interview roles, behavior-based interview guide, research priorities (HIGH / MEDIUM / LOW), expected learning outcomes. Language matches `input/hypothesis.md`.
 
-Do not run Market Layer until Facilitator completes (`ready_for_synthesis.marker` or equivalent facilitator outputs). Local Evidence Discovery is recommended before Market but optional for backward compatibility.
+Do not run Market Layer until Facilitator completes (`ready_for_synthesis.marker` or equivalent facilitator outputs). Local Evidence Discovery is recommended before Business Context but optional for backward compatibility.
+
+Do not run Market Layer until Business Context & Value Check completes (`business_context_complete.marker` or `business_context_analysis.md` / `missing_business_context.md` present). For legacy runs without business context artifacts, Market may proceed with explicit gap note.
 
 Do not run Synthesis until both Facilitator and Market markers exist (`ready_for_synthesis.marker` + `market_analysis_complete.marker`, or equivalent output files).
 

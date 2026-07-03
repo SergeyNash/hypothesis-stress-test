@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Executive Decision Report — HYP-2026-06-15-001</title>
+  <style>
+    :root { --bg: #f4f6f9; --surface: #fff; --text: #1a1d23; --muted: #5c6370; --border: #e2e6ed; --accent: #1d4ed8; --accent-soft: #eff6ff; --success: #059669; --warning: #d97706; --radius: 10px; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 15px; margin: 0; }
+    .topbar { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: .75rem 1.5rem; }
+    .topbar-inner { max-width: 980px; margin: 0 auto; }
+    .subtitle { font-size: .8rem; color: var(--muted); }
+    .badges { display: flex; gap: .5rem; margin: .5rem 0; flex-wrap: wrap; }
+    .badge { padding: .2rem .65rem; border-radius: 999px; font-size: .75rem; font-weight: 600; border: 1px solid var(--border); }
+    .badge-confidence { background: var(--accent-soft); color: var(--accent); }
+    .badge-readiness { background: #fef3c7; color: #92400e; }
+    .badge-recommendation { background: #ecfdf5; color: var(--success); }
+    nav a { color: var(--accent); margin-right: 1rem; font-size: .8rem; }
+    main { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+    section h2 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem; }
+    .statement { font-weight: 500; padding: 1rem; background: var(--accent-soft); border-left: 4px solid var(--accent); margin-bottom: 1rem; }
+    .digest { font-family: ui-monospace, monospace; font-size: .85rem; white-space: pre-wrap; background: var(--bg); padding: 1rem; border: 1px solid var(--border); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .card { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+    .card .label { font-size: .75rem; color: var(--muted); text-transform: uppercase; }
+    .reframe-grid { display: grid; gap: 1rem; }
+    @media (min-width: 600px) { .reframe-grid { grid-template-columns: 1fr 1fr; } }
+    .reframe-box { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); }
+    .reframe-box.original { background: #fef2f2; }
+    .reframe-box.reframed { background: #ecfdf5; }
+    .contradiction { padding: .75rem 1rem; border-left: 3px solid var(--warning); background: #fffbeb; margin: .5rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    th, td { border: 1px solid var(--border); padding: .5rem .75rem; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>HYP-2026-06-15-001</h1>
+      <p class="subtitle">Executive Decision Report — B2B HR Tech (пример универсальности)</p>
+      <div class="badges">
+        <span class="badge badge-confidence">Уверенность: средняя</span>
+        <span class="badge badge-recommendation">Proceed with Validation</span>
+        <span class="badge badge-readiness">Нужны интервью</span>
+      </div>
+      <nav>
+        <a href="#summary">Обзор</a><a href="#business">Бизнес</a><a href="#what-changed">Что изменилось</a>
+        <a href="#contradictions">Противоречия</a><a href="#decision">Решение</a><a href="#validation">Валидация</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="summary">
+      <h2>Обзор</h2>
+      <div class="statement">Если рекрутеры смогут использовать ИИ для автоматического ранжирования кандидатов в воронке найма, то time-to-hire сократится на 30%, а hiring managers быстрее закроют критичные вакансии.</div>
+      <h3>Digest</h3>
+      <div class="digest">Гипотеза: требует проверки (reframe перед разработкой)
+
+Ключевой конфликт:
+Скорость для рекрутера vs ценность compliance для CHRO
+
+Главная иллюзия:
+ИИ-ранжирование сократит time-to-hire на 30%
+
+Основной инсайт:
+Reframe на governed recruiter assist с audit trail
+
+Следующий шаг:
+CustDev CHRO/legal + пилот assist</div>
+      <div class="cards">
+        <div class="card"><div class="label">Уверенность</div><div class="value">Средняя</div></div>
+        <div class="card"><div class="label">Рекомендация</div><div class="value">Proceed with Validation</div></div>
+        <div class="card"><div class="label">Готовность</div><div class="value">Нужны интервью</div></div>
+      </div>
+    </section>
+    <section id="business">
+      <h2>Бизнес-ценность</h2>
+      <div class="cards">
+        <div class="card"><div class="label">Эффект</div><div class="value">Operational / Revenue via compliance</div></div>
+        <div class="card"><div class="label">Strategic fit</div><div class="value">Low → High при reframe</div></div>
+        <div class="card"><div class="label">Покупатель</div><div class="value">CHRO</div></div>
+      </div>
+      <p><a href="business_context_analysis.md">Полный анализ →</a></p>
+    </section>
+    <section id="what-changed">
+      <h2>Что изменилось?</h2>
+      <div class="reframe-grid">
+        <div class="reframe-box original"><strong>Было</strong><p>ИИ auto-ranking → −30% time-to-hire.</p></div>
+        <div class="reframe-box reframed"><strong>Стало</strong><p>Governed recruiter assist с audit trail; метрика — часы screening.</p></div>
+      </div>
+    </section>
+    <section id="contradictions">
+      <h2>Противоречия</h2>
+      <div class="contradiction"><strong>Speed vs Compliance (HIGH)</strong>Гипотеза — time-to-hire; CHRO — auditability.</div>
+      <div class="contradiction"><strong>Assist vs Auto-rank (HIGH)</strong>Нужен override; гипотеза — automatic ranking.</div>
+      <div class="contradiction"><strong>User vs Buyer (MEDIUM)</strong>Боль рекрутера ≠ драйвер покупки CHRO.</div>
+    </section>
+    <section id="decision">
+      <h2>Решение</h2>
+      <p>Proceed with validation. Reframe narrative до full build.</p>
+      <p><strong>Следующий шаг:</strong> CHRO/legal discovery + пилот assist с explainability.</p>
+    </section>
+    <section id="validation">
+      <h2>Валидация</h2>
+      <ul>
+        <li>3 интервью CHRO/legal (Low, 1 неделя)</li>
+        <li>5 интервью рекрутеров (Low, 1 неделя)</li>
+        <li>Funnel analysis 5 closed reqs (Low, 1 неделя)</li>
+      </ul>
+      <table><thead><tr><th>Неизвестное (HIGH)</th><th>Риск</th></tr></thead><tbody>
+        <tr><td>Legal approval assist с audit log?</td><td>Buyer</td></tr>
+        <tr><td>Hours saved с assist+override?</td><td>Workflow</td></tr>
+        <tr><td>CHRO финансирует compliance module?</td><td>Business Value</td></tr>
+      </tbody></table>
+      <p><a href="hypothesis_map.md">hypothesis_map.md</a> · <a href="decision_review.md">decision_review.md</a></p>
+    </section>
+  </main>
+</body>
+</html>

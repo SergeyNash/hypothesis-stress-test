@@ -16,6 +16,8 @@ RUN_DIR/
     validation_questions.md
     discovery_preview.md
     evidence_inventory.md
+    business_context_analysis.md
+    missing_business_context.md
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt

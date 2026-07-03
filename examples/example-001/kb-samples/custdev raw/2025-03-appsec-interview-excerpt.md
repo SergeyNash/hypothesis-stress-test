@@ -1,17 +1,13 @@
-# CustDev excerpt — AppSec lead (2025-03-18)
+# Excerpt custdev — AppSec Lead (2025-03)
 
-Transcript fragment (redacted). Full recording: `2025-03-appsec-interview.m4a` (metadata only in this example).
+Интервьюер: Как вы сейчас решаете, что сканировать первым?
 
----
+AppSec Lead: Вручную. У нас нет автоматики по business-criticality — кто-то должен вспомнить пометить tier-1. Business-critical apps не идут первыми автоматически.
 
-**Interviewer:** How do you decide what gets scanned first?
+Интервьюер: Что мешает?
 
-**AppSec Lead:** Right now it's tribal knowledge. If platform team pings us on Slack, we move it up. Business-critical apps aren't automatically first — someone has to remember to flag them.
+AppSec Lead: Нет единого источника правды о критичности. CISO хочет policy, мы делаем exceptions в Slack. Audit спрашивает «почему этот проект прыгнул в очереди» — ответа формального нет.
 
-**Interviewer:** What happens when the queue backs up?
+Интервьюер: Снизило бы это production risk?
 
-**AppSec Lead:** Releases slip. Last quarter a payment service waited almost a full business day. That's the kind of thing leadership notices.
-
----
-
-Tags: #custdev #appsec #queue
+AppSec Lead: Не уверен. Скорее мы быстрее увидим findings в важных репозиториях. Risk в проде — это remediation и ownership, не только порядок скана.

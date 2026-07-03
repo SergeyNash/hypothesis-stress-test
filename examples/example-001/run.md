@@ -1,4 +1,4 @@
-# Run Log — example-001
+# Журнал прогона — example-001
 
 ## RUN_DIR
 
@@ -6,35 +6,30 @@
 examples/example-001
 ```
 
-Hypothesis input: `input/hypothesis.md` (ID: `HYP-2026-06-09-001`)
+Вход гипотезы: `input/hypothesis.md` (ID: `HYP-2026-06-09-001`)
 
-## Execution
+## Выполнение
 
-Processed through Hypothesis Stress Test framework using Cline skills:
-
-| Step | Skill / Workflow | Status |
-|------|------------------|--------|
-| Input validation | `hypothesis-input-validation` | complete |
+| Шаг | Skill / Workflow | Статус |
+|-----|------------------|--------|
+| Валидация входа | `hypothesis-input-validation` | complete |
 | Facilitator (Roles Layer) | `hypothesis-facilitator` | complete |
 | Local Evidence Discovery | `local-knowledge-retrieval` | complete |
+| Business Context & Value Check | `business-context-value-check` | complete |
 | Market Layer | `hypothesis-market-layer` | complete |
 | Synthesis Layer | `hypothesis-synthesis` | complete |
 | Customer Discovery Planning | `customer-discovery-planning` | complete |
 | Decision Review | `hypothesis-decision-review` | complete |
 | Human Decision Report Export | `human-report-export` | complete |
 
-## Confluence MCP
+## Результат
 
-Example outputs were produced with framework layers. KB samples for Local Evidence Discovery: `kb-samples/` (workshop notes, custdev excerpt, whiteboard caption).
+См. `outputs/hypothesis_digest.txt`, `outputs/customer_discovery_plan.md`, `outputs/decision_review.md`, **`outputs/human_report.html`**.
 
-For live runs, configure Confluence MCP per [implementations/confluence-mcp.md](../../implementations/confluence-mcp.md) to enrich Market Layer with additional internal signals after inventory-first discovery.
+Классификация: Mixed — Validated Opportunity, Internal Illusion, Blind Spot.
 
-## Result summary
+Ключевой reframe: из «снизить production risk» в «повысить операционную эффективность».
 
-See `outputs/hypothesis_digest.txt` for the synthesis digest, `outputs/customer_discovery_plan.md` for the interview-ready research plan, `outputs/decision_review.md` for the adversarial review, and **`outputs/human_report.html`** for the decision-facing HTML report (open in browser).
+Decision Review: **Proceed with Validation** (Medium confidence).
 
-Classification: Mixed — Validated Opportunity, Internal Illusion, Blind Spot.
-
-Key reframing: from "reduce production risk" toward "improve operational efficiency".
-
-Decision Review recommendation: **Proceed with Validation** (Medium confidence).
+Язык артефактов: русский (совпадает с `input/hypothesis.md`).

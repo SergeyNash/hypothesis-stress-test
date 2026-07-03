@@ -1,63 +1,63 @@
-# Role Analysis: Application Security Engineer
+# Ролевой анализ: Application Security Engineer
 
-## Pain
+## Боль
 
-Priority: CRITICAL
+Приоритет: CRITICAL
 
-AppSec engineers must balance scan coverage against deep analysis of critical systems under limited scanning capacity.
+Инженеры AppSec балансируют coverage сканов и глубокий анализ критичных систем при ограниченной ёмкости сканирования.
 
-Main pain points:
+Основные pain points:
 
-* inability to quickly react to changing business priorities
-* equal treatment of systems with different risk levels
-* manual queue-management workarounds
-* difficulty justifying prioritization decisions to developers
+* невозможность быстро реагировать на меняющиеся бизнес-приоритеты
+* равное отношение к системам с разным уровнем риска
+* ручные workarounds управления очередью
+* сложность обосновывать prioritization decisions перед разработчиками
 
 ---
 
-## New Problems Introduced
+## Новые проблемы
 
 * cognitive overload
-* political pressure from development teams
-* lack of decision reproducibility
-* metric manipulation risks
-* additional operational overhead
+* политическое давление от dev-команд
+* отсутствие reproducibility решений
+* риски манипуляции метриками
+* дополнительная операционная нагрузка
 
 ---
 
-## Alternatives
+## Альтернативы
 
 * policy-driven prioritization
 * metadata-based automation
 * risk-based scanning
 * parallel scanning
-* keeping FIFO as the default model
+* FIFO как default model
 
 ---
 
-## Failure Context
+## Контекст провала
 
-* scan duration is already short relative to release cycles
-* business-criticality data is unavailable or unreliable
-* organization lacks operational maturity for manual decisions
-* political pressure makes prioritization unsustainable
+* длительность скана уже мала относительно release cycles
+* данные бизнес-критичности недоступны или ненадёжны
+* низкая operational maturity для manual decisions
+* политическое давление делает приоритизацию неустойчивой
 
 ---
 
-## Applicability Boundaries
+## Границы применимости
 
-### Works when
+### Работает когда
 
-* queue wait times block critical findings
-* engineer has access to business-criticality context
-* team size is 10–50 projects with mature AppSec process
+* wait times блокируют critical findings
+* есть доступ к контексту бизнес-критичности
+* 10–50 проектов, зрелый AppSec process
 
-### Does not work when
+### Не работает когда
 
-* automated risk-based scanning already handles prioritization
-* FIFO queue creates no operational pain
+* automated risk-based scanning уже покрывает приоритизацию
+* FIFO не создаёт operational pain
 
-### Harms when
+### Вредит когда
 
-* decisions cannot be audited or reproduced
-* developers systematically bypass or game the queue
+* решения нельзя audit или reproduce
+* разработчики systematically bypass или геймят очередь

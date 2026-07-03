@@ -1,80 +1,80 @@
-# Interview Questions
+# Вопросы для интервью
 
-## Role: Application Security Engineer
+## Роль: Application Security Engineer
 
-### Current process
+### Текущий процесс
 
-1. Walk me through how you manage the SAST scan queue today when multiple projects are waiting.
-2. Tell me about the last time a business-critical application was delayed in the queue — what happened?
-3. Describe how you currently decide which project gets scanned next.
+1. Расскажите, как вы управляете очередью SAST-сканов, когда несколько проектов ждут.
+2. Опишите последний случай, когда business-critical приложение задерживалось в очереди — что произошло?
+3. Как вы сейчас решаете, какой проект сканировать следующим?
 
-### Constraints
+### Ограничения
 
-1. What business-criticality information do you actually have access to when prioritizing?
-2. What approvals or audit requirements exist for changing scan order?
-3. How many concurrent projects do you typically manage in the queue?
+1. К какой информации о бизнес-критичности у вас реально есть доступ при приоритизации?
+2. Какие approvals или audit requirements есть для смены порядка сканов?
+3. Сколько concurrent проектов вы обычно ведёте в очереди?
 
-### Actual behavior
+### Фактическое поведение
 
-1. Tell me about workarounds you use when the queue is overloaded.
-2. Describe a situation where you could not reprioritize even though you wanted to.
-3. How do developers typically react when their project is deprioritized?
+1. Расскажите о workarounds, когда очередь перегружена.
+2. Опишите ситуацию, когда вы не смогли reprioritize, хотя хотели.
+3. Как разработчики реагируют, когда их проект deprioritized?
 
-### Recent experience
+### Недавний опыт
 
-1. What happened the last time manual queue management caused a conflict with a development team?
-2. Walk me through the last release where scan timing affected a security finding's remediation.
-
----
-
-## Role: CISO
-
-### Current process
-
-1. Describe how prioritization decisions are made for security scanning across the organization.
-2. Tell me how you currently demonstrate that critical systems receive appropriate scan coverage.
-3. Walk me through your preferred model: manual control vs policy-driven automation.
-
-### Constraints
-
-1. What governance or compliance requirements apply to prioritization decisions?
-2. How do you measure whether security resources are allocated optimally?
-3. At what organizational scale does manual prioritization become unacceptable?
-
-### Actual behavior
-
-1. Tell me about a time when decentralized prioritization created an audit or visibility problem.
-2. Describe what happens when AppSec and development teams disagree on scan order.
-3. What alternatives to manual queue control have you already implemented or rejected?
-
-### Recent experience
-
-1. What was the outcome the last time a critical system was scanned late?
-2. Walk me through a recent incident where scan queue management was discussed at leadership level.
+1. Что произошло в последний раз, когда ручное управление очередью вызвало конфликт с dev-командой?
+2. Пройдитесь по последнему release, где timing скана повлиял на remediation finding.
 
 ---
 
-## Role: Enterprise Developer
+## Роль: CISO
 
-### Current process
+### Текущий процесс
 
-1. Tell me how you learn when your project's SAST scan will complete.
-2. Walk me through your release process and where scanning fits in the timeline.
-3. Describe what you do when a critical finding appears just before release.
+1. Опишите, как принимаются решения о приоритизации security scanning в организации.
+2. Как вы демонстрируете, что critical systems получают adequate scan coverage?
+3. Ваш предпочтительный model: manual control vs policy-driven automation?
 
-### Constraints
+### Ограничения
 
-1. What release deadlines or SLAs constrain your ability to wait for scan results?
-2. How much visibility do you have into why your project was prioritized or deprioritized?
-3. What happens when scan results block a release?
+1. Какие governance/compliance requirements применяются к prioritization decisions?
+2. Как вы измеряете optimal allocation security resources?
+3. При каком organizational scale ручная приоритизация становится неприемлемой?
 
-### Actual behavior
+### Фактическое поведение
 
-1. Tell me about the last time unpredictable scan timing affected your delivery.
-2. Describe how you escalate when you believe your project should be scanned sooner.
-3. What workarounds do teams use when the scan queue is slow?
+1. Расскажите о случае, когда децентрализованная приоритизация создала audit/visibility problem.
+2. Что происходит при disagreement AppSec и dev teams о порядке сканов?
+3. Какие альтернативы manual queue control уже внедрены или отклонены?
 
-### Recent experience
+### Недавний опыт
 
-1. Walk me through the last time queue prioritization felt unfair to your team.
-2. What happened the last time you received a critical finding after assuming the scan was complete?
+1. Каков был outcome, когда critical system сканировался с опозданием?
+2. Пройдитесь по недавнему incident, где queue management обсуждался на leadership level.
+
+---
+
+## Роль: Enterprise Developer
+
+### Текущий процесс
+
+1. Как вы узнаёте, когда завершится SAST-скан вашего проекта?
+2. Пройдитесь по release process и месту сканирования в timeline.
+3. Что делаете, когда critical finding появляется перед release?
+
+### Ограничения
+
+1. Какие release deadlines или SLAs ограничивают ожидание scan results?
+2. Насколько видна причина prioritization/deprioritization вашего проекта?
+3. Что происходит, когда scan results блокируют release?
+
+### Фактическое поведение
+
+1. Расскажите о последнем случае unpredictable scan timing.
+2. Как эскалируете, когда считаете, что проект должен сканироваться раньше?
+3. Какие workarounds используют команды при медленной очереди?
+
+### Недавний опыт
+
+1. Пройдитесь по последнему случаю, когда prioritization казалась unfair команде.
+2. Что произошло, когда critical finding пришёл после предполагаемого завершения скана?

@@ -1,111 +1,111 @@
-# Unified Hypothesis Summary
+# Единое резюме гипотезы
 
-Manual SAST scan queue prioritization by AppSec engineers is positioned as reducing production risk. After signal collision: operational pain is real and market-confirmed, but the risk-reduction framing is not supported. Reframe toward operational efficiency and time-to-action.
-
----
-
-# Confirmed Signals
-
-* **Validated Opportunity (partial):** Queue overload and prioritization needs — roles (CRITICAL pain for AppSec) + market (common queue limitations)
-* Scan queue management under resource constraints is a real, recurring problem
+Ручная приоритизация очереди SAST позиционируется как снижение production risk. После столкновения сигналов: операционная боль реальна и подтверждена рынком, но framing про risk reduction не поддержан. Reframe в сторону операционной эффективности и time-to-action.
 
 ---
 
-# Internal Illusions
+# Подтверждённые сигналы
 
-* **Earlier scanning reduces production risk** — internal assumption strong, market does not clearly link scan order to risk outcomes (Internal Illusion)
-* **Engineers have business-criticality context** — assumed in hypothesis, weakly evidenced in role analysis
-
----
-
-# Missed Opportunities
-
-* Hybrid model (policy automation + manual exceptions) mentioned in alternatives but not in original hypothesis
-* Governance and audit trail as product differentiator — CISO pain underexplored in original framing
+* **Validated Opportunity (частично):** перегрузка очереди и потребность в приоритизации — роли (CRITICAL для AppSec) + рынок (типичные ограничения очередей)
+* Управление очередью сканов при ограниченных ресурсах — реальная повторяющаяся проблема
 
 ---
 
-# Local Optimization Traps
+# Внутренние иллюзии
 
-* Roles YES + Market YES on queue pain, but **strategic business value** tied to "reduce production risk" is unconfirmed
-* Risk: building queue tooling that improves local workflow without moving enterprise risk metrics
-
----
-
-# Key Divergences
-
-### Efficiency vs Risk (HIGH)
-
-- Contradiction: internal frames outcome as risk reduction; market signals emphasize workflow efficiency
-- Business consequence: wrong product narrative and success metrics
-- Validation priority: HIGH
-
-### Control vs Governance (HIGH)
-
-- Contradiction: AppSec wants manual control; CISO wants policy consistency
-- Business consequence: adoption blocked at enterprise scale
-- Validation priority: HIGH
-
-### Knowledge Gap (MEDIUM)
-
-- Contradiction: prioritization assumes business-criticality data exists
-- Business consequence: feature unusable without context integration
-- Validation priority: MEDIUM
+* **Более раннее сканирование снижает production risk** — внутреннее предположение сильное, рынок не связывает порядок сканов с risk outcomes (Internal Illusion)
+* **У инженеров есть контекст бизнес-критичности** — заложено в гипотезу, слабо подтверждено в ролевом анализе
 
 ---
 
-# Blind Spots
+# Упущенные возможности
 
-* Who pays for prioritization tooling vs who experiences pain (buyer vs user)
-* Platform / CI/CD constraints on scan scheduling not modeled
-* Penetration Tester perspective underrepresented
-* Impact on overall scan coverage when queue is reprioritized
+* Гибридная модель (policy automation + ручные исключения) упомянута в альтернативах, но не в исходной гипотезе
+* Governance и audit trail как дифференциатор — боль CISO недоисследована в исходном framing
 
 ---
 
-# New Information
+# Ловушки локальной оптимизации
 
-* Visible only after collision: the hypothesis solves a **different problem** than stated (efficiency, not risk)
-* Organizational tension between decentralization (AppSec) and centralization (CISO) is a **structural blocker**, not an edge case
-* Market does not validate scan queue prioritization as a **standalone product category**
-
----
-
-# Applicability Boundaries
-
-## Works when
-
-* 10–50 projects, mature AppSec team, business-criticality metadata available
-* Hybrid: manual exceptions on policy-driven automation base
-
-## Does not work when
-
-* Scan duration already short; FIFO creates no pain
-* Fully automated risk-based scanning in place
-
-## Breaks when
-
-* Governance cannot audit prioritization decisions
-* Developers game queue ("everything is critical")
-* Enterprise scale without policy automation
+* Roles YES + Market YES по боли в очереди, но **стратегическая бизнес-ценность**, привязанная к «снизить production risk», не подтверждена
+* Риск: построить queue tooling, который улучшает локальный workflow, но не двигает enterprise risk metrics
 
 ---
 
-# Impact on Original Hypothesis
+# Ключевые дивергенции
 
-**Reframe Problem** — keep operational pain, change outcome from "reduce production risk" to "improve operational efficiency and time-to-action for critical findings"
+### Эффективность vs Risk (HIGH)
 
-**Narrow Scope** — target mature AppSec teams with queue constraints, not enterprise-wide default
+- Противоречие: внутри framing — risk reduction; рынок и роли — workflow efficiency
+- Бизнес-последствие: неверный продуктовый нарратив и метрики успеха
+- Приоритет проверки: HIGH
 
-**Require Validation** — link between prioritization and risk outcomes still unproven
+### Контроль vs Governance (HIGH)
+
+- Противоречие: AppSec хочет ручной контроль; CISO — policy consistency
+- Бизнес-последствие: блокировка adoption на enterprise scale
+- Приоритет проверки: HIGH
+
+### Пробел в данных (MEDIUM)
+
+- Противоречие: приоритизация предполагает наличие данных о бизнес-критичности
+- Бизнес-последствие: фича непригодна без интеграции контекста
+- Приоритет проверки: MEDIUM
 
 ---
 
-# Validation Priorities
+# Слепые зоны
 
-| Priority | Objective |
-|----------|-----------|
-| HIGH | AppSec interviews: business-criticality data access and queue workflows |
-| HIGH | CISO workshop: governance model for manual vs automated prioritization |
-| MEDIUM | Pilot with 1 account: measure time-to-action, not risk reduction |
-| LOW | Market scan: standalone queue prioritization as purchase category |
+* Кто платит за queue tooling vs кто испытывает боль (buyer vs user)
+* Ограничения Platform / CI/CD на планирование сканов не смоделированы
+* Перспектива Penetration Tester недопредставлена
+* Влияние на общее покрытие сканами при переприоритизации очереди
+
+---
+
+# Новая информация
+
+* Видно только после collision: гипотеза решает **другую проблему**, чем заявлено (efficiency, не risk)
+* Напряжение децентрализации (AppSec) vs централизации (CISO) — **структурный блокер**, не edge case
+* Рынок не валидирует приоритизацию очереди как **отдельную продуктовую категорию**
+
+---
+
+# Границы применимости
+
+## Работает когда
+
+* 10–50 проектов, зрелая AppSec-команда, метаданные бизнес-критичности доступны
+* Гибрид: ручные исключения поверх policy-driven automation
+
+## Не работает когда
+
+* Длительность скана уже мала; FIFO не создаёт боли
+* Полностью автоматизированное risk-based scanning уже внедрено
+
+## Ломается когда
+
+* Governance не может аудировать решения о приоритизации
+* Разработчики геймят очередь («всё критично»)
+* Enterprise scale без policy automation
+
+---
+
+# Влияние на исходную гипотезу
+
+**Reframe Problem** — сохранить операционную боль, сменить outcome с «reduce production risk» на «улучшить операционную эффективность и time-to-action для критичных findings»
+
+**Narrow Scope** — зрелые AppSec-команды с ограничениями очереди, не enterprise-wide default
+
+**Require Validation** — связь приоритизации с risk outcomes всё ещё не доказана
+
+---
+
+# Приоритеты дальнейшей проверки
+
+| Приоритет | Цель |
+|----------|------|
+| HIGH | Интервью AppSec: доступ к данным бизнес-критичности и workflow очереди |
+| HIGH | Воркшоп CISO: governance model для manual vs automated prioritization |
+| MEDIUM | Пилот на 1 аккаунте: time-to-action, не risk reduction |
+| LOW | Обзор рынка: standalone queue prioritization как категория покупки |

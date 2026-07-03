@@ -11,7 +11,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Framework version <b>2.2.2</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
+  <sub>Framework version <b>2.4.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
 </p>
 
 <p align="center">
@@ -85,6 +85,7 @@ Three analysis layers, Customer Discovery Planning, mandatory Decision Review, t
 |-------|-------|--------|
 | **Validate** | `hypothesis-input-validation` | ready `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
+| **Business Context** (value & strategic fit) | `business-context-value-check` | `business_context_analysis.md` or `missing_business_context.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (signal collision) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
 | **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
@@ -100,6 +101,8 @@ Phase by phase:
 ```text
 /validate-hypothesis-input.md
 /run-facilitator.md
+/run-knowledge-retrieval.md
+/run-business-context-value-check.md
 /run-market-layer.md
 /run-synthesis.md
 /run-customer-discovery-planning.md
@@ -199,12 +202,18 @@ Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
 ## Example
 
 ```text
-examples/example-001/
+examples/example-001/    # AppSec — canonical demo
+examples/example-002/    # HR Tech — universality demo
+product-sense/           # Product Sense conference materials
 ```
 
 Chat-first walkthrough: [examples/chat-first-run.md](./examples/chat-first-run.md)
 
-A B2B AppSec hypothesis: synthesis reframes from "reduce production risk" to "improve operational efficiency"; `decision_review.md` recommends **Proceed with Validation**.
+**example-001:** B2B AppSec — reframe из risk reduction в operational efficiency; **Proceed with Validation**. Артефакты на **русском**.
+
+**example-002:** B2B HR Tech — reframe из AI auto-ranking в governed recruiter assist. Артефакты на **русском**.
+
+Conference talk pack: [product-sense/README.md](./product-sense/README.md) (на русском)
 
 ---
 

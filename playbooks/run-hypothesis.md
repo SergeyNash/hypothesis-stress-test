@@ -145,7 +145,32 @@ Rules:
 
 ---
 
-## Step 3 — Run Market Layer (Market Reality Check)
+## Step 3 — Run Business Context & Value Check
+
+**Cline:** skill `business-context-value-check` or `/run-business-context-value-check.md`
+
+**Manual:** [templates/business-context-prompt.md](../templates/business-context-prompt.md)
+
+Input:
+
+* hypothesis
+* role outputs and hypothesis summary
+* KB strategy materials (`strategy/`, `okr/`, `business-model/`)
+
+Output:
+
+* `business_context_analysis.md` or `missing_business_context.md`
+* `business_context_complete.marker`
+
+Goal:
+
+* map stakeholder value chain (pain / value / decide / pay / block)
+* classify business effect type and strategic fit
+* separate problem existence from business case plausibility
+
+---
+
+## Step 4 — Run Market Layer (Market Reality Check)
 
 **Cline:** skill `hypothesis-market-layer` or `/run-market-layer.md`
 
@@ -172,7 +197,7 @@ Rules:
 
 ---
 
-## Step 4 — Run Synthesis Layer
+## Step 5 — Run Synthesis Layer
 
 **Cline:** skill `hypothesis-synthesis` or `/run-synthesis.md`
 
@@ -185,7 +210,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 Input:
 
 * `role_outputs/*`, `hypothesis_summary.md`, `market_analysis.md`
-* optional: `validation_questions.md`
+* optional: `business_context_analysis.md`, `validation_questions.md`
 
 Output:
 
@@ -202,7 +227,7 @@ Goal:
 
 ---
 
-## Step 5 — Run Customer Discovery Planning
+## Step 6 — Run Customer Discovery Planning
 
 **Cline:** skill `customer-discovery-planning` or `/run-customer-discovery-planning.md`
 
@@ -227,7 +252,7 @@ Goal:
 
 ---
 
-## Step 6 — Run Decision Review
+## Step 7 — Run Decision Review
 
 **Cline:** skill `hypothesis-decision-review` or `/run-decision-review.md`
 
@@ -252,7 +277,7 @@ Do not skip this step. Decision Review does not repeat synthesis — it adds adv
 
 ---
 
-## Step 7 — Human Decision Report Export
+## Step 8 — Human Decision Report Export
 
 **Cline:** skill `human-report-export` or `/run-human-report-export.md`
 
@@ -277,7 +302,7 @@ Open `outputs/human_report.html` in a browser. Markdown artifacts remain the sou
 
 ---
 
-## Step 8 — Backlog Decision (Human)
+## Step 9 — Backlog Decision (Human)
 
 Review `human_report.html` (or `decision_review.md`) and make the final backlog decision:
 

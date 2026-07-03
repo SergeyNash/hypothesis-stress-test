@@ -1,63 +1,63 @@
-# Role Analysis: CISO
+# Ролевой анализ: CISO
 
-## Pain
+## Боль
 
-Priority: SECONDARY
+Приоритет: SECONDARY
 
-The CISO is responsible for enterprise risk management and wants visibility into how security resources are allocated.
+CISO отвечает за enterprise risk management и хочет visibility в allocation security resources.
 
-Main concerns:
+Основные concerns:
 
-* critical systems may not be scanned early enough
-* lack of visibility into prioritization decisions
-* inability to demonstrate optimized risk allocation
+* critical systems могут сканироваться недостаточно рано
+* отсутствие visibility в prioritization decisions
+* невозможность демонстрировать optimized risk allocation
 
-However, mature organizations often prefer policy-based automation instead of manual operational control.
-
----
-
-## New Problems Introduced
-
-* escalation of prioritization conflicts
-* auditability risks
-* dependency on specific AppSec employees
-* poor scalability
-* distorted security metrics
+В зрелых организациях чаще предпочитают policy-based automation вместо ручного operational control.
 
 ---
 
-## Alternatives
+## Новые проблемы
+
+* эскалация конфликтов приоритизации
+* риски auditability
+* зависимость от конкретных AppSec-сотрудников
+* плохая scalability
+* искажённые security metrics
+
+---
+
+## Альтернативы
 
 * policy-driven automation
 * GRC integrations
 * risk-based security programs
-* increased scanning capacity
+* увеличение scanning capacity
 * CI/CD gating policies
 
 ---
 
-## Failure Context
+## Контекст провала
 
-* security maturity is low — manual control adds chaos, not value
-* prioritization cannot be audited for compliance
-* dependency on individual AppSec engineers creates bus-factor risk
-* scale exceeds 50+ projects without governance automation
+* низкая security maturity — ручной контроль добавляет хаос
+* приоритизация не auditable для compliance
+* bus-factor на отдельных AppSec engineers
+* scale beyond 50+ проектов без governance automation
 
 ---
 
-## Applicability Boundaries
+## Границы применимости
 
-### Works when
+### Работает когда
 
-* hybrid model: policy automation with documented manual exceptions
-* visibility and audit trail for every prioritization decision
+* гибрид: policy automation с documented manual exceptions
+* visibility и audit trail для каждого prioritization decision
 
-### Does not work when
+### Не работает когда
 
-* organization requires centralized, policy-driven risk allocation
-* manual prioritization replaces rather than supplements automation
+* организация требует centralized policy-driven risk allocation
+* manual prioritization заменяет, а не дополняет automation
 
-### Harms when
+### Вредит когда
 
-* metrics are distorted to justify ad-hoc queue changes
-* escalation paths for prioritization conflicts are undefined
+* метрики искажаются для оправдания ad-hoc queue changes
+* escalation paths для prioritization conflicts не определены

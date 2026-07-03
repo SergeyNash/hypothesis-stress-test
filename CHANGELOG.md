@@ -21,6 +21,27 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ---
 
+## [2.4.0] — 2026-07-03
+
+### Added
+
+- **Business Context & Value Check** — layer, skill `business-context-value-check`, workflow `/run-business-context-value-check.md`.
+- Artifacts: `business_context_analysis.md`, `missing_business_context.md`, `business_context_complete.marker`.
+- Layer doc: `layers/business-context-layer.md`; manual template: `templates/business-context-prompt.md`.
+- **Executive Human Report** — business value, top contradictions, cheapest validation sections in template and skill.
+- **example-002** — B2B HR Tech universality demo with full pipeline outputs.
+- **product-sense/** — conference materials (talk outline, framework laws, LLM mistakes, demo script).
+- Strategy KB samples in `examples/example-001/kb-samples/strategy/`.
+
+### Changed
+
+- Pipeline order: Roles → Evidence → **Business Context** → Market → Synthesis → CustDev → Decision Review → Human Report.
+- `examples/example-001` — business context artifacts and upgraded executive `human_report.html`.
+- README, playbooks, architecture overview, layers readme, artifact contracts — Business Context integration.
+- Framework version **2.4.0**.
+
+---
+
 ## [Unreleased]
 
 ### Added

@@ -41,6 +41,8 @@ input/hypothesis.md
   → Roles Layer (skill)
   → Local Evidence Discovery (skill)
   → discovery_preview.md + evidence_inventory.md
+  → Business Context & Value Check (skill)
+  → business_context_analysis.md or missing_business_context.md
   → Market Layer (skill + inventory + Confluence MCP)
   → Synthesis Layer (skill)
   → hypothesis_map.md + hypothesis_digest.txt

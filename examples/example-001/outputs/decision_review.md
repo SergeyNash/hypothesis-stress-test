@@ -2,82 +2,82 @@
 
 ## Executive Summary
 
-Synthesis correctly identifies operational pain and reframes the hypothesis from risk reduction to efficiency. However, scalability and governance assumptions remain under-tested.
+Synthesis корректно выявляет операционную боль и переформулирует гипотезу с risk reduction на efficiency. Однако assumptions по масштабируемости и governance недостаточно проверены.
 
-Confidence: **Medium**
+Уверенность: **Medium**
 
-Recommendation: **Proceed with Validation**
-
----
-
-## Evidence Quality Review
-
-| Conclusion | Evidence Strength | Notes |
-|------------|------------------|-------|
-| Scan queue overload is a real pain | Strong | Supported by Roles Layer and market patterns |
-| Prioritization improves efficiency | Moderate | Market signals align; limited direct telemetry |
-| Prioritization reduces production risk | Weak | Contradicted in synthesis; mostly assumption |
-| Feature scales to enterprise | Weak | No evidence beyond 10-50 project segment |
-| Engineers have business-criticality context | Unsupported | Explicitly flagged as knowledge gap |
+Рекомендация: **Proceed with Validation**
 
 ---
 
-## Hidden Assumptions
+## Оценка качества evidence
 
-| Assumption | Risk | Impact |
-|------------|------|--------|
-| Engineers can identify business-critical apps | High | Feature unusable without context data |
-| Manual prioritization will be adopted | Medium | CISO may block decentralized decisions |
-| Audit trail for prioritization exists | Medium | Compliance failure in regulated environments |
-| Queue prioritization is a standalone product | High | May be a feature of broader workflow tools |
-
----
-
-## Missing Perspectives
-
-- **Finance / procurement** — ROI and licensing impact of prioritization tooling
-- **Compliance / audit** — evidence requirements for prioritization decisions
-- **Platform / DevOps** — CI/CD integration and scan pipeline constraints
-- **Support** — operational burden when prioritization rules conflict
+| Вывод | Сила evidence | Заметки |
+|-------|---------------|---------|
+| Перегрузка очереди сканов — реальная боль | Strong | Roles Layer + market patterns |
+| Приоритизация улучшает efficiency | Moderate | Рыночные сигналы; мало прямой telemetry |
+| Приоритизация снижает production risk | Weak | Опровергнуто в synthesis; в основном assumption |
+| Фича масштабируется на enterprise | Weak | Нет evidence beyond сегмента 10–50 проектов |
+| У инженеров есть контекст бизнес-критичности | Unsupported | Явно отмечен knowledge gap |
 
 ---
 
-## Scalability Risks
+## Скрытые assumptions
 
-- At 10 projects: manual prioritization may work with mature AppSec teams
-- At 50 projects: coordination overhead grows; inconsistent criteria likely
-- At 100+ projects: governance and policy automation become mandatory
-- Enterprise scale: centralized risk management may reject decentralized prioritization
+| Assumption | Риск | Влияние |
+|------------|------|---------|
+| Инженеры могут определить business-critical apps | High | Фича непригодна без context data |
+| Ручная приоритизация будет adopted | Medium | CISO может блокировать децентрализованные решения |
+| Существует audit trail для приоритизации | Medium | Compliance failure в regulated средах |
+| Queue prioritization — standalone product | High | Может быть частью broader workflow tools |
 
 ---
 
-## Business Risks
+## Недостающие перспективы
+
+- **Finance / procurement** — ROI и licensing impact
+- **Compliance / audit** — требования к evidence для prioritization decisions
+- **Platform / DevOps** — CI/CD integration constraints
+- **Support** — операционная нагрузка при конфликте правил
+
+---
+
+## Риски масштабирования
+
+- 10 проектов: ручная приоритизация может работать у зрелых AppSec-команд
+- 50 проектов: растёт coordination overhead; inconsistent criteria
+- 100+ проектов: governance и policy automation обязательны
+- Enterprise: centralized risk management может отвергнуть децентрализованную приоритизацию
+
+---
+
+## Бизнес-риски
 
 ### False Positive Risk
 
-Building a prioritization feature that improves efficiency marginally but fails to reduce risk — wasted engineering effort and misaligned product narrative.
+Построить prioritization feature, который marginally улучшает efficiency, но не снижает risk — потеря engineering effort и misaligned narrative.
 
 ### False Negative Risk
 
-Rejecting a valid operational efficiency improvement because the original risk-reduction framing was wrong — competitors may capture the workflow pain.
+Отклонить валидное улучшение operational efficiency, потому что исходный risk-reduction framing был неверным — конкуренты займут workflow pain.
 
 ---
 
-## Validation Plan
+## План валидации
 
-| Objective | Expected learning | Effort |
-|-----------|-------------------|--------|
-| Interview 5 AppSec engineers | Confirm access to business-criticality data | Low (1 week) |
-| Review 3 customer scan queue workflows | Validate queue pain frequency and severity | Low (1 week) |
-| Pilot with 1 mature account (10-30 projects) | Measure time-to-action for critical findings | Medium (4 weeks) |
-| Workshop with CISO + AppSec | Test governance model for prioritization | Low (2 days) |
+| Цель | Ожидаемое обучение | Effort |
+|------|-------------------|--------|
+| Интервью 5 AppSec engineers | Подтвердить доступ к данным бизнес-критичности | Low (1 неделя) |
+| Разбор 3 customer queue workflows | Частота и severity боли в очереди | Low (1 неделя) |
+| Пилот с 1 mature account (10–30 проектов) | Time-to-action для critical findings | Medium (4 недели) |
+| Воркшоп CISO + AppSec | Governance model для prioritization | Low (2 дня) |
 
 ---
 
-## Final Recommendation
+## Финальная рекомендация
 
-Proceed with validation, not full build. Confidence is medium because operational pain is real but the outcome framing and scalability path are uncertain.
+Proceed with validation, не full build. Уверенность medium: операционная боль реальна, но outcome framing и scalability path неопределённы.
 
-Missing evidence: telemetry on prioritization impact, governance acceptance, and enterprise adoption patterns.
+Недостающие evidence: telemetry по impact приоритизации, governance acceptance, enterprise adoption patterns.
 
-Next step: run the engineer interviews and CISO workshop before backlog commitment. Reframe product narrative around operational efficiency, not production risk reduction.
+Следующий шаг: интервью с инженерами и воркшоп с CISO до backlog commitment. Reframe narrative вокруг operational efficiency, не production risk reduction.

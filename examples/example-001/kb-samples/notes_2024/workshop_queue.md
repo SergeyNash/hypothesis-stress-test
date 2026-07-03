@@ -1,20 +1,16 @@
-# AppSec workshop — scan queue (2024-11-12)
+# Заметки воркшопа — боль очереди сканов (2024)
 
-Facilitator notes from internal workshop with two AppSec engineers.
+Участники: 4 AppSec engineers, 1 AppSec lead
 
-## Queue behavior today
+- «Критичные проекты ждут несколько часов перед сканированием, когда очередь заполнена»
+- «Равное отношение к системам с разным риском — постоянная проблема»
+- «Переставляем вручную через Slack, когда кто-то кричит громче всех»
+- «Мы узнаём о перегрузке очереди только когда блокируется релиз»
 
-- Default order is FIFO by commit time
-- Critical projects wait several hours before scanning when the queue is full
-- Engineers manually bump priority for "tier-1" apps when CISO escalates
+Whiteboard: FIFO queue → manual reorder → «кто критичнее?» — нет единых критериев
 
-## Pain points (verbatim from sticky notes)
+## Цитаты
 
-> "We only learn about queue backlog when a release is blocked."
+> Critical projects wait several hours before scanning when the queue is full.
 
-> "No shared criteria — everyone interprets 'critical' differently."
-
-## Open questions
-
-- Can we expose queue position to product teams?
-- Does manual reorder scale past ~50 active repos?
+> We only learn about queue backlog when a release is blocked.

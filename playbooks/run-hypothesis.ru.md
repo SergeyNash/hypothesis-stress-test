@@ -145,7 +145,17 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 ---
 
-## Шаг 3 — Market Layer (Market Reality Check)
+## Шаг 3 — Business Context & Value Check
+
+**Cline:** skill `business-context-value-check` или `/run-business-context-value-check.md`
+
+**Manual:** [templates/business-context-prompt.md](../templates/business-context-prompt.md)
+
+Выход: `business_context_analysis.md` или `missing_business_context.md`, `business_context_complete.marker`
+
+---
+
+## Шаг 4 — Market Layer (Market Reality Check)
 
 **Cline:** skill `hypothesis-market-layer` или `/run-market-layer.md`
 
@@ -172,7 +182,7 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 ---
 
-## Шаг 4 — Synthesis Layer
+## Шаг 5 — Synthesis Layer
 
 **Cline:** skill `hypothesis-synthesis` или `/run-synthesis.md`
 
@@ -202,7 +212,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 5 — Customer Discovery Planning
+## Шаг 6 — Customer Discovery Planning
 
 **Cline:** skill `customer-discovery-planning` или `/run-customer-discovery-planning.md`
 
@@ -227,7 +237,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 6 — Decision Review
+## Шаг 7 — Decision Review
 
 **Cline:** skill `hypothesis-decision-review` или `/run-decision-review.md`
 
@@ -252,7 +262,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 7 — Human Decision Report Export
+## Шаг 8 — Human Decision Report Export
 
 **Cline:** skill `human-report-export` или `/run-human-report-export.md`
 
@@ -277,7 +287,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ---
 
-## Шаг 8 — Backlog Decision (человек)
+## Шаг 9 — Backlog Decision (человек)
 
 Изучите `human_report.html` (или `decision_review.md`) и примите финальное решение:
 

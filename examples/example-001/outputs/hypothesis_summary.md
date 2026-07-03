@@ -1,121 +1,121 @@
-# Hypothesis Summary
+# Резюме гипотезы
 
-## Statement
+## Формулировка
 
-If Application Security engineers are able to manually prioritize projects in the SAST scanning queue, then business-critical applications will be scanned first, reducing the time required to detect high-risk vulnerabilities and lowering overall production risk.
+Если инженеры Application Security смогут вручную приоритизировать проекты в очереди SAST-сканирования, то бизнес-критичные приложения будут сканироваться первыми, что сократит время обнаружения уязвимостей высокого риска и снизит общий production risk.
 
-## Core Idea
+## Ключевая идея
 
-The hypothesis assumes that manual prioritization of scan queues by AppSec engineers will improve response time for critical systems and reduce business risk.
-
----
-
-# Hidden Assumptions
-
-## Assumption 1: Current prioritization is ineffective
-- Why it matters: without real pain, the feature has no adoption driver
-- Evidence present: role analysis shows queue overload and workarounds
-- Evidence missing: quantitative data on queue wait times and impact
-
-## Assumption 2: Engineers have business-criticality context
-- Why it matters: prioritization requires knowing which apps matter most
-- Evidence present: none direct
-- Evidence missing: interviews confirming data availability and quality
-
-## Assumption 3: Earlier scanning reduces production risk
-- Why it matters: core value proposition depends on risk reduction
-- Evidence present: internal logic only
-- Evidence missing: market or telemetry linking scan order to risk outcomes
-
-## Assumption 4: Manual prioritization scales
-- Why it matters: enterprise adoption requires governance at scale
-- Evidence present: CISO concerns about scalability
-- Evidence missing: proof of sustainable process beyond 10–50 projects
+Гипотеза предполагает, что ручная приоритизация очереди сканов улучшит response time для критичных систем и снизит бизнес-риск.
 
 ---
 
-# Applicability Boundaries
+# Скрытые assumptions
 
-## When it creates value
+## Assumption 1: Текущая приоритизация неэффективна
+- Почему важно: без реальной боли нет adoption driver
+- Evidence есть: role analysis — перегрузка очереди и workarounds
+- Evidence нет: количественные данные о wait times и impact
 
-* Mature AppSec teams with 10–50 active projects
-* Clear business-criticality metadata available
-* Queue wait times materially block critical findings
-* Hybrid model: manual exceptions on top of policy automation
+## Assumption 2: У инженеров есть контекст бизнес-критичности
+- Почему важно: приоритизация требует знания, какие apps важнее
+- Evidence есть: нет прямого
+- Evidence нет: интервью о доступности и качестве данных
 
-## When it is useless
+## Assumption 3: Более раннее сканирование снижает production risk
+- Почему важно: core value proposition зависит от risk reduction
+- Evidence есть: только внутренняя логика
+- Evidence нет: market/telemetry, связывающие порядок сканов с risk outcomes
 
-* Scan duration is already short relative to release cycles
-* FIFO queue does not create operational pain
-* Organizations rely fully on automated risk-based scanning
-
-## When it becomes harmful
-
-* Decentralized prioritization conflicts with centralized risk governance
-* Developers game the queue ("everything is critical")
-* Audit cannot reproduce prioritization decisions
-
----
-
-# Role Conflicts
-
-## Agreement zones
-
-* Scan queue overload is a real operational problem (AppSec, partially CISO)
-
-## Tension zones
-
-* AppSec wants control and responsiveness; CISO wants policy consistency
-* Developers want predictability; AppSec wants flexibility to reprioritize
-
-## Conflict zones
-
-* Manual prioritization empowers AppSec but weakens CISO governance model
-* Faster scans for critical apps may delay other teams' releases
-
-## Blind spots
-
-* Penetration Tester perspective not fully represented in role outputs
-* Finance / procurement impact of queue tooling not analyzed
-* Platform team CI/CD constraints not explicitly modeled
+## Assumption 4: Ручная приоритизация масштабируется
+- Почему важно: enterprise adoption требует governance at scale
+- Evidence есть: concerns CISO о scalability
+- Evidence нет: proof sustainable process beyond 10–50 проектов
 
 ---
 
-# Key Risks
+# Границы применимости
 
-* Feature solves efficiency, not risk reduction as originally framed
-* Governance friction at enterprise scale
-* Adoption blocked without business-context data
+## Когда создаёт ценность
+
+* Зрелые AppSec-команды с 10–50 активными проектами
+* Доступны метаданные бизнес-критичности
+* Wait times в очереди materially блокируют critical findings
+* Гибрид: ручные исключения поверх policy automation
+
+## Когда бесполезна
+
+* Длительность скана уже мала относительно release cycles
+* FIFO не создаёт operational pain
+* Полностью automated risk-based scanning
+
+## Когда вредна
+
+* Децентрализованная приоритизация конфликтует с centralized risk governance
+* Разработчики геймят очередь
+* Audit не может воспроизвести решения о приоритизации
 
 ---
 
-# Key Uncertainties
+# Конфликты ролей
 
-* Whether engineers can access reliable business-criticality data
-* Whether prioritization measurably changes time-to-remediation for critical findings
-* Whether hybrid manual + automated model is acceptable to CISO
+## Зоны согласия
+
+* Перегрузка очереди сканов — реальная операционная проблема (AppSec, частично CISO)
+
+## Зоны напряжения
+
+* AppSec хочет control и responsiveness; CISO — policy consistency
+* Developers хотят predictability; AppSec — flexibility reprioritize
+
+## Зоны конфликта
+
+* Ручная приоритизация усиливает AppSec, но ослабляет governance model CISO
+* Быстрее сканы для critical apps могут задержать releases других команд
+
+## Слепые зоны
+
+* Penetration Tester недопредставлен
+* Finance / procurement impact не проанализирован
+* Platform CI/CD constraints не смоделированы явно
 
 ---
 
-# Assessment
+# Ключевые риски
+
+* Фича решает efficiency, не risk reduction как в исходном framing
+* Governance friction на enterprise scale
+* Adoption blocked без business-context data
+
+---
+
+# Ключевые неопределённости
+
+* Доступны ли надёжные данные бизнес-критичности
+* Меняет ли приоритизация measurably time-to-remediation для critical findings
+* Приемлема ли hybrid manual + automated model для CISO
+
+---
+
+# Оценка
 
 ## Promising
 
-* Strong CRITICAL pain for AppSec engineers under queue constraints
-* Real operational workflow improvement potential
+* Сильная CRITICAL боль AppSec при queue constraints
+* Потенциал улучшения operational workflow
 
 ## Uncertain
 
-* Link between scan order and production risk reduction
-* Enterprise scalability and governance acceptance
+* Связь порядка сканов с production risk reduction
+* Enterprise scalability и governance acceptance
 
 ## Risky
 
-* Political conflict between AppSec decentralization and CISO centralization
-* Misaligned product narrative (risk vs efficiency)
+* Политический конфликт децентрализации AppSec и централизации CISO
+* Misaligned narrative (risk vs efficiency)
 
 ## Requires validation
 
-* AppSec engineer interviews on queue workflows and context access
-* CISO workshop on governance model for prioritization
-* Pilot with one mature account (10–30 projects)
+* Интервью AppSec о queue workflows и context access
+* Воркшоп CISO о governance model
+* Пилот на одном mature account (10–30 проектов)

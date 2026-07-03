@@ -89,6 +89,24 @@ Produces:
 
 ---
 
+### Business Context & Value Check
+
+Answers:
+
+> If this hypothesis is true, how does it create value for the business?
+
+Focus:
+
+* stakeholder value chain (pain / value / decide / pay / block)
+* business effect type and strategic fit
+* separating problem existence from business case plausibility
+
+Produces:
+
+* `business_context_analysis.md` or `missing_business_context.md`
+
+---
+
 ### Synthesis Layer (Signal Collision)
 
 Skill: `hypothesis-synthesis`
@@ -140,10 +158,13 @@ Layers are executed sequentially:
 
 1. Roles Layer
 2. Local Evidence Discovery
-3. Market Layer
-4. Synthesis Layer
-5. Decision Review (mandatory gate)
-6. Human backlog decision
+3. Business Context & Value Check
+4. Market Layer
+5. Synthesis Layer
+6. Customer Discovery Planning
+7. Decision Review (mandatory gate)
+8. Human Decision Report Export
+9. Human backlog decision
 
 Each analysis layer:
 
@@ -177,5 +198,6 @@ See:
 * `roles-layer.md`
 * `market-layer.md`
 * `local-evidence-discovery-layer.md`
+* `business-context-layer.md`
 * `synthesis-layer.md`
 * `decision-review-layer.md`

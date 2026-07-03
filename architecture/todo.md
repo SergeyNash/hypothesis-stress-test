@@ -102,8 +102,29 @@
 - [x] Contract in `10-artifact-contracts.md` — What changed?, Decision Readiness, grouped links
 - [x] Integration in `/run-hypothesis.md`
 - [x] Example `examples/example-001/outputs/human_report.html`
+- [x] Executive report upgrade — business value, contradictions, cheapest validation (v2.4.0)
 - [ ] Phase 2: artifact mode `full` / `minimal` at run start
 - [ ] Future: full run export `run_report.html`
+
+---
+
+## Business Context & Value Check — P0 #3
+
+См. [roadmap/README.md](../roadmap/README.md#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности). Релиз: **v2.4.0**.
+
+- [x] Skill `business-context-value-check`
+- [x] Workflow `/run-business-context-value-check.md`
+- [x] Layer doc + manual template
+- [x] Артефакты и контракты в `10-artifact-contracts.md`
+- [x] Интеграция в `/run-hypothesis.md` и playbooks
+- [x] Примеры example-001 и example-002
+
+---
+
+## Product Sense conference pack
+
+- [x] `product-sense/` — talk outline, framework laws, LLM mistakes, demo script
+- [x] `examples/example-002/` — non-AppSec universality demo
 
 ---
 

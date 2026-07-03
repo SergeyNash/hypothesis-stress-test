@@ -1,6 +1,6 @@
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.2.2 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.4.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
 
@@ -40,11 +40,14 @@ After Customer Discovery Planning, run **Decision Review** — an adversarial cr
 
 1. Validate input (hypothesis, roles, research context)
 2. Run Facilitator (Roles Layer) — skill `hypothesis-facilitator`
-3. Run Market Layer (Confluence MCP first for local signals)
-4. Run Synthesis Layer
-5. Run Customer Discovery Planning
-6. Run Decision Review
-7. Human backlog decision
+3. Run Local Evidence Discovery — skill `local-knowledge-retrieval`
+4. Run Business Context & Value Check — skill `business-context-value-check`
+5. Run Market Layer (Confluence MCP + inventory for local signals)
+6. Run Synthesis Layer
+7. Run Customer Discovery Planning
+8. Run Decision Review
+9. Export Human Decision Report — skill `human-report-export`
+10. Human backlog decision
 
 Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Customer Discovery Planning converts uncertainty into research actions without validating hypotheses. Decision Review critiques artifacts only — it does not add new data.
 
@@ -68,6 +71,8 @@ Use project skills from `.cline/skills/` or invoke workflows:
 - `/validate-hypothesis-input.md` — check input before running
 - `/run-facilitator.md` — Facilitator (Roles Layer) only
 - `/run-hypothesis.md` — full end-to-end run (file-first; requires existing `RUN_DIR`)
+- `/run-knowledge-retrieval.md` — Local Evidence Discovery only
+- `/run-business-context-value-check.md` — Business Context & Value Check only
 - `/run-market-layer.md` — Market Layer only
 - `/run-synthesis.md` — Synthesis Layer only
 - `/run-customer-discovery-planning.md` — Customer Discovery Planning only

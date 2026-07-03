@@ -1,19 +1,19 @@
-Hypothesis: requires validation (reframe before build)
+Гипотеза: требует проверки (reframe перед разработкой)
 
-Key conflict:
-Operational efficiency (roles + market) vs production risk reduction (original framing)
+Ключевой конфликт:
+Операционная эффективность (роли + рынок) vs снижение production risk (исходный framing)
 
-Primary illusion:
-Earlier scanning reliably reduces production risk
+Главная иллюзия:
+Более раннее сканирование надёжно снижает production risk
 
-Primary blind spot:
-Buyer/governance model — CISO centralization vs AppSec decentralization
+Главная слепая зона:
+Модель покупателя и governance — централизация CISO vs децентрализация AppSec
 
-Primary risk:
-Local optimization trap — queue pain is real but strategic business value unproven
+Основной риск:
+Ловушка локальной оптимизации — боль в очереди реальна, стратегическая бизнес-ценность не доказана
 
-Primary insight:
-Hypothesis solves a different problem than stated; reframe to efficiency and time-to-action
+Основной инсайт:
+Гипотеза решает другую проблему, чем заявлено; reframe на эффективность и time-to-action
 
-Next step:
-AppSec interviews + CISO governance workshop; pilot measuring time-to-action, not risk metrics
+Следующий шаг:
+Интервью с AppSec + воркшоп с CISO; пилот с метрикой time-to-action, не risk metrics

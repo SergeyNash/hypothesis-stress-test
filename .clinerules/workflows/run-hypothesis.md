@@ -18,33 +18,38 @@ End-to-end hypothesis stress test for a single `RUN_DIR`.
    - Produce `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
    - Show user retrieval summary (scanned/skipped/items) before continuing.
 
-4. **Market Layer**
+4. **Business Context & Value Check**
+   - Activate skill `business-context-value-check`.
+   - Produce `business_context_analysis.md` or `missing_business_context.md`, `business_context_complete.marker`.
+   - Show user stakeholder map and strategic fit (or KB gap) before continuing.
+
+5. **Market Layer**
    - Activate skill `hypothesis-market-layer`.
    - Read `evidence_inventory.md` first for KB-local signals.
    - Then search Confluence MCP for internal wiki signals.
    - Produce `market_analysis.md`, `market_analysis_complete.marker`.
    - Show user signal summary before continuing.
 
-5. **Synthesis Layer**
+6. **Synthesis Layer**
    - Activate skill `hypothesis-synthesis`.
    - Produce `hypothesis_map.md`, `hypothesis_digest.txt`, `synthesis_complete.marker`.
 
-6. **Customer Discovery Planning**
+7. **Customer Discovery Planning**
    - Activate skill `customer-discovery-planning`.
    - Produce `customer_discovery_plan.md`, `customer_discovery_planning_complete.marker`.
    - Show user critical unknowns and high-priority interview targets.
 
-7. **Decision Review**
+8. **Decision Review**
    - Activate skill `hypothesis-decision-review`.
    - Produce `decision_review.md`, `decision_review_complete.marker`.
    - Show user confidence and recommendation before continuing.
 
-8. **Human Decision Report Export**
+9. **Human Decision Report Export**
    - Activate skill `human-report-export`.
    - Produce `human_report.html`, `human_report_complete.marker`.
    - Show user path to `human_report.html` and decision readiness summary.
 
-9. **Report**
+10. **Report**
    - Display `hypothesis_digest.txt` and key verdict from `decision_review.md`.
    - Point user to `outputs/human_report.html` as the main human-facing decision report.
    - Remind: human makes the final backlog decision.

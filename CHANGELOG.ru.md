@@ -21,6 +21,24 @@
 
 ---
 
+## [2.4.0] — 2026-07-03
+
+### Добавлено
+
+- **Business Context & Value Check** — слой, skill `business-context-value-check`, workflow `/run-business-context-value-check.md`.
+- Артефакты: `business_context_analysis.md`, `missing_business_context.md`, `business_context_complete.marker`.
+- **Executive Human Report** — секции business value, contradictions, cheapest validation.
+- **example-002** — HR Tech demo для универсальности подхода.
+- **product-sense/** — материалы конференции Product Sense.
+
+### Изменено
+
+- Порядок pipeline: Roles → Evidence → **Business Context** → Market → Synthesis → …
+- example-001 обновлён: business context + executive report.
+- Версия фреймворка **2.4.0**.
+
+---
+
 ## [Unreleased]
 
 ### Добавлено

@@ -10,7 +10,7 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Версия фреймворка <b>2.2.2</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
+  <sub>Версия фреймворка <b>2.4.0</b> · <a href="./CHANGELOG.ru.md">Changelog</a></sub>
 </p>
 
 <p align="center">
@@ -84,6 +84,7 @@
 |------|-------|-----------|
 | **Validate** | `hypothesis-input-validation` | готовый `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
+| **Business Context** (ценность и стратегия) | `business-context-value-check` | `business_context_analysis.md` или `missing_business_context.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
 | **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
@@ -198,12 +199,18 @@ RUN_DIR/
 ## Пример
 
 ```text
-examples/example-001/
+examples/example-001/    # AppSec — эталонный demo
+examples/example-002/    # HR Tech — универсальность подхода
+product-sense/           # материалы для Product Sense
 ```
 
 Chat-first walkthrough: [examples/chat-first-run.ru.md](./examples/chat-first-run.ru.md)
 
-B2B-гипотеза в AppSec: synthesis переформулирует гипотезу из «снизить риски в проде» в «повысить операционную эффективность»; `decision_review.md` рекомендует **Proceed with Validation**.
+**example-001:** AppSec — reframe из risk reduction в operational efficiency; **Proceed with Validation**. Артефакты на **русском**.
+
+**example-002:** HR Tech — reframe из AI auto-ranking в governed recruiter assist. Артефакты на **русском**.
+
+Материалы конференции: [product-sense/README.md](./product-sense/README.md) (на русском)
 
 ---
 

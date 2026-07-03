@@ -1,101 +1,100 @@
-# Customer Discovery Plan
+# План Customer Discovery
 
-## Research Objective
+## Цель исследования
 
-Reduce decision uncertainty before backlog commitment by confirming whether scan queue prioritization is primarily an operational efficiency problem, and by validating governance, adoption, and buyer constraints for AppSec teams.
-
----
-
-## What We Already Know
-
-- Queue overload is a real and recurring operational pain for AppSec teams.
-- Current hypothesis framing ("reduce production risk") is weakly supported by evidence.
-- Signal collision suggests reframing toward efficiency and time-to-action.
-- Governance tension exists between AppSec manual control and CISO policy consistency.
+Снизить неопределённость перед backlog commitment: подтвердить, что приоритизация очереди сканов — прежде всего проблема операционной эффективности, и проверить governance, adoption и buyer constraints для AppSec-команд.
 
 ---
 
-## Critical Unknowns
+## Что уже известно
 
-| Unknown | Risk Type | Priority |
-|----------|------------|----------|
-| Do AppSec engineers have reliable business-criticality context to prioritize correctly? | Workflow Risk | HIGH |
-| Does queue prioritization materially reduce time-to-action for critical findings? | Severity Risk | HIGH |
-| Does the buyer (CISO / security leadership) accept a hybrid manual + policy model? | Buyer Risk | HIGH |
-| How often queue overload blocks critical findings across target accounts? | Frequency Risk | MEDIUM |
-| Is queue prioritization a standalone purchase driver or only part of broader workflow tooling? | Business Value Risk | MEDIUM |
-| Can the process scale beyond 50 projects without governance breakdown? | Strategic Fit Risk | MEDIUM |
+- Перегрузка очереди — реальная повторяющаяся операционная боль AppSec.
+- Framing гипотезы («снизить production risk») слабо поддержан evidence.
+- Signal collision предлагает reframe на efficiency и time-to-action.
+- Governance tension: ручной контроль AppSec vs policy consistency CISO.
 
 ---
 
-## Recommended Interview Roles
+## Критические неизвестные
 
-- **AppSec Engineer** — primary evidence on current queue workflow, context availability, and practical prioritization behavior.
-- **Security Team Lead / AppSec Manager** — evidence on operational KPIs, team coordination, and policy exceptions.
-- **CISO / Security Director** — evidence on governance constraints, auditability requirements, and purchasing priorities.
-- **Developer / Engineering Manager** — evidence on downstream impact (release delays, perceived fairness, queue side effects).
-- **Platform / DevOps Engineer** — evidence on CI/CD constraints, integration friction, and operational limits at scale.
-
----
-
-## Interview Guide
-
-### Current Workflow
-
-- Walk me through how scan queue order is currently determined.
-- Who can change queue priority today, and in what situations?
-- What information do you check before changing scan priority?
-
-### Recent Experience
-
-- Tell me about the most recent incident where queue order mattered.
-- Describe the last time a critical app had to wait in the queue.
-- What happened during the last conflict over scan prioritization?
-
-### Consequences
-
-- What are the operational consequences when queue prioritization is wrong?
-- How does this affect remediation time for high-severity findings?
-- What risks or trade-offs appear when one team is prioritized over others?
-
-### Alternatives
-
-- How do you currently solve this without dedicated prioritization tooling?
-- What policies, automation, or workarounds already exist?
-- In what cases does the current process work well enough?
-
-### Decision-Making Process
-
-- Who approves prioritization rules or exceptions?
-- What evidence is required to justify priority changes?
-- What would block rollout of a manual-prioritization capability?
+| Неизвестное | Тип риска | Приоритет |
+|-------------|-----------|-----------|
+| Есть ли у AppSec engineers надёжный контекст бизнес-критичности для корректной приоритизации? | Workflow Risk | HIGH |
+| Существенно ли сокращает queue prioritization time-to-action для critical findings? | Severity Risk | HIGH |
+| Принимает ли покупатель (CISO) гибридную manual + policy модель? | Buyer Risk | HIGH |
+| Как часто перегрузка очереди блокирует critical findings в target accounts? | Frequency Risk | MEDIUM |
+| Приоритизация очереди — standalone purchase driver или часть broader workflow? | Business Value Risk | MEDIUM |
+| Масштабируется ли процесс beyond 50 проектов без governance breakdown? | Strategic Fit Risk | MEDIUM |
 
 ---
 
-## Research Priorities
+## Рекомендуемые роли для интервью
+
+- **AppSec Engineer** — workflow очереди, доступность контекста, практическое поведение приоритизации.
+- **Security Team Lead / AppSec Manager** — operational KPIs, координация, policy exceptions.
+- **CISO / Security Director** — governance, auditability, purchasing priorities.
+- **Developer / Engineering Manager** — downstream impact (release delays, fairness).
+- **Platform / DevOps Engineer** — CI/CD constraints, integration friction, limits at scale.
+
+---
+
+## Гайд для интервью
+
+### Текущий workflow
+
+- Расскажите, как сейчас определяется порядок очереди сканов.
+- Кто может менять приоритет и в каких ситуациях?
+- Какую информацию вы проверяете перед сменой приоритета скана?
+
+### Недавний опыт
+
+- Расскажите о последнем случае, когда порядок очереди имел значение.
+- Опишите последний раз, когда критичное приложение ждало в очереди.
+- Что произошло при последнем конфликте из-за приоритизации сканов?
+
+### Последствия
+
+- Какие операционные последствия, когда приоритизация очереди ошибочна?
+- Как это влияет на remediation time для high-severity findings?
+- Какие trade-offs возникают, когда одна команда приоритизирована над другой?
+
+### Альтернативы
+
+- Как вы решаете это сегодня без dedicated prioritization tooling?
+- Какие policy, automation или workarounds уже есть?
+- В каких случаях текущий процесс «достаточно хорош»?
+
+### Процесс принятия решений
+
+- Кто утверждает правила или исключения приоритизации?
+- Какое evidence требуется для обоснования смены приоритета?
+- Что заблокирует rollout manual-prioritization capability?
+
+---
+
+## Приоритеты исследования
 
 ### High Priority
 
-- Verify context availability for safe prioritization decisions.
-- Verify measurable efficiency impact (time-to-action, queue delay reduction).
-- Verify governance acceptance for hybrid manual + policy model.
+- Проверить доступность контекста для безопасной приоритизации.
+- Проверить измеримый efficiency impact (time-to-action, сокращение queue delay).
+- Проверить governance acceptance для hybrid manual + policy model.
 
 ### Medium Priority
 
-- Measure frequency and segment boundaries of queue pain.
-- Clarify buyer motivation and purchase framing (feature vs standalone category).
-- Test scalability assumptions at 50+ project environments.
+- Частота и границы сегмента queue pain.
+- Buyer motivation и purchase framing (feature vs standalone category).
+- Scalability assumptions при 50+ проектах.
 
 ### Low Priority
 
-- Compare secondary alternatives that do not change decision outcome in the near term.
+- Сравнение вторичных альтернатив, не меняющих near-term decision.
 
 ---
 
-## Expected Learning Outcomes
+## Ожидаемые результаты
 
-- Determine whether the problem is frequent enough in target segments to justify prioritization capabilities.
-- Determine whether the value narrative should be efficiency-first instead of risk-reduction-first.
-- Determine governance constraints required for adoption in enterprise environments.
-- Determine minimum evidence threshold needed for backlog commitment.
-
+- Определить, достаточно ли частота проблемы в target segments для prioritization capabilities.
+- Определить, должен ли value narrative быть efficiency-first, а не risk-reduction-first.
+- Определить governance constraints для adoption в enterprise.
+- Определить минимальный evidence threshold для backlog commitment.

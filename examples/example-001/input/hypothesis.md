@@ -1,25 +1,25 @@
-# Hypothesis
+# Гипотеза
 
-## Metadata
+## Метаданные
 
 - Hypothesis ID: HYP-2026-06-09-001
 - Created at: 2026-06-09
 - Run ID: RUN-2026-06-09-001
 - Status: completed
 
-## Statement
+## Формулировка
 
-If Application Security engineers are able to manually prioritize projects in the SAST scanning queue, then business-critical applications will be scanned first, reducing the time required to detect high-risk vulnerabilities and lowering overall production risk.
+Если инженеры Application Security смогут вручную приоритизировать проекты в очереди SAST-сканирования, то бизнес-критичные приложения будут сканироваться первыми, что сократит время обнаружения уязвимостей высокого риска и снизит общий production risk.
 
-## Relevant Roles
+## Затронутые роли
 
 * AppSec Engineer
 * CISO
 * Enterprise Developer
 
-## Research Context
+## Контекст исследования
 
-* Domain: Application Security
-* Target audience: Security teams in mid-to-large enterprises
-* Scenario: Queue-based SAST scan execution with competing project priorities
-* Constraints: Manual prioritization must coexist with existing CI/CD pipelines
+* Домен: Application Security
+* Целевая аудитория: команды безопасности в средних и крупных компаниях
+* Сценарий: очередь SAST-сканов с конкурирующими приоритетами проектов
+* Ограничения: ручная приоритизация должна сосуществовать с существующими CI/CD-пайплайнами

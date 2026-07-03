@@ -1,63 +1,63 @@
-# Role Analysis: Enterprise Developer
+# Ролевой анализ: Enterprise Developer
 
-## Pain
+## Боль
 
-Priority: SECONDARY
+Приоритет: SECONDARY
 
-Developers experience uncertainty around scan timing and release predictability.
+Разработчики испытывают неопределённость в timing сканов и predictability релизов.
 
 Pain points:
 
-* unpredictable scan completion times
-* last-minute critical findings before release
-* perceived unfairness in prioritization
-* waiting for scan results blocks delivery
+* непредсказуемое время завершения сканов
+* critical findings в последний момент перед release
+* perceived unfairness в приоритизации
+* ожидание scan results блокирует delivery
 
 ---
 
-## New Problems Introduced
+## Новые проблемы
 
 * perceived unfairness
-* lack of transparency
-* political pressure on AppSec teams
-* “everything is critical” behavior
-* focus shift from code quality to queue manipulation
+* отсутствие transparency
+* политическое давление на AppSec
+* поведение «всё критично»
+* смещение фокуса с quality кода на манипуляцию очередью
 
 ---
 
-## Alternatives
+## Альтернативы
 
 * shift-left scanning
 * CI/CD-integrated scanning
 * predictable schedules
 * self-service scanning
-* increasing throughput
+* увеличение throughput
 
 ---
 
-## Failure Context
+## Контекст провала
 
-* prioritization criteria are unclear
-* release deadlines are ignored
-* informal bypasses exist
-* release blocking becomes operationally destructive
-* developers receive no visibility into queue changes
+* критерии приоритизации неясны
+* release deadlines игнорируются
+* существуют informal bypasses
+* release blocking становится operationally destructive
+* нет visibility в изменения очереди
 
 ---
 
-## Applicability Boundaries
+## Границы применимости
 
-### Works when
+### Работает когда
 
-* scan timing transparency is provided to development teams
-* prioritization rules are predictable and documented
+* transparency timing сканов для dev-команд
+* правила приоритизации predictable и documented
 
-### Does not work when
+### Не работает когда
 
-* queue changes are opaque and unpredictable
-* scan throughput is already sufficient for release cadence
+* изменения очереди opaque и unpredictable
+* throughput сканов уже достаточен для release cadence
 
-### Harms when
+### Вредит когда
 
-* "everything is critical" behavior emerges
-* developers shift focus from code quality to queue manipulation
+* возникает поведение «всё критично»
+* фокус смещается с quality кода на queue manipulation

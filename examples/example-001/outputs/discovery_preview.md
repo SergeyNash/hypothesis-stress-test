@@ -1,49 +1,38 @@
-# Discovery Preview
+# Preview discovery
 
-Example run — Local Evidence Discovery against mixed-source KB samples under `examples/example-001/kb-samples/`.
+Пример прогона — Local Evidence Discovery по mixed-source KB в `examples/example-001/kb-samples/`.
 
-## Limits Applied
+## Применённые лимиты
 
-| Limit | Value |
-| ----- | ----- |
+| Лимит | Значение |
+| ----- | -------- |
 | max_files_scanned | 200 |
 | max_file_size | 2 MB |
 | max_evidence_items | 20 |
 | skip_binary_by_default | true |
 
-Scan root: repository workspace (example subset — `examples/example-001/kb-samples/` treated as unstructured KB island for this canonical run).
+Корень сканирования: `examples/example-001/kb-samples/` как unstructured KB island.
 
-Excluded paths: `hypothesis-stress-test/`, `runs/`, `.git/`, `.clinerules/`, `.cline/`, `node_modules/`, `examples/example-001/outputs/`
+## Отсканированные файлы
 
-## Files Scanned
+| Путь | Тип | Результат |
+| ---- | --- | --------- |
+| `kb-samples/notes_2024/workshop_queue.md` | markdown | candidate |
+| `kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md` | markdown | candidate |
+| `kb-samples/custdev raw/whiteboard_scan_queues.txt` | text | candidate |
 
-| Path | Kind | Size | Result |
-| ---- | ---- | ---- | ------ |
-| `examples/example-001/kb-samples/notes_2024/workshop_queue.md` | markdown | 1.1 KB | candidate |
-| `examples/example-001/kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md` | markdown | 0.9 KB | candidate |
-| `examples/example-001/kb-samples/custdev raw/whiteboard_scan_queues.txt` | text | 0.4 KB | candidate |
+## Пропущенные файлы
 
-## Files Skipped
+| Путь | Причина |
+| ---- | ------- |
+| `2025-03-appsec-interview.m4a` | audio — metadata only, нет transcript sidecar |
 
-| Path | Reason |
-| ---- | ------ |
-| `examples/example-001/kb-samples/custdev raw/2025-03-appsec-interview.m4a` | audio — metadata only; no transcript sidecar in repo |
-| `*.pdf`, `*.docx`, `*.html` (none found in sample island) | unsupported extension in V1 |
+## Кандидаты
 
-## Candidate Files
+1. `workshop_queue.md` — заметки воркшопа о latency очереди
+2. `2025-03-appsec-interview-excerpt.md` — excerpt custdev-интервью
+3. `whiteboard_scan_queues.txt` — caption whiteboard / image observation
 
-1. `examples/example-001/kb-samples/notes_2024/workshop_queue.md` — workshop notes on queue latency
-2. `examples/example-001/kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md` — custdev transcript excerpt
-3. `examples/example-001/kb-samples/custdev raw/whiteboard_scan_queues.txt` — whiteboard caption / image observation source
+## Следующий шаг
 
-## Top Relevant Files (planned evidence type)
-
-| File | Planned evidence type | Relevance hint |
-| ---- | --------------------- | -------------- |
-| `workshop_queue.md` | quote | critical project wait time |
-| `2025-03-appsec-interview-excerpt.md` | transcript_excerpt | manual prioritization behavior |
-| `whiteboard_scan_queues.txt` | image_observation | queue wait time in workflow diagram |
-
-## Next Step
-
-V1: extraction continues automatically after preview → `evidence_inventory.md`.
+V1: extraction автоматически после preview → `evidence_inventory.md`.

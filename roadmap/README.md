@@ -17,7 +17,7 @@ gantt
     section P0 — критично
     Conversational Run (chat-first)           :done, p0conv, 2026-06-01, 3w
     Неструктурированная KB                  :done, p0kb, 2026-07-01, 8w
-    Business Context & Value Check            :crit, p0biz, after p0kb, 6w
+    Business Context & Value Check            :done, p0biz, after p0kb, 6w
 
     section P1 — важно
     Onboarding (2 сценария)                   :p1on, 2026-07-15, 5w
@@ -33,7 +33,7 @@ gantt
 | ------ | --------- | ------ | ----------- |
 | [Неструктурированная KB](#p0--поддержка-неструктурированной-базы-знаний) | P0 #1 | **реализовано** | — |
 | [Conversational Run (chat-first)](#p0--conversational-run-chat-first-запуск-из-чата) | P0 #2 | **реализовано** | — |
-| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #3 | запланировано | P0 #1 (реализован; при структурированной KB — можно раньше) |
+| [Business Context & Value Check](#p0--business-context--value-check-проверка-бизнес-контекста-и-ценности) | P0 #3 | **реализовано** | P0 #1 (реализован; при структурированной KB — можно раньше) |
 | [Onboarding (2 сценария)](#p1--упрощение-onboarding-два-пользовательских-сценария) | P1 | запланировано | — |
 | [Human output и режим артефактов](#p1--human-output-и-режим-артефактов) | P1 | **фаза 1 реализовано**; фаза 2 запланировано | Decision Review |
 | [Windows-safe rules/skills](#p1--windows-safe-подключение-rulesskills) | P1 | запланировано | Onboarding |
@@ -218,8 +218,8 @@ P0 #1 реализован — discovery находит evidence в нестру
 
 ## P0 — Business Context & Value Check (проверка бизнес-контекста и ценности)
 
-**Статус:** запланировано  
-**Приоритет:** третий пункт roadmap (зависит от P0 #1 и от наличия стратегии в KB)
+**Статус:** реализовано  
+**Приоритет:** третий пункт roadmap (P0 #3)
 
 ### Проблема
 
@@ -305,6 +305,17 @@ P0 #1 реализован — discovery находит evidence в нестру
 > Проблема реальна, но бизнес-кейс пока не доказан.
 
 Для сложных B2B-продуктов это зачастую важнее любого анализа ролей или рынка.
+
+### Реализованные компоненты
+
+- Skill: `business-context-value-check`
+- Workflow: `/run-business-context-value-check.md`
+- Layer doc: `layers/business-context-layer.md`
+- Manual template: `templates/business-context-prompt.md`
+- Артефакты: `business_context_analysis.md`, `missing_business_context.md`, `business_context_complete.marker`
+- Интеграция в `/run-hypothesis.md` (шаг 4, после Evidence, до Market)
+- Примеры: `examples/example-001/`, `examples/example-002/`
+- Релиз: **v2.4.0**
 
 ### Поведение skill (план)
 

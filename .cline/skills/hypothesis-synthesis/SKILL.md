@@ -42,6 +42,7 @@ Required:
 Optional:
 
 - `RUN_DIR/outputs/validation_questions.md`
+- `RUN_DIR/outputs/business_context_analysis.md`
 - additional role outputs
 - previous synthesis artifacts
 
@@ -142,7 +143,7 @@ Determine:
 
 ### Step 3 — Cross-signal analysis
 
-Compare role signal vs market signal:
+Compare role signal vs market signal. When `business_context_analysis.md` exists, also compare strategic fit and buyer/value chain against role and market signals:
 
 | Pattern | Classification |
 |---------|----------------|
