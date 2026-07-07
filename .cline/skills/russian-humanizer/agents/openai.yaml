@@ -1,0 +1,4 @@
+interface:
+  display_name: "Russian Humanizer"
+  short_description: "Make Russian text more natural and human."
+  default_prompt: "Humanize this Russian text while preserving meaning, genre, and author voice."

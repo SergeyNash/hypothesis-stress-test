@@ -1116,7 +1116,7 @@ If the text is too smooth, make it more specific, not less literate.
 ## 13. Future Voice Profile
 
 Projects may later support a local author voice profile, but this version does
-not create `.humanizer/`, `voice.json`, sessions, or auto-logs.
+not create local profile files, sessions, or auto-logs.
 
 Future fields may include:
 

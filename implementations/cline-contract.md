@@ -42,6 +42,17 @@ Located in `.cline/skills/`:
 | `hypothesis-decision-review` | Decision Review (mandatory gate) |
 | `human-report-export` | Human Decision Report Export (`human_report.html`) |
 
+### Editorial skills (outside hypothesis pipeline)
+
+Not part of `/run-hypothesis.md`. Used for Russian text editing in docs and conference materials.
+
+| Skill | Trigger |
+|-------|---------|
+| `russian-humanizer` | Humanize Russian prose; see [humanizer/USAGE.md](../humanizer/USAGE.md) |
+
+Project voice adapters: `humanizer/adapters/`. Core rules: `.cline/skills/russian-humanizer/references/`.
+Upstream: [thinking-lab/skills/russian-humanizer](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer).
+
 ### Workflows (slash commands)
 
 Located in `.clinerules/workflows/`:
