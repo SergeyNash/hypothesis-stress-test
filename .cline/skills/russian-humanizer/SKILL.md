@@ -10,20 +10,46 @@ description: Edit, humanize, and adapt Russian text without running Thinking Lab
 Use this skill to revise Russian text directly.
 
 This is a portable editing skill, not a Thinking Lab research skill. It does
-not run modules, update knowledge files, choose publication strategy, or add
-product/JTBD thinking unless the selected mode or user request explicitly calls
-for it.
+not require the Thinking Lab repository. It does not run modules, update
+knowledge files, choose publication strategy, or add product/JTBD thinking
+unless the selected mode or user request explicitly calls for it.
 
 ## Source Documents
 
-When working inside this repository, use:
+Use the bundled references:
 
-- `humanizer/HUMANIZER_CORE.md`
-- `humanizer/MODES.md`
-- `humanizer/VOICE_ADAPTERS.md`
+- `references/HUMANIZER_CORE.md`
+- `references/MODES.md`
+- `references/VOICE_ADAPTERS.md`
 
-For Product Sense talk materials in this repository, also apply
-`humanizer/PRODUCT_SENSE_VOICE.md` when editing files under `product-sense/`.
+If the user specifically asks for Thinking Lab research/content flow, this is
+the wrong skill.
+
+## Project adapters (hypothesis-stress-test)
+
+When working in this repository, bundled `references/` stay canonical. Add
+project voice from:
+
+- `humanizer/adapters/PRODUCT_SENSE_VOICE.md` — files under `product-sense/`
+  (mode: `business` or `essay`)
+- `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md` — public explainer texts,
+  street pitches, parables (mode: `fiction` or `general`)
+
+Do not humanize framework contracts (`layers/`, `.clinerules/`,
+`examples/*/outputs/`).
+
+See `humanizer/USAGE.md` for mode + adapter selection.
+
+## Installation
+
+To use this skill globally in Codex, copy the whole skill folder to:
+
+```text
+%USERPROFILE%\.codex\skills\russian-humanizer
+```
+
+The folder is self-contained. It includes `SKILL.md`, `agents/openai.yaml`, and
+all reference files needed for editing.
 
 ## Intake
 
@@ -51,7 +77,7 @@ Ask only when the missing answer materially changes the edit.
 
 ## Mode Selection
 
-Use modes from `humanizer/MODES.md`:
+Use modes from `references/MODES.md`:
 
 - `general`: neutral Russian drafts.
 - `product_content`: product, engineering, security, management, technology.

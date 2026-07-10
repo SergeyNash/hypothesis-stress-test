@@ -205,6 +205,7 @@ Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
 examples/example-001/    # AppSec — canonical demo
 examples/example-002/    # HR Tech — universality demo
 product-sense/           # Product Sense conference materials
+humanizer/               # Russian writing skills (adapters + USAGE)
 ```
 
 Chat-first walkthrough: [examples/chat-first-run.md](./examples/chat-first-run.md)
@@ -214,6 +215,8 @@ Chat-first walkthrough: [examples/chat-first-run.md](./examples/chat-first-run.m
 **example-002:** B2B HR Tech — reframe из AI auto-ranking в governed recruiter assist. Артефакты на **русском**.
 
 Conference talk pack: [product-sense/README.md](./product-sense/README.md) (на русском)
+
+Russian text editing: [humanizer/README.md](./humanizer/README.md) — skill `russian-humanizer` + project voice adapters
 
 ---
 
@@ -232,11 +235,13 @@ The framework is tool-agnostic. Cline is the primary supported implementation. M
 
 ```text
 .clinerules/       Cline rules and workflows
-.cline/skills/     Cline skills per phase
+.cline/skills/     Cline skills per phase (+ russian-humanizer for text editing)
 layers/            reasoning model
 templates/         manual execution templates
 playbooks/         usage workflows
 examples/          worked examples
+product-sense/     conference talk materials
+humanizer/         writing skills adapters and USAGE (core in .cline/skills/russian-humanizer/references/)
 runs/              hypothesis runs (in KB workspace)
 knowledge-base/    Confluence / local signals guide
 architecture/      system design

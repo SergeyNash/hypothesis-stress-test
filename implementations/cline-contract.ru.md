@@ -42,6 +42,17 @@
 | `hypothesis-decision-review` | Decision Review (обязательный gate) |
 | `human-report-export` | Human Decision Report Export (`human_report.html`) |
 
+### Editorial skills (вне pipeline гипотез)
+
+Не входят в `/run-hypothesis.md`. Для редактуры русского текста в документации и материалах конференции.
+
+| Skill | Когда |
+|-------|-------|
+| `russian-humanizer` | Humanize русской прозы; см. [humanizer/USAGE.md](../humanizer/USAGE.md) |
+
+Project voice adapters: `humanizer/adapters/`. Core rules: `.cline/skills/russian-humanizer/references/`.
+Upstream: [thinking-lab/skills/russian-humanizer](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer).
+
 ### Workflows (slash-команды)
 
 Расположение: `.clinerules/workflows/`

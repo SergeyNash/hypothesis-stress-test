@@ -1,76 +1,63 @@
-# Portable Russian Humanizer
+# Writing skills — понятный русский
 
-This layer defines reusable Russian editing rules that can be used outside
-Thinking Lab.
+В этом репозитории редактура русского текста идёт через skill **`russian-humanizer`**
+и project voice adapters.
 
-It is not a research system, content strategy, or platform workflow. It is a
-portable layer for making Russian text more natural, specific, and human while
-preserving the author's meaning.
+## Канонический skill
 
----
+Self-contained skill с bundled references:
 
-## What It Does
+```text
+.cline/skills/russian-humanizer/
+  SKILL.md
+  references/
+    HUMANIZER_CORE.md
+    MODES.md
+    VOICE_ADAPTERS.md
+  agents/openai.yaml
+```
 
-The humanizer helps edit:
+Upstream: [thinking-lab/skills/russian-humanizer](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer)
 
-- articles;
-- posts;
-- book chapters;
-- business texts;
-- essays;
-- chat replies;
-- drafts that sound too generic or AI-like.
+Обновление core из upstream:
 
-It removes common problems:
+```powershell
+git clone --depth 1 https://github.com/SergeyNash/thinking-lab.git $env:TEMP\thinking-lab-sync
+Copy-Item -Recurse "$env:TEMP\thinking-lab-sync\skills\russian-humanizer\*" ".cline\skills\russian-humanizer\" -Force
+# затем снова применить секцию Project adapters в SKILL.md
+```
 
-- bureaucratic wording;
-- English-calque syntax;
-- empty intensifiers;
-- over-polished rhythm;
-- artificial contrast;
-- unnecessary lists and headings;
-- assistant-like endings;
-- typographic habits that make prose feel generated.
+## Project adapters
 
----
+Голоса проекта лежат отдельно — не в bundled references:
 
-## What It Does Not Do
+| Adapter | Когда |
+|---------|--------|
+| [`adapters/PRODUCT_SENSE_VOICE.md`](adapters/PRODUCT_SENSE_VOICE.md) | Материалы конференции в `product-sense/` |
+| [`adapters/PUBLIC_EXPLAINER_VOICE.md`](adapters/PUBLIC_EXPLAINER_VOICE.md) | Публичные объяснения, притчи «для улицы» |
 
-The humanizer does not:
+Подробнее: [`USAGE.md`](USAGE.md)
 
-- invent missing arguments;
-- replace editing judgment;
-- add intentional mistakes;
-- break grammar to sound human;
-- define a product voice;
-- run Thinking Lab research;
-- decide whether a text should be published.
+## Как вызвать
 
-Project-specific rules belong in voice adapters.
+```
+Используй russian-humanizer.
+Mode: business.
+Voice adapter: humanizer/adapters/PRODUCT_SENSE_VOICE.md.
 
----
+Сохрани смысл и ограничения adapter.
+Отредактируй:
+<фрагмент>
+```
 
-## Core Documents
+## Что humanizer делает
 
-- `HUMANIZER_CORE.md` contains reusable Russian editing rules.
-- `MODES.md` explains how to apply those rules to different kinds of text.
-- `VOICE_ADAPTERS.md` explains how to layer a project or author voice on top.
+- убирает AI-ритм, канцелярит, механические двоеточия;
+- делает текст конкретнее и живее;
+- сохраняет смысл, факты и авторский голос.
 
-This repository adds project voice through `humanizer/PRODUCT_SENSE_VOICE.md`
-for Product Sense conference materials in `product-sense/`.
+## Что humanizer не делает
 
----
-
-## Basic Use
-
-1. Identify the text mode: `general`, `product_content`, `fiction`,
-   `business`, `essay`, or `chat_reply`.
-2. Preserve the original meaning and author intent.
-3. Apply `HUMANIZER_CORE.md`.
-4. Apply a project-specific voice adapter, if one exists.
-5. Return the revised text and mention any meaning-level weaknesses.
-
-The default principle:
-
-> Make the text more specific, more causal, and more author-like.
-> Do not make it messy for the sake of sounding human.
+- не придумывает аргументы и факты;
+- не запускает Thinking Lab research;
+- не humanize framework contracts и run outputs.

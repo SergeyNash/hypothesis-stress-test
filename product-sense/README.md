@@ -6,7 +6,7 @@
 
 **Язык:** все материалы в этой папке — на русском.
 
-Перед выступлением: [HUMANIZE.md](./HUMANIZE.md) — как оживить текст через russian-humanizer.
+Перед выступлением: [HUMANIZE.md](./HUMANIZE.md) — как оживить текст через russian-humanizer. Публичное объяснение «для улицы»: [street-parable.md](./street-parable.md).
 
 ## Содержание
 
@@ -16,6 +16,7 @@
 | [framework-laws.md](./framework-laws.md) | 7 принципов, которые можно унести с собой |
 | [llm-mistakes.md](./llm-mistakes.md) | Типичные ошибки LLM vs агентный конвейер |
 | [demo-script.md](./demo-script.md) | Сценарий живого демо |
+| [street-parable.md](./street-parable.md) | Притча для нетехнической аудитории (humanizer validation) |
 | [examples/non-appsec-story.md](./examples/non-appsec-story.md) | HR Tech — **основное демо на сцене** |
 | [examples/appsec-story.md](./examples/appsec-story.md) | AppSec — производственный кейс (второй акт) |
 

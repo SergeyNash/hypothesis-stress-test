@@ -125,6 +125,9 @@
 
 - [x] `product-sense/` — talk outline, framework laws, LLM mistakes, demo script
 - [x] `examples/example-002/` — non-AppSec universality demo
+- [x] `russian-humanizer` — upstream sync in `.cline/skills/russian-humanizer/` with bundled `references/`
+- [x] `humanizer/adapters/` — PRODUCT_SENSE_VOICE, PUBLIC_EXPLAINER_VOICE
+- [x] `product-sense/street-parable.md` — public explainer validation example
 
 ---
 

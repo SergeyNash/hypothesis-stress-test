@@ -46,6 +46,10 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ### Added
 
+- **Russian writing skills** — sync upstream [`russian-humanizer`](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer) into `.cline/skills/russian-humanizer/` with bundled `references/`.
+- Project voice adapters: `humanizer/adapters/PRODUCT_SENSE_VOICE.md`, `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md`.
+- `humanizer/USAGE.md` — mode + adapter selection guide.
+- `product-sense/street-parable.md` — public explainer validation example (fiction mode).
 - **Human Decision Report MVP** — decision-facing `human_report.html` after Decision Review.
 - Skill: `human-report-export` — compile verdict, readiness, reframing, validation priorities from existing artifacts.
 - Workflow: `/run-human-report-export.md`.
@@ -56,10 +60,18 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ### Changed
 
+- `humanizer/README.md` — entry point for writing skills; core rules moved to skill `references/`.
+- `product-sense/HUMANIZE.md` — updated adapter and reference paths.
+- `README.md`, `README.ru.md` — `humanizer/` in repo structure; link to writing skills.
+- `implementations/cline-contract.md` — editorial skills section for `russian-humanizer`.
 - `/run-hypothesis.md` — Human Decision Report Export as Step 8 (after Decision Review).
 - `.clinerules/10-artifact-contracts.md` — `human_report.html` contract, readiness mapping, relative-link rules.
 - Playbooks, examples, architecture run-structure, cline-contract — human report as main human-facing output.
 - `roadmap/README.md` — P1 Phase 1 marked implemented.
+
+### Removed
+
+- Duplicate flat copies: `humanizer/HUMANIZER_CORE.md`, `MODES.md`, `VOICE_ADAPTERS.md`, root `PRODUCT_SENSE_VOICE.md`.
 
 ---
 

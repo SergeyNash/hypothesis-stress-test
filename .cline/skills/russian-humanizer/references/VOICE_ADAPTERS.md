@@ -50,15 +50,9 @@ Keep adapters short. They should guide editing, not become a second core.
 
 ---
 
-## 3. Thinking Lab Adapter
+## 3. Research Content Adapter Example
 
-Thinking Lab's adapter lives in:
-
-- `communication/HUMANIZER_RULES.md`
-- `communication/STYLE.md`
-- `communication/RUSSIAN_ANTI_PATTERNS.md`
-
-It adds:
+A research-content project may add:
 
 - research-first discipline;
 - evidence and uncertainty preservation;
@@ -67,7 +61,8 @@ It adds:
 - platform formats;
 - anti-LinkedIn theater.
 
-Those rules should not be applied to fiction by default.
+Those rules should live in that project's own adapter. They should not be
+applied to fiction by default.
 
 ---
 
@@ -103,21 +98,7 @@ and reject a more mechanical version like:
 
 ---
 
-## 5. Hypothesis Stress Test / Product Sense Adapter
-
-For conference talk materials in this repository:
-
-- `humanizer/PRODUCT_SENSE_VOICE.md`
-
-Use with mode `business` for `demo-script.md`, `talk-outline.md`, `llm-mistakes.md`, and story files.
-
-Use mode `essay` for `framework-laws.md`.
-
-Do not apply this adapter to framework contracts (`layers/`, `.clinerules/`) or demo run outputs (`examples/*/outputs/`).
-
----
-
-## 6. Adapter Rule
+## 5. Adapter Rule
 
 Adapters may tighten or redirect core rules, but they should not:
 
