@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Отчёт для руководства — HYP-2026-07-10-001</title>
+  <style>
+    :root { --bg: #f4f6f9; --surface: #fff; --text: #1a1d23; --muted: #5c6370; --border: #e2e6ed; --accent: #1d4ed8; --accent-soft: #eff6ff; --success: #059669; --warning: #d97706; --radius: 10px; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 15px; margin: 0; }
+    .topbar { position: sticky; top: 0; background: var(--surface); border-bottom: 1px solid var(--border); padding: .75rem 1.5rem; }
+    .topbar-inner { max-width: 980px; margin: 0 auto; }
+    .subtitle { font-size: .8rem; color: var(--muted); }
+    .badges { display: flex; gap: .5rem; margin: .5rem 0; flex-wrap: wrap; }
+    .badge { padding: .2rem .65rem; border-radius: 999px; font-size: .75rem; font-weight: 600; border: 1px solid var(--border); }
+    .badge-confidence { background: var(--accent-soft); color: var(--accent); }
+    .badge-readiness { background: #fef3c7; color: #92400e; }
+    .badge-recommendation { background: #ecfdf5; color: var(--success); }
+    nav a { color: var(--accent); margin-right: 1rem; font-size: .8rem; }
+    main { max-width: 980px; margin: 0 auto; padding: 1.5rem; }
+    section { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+    section h2 { font-size: 1.1rem; border-bottom: 1px solid var(--border); padding-bottom: .5rem; }
+    .statement { font-weight: 500; padding: 1rem; background: var(--accent-soft); border-left: 4px solid var(--accent); margin-bottom: 1rem; }
+    .digest { font-family: ui-monospace, monospace; font-size: .85rem; white-space: pre-wrap; background: var(--bg); padding: 1rem; border: 1px solid var(--border); }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .card { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg); }
+    .card .label { font-size: .75rem; color: var(--muted); text-transform: uppercase; }
+    .reframe-grid { display: grid; gap: 1rem; }
+    @media (min-width: 600px) { .reframe-grid { grid-template-columns: 1fr 1fr; } }
+    .reframe-box { padding: 1rem; border: 1px solid var(--border); border-radius: var(--radius); }
+    .reframe-box.original { background: #fef2f2; }
+    .reframe-box.reframed { background: #ecfdf5; }
+    .contradiction { padding: .75rem 1rem; border-left: 3px solid var(--warning); background: #fffbeb; margin: .5rem 0; }
+    table { width: 100%; border-collapse: collapse; font-size: .875rem; }
+    th, td { border: 1px solid var(--border); padding: .5rem .75rem; }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <h1>HYP-2026-07-10-001</h1>
+      <p class="subtitle">Отчёт для руководства — корпоративная база знаний, рынок РФ (IT-корпоратив)</p>
+      <div class="badges">
+        <span class="badge badge-confidence">Уверенность: средняя</span>
+        <span class="badge badge-recommendation">Продолжить с валидацией</span>
+        <span class="badge badge-readiness">Нужны интервью</span>
+      </div>
+      <nav>
+        <a href="#summary">Обзор</a><a href="#business">Бизнес</a><a href="#what-changed">Что изменилось</a>
+        <a href="#contradictions">Противоречия</a><a href="#decision">Решение</a><a href="#validation">Валидация</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section id="summary">
+      <h2>Обзор</h2>
+      <div class="statement">Если добавить в корпоративную базу знаний поиск с помощью искусственного интеллекта, сотрудники будут быстрее находить нужную информацию, реже обращаться к коллегам с вопросами и смогут быстрее выполнять рабочие задачи.</div>
+      <h3>Краткое резюме</h3>
+      <div class="digest">Гипотеза: требует проверки (переформулировка перед разработкой)
+
+Ключевой конфликт:
+Боль поиска в Wiki vs контур управления и актуальность базы для покупателя
+
+Главная иллюзия:
+Проблема только в поиске — информация уже есть и доверяют ответам ИИ
+
+Основной инсайт:
+Поиск-помощник со ссылками и петлёй для техписателей
+
+Следующий шаг:
+CustDev с владельцем базы знаний/ИБ + пилот с цитированием источников</div>
+      <div class="cards">
+        <div class="card"><div class="label">Уверенность</div><div class="value">Средняя</div></div>
+        <div class="card"><div class="label">Рекомендация</div><div class="value">Продолжить с валидацией</div></div>
+        <div class="card"><div class="label">Готовность</div><div class="value">Нужны интервью</div></div>
+      </div>
+    </section>
+    <section id="business">
+      <h2>Бизнес-ценность</h2>
+      <div class="cards">
+        <div class="card"><div class="label">Эффект</div><div class="value">Операционный / выручка через контур управления</div></div>
+        <div class="card"><div class="label">Strategic fit</div><div class="value">Низкий → высокий после переформулировки</div></div>
+        <div class="card"><div class="label">Покупатель</div><div class="value">Владелец базы знаний</div></div>
+      </div>
+      <p><a href="business_context_analysis.md">Полный анализ →</a></p>
+    </section>
+    <section id="what-changed">
+      <h2>Что изменилось?</h2>
+      <div class="reframe-grid">
+        <div class="reframe-box original"><strong>Было</strong><p>ИИ-поиск → меньше вопросов коллегам → быстрее задачи.</p></div>
+        <div class="reframe-box reframed"><strong>Стало</strong><p>Поиск-помощник с цитированием источников, сигналом устаревания и петлёй для техписателей; метрика — время до проверенного ответа со ссылкой.</p></div>
+      </div>
+    </section>
+    <section id="contradictions">
+      <h2>Противоречия</h2>
+      <div class="contradiction"><strong>Поиск vs качество базы (ВЫСОКИЙ)</strong>Гипотеза лечит поиск; evidence — устаревшие и дублирующие документы.</div>
+      <div class="contradiction"><strong>Быстрый ответ vs доверие (ВЫСОКИЙ)</strong>Нужны ссылка и дата страницы; гипотеза — быстрый ответ ИИ.</div>
+      <div class="contradiction"><strong>Пользователь vs покупатель (СРЕДНИЙ)</strong>Разработчик хочет скорость; владелец базы знаний — доступы и актуальность.</div>
+    </section>
+    <section id="decision">
+      <h2>Решение</h2>
+      <p>Продолжить с валидацией. Переформулировать нарратив до полной разработки.</p>
+      <p><strong>Следующий шаг:</strong> CustDev с владельцем базы знаний/ИБ + пилот поиска со ссылками на страницы.</p>
+    </section>
+    <section id="validation">
+      <h2>Валидация</h2>
+      <ul>
+        <li>3 интервью владельца базы знаний/ИБ (низкие затраты, 1 неделя)</li>
+        <li>5 интервью разработчиков и аналитиков (низкие затраты, 1 неделя)</li>
+        <li>Пилот поиска со ссылками на 1 команде (средние затраты, 3 недели)</li>
+      </ul>
+      <table><thead><tr><th>Неизвестное (ВЫСОКИЙ приоритет)</th><th>Риск</th></tr></thead><tbody>
+        <tr><td>Согласует ли ИБ поиск с журналом и разграничением пространств?</td><td>Покупатель</td></tr>
+        <tr><td>Время до проверенного ответа со ссылкой vs встроенный поиск?</td><td>Процесс</td></tr>
+        <tr><td>Финансирует ли владелец базы знаний модуль с контуром управления?</td><td>Бизнес-ценность</td></tr>
+      </tbody></table>
+      <p><a href="hypothesis_map.md">hypothesis_map.md</a> · <a href="decision_review.md">decision_review.md</a> · <a href="customer_discovery_plan.md">customer_discovery_plan.md</a></p>
+    </section>
+  </main>
+</body>
+</html>

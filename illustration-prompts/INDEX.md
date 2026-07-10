@@ -16,9 +16,9 @@
 
 | ID | Prompt file | Output EN | Output RU | Used in |
 |----|-------------|-----------|-----------|---------|
-| B1 | [B1-cline-execution.md](./tier-b-architecture-deep/B1-cline-execution.md) | `assets/en/cline-execution.svg` | `assets/ru/cline-execution.svg` | README Cline, cline-contract |
-| B2 | [B2-business-value-flow.md](./tier-b-architecture-deep/B2-business-value-flow.md) | `assets/en/business-value-flow.svg` | `assets/ru/business-value-flow.svg` | business-context-layer |
-| B3 | [B3-human-report-slice.md](./tier-b-architecture-deep/B3-human-report-slice.md) | `assets/en/human-report-slice.svg` | `assets/ru/human-report-slice.svg` | README, demo-script |
+| B1 | [B1-cline-execution.md](./tier-b-architecture-deep/B1-cline-execution.md) | `assets/en/cline-execution.svg` | `assets/ru/cline-execution.png` | README Cline, cline-contract |
+| B2 | [B2-business-value-flow.md](./tier-b-architecture-deep/B2-business-value-flow.md) | `assets/en/business-value-flow.svg` | `assets/ru/business-value-flow.png` | business-context-layer |
+| B3 | [B3-human-report-slice.md](./tier-b-architecture-deep/B3-human-report-slice.md) | `assets/en/human-report-slice.svg` | `assets/ru/human-report-slice.png` | README, demo-script |
 
 ## Tier C — Product Sense talk
 

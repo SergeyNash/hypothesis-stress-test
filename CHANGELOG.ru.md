@@ -43,7 +43,7 @@
 
 ### Добавлено
 
-- **`assets/ru/`** — 5 диаграмм Tier A (PNG): architecture-overview, pipeline-4-stages, artifact-flow, signal-model, evidence-sources.
+- **`assets/ru/`** — 8 диаграмм Tier A+B (PNG): architecture-overview, pipeline-4-stages, artifact-flow, signal-model, evidence-sources, cline-execution, business-value-flow, human-report-slice.
 - **Russian writing skills** — sync upstream [`russian-humanizer`](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer) в `.cline/skills/russian-humanizer/` с bundled `references/`.
 - Project voice adapters: `humanizer/adapters/PRODUCT_SENSE_VOICE.md`, `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md`.
 - `humanizer/USAGE.md` — когда какой mode и adapter использовать.
@@ -58,7 +58,7 @@
 
 ### Изменено
 
-- `README.ru.md`, `architecture/diagram.ru.md` — иллюстрации Tier A из `assets/ru/` (PNG); новые секции «Конвейер 4 этапа» и «Источники доказательств».
+- `README.ru.md`, `architecture/diagram.ru.md` — иллюстрации Tier A+B из `assets/ru/` (PNG); секции Cline, Business Context, human_report.
 - `README.md` — русский язык и README.ru.md как основной в language bar.
 - `illustration-prompts/INDEX.md`, `STYLE.md` — пути output RU для Tier A (PNG).
 - `humanizer/README.md` — entry point; core rules переехали в skill `references/`.
