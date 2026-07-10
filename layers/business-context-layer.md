@@ -27,6 +27,10 @@ Most B2B hypotheses fail not because pain is fake, but because:
 
 This layer builds a **value flow map** before external validation.
 
+<p align="center">
+  <img src="../assets/ru/business-value-flow.png" width="760"/>
+</p>
+
 ---
 
 ## Inputs

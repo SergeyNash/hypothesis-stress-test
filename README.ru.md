@@ -95,6 +95,12 @@
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
 | **Backlog Decision** (человек) | — | proceed / validate / research / reject |
 
+<p align="center">
+  <img src="./assets/ru/business-value-flow.png" width="760"/>
+</p>
+
+Слой Business Context отделяет желаемый эффект от реальной бизнес-ценности — подробнее: [layers/business-context-layer.md](./layers/business-context-layer.md)
+
 Полный прогон (chat-first): `/run-hypothesis-conversational.md`
 
 Полный прогон (file-first): `/run-hypothesis.md`
@@ -117,7 +123,7 @@
 ## Реализация на Cline
 
 <p align="center">
-  <img src="./assets/cline-workflow.svg" width="800"/>
+  <img src="./assets/ru/cline-execution.png" width="800"/>
 </p>
 
 | Компонент | Расположение | Назначение |
@@ -178,6 +184,16 @@ RUN_DIR/
 ```
 
 Язык артефактов совпадает с языком `input/hypothesis.md`.
+
+---
+
+## Human Decision Report
+
+<p align="center">
+  <img src="./assets/ru/human-report-slice.png" width="760"/>
+</p>
+
+`human_report.html` агрегирует артефакты всех этапов в decision-facing отчёт — решение принимает человек. Пример: [examples/example-002/outputs/human_report.html](./examples/example-002/outputs/human_report.html)
 
 ---
 

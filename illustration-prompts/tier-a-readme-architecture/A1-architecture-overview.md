@@ -28,7 +28,7 @@
 
 Horizontal main pipeline (top row, left to right). Below: compact artifact strip. Bottom: thin Cline adapter bar.
 
-### Blocks (top row, 11 items)
+### Blocks (top row, 10 main blocks)
 
 1. **INPUT** — amber — Hypothesis statement + roles
 2. **ROLES** — blue — Facilitator / internal perspectives
@@ -41,7 +41,7 @@ Horizontal main pipeline (top row, left to right). Below: compact artifact strip
 9. **REPORT** — light rose — Human Report export (`human_report.html`)
 10. **HUMAN** — red tint — Backlog decision (proceed / validate / research / reject)
 
-Note: VALIDATE input can be a small pill before INPUT or subtitle under INPUT — do not add 12th main block.
+Note: VALIDATE input may appear as a small pill before INPUT or as a subtitle under INPUT — optional, not an 11th main block.
 
 ### Artifact strip (bottom)
 

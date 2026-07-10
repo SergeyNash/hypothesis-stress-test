@@ -29,10 +29,18 @@
 ## Поток выполнения Cline
 
 <p align="center">
-  <img src="../assets/cline-workflow.svg" width="800"/>
+  <img src="../assets/ru/cline-execution.png" width="800"/>
 </p>
 
-Rules, skills, workflows и Confluence MCP на пути выполнения.
+Правила, сценарий, навыки и MCP: Cline выполняет конвейер и сохраняет трассируемые артефакты.
+
+## Поток бизнес-ценности
+
+<p align="center">
+  <img src="../assets/ru/business-value-flow.png" width="760"/>
+</p>
+
+Слой Business Context: от широкой идеи к проверяемой гипотезе с бизнес-рамкой. См. [layers/business-context-layer.md](../layers/business-context-layer.md).
 
 ## Модель сигналов
 
@@ -41,6 +49,14 @@ Rules, skills, workflows и Confluence MCP на пути выполнения.
 </p>
 
 Пять паттернов synthesis на основе столкновения внутренних и внешних сигналов (включая Local Optimization Trap).
+
+## Срез human_report
+
+<p align="center">
+  <img src="../assets/ru/human-report-slice.png" width="760"/>
+</p>
+
+Как артефакты прогона собираются в `human_report.html` для принятия решения человеком.
 
 ## Источники доказательств
 
