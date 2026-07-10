@@ -1,11 +1,15 @@
 <p align="right">
   <sub>
     🌐 <b>Language:</b>
+    <a href="./README.ru.md"><b>🇷🇺 Русский</b></a> (основной, диаграммы) ·
     <b>🇬🇧 English</b> ·
-    <a href="./README.ru.md">🇷🇺 Русский</a> ·
     <a href="./implementations/quick-start.md">Quick Start</a> ·
     <a href="./implementations/quick-start.ru.md">Быстрый старт</a>
   </sub>
+</p>
+
+<p align="center">
+  <sub>Диаграммы и основная документация — на русском: <a href="./README.ru.md"><b>README.ru.md</b></a></sub>
 </p>
 
 # 🧠 Hypothesis Stress Test

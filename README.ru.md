@@ -38,11 +38,11 @@
 </p>
 
 <p align="center">
-  <img src="./assets/architecture-overview.svg" width="760"/>
+  <img src="./assets/ru/architecture-overview.png" width="760"/>
 </p>
 
 <p align="center">
-  <a href="./assets/architecture-overview.svg">Открыть диаграмму</a>
+  <a href="./assets/ru/architecture-overview.png">Открыть диаграмму</a>
 </p>
 
 ---
@@ -73,6 +73,10 @@
 ```text
 идея → стресс-тест → решение
 ```
+
+<p align="center">
+  <img src="./assets/ru/pipeline-4-stages.png" width="760"/>
+</p>
 
 ---
 
@@ -134,7 +138,7 @@ Confluence MCP: [implementations/confluence-mcp.ru.md](./implementations/conflue
 ## Модель принятия решений
 
 <p align="center">
-  <img src="./assets/signal-model.svg" width="660"/>
+  <img src="./assets/ru/signal-model.png" width="660"/>
 </p>
 
 Synthesis (`hypothesis-synthesis`) классифицирует столкновение сигналов:
@@ -150,7 +154,7 @@ Synthesis (`hypothesis-synthesis`) классифицирует столкнов
 ## Поток артефактов
 
 <p align="center">
-  <img src="./assets/artifact-flow.svg" width="820"/>
+  <img src="./assets/ru/artifact-flow.png" width="820"/>
 </p>
 
 Каждый запуск создаёт трассируемую цепочку:
@@ -174,6 +178,16 @@ RUN_DIR/
 ```
 
 Язык артефактов совпадает с языком `input/hypothesis.md`.
+
+---
+
+## Источники доказательств
+
+<p align="center">
+  <img src="./assets/ru/evidence-sources.png" width="760"/>
+</p>
+
+Локальные и внешние источники сходятся в пул проверяемых наблюдений — только факты становятся сигналами для Market Layer.
 
 ---
 
@@ -244,7 +258,8 @@ knowledge-base/    гайд по Confluence / local signals
 architecture/      устройство системы
 implementations/   настройка Cline, Confluence MCP
 roadmap/           дорожная карта (RU)
-assets/            диаграммы
+assets/ru/         диаграммы (RU, PNG)
+assets/            legacy SVG и прочее
 CHANGELOG.ru.md    история версий фреймворка
 VERSION            текущая версия фреймворка
 ```

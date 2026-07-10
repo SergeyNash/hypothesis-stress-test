@@ -14,6 +14,8 @@
 - **Соотношение сторон:** README/diagrams 1480×720 или 16:9; deck slides 1920×1080
 - **Формат output:** SVG (предпочтительно) или PNG @2x
 
+**Текущее состояние (RU primary):** Tier A в [`assets/ru/`](../assets/ru/) — PNG с русскими подписами. EN-версии и SVG — по мере готовности в `assets/en/` и `assets/ru/*.svg`.
+
 ## Палитра слоёв
 
 | Слой / смысл | Fill | Stroke | Label (EN) |
@@ -51,7 +53,7 @@
 Каждая схема генерируется **дважды** с идентичной композицией:
 
 - `assets/en/<name>.svg` — английские подписи
-- `assets/ru/<name>.svg` — русские подписи
+- `assets/ru/<name>.svg` или `assets/ru/<name>.png` — русские подписи (сейчас Tier A — PNG)
 
 Product Sense talk assets:
 
