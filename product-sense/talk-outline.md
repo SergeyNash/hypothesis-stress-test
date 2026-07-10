@@ -4,6 +4,20 @@
 
 **Длительность:** 40 минут (30 доклад + 10 Q&A) или 35 + 5
 
+**Иллюстрации:** промпты в [`illustration-prompts/`](../illustration-prompts/) — матрица слайд → файл в [INDEX.md](../illustration-prompts/INDEX.md). Готовые SVG кладём в `product-sense/assets/ru/` (и `en/` при необходимости).
+
+| § | Слайд | Prompt ID | Файл (после генерации) |
+|---|-------|-----------|------------------------|
+| 0 | Зацепка | C1 | `talk-hook-false-confidence.svg` |
+| 1 | RAG vs решения | C2 | `talk-rag-vs-pipeline.svg` |
+| 2 | Идея стресс-теста | — | текст или мини A2 |
+| 3 | Конвейер 4 этапа | **A2** | `pipeline-4-stages.svg` (repo `assets/ru/`) |
+| 4 | HR demo | C5, C6 | `talk-hr-pattern.svg`, `talk-demo-report-map.svg` |
+| 5 | AppSec | — | скрин `human_report.html` example-001 |
+| 6 | Ошибки LLM | C3 | `talk-llm-mistakes.svg` |
+| 7 | Законы | C4 | `talk-framework-laws.svg` |
+| 8 | Завершение | — | текст |
+
 ---
 
 ## 0. Зацепка (3 мин)
