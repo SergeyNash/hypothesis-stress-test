@@ -5,15 +5,23 @@
 ## Общий вид системы
 
 <p align="center">
-  <img src="../assets/architecture-overview.svg" width="760"/>
+  <img src="../assets/ru/architecture-overview.png" width="760"/>
 </p>
 
-Слои фреймворка (Roles → Market → Synthesis → Customer Discovery Planning → Decision Review) с адаптером Cline и Confluence MCP для local signals.
+Полный конвейер v2.4: от гипотезы и бизнес-контекста до артефактов и решения человека.
+
+## Конвейер — 4 этапа
+
+<p align="center">
+  <img src="../assets/ru/pipeline-4-stages.png" width="760"/>
+</p>
+
+Упрощённая схема для сцены и быстрого объяснения: разделить POV → найти evidence → столкнуть сигналы → сформировать следующий шаг.
 
 ## Поток артефактов
 
 <p align="center">
-  <img src="../assets/artifact-flow.svg" width="820"/>
+  <img src="../assets/ru/artifact-flow.png" width="820"/>
 </p>
 
 Как `input/hypothesis.md` превращается в структурированные артефакты решения через Cline skills и workflows.
@@ -29,15 +37,15 @@ Rules, skills, workflows и Confluence MCP на пути выполнения.
 ## Модель сигналов
 
 <p align="center">
-  <img src="../assets/signal-model.svg" width="660"/>
+  <img src="../assets/ru/signal-model.png" width="660"/>
 </p>
 
 Пять паттернов synthesis на основе столкновения внутренних и внешних сигналов (включая Local Optimization Trap).
 
-## Интеграция Confluence MCP
+## Источники доказательств
 
 <p align="center">
-  <img src="../assets/cline-mcp-confluence.svg" width="700"/>
+  <img src="../assets/ru/evidence-sources.png" width="760"/>
 </p>
 
-Confluence как основной источник local signals для Market Layer.
+Локальные и внешние источники evidence: Confluence, база знаний, интервью, рынок — в пул проверяемых наблюдений для Market Layer.

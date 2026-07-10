@@ -4,26 +4,33 @@
 
 - source_path: `kb-samples/notes_2025/workshop_recruiter_screening.md`
 - evidence_type: quote
-- observation: Рекрутеры тратят 3–4 часа на роль на manual resume triage при high-volume requisitions.
-- relevance: high — screening pain
+- observation: IT-рекрутеры тратят 3–4 часа на вакансию на ручной разбор резюме при 200+ откликах с hh.ru.
+- relevance: высокая — боль первичного отбора
 
 ### EVID-002
 
 - source_path: `kb-samples/notes_2025/workshop_recruiter_screening.md`
 - evidence_type: quote
-- observation: Рекрутеры хотят suggestions с explainability, не opaque auto-reject.
-- relevance: high — constraints solution shape
+- observation: Рекрутеры хотят подсказки с объяснением, не непрозрачный автоматический отказ; техлиды требуют объяснения ранга.
+- relevance: высокая — ограничения на форму решения
 
 ### EVID-003
 
 - source_path: `kb-samples/custdev raw/2025-12-ta-lead-excerpt.md`
 - evidence_type: transcript_excerpt
-- observation: CHRO/legal blockers prioritizes audit logs и bias prevention over speed claims.
-- relevance: high — buyer value mechanism
+- observation: HRD и DPO важнее участие человека, журнал действий, локализация ПДн и объяснимость отказа, чем обещания скорости.
+- relevance: высокая — механизм ценности для покупателя
 
 ### EVID-004
 
 - source_path: `kb-samples/custdev raw/2025-12-ta-lead-excerpt.md`
 - evidence_type: transcript_excerpt
-- observation: Предыдущий AI match score pilot failed из-за opaque scores.
-- relevance: medium — failure mode auto-ranking
+- observation: Предыдущий пилот с непрозрачным скором провалился; рекрутеры ушли в таблицы.
+- relevance: средняя — режим отказа при авто-ранжировании
+
+### EVID-005
+
+- source_path: `kb-samples/strategy/product-strategy-2026.md`
+- evidence_type: market_context
+- observation: На российском рынке лучшая окупаемость у ассистивного ИИ внутри ATS (разбор резюме, повторный поиск по базе, планирование), не у полностью автоматического отказа.
+- relevance: высокая — strategic fit после переформулировки

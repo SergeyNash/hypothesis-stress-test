@@ -35,5 +35,5 @@ Voice adapter: humanizer/adapters/PRODUCT_SENSE_VOICE.md.
 - 3 ошибки LLM
 - HR Tech первый, AppSec — производственный кейс
 - «Продолжить с валидацией» не превратилось в «строить MVP»
-- CHRO, compliance, governance, backlog на месте
+- HRD, CHRO, compliance, governance, backlog на месте
 - таблицы и минуты в outline не сломаны

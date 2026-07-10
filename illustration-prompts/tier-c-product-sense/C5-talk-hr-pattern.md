@@ -20,7 +20,7 @@ Two columns with arrow between:
 
 **Было:** ИИ auto-ranking · −30% time-to-hire · buyer = recruiter (wrong)
 
-**Стало:** Governed recruiter assist · audit trail · buyer = CHRO · metric = screening hours saved
+**Стало:** Governed recruiter assist · audit trail · buyer = HRD · metric = screening hours saved
 
 Verdict badge bottom: **Продолжить с валидацией**
 
@@ -41,7 +41,7 @@ Center large arrow
 RIGHT column header "Стало" green tint box:
 - "Governed recruiter assist"
 - "Audit trail · compliance"
-- "Покупатель: CHRO"
+- "Покупатель: HRD"
 - "Метрика: часы screening"
 
 Bottom center badge rose outline: "Продолжить с валидацией"
@@ -52,4 +52,4 @@ No AppSec terms. Sans-serif. Conference colors.
 ## Post-generation checklist
 
 - [ ] −30% shown as illusion in "Было"
-- [ ] CHRO visible in "Стало"
+- [ ] HRD visible in "Стало"

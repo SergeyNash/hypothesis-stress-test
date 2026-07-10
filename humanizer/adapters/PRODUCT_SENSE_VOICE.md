@@ -12,7 +12,7 @@ Allowed texture: риторические вопросы, прямая речь 
 
 Forbidden patterns: цепочки `→` в устной речи; «в этом смысл», «смысл для зала»; серии «не X, а Y» подряд; объясняющие двоеточия в каждой строке; LinkedIn-пафос; Thinking Lab / JTBD-риторика
 
-Domain terms (keep): backlog, CustDev, evidence, strategic fit, compliance, time-to-hire, CHRO, governance, RAG, Proceed with Validation, CISO, audit trail
+Domain terms (keep): backlog, CustDev, evidence, strategic fit, compliance, time-to-hire, HRD, CHRO, governance, RAG, Proceed with Validation, CISO, audit trail
 
 Must preserve:
 - фиксированное название доклада: «Стресс-тест продуктовых гипотез с помощью агентных ИИ-систем»
@@ -32,5 +32,5 @@ Review checklist:
 - [ ] 3 ошибки LLM
 - [ ] HR → AppSec
 - [ ] «Продолжить с валидацией» не стало «строить MVP»
-- [ ] CHRO, compliance, governance, backlog сохранены
+- [ ] HRD, CHRO, compliance, governance, backlog сохранены
 - [ ] таблицы и минуты не сломаны

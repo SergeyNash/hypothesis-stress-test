@@ -12,6 +12,6 @@
 
 | Файл | Тип evidence |
 |------|----------------|
-| workshop_recruiter_screening.md | quote, observation |
-| 2025-12-ta-lead-excerpt.md | transcript_excerpt |
-| product-strategy-2026.md | metadata_only (strategy context) |
+| workshop_recruiter_screening.md | цитата, наблюдение |
+| 2025-12-ta-lead-excerpt.md | фрагмент транскрипта |
+| product-strategy-2026.md | только контекст стратегии |

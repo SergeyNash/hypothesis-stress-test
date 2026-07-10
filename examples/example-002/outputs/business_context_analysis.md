@@ -2,62 +2,64 @@
 
 ## Доступный контекст
 
-- `kb-samples/strategy/product-strategy-2026.md` — CHRO-led GTM, compliance-first AI positioning
-- Role outputs и EVID-001 — EVID-004
+- `kb-samples/strategy/product-strategy-2026.md` — выход на рынок через HRD, позиционирование ИИ с упором на compliance (РФ)
+- Ролевые выводы и EVID-001 — EVID-005
 
 ## Недостающий контекст
 
-- Win/loss data по AI screening features
-- Влияние legal review cycle на revenue
-- Baseline time-to-hire в target segment
+- Данные выигранных и проигранных сделок по функциям ИИ-скрининга vs Huntflow/Potok
+- Влияние цикла согласования с DPO/юристами на выручку
+- Базовый time-to-hire в целевом сегменте (IT, средний и крупный бизнес, РФ)
 
 ## Карта заинтересованных сторон
 
 | Роль | Связь |
 |------|-------|
-| Recruiter | Испытывает боль, daily user |
-| Hiring Manager | Потребляет output, влияет на adoption |
-| CHRO / Head of Talent | Экономический покупатель, compliance owner |
-| Legal / DEI | Blocker или approver в enterprise |
+| IT-рекрутер | Испытывает боль, ежедневный пользователь |
+| Руководитель направления (техлид) | Потребляет результат, влияет на принятие |
+| HRD / директор по персоналу | Экономический покупатель, владелец compliance |
+| Юридический отдел / DPO | Барьер или согласующий в крупных компаниях |
 
 ## Поток создания ценности
 
 ```text
-Перегрузка откликов (проблема)
-  ↓ ИИ ранжирует / assist triage (изменение поведения)
-  ↓ Рекрутер быстрее отдаёт shortlist (user outcome)
+Перегрузка откликов с hh.ru (проблема)
+  ↓ ИИ помогает в разборе / повторном поиске по базе (изменение поведения)
+  ↓ Рекрутер быстрее отдаёт короткий список (результат для пользователя)
   ↓ −30% time-to-hire (заявленный эффект — не доказан)
-  ↓ ??? → CHRO покупает compliance-ready efficiency (другой механизм)
+  ↓ ??? → HRD покупает управляемого помощника с audit trail (другой механизм)
 ```
 
 ## Тип бизнес-эффекта
 
-- **Operational Driver** — сильный для recruiter workflow (EVID-001, EVID-002)
-- **Adoption Driver** — средний при росте engagement ATS
-- **Revenue Driver** — средний через AI module upsell **только если** compliance packaging удовлетворяет CHRO (EVID-003)
-- **Competitive Driver** — сильное соответствие стратегии vs Greenhouse/Lever на governed AI
+- **Операционный** — сильный для процесса рекрутера (EVID-001, EVID-002)
+- **Внедренческий** — средний при росте вовлечённости в ATS
+- **Выручка** — средний через допродажу модуля ИИ **только если** compliance-пакет устраивает HRD/DPO (EVID-003)
+- **Конкурентный** — сильное соответствие стратегии vs Huntflow/Potok на управляемом ИИ
 
-Первичный: **Operational Driver** для users; **Revenue Driver** для бизнеса — через compliance-ready positioning.
+Первичный: **операционный** для пользователей; **выручка** для бизнеса — через позиционирование с готовым compliance.
 
 ## Связь со стратегией
 
-**Low** для гипотезы как заявлено («−30% time-to-hire через ИИ-ранжирование»).
+**Низкая** для гипотезы как заявлено («−30% time-to-hire через ИИ-ранжирование»).
 
-**High** для reframe **governed recruiter assist с audit trail** — приоритеты #2, #3 и H1 OKR.
+**Высокая** для переформулировки **управляемого помощника рекрутера с audit trail и участием человека** — приоритеты #2, #3 и OKR H1.
 
-Источники: `product-strategy-2026.md`.
+Источники: `product-strategy-2026.md`, EVID-005.
 
 ## Ключевые риски
 
-- Marketing speed без compliance → legal blocks enterprise rollout
-- User vs buyer value gap
-- Black-box ranking повторяет failed pilot (EVID-004)
+- Маркетинг скорости без compliance → DPO/юристы блокируют внедрение
+- Разрыв между болью пользователя и ценностью для покупателя
+- Ранжирование «чёрным ящиком» повторяет провал пилота (EVID-004)
+- Данные кандидатов за пределами РФ без локализации (152‑ФЗ ст. 18)
 
 ## Ключевые возможности
 
-- Reframe explainable assist + audit log → AI module upsell
-- Метрика recruiter hours saved, не time-to-hire — OKR alignment
+- Переформулировка: объяснимый помощник + журнал действий + критерии → допродажа модуля ИИ
+- Метрика «сэкономленные часы рекрутера», не time-to-hire — согласование с OKR
+- Повторный поиск по собственной базе снижает зависимость от hh.ru
 
-## Резюме для downstream-слоёв
+## Резюме для следующих слоёв
 
-Screening pain validated. Business case для «−30% faster hiring» **не доказан** и **misaligned с покупателем**. Strategic fit high только после reframe. Ожидать Internal Illusion на speed metrics и Local Optimization Trap.
+Боль первичного отбора на IT-вакансиях подтверждена. Бизнес-кейс для «−30% быстрее нанимаем» **не доказан** и **не совпадает с мотивом покупателя**. Strategic fit высокий только после переформулировки. Ожидать внутреннюю иллюзию по метрикам скорости и ловушку локальной оптимизации.
