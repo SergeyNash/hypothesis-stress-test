@@ -1,12 +1,12 @@
-# Decision Review
+# Решение (Decision Review)
 
-## Executive Summary
+## Резюме для руководства
 
-Synthesis и бизнес-контекст согласны: screening pain реален, claim 30% time-to-hire и модель auto-ranking слабо поддержаны. Strategic fit силён только для compliance-governed assist. Рекомендация: validation before build.
+Синтез и бизнес-контекст согласны: боль первичного отбора на IT-вакансиях реальна, обещание 30% time-to-hire и модель авто-ранжирования слабо подкреплены. Strategic fit силён только для управляемого ИИ-помощника в российском контуре (152‑ФЗ, участие человека). Рекомендация: валидация до разработки.
 
-Уверенность: **Medium**
+Уверенность: **средняя**
 
-Рекомендация: **Proceed with Validation**
+Рекомендация: **Продолжить с валидацией**
 
 ---
 
@@ -14,38 +14,39 @@ Synthesis и бизнес-контекст согласны: screening pain ре
 
 | Вывод | Сила evidence | Заметки |
 |-------|---------------|---------|
-| Screening overload реален | Strong | EVID-001, roles, market |
-| Рекрутерам нужен explainable assist | Strong | EVID-002, EVID-004 |
-| CHRO покупает compliance, не speed | Strong | EVID-003, business context |
-| −30% time-to-hire | Weak | Нет прямого evidence |
-| Auto-ranking без override adopted | Weak | Опровергнуто roles и pilot failure |
+| Перегрузка первичным отбором на IT-вакансиях реальна | Сильная | EVID-001, роли, рынок |
+| Рекрутерам нужен объяснимый помощник | Сильная | EVID-002, EVID-004 |
+| HRD покупает управляемость, не скорость | Сильная | EVID-003, бизнес-контекст |
+| −30% time-to-hire | Слабая | Нет прямого evidence |
+| Авто-ранжирование без ручной корректировки принимают | Слабая | Опровергнуто ролями и провалом пилота |
 
 ---
 
-## Скрытые assumptions
+## Скрытые допущения
 
-| Assumption | Риск | Влияние |
-|------------|------|---------|
-| Screening — главный bottleneck time-to-hire | High | Неверный фокус метрик |
-| AI ranking accuracy production-ready | High | Trust и legal failure |
-| Speed metric продаёт фичу | High | CHRO не финансирует |
-| Legal review — post-build step | Medium | Revenue delay |
+| Допущение | Риск | Влияние |
+|-----------|------|---------|
+| Первичный отбор — главное узкое место time-to-hire | Высокий | Неверный фокус метрик |
+| Точность ИИ-ранжирования готова для продакшена на IT-ролях | Высокий | Потеря доверия и юридический провал |
+| Метрика скорости продаёт фичу | Высокий | HRD не финансирует |
+| Согласование с DPO/юристами — после разработки | Средний | Задержка выручки |
+| Разбор русскоязычных резюме достаточно точен | Средний | Ложные отсевы |
 
 ---
 
 ## План валидации
 
-| Цель | Ожидаемое обучение | Effort |
+| Цель | Ожидаемое обучение | Затраты |
 |------|-------------------|--------|
-| 3 интервью CHRO/legal | Approval criteria для AI assist | Low (1 неделя) |
-| 5 интервью рекрутеров | Override и explainability requirements | Low (1 неделя) |
-| Пилот assist+audit на 2 high-volume reqs | Hours saved per requisition | Medium (3 недели) |
-| Funnel analysis 5 closed reqs | Screening vs HM delay | Low (1 неделя) |
+| 3 интервью HRD/DPO | Критерии согласования ИИ-помощника | Низкие (1 неделя) |
+| 5 интервью IT-рекрутеров | Требования к ручной корректировке и объяснению | Низкие (1 неделя) |
+| Пилот помощника с журналом на 2 массовых IT-вакансиях | Сэкономленные часы на вакансию | Средние (3 недели) |
+| Анализ воронки по 5 закрытым IT-вакансиям | Отбор vs задержки техлида | Низкие (1 неделя) |
 
 ---
 
 ## Финальная рекомендация
 
-Proceed with validation, не full build. Reframe narrative на **governed recruiter assist с audit trail**. Deprioritize claim 30% time-to-hire до funnel data.
+Продолжить с валидацией, не с полной разработкой. Переформулировать нарратив на **управляемого помощника рекрутера с audit trail и участием человека**. Обещание 30% time-to-hire — вниз по приоритету до данных по воронке.
 
-Следующий шаг: CHRO/legal discovery и recruiter assist pilot до backlog commitment.
+Следующий шаг: CustDev с HRD/DPO и пилот помощника рекрутера до включения в backlog.

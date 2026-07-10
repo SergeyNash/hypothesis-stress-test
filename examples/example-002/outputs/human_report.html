@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Executive Decision Report — HYP-2026-06-15-001</title>
+  <title>Отчёт для руководства — HYP-2026-06-15-001</title>
   <style>
     :root { --bg: #f4f6f9; --surface: #fff; --text: #1a1d23; --muted: #5c6370; --border: #e2e6ed; --accent: #1d4ed8; --accent-soft: #eff6ff; --success: #059669; --warning: #d97706; --radius: 10px; }
     body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.55; font-size: 15px; margin: 0; }
@@ -39,10 +39,10 @@
   <header class="topbar">
     <div class="topbar-inner">
       <h1>HYP-2026-06-15-001</h1>
-      <p class="subtitle">Executive Decision Report — B2B HR Tech (пример универсальности)</p>
+      <p class="subtitle">Отчёт для руководства — B2B HR Tech, рынок РФ (IT-найм)</p>
       <div class="badges">
         <span class="badge badge-confidence">Уверенность: средняя</span>
-        <span class="badge badge-recommendation">Proceed with Validation</span>
+        <span class="badge badge-recommendation">Продолжить с валидацией</span>
         <span class="badge badge-readiness">Нужны интервью</span>
       </div>
       <nav>
@@ -54,65 +54,65 @@
   <main>
     <section id="summary">
       <h2>Обзор</h2>
-      <div class="statement">Если рекрутеры смогут использовать ИИ для автоматического ранжирования кандидатов в воронке найма, то time-to-hire сократится на 30%, а hiring managers быстрее закроют критичные вакансии.</div>
-      <h3>Digest</h3>
-      <div class="digest">Гипотеза: требует проверки (reframe перед разработкой)
+      <div class="statement">Если рекрутеры смогут использовать ИИ для автоматического ранжирования кандидатов в воронке найма, то time-to-hire сократится на 30%, а руководители направлений быстрее закроют критичные IT-вакансии.</div>
+      <h3>Краткое резюме</h3>
+      <div class="digest">Гипотеза: требует проверки (переформулировка перед разработкой)
 
 Ключевой конфликт:
-Скорость для рекрутера vs ценность compliance для CHRO
+Скорость для IT-рекрутера vs управляемость и compliance для HRD
 
 Главная иллюзия:
 ИИ-ранжирование сократит time-to-hire на 30%
 
 Основной инсайт:
-Reframe на governed recruiter assist с audit trail
+Переформулировка на управляемого помощника рекрутера с audit trail и участием человека
 
 Следующий шаг:
-CustDev CHRO/legal + пилот assist</div>
+CustDev с HRD/DPO + пилот помощника</div>
       <div class="cards">
         <div class="card"><div class="label">Уверенность</div><div class="value">Средняя</div></div>
-        <div class="card"><div class="label">Рекомендация</div><div class="value">Proceed with Validation</div></div>
+        <div class="card"><div class="label">Рекомендация</div><div class="value">Продолжить с валидацией</div></div>
         <div class="card"><div class="label">Готовность</div><div class="value">Нужны интервью</div></div>
       </div>
     </section>
     <section id="business">
       <h2>Бизнес-ценность</h2>
       <div class="cards">
-        <div class="card"><div class="label">Эффект</div><div class="value">Operational / Revenue via compliance</div></div>
-        <div class="card"><div class="label">Strategic fit</div><div class="value">Low → High при reframe</div></div>
-        <div class="card"><div class="label">Покупатель</div><div class="value">CHRO</div></div>
+        <div class="card"><div class="label">Эффект</div><div class="value">Операционный / выручка через управляемый ИИ</div></div>
+        <div class="card"><div class="label">Strategic fit</div><div class="value">Низкий → высокий после переформулировки</div></div>
+        <div class="card"><div class="label">Покупатель</div><div class="value">HRD</div></div>
       </div>
       <p><a href="business_context_analysis.md">Полный анализ →</a></p>
     </section>
     <section id="what-changed">
       <h2>Что изменилось?</h2>
       <div class="reframe-grid">
-        <div class="reframe-box original"><strong>Было</strong><p>ИИ auto-ranking → −30% time-to-hire.</p></div>
-        <div class="reframe-box reframed"><strong>Стало</strong><p>Governed recruiter assist с audit trail; метрика — часы screening.</p></div>
+        <div class="reframe-box original"><strong>Было</strong><p>Автоматическое ИИ-ранжирование → −30% time-to-hire на IT-вакансиях.</p></div>
+        <div class="reframe-box reframed"><strong>Стало</strong><p>Управляемый помощник рекрутера с audit trail и участием человека; метрика — часы первичного отбора.</p></div>
       </div>
     </section>
     <section id="contradictions">
       <h2>Противоречия</h2>
-      <div class="contradiction"><strong>Speed vs Compliance (HIGH)</strong>Гипотеза — time-to-hire; CHRO — auditability.</div>
-      <div class="contradiction"><strong>Assist vs Auto-rank (HIGH)</strong>Нужен override; гипотеза — automatic ranking.</div>
-      <div class="contradiction"><strong>User vs Buyer (MEDIUM)</strong>Боль рекрутера ≠ драйвер покупки CHRO.</div>
+      <div class="contradiction"><strong>Скорость vs управляемость (ВЫСОКИЙ)</strong>Гипотеза — time-to-hire; HRD — участие человека, audit trail, локализация ПДн (152‑ФЗ).</div>
+      <div class="contradiction"><strong>Помощник vs авто-ранг (ВЫСОКИЙ)</strong>Нужна ручная корректировка; гипотеза — автоматическое ранжирование.</div>
+      <div class="contradiction"><strong>Пользователь vs покупатель (СРЕДНИЙ)</strong>Боль IT-рекрутера ≠ мотив покупки HRD.</div>
     </section>
     <section id="decision">
       <h2>Решение</h2>
-      <p>Proceed with validation. Reframe narrative до full build.</p>
-      <p><strong>Следующий шаг:</strong> CHRO/legal discovery + пилот assist с explainability.</p>
+      <p>Продолжить с валидацией. Переформулировать нарратив до полной разработки.</p>
+      <p><strong>Следующий шаг:</strong> CustDev с HRD/DPO + пилот помощника с объяснимостью решений.</p>
     </section>
     <section id="validation">
       <h2>Валидация</h2>
       <ul>
-        <li>3 интервью CHRO/legal (Low, 1 неделя)</li>
-        <li>5 интервью рекрутеров (Low, 1 неделя)</li>
-        <li>Funnel analysis 5 closed reqs (Low, 1 неделя)</li>
+        <li>3 интервью HRD/DPO (низкие затраты, 1 неделя)</li>
+        <li>5 интервью IT-рекрутеров (низкие затраты, 1 неделя)</li>
+        <li>Анализ воронки по 5 закрытым IT-вакансиям (низкие затраты, 1 неделя)</li>
       </ul>
-      <table><thead><tr><th>Неизвестное (HIGH)</th><th>Риск</th></tr></thead><tbody>
-        <tr><td>Legal approval assist с audit log?</td><td>Buyer</td></tr>
-        <tr><td>Hours saved с assist+override?</td><td>Workflow</td></tr>
-        <tr><td>CHRO финансирует compliance module?</td><td>Business Value</td></tr>
+      <table><thead><tr><th>Неизвестное (ВЫСОКИЙ приоритет)</th><th>Риск</th></tr></thead><tbody>
+        <tr><td>Согласует ли DPO помощника с журналом и локализацией?</td><td>Покупатель</td></tr>
+        <tr><td>Сколько часов экономится с помощником и ручной корректировкой?</td><td>Процесс</td></tr>
+        <tr><td>Финансирует ли HRD модуль управляемого ИИ?</td><td>Бизнес-ценность</td></tr>
       </tbody></table>
       <p><a href="hypothesis_map.md">hypothesis_map.md</a> · <a href="decision_review.md">decision_review.md</a></p>
     </section>

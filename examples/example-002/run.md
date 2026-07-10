@@ -1,29 +1,29 @@
 # Журнал прогона — example-002
 
-## RUN_DIR
+## Каталог прогона
 
 ```text
 examples/example-002
 ```
 
-**Домен:** B2B HR Tech (ATS) — демонстрация универсальности вне Application Security.
+**Домен:** B2B HR Tech (ATS) — российский рынок, IT-найм. Демонстрация универсальности вне Application Security.
 
 Вход: `input/hypothesis.md` (ID: `HYP-2026-06-15-001`)
 
 ## Выполнение
 
-Полный pipeline на русском языке (совпадает с `input/hypothesis.md`).
+Полный конвейер на русском языке (совпадает с `input/hypothesis.md`).
 
 ## Результат
 
-**Исходный framing:** ИИ auto-ranking → −30% time-to-hire.
+**Исходная формулировка:** автоматическое ИИ-ранжирование → −30% time-to-hire на дефицитных IT-вакансиях.
 
-**Reframe:** Governed recruiter assist с audit trail — мерить часы screening.
+**Переформулировка:** управляемый помощник рекрутера с audit trail и обязательным участием человека — мерить часы первичного отбора.
 
-**Decision Review:** Proceed with Validation (Medium confidence).
+**Решение:** Продолжить с валидацией (средняя уверенность).
 
-Откройте **`outputs/human_report.html`** для executive report.
+Откройте **`outputs/human_report.html`** для отчёта руководству.
 
 ## Зачем этот пример
 
-Для Product Sense: тот же pipeline, другой домен — user pain vs buyer value, metric illusion, Local Optimization Trap.
+Для Product Sense: тот же конвейер, другой домен — боль пользователя и ценность для покупателя, иллюзия метрики, ловушка локальной оптимизации. Контекст: российский IT-найм, 152‑ФЗ, HRD как покупатель.
