@@ -12,7 +12,7 @@
 
 ## Purpose
 
-Карта секций `human_report.html` с номерами актов demo-script (1–6) для репетиции.
+Карта секций `human_report.html` для Wiki-кейса с номерами актов demo-script (1–6) для репетиции.
 
 ## Composition
 
@@ -25,14 +25,12 @@ Simplified report wireframe with numbered circles ①–⑥ mapping to:
 ⑤ Contradictions — Акт 5
 ⑥ Cheap validation — Акт 6
 
-Side note: AppSec example-001 optional Act 7
-
 ## Generation prompt (copy-paste)
 
 ```
 1920x1080 presenter slide "Карта демо human_report", flat wireframe style.
 
-Title: "Демо: куда смотреть в отчёте"
+Title: "Демо: AI-поиск по Wiki"
 
 Left: simplified vertical report outline (gray boxes). Right: numbered list ①-⑥ with act names:
 
@@ -45,7 +43,7 @@ Left: simplified vertical report outline (gray boxes). Right: numbered list ①-
 
 Highlight circles ③-⑥ in rose as main demo path.
 
-Footer: "example-002 HR Tech · example-001 AppSec опционально"
+Footer: "example-003 · поиск-помощник для корпоративной Wiki"
 
 Russian. Minimal. No real data.
 ```
