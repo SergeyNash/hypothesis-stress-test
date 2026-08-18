@@ -1,140 +1,140 @@
 # Roles Layer (Facilitator / Hypothesis Stress Test)
 
-The Roles Layer provides an **internal stress-test** of a hypothesis through role-based analysis.
+Roles Layer — **внутренний стресс-тест** гипотезы через ролевой анализ.
 
-Also known as the **facilitator phase** or **Hypothesis Stress Test** in the pipeline.
-
----
-
-## What this layer does NOT do
-
-- Does not make decisions
-- Does not research the market
-- Does not synthesize conclusions
-- Does not design experiments
+В пайплайне это фаза **facilitator** или **Hypothesis Stress Test**.
 
 ---
 
-## Purpose
+## Чего слой не делает
 
-The goal is not to validate the hypothesis.
-
-The goal is to:
-
-- expose the hypothesis
-- find weak points
-- surface hidden assumptions
-- show role conflicts
-- define applicability boundaries
-
-> Where this hypothesis creates value — and where it breaks.
+- Не принимает решения
+- Не исследует рынок
+- Не синтезирует выводы
+- Не проектирует эксперименты
 
 ---
 
-## Persona
+## Назначение
 
-An experienced B2B product facilitator acting as an intellectual opponent — not supporting ideas, but expanding the author's perspective before development.
+Цель — не подтвердить гипотезу.
 
----
+Цель:
 
-## What it does
+- вскрыть гипотезу
+- найти слабые места
+- вытащить скрытые допущения
+- показать конфликты ролей
+- задать границы применимости
 
-The layer analyzes the hypothesis through **relevant roles** from `input/hypothesis.md`.
-
-Each role represents a real perspective (user, developer, security, operations, etc.).
-
----
-
-## Analysis process
-
-1. **Extract hidden assumptions** — before role analysis
-2. **Define applicability boundaries** — value / no value / harmful / alternatives
-3. **Role analysis** — pain, new problems, alternatives, failure context per role
-4. **Conflict detection** — agreement, tension, conflict zones, blind spots
-5. **Validation questions** — behavior-based interview questions (no leading questions)
-6. **Hypothesis assessment** — promising / uncertain / risky — no implementation recommendation
+> Где гипотеза создаёт ценность — и где ломается.
 
 ---
 
-## Core questions per role
+## Персона
 
-### Pain
-
-Priority: CRITICAL / SECONDARY / DOES NOT ADDRESS PAIN
-
-### New problems
-
-Operational friction, governance, maintenance, adoption friction
-
-### Alternatives
-
-Including doing nothing
-
-### Failure context
-
-When useless, harmful, or irrelevant
-
-### Applicability boundaries
-
-Works when / does not work when / harms when
+Опытный B2B product facilitator в роли интеллектуального оппонента: не поддерживает идеи, а расширяет перспективу автора до разработки.
 
 ---
 
-## Validation questions rules
+## Что делает
 
-**Allowed:** behavior-based (how you currently solve, walk me through the last time…)
+Слой разбирает гипотезу через **релевантные роли** из `input/hypothesis.md`.
 
-**Forbidden:** Would you use this? / Do you need this? / Would you buy it?
+Каждая роль — реальная перспектива (пользователь, разработчик, security, operations и т.д.).
 
 ---
 
-## Output language
+## Процесс анализа
 
-Artifacts match the language of `input/hypothesis.md`.
+1. **Скрытые допущения** — до ролевого разбора
+2. **Границы применимости** — ценность / нет ценности / вред / альтернативы
+3. **Ролевой анализ** — боль, новые проблемы, альтернативы, контекст провала для каждой роли
+4. **Конфликты** — зоны согласия, напряжения, конфликта, слепые зоны
+5. **Вопросы валидации** — behavior-based вопросы для интервью (без наводящих)
+6. **Оценка гипотезы** — promising / uncertain / risky — без рекомендации к реализации
+
+---
+
+## Базовые вопросы по роли
+
+### Боль
+
+Приоритет: CRITICAL / SECONDARY / DOES NOT ADDRESS PAIN
+
+### Новые проблемы
+
+Операционное трение, governance, сопровождение, adoption
+
+### Альтернативы
+
+Включая «ничего не делать»
+
+### Контекст провала
+
+Когда бесполезно, вредно или нерелевантно
+
+### Границы применимости
+
+Работает когда / не работает когда / вредит когда
+
+---
+
+## Правила вопросов валидации
+
+**Можно:** behavior-based (как решаете сейчас, расскажите последний раз…)
+
+**Нельзя:** Вы бы этим пользовались? / Вам это нужно? / Вы бы купили?
+
+---
+
+## Язык outputs
+
+Артефакты совпадают с языком `input/hypothesis.md`.
 
 ---
 
 ## Output
 
-| Artifact | Purpose |
-|----------|---------|
-| `role_outputs/{role_slug}.md` | Per-role analysis |
-| `hypothesis_summary.md` | Assumptions, boundaries, conflicts, assessment |
-| `validation_questions.md` | Interview questions per role |
-| `ready_for_synthesis.marker` | Phase complete, ready for Market Layer |
+| Артефакт | Назначение |
+|----------|------------|
+| `role_outputs/{role_slug}.md` | Анализ по роли |
+| `hypothesis_summary.md` | Допущения, границы, конфликты, оценка |
+| `validation_questions.md` | Вопросы интервью по ролям |
+| `ready_for_synthesis.marker` | Фаза завершена, дальше Market Layer |
 
 ---
 
-## What it does NOT do (constraints)
+## Ограничения
 
-* does not confirm the hypothesis
-* does not consider market reality
-* does not generate solutions
-* does not replace user research
-
----
-
-## Relationship with other layers
-
-* Market Layer (Market Reality Check) → validates external reality
-* Synthesis Layer → compares signals
-* Decision Review → challenges synthesis conclusions
-
-Roles Layer alone is insufficient.
+* не подтверждает гипотезу
+* не учитывает рыночную реальность
+* не генерирует решения
+* не заменяет user research
 
 ---
 
-## Key principle
+## Связь с другими слоями
 
-> Internal logic is not reality.
+* Market Layer (Market Reality Check) → проверяет внешнюю реальность
+* Synthesis Layer → сравнивает сигналы
+* Decision Review → оспаривает выводы synthesis
 
-The Roles Layer defines how the hypothesis *should* work — not whether it actually does.
+Одного Roles Layer недостаточно.
 
 ---
 
-## Next
+## Ключевой принцип
+
+> Внутренняя логика — не реальность.
+
+Roles Layer описывает, как гипотеза *должна* работать — не то, работает ли она на самом деле.
+
+---
+
+## Дальше
 
 * `market-layer.md`
 * `synthesis-layer.md`
-* `templates/facilitator-prompt.md` — manual execution
-* `.cline/skills/hypothesis-facilitator/SKILL.md` — Cline execution
+* `templates/facilitator-prompt.md` — ручной запуск
+* `.cline/skills/hypothesis-facilitator/SKILL.md` — запуск через Cline

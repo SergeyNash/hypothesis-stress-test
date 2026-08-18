@@ -1,8 +1,6 @@
-Language: **English** | [Русский](./run-structure.ru.md)
+# Структура RUN_DIR
 
-# RUN Structure
-
-Each hypothesis run follows a standard archive structure:
+Каждый прогон гипотезы следует стандартной структуре архива:
 
 ```text
 RUN_DIR/
@@ -28,14 +26,14 @@ RUN_DIR/
     *.marker
 ```
 
-`RUN_DIR` naming pattern: `runs/HYP-YYYY-MM-DD-NNN/`
+Шаблон имени `RUN_DIR`: `runs/HYP-YYYY-MM-DD-NNN/`
 
 ---
 
-## Principle
+## Принцип
 
-Each run must be:
+Каждый прогон должен быть:
 
-* isolated
-* reproducible
-* traceable
+* изолированным
+* воспроизводимым
+* трассируемым

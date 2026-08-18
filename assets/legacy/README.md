@@ -1,10 +1,10 @@
-# Legacy Assets
+# Legacy-ассеты
 
-Screenshots from the previous **RooCode** implementation.
+Скриншоты предыдущей имплементации **RooCode**.
 
-RooCode is no longer supported. The primary IDE adapter is **Cline**.
+RooCode больше не поддерживается. Основной адаптер IDE — **Cline**.
 
-For current setup guides and diagrams, see:
+Актуальные гайды по настройке и диаграммы:
 
 * [implementations/cline-setup.md](../../implementations/cline-setup.md)
 * [assets/cline-workflow.svg](../cline-workflow.svg)

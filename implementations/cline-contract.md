@@ -1,63 +1,61 @@
-Language: **English** | [Русский](./cline-contract.ru.md)
+# Контракт Cline
 
-# Cline Contract
+Как фреймворк Hypothesis Stress Test соотносится с компонентами Cline.
 
-This document defines how the Hypothesis Stress Test framework maps to Cline.
+## Соответствие
 
-## Mapping
+| Концепция фреймворка | Имплементация в Cline |
+|----------------------|----------------------|
+| Инварианты слоёв | `.clinerules/*.md` |
+| Выполнение слоя | `.cline/skills/*/SKILL.md` |
+| End-to-end прогон | `.clinerules/workflows/run-hypothesis.md` |
+| Local evidence retrieval | skill `local-knowledge-retrieval` + KB files |
+| Артефакты | Файлы в `RUN_DIR/outputs/` |
 
-| Framework concept | Cline implementation |
-|-----------------|---------------------|
-| Layer invariants | `.clinerules/*.md` |
-| Layer execution | `.cline/skills/*/SKILL.md` |
-| End-to-end run | `.clinerules/workflows/run-hypothesis.md` |
-| Local evidence retrieval | `local-knowledge-retrieval` skill + KB files |
-| Artifacts | Files under `RUN_DIR/outputs/` |
+## Компоненты
 
-## Components
+### Rules (всегда активны)
 
-### Rules (always active)
+Расположение: `.clinerules/`
 
-Located in `.clinerules/`:
+| Файл | Назначение |
+|------|------------|
+| `00-hypothesis-framework.md` | Обзор фреймворка, порядок слоёв |
+| `10-artifact-contracts.md` | Структура RUN_DIR, именование, markers |
+| `20-evidence-rules.md` | правила каналов KB evidence + Confluence + external/inferred |
 
-| File | Purpose |
-|------|---------|
-| `00-hypothesis-framework.md` | Framework overview, layer order |
-| `10-artifact-contracts.md` | RUN_DIR structure, naming, markers |
-| `20-evidence-rules.md` | KB evidence + Confluence + external/inferred channel rules |
+### Skills (по запросу)
 
-### Skills (on-demand)
+Расположение: `.cline/skills/`
 
-Located in `.cline/skills/`:
-
-| Skill | Trigger |
-|-------|---------|
-| `conversational-hypothesis-intake` | Chat-first hypothesis collection before bootstrap |
-| `hypothesis-input-validation` | Before any layer run |
+| Skill | Когда |
+|-------|-------|
+| `conversational-hypothesis-intake` | Chat-first сбор гипотезы перед bootstrap |
+| `hypothesis-input-validation` | Перед любым слоем |
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `local-knowledge-retrieval` | Local Evidence Discovery (preview + inventory) |
-| `hypothesis-market-layer` | Market Layer with KB inventory + Confluence MCP |
+| `hypothesis-market-layer` | Market Layer + KB inventory + Confluence MCP |
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
-| `customer-discovery-planning` | Customer Discovery Planning (interview-ready research plan) |
-| `hypothesis-decision-review` | Decision Review (mandatory gate) |
+| `customer-discovery-planning` | Customer Discovery Planning (практичный план интервью) |
+| `hypothesis-decision-review` | Decision Review (обязательный gate) |
 | `human-report-export` | Human Decision Report Export (`human_report.html`) |
 
-### Editorial skills (outside hypothesis pipeline)
+### Editorial skills (вне pipeline гипотез)
 
-Not part of `/run-hypothesis.md`. Used for Russian text editing in docs and conference materials.
+Не входят в `/run-hypothesis.md`. Для редактуры русского текста в документации и материалах конференции.
 
-| Skill | Trigger |
-|-------|---------|
-| `russian-humanizer` | Humanize Russian prose; see [humanizer/USAGE.md](../humanizer/USAGE.md) |
+| Skill | Когда |
+|-------|-------|
+| `russian-humanizer` | Humanize русской прозы; см. [humanizer/USAGE.md](../humanizer/USAGE.md) |
 
 Project voice adapters: `humanizer/adapters/`. Core rules: `.cline/skills/russian-humanizer/references/`.
 Upstream: [thinking-lab/skills/russian-humanizer](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer).
 
-### Workflows (slash commands)
+### Workflows (slash-команды)
 
-Located in `.clinerules/workflows/`:
+Расположение: `.clinerules/workflows/`
 
-| Workflow | Command |
+| Workflow | Команда |
 |----------|---------|
 | `run-hypothesis-conversational.md` | `/run-hypothesis-conversational.md` |
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
@@ -70,24 +68,24 @@ Located in `.clinerules/workflows/`:
 | `run-decision-review.md` | `/run-decision-review.md` |
 | `run-human-report-export.md` | `/run-human-report-export.md` |
 
-## Execution flow
+## Поток выполнения
 
-### Chat-first (recommended)
+### Chat-first (рекомендуется)
 
 ```text
-User describes hypothesis in chat
-  → conversational intake (skill) → draft card → user confirms
+Пользователь описывает гипотезу в чате
+  → conversational intake (skill) → draft карточки → подтверждение
   → bootstrap RUN_DIR + input/hypothesis.md
-  → validate input (skill or workflow)
-  → full pipeline via /run-hypothesis.md
-  → Human backlog decision
+  → валидация входа (skill или workflow)
+  → полный pipeline через /run-hypothesis.md
+  → Решение человека (backlog)
 ```
 
 ### File-first (fallback)
 
 ```text
-User provides RUN_DIR
-  → validate input (skill or workflow)
+Пользователь указывает RUN_DIR
+  → валидация входа (skill или workflow)
   → Facilitator (skill) → role_outputs + summary + validation_questions + marker
   → Local Evidence Discovery (skill) → discovery_preview + evidence_inventory + marker
   → Market Layer (skill + inventory + Confluence MCP) → market_analysis + marker
@@ -95,15 +93,15 @@ User provides RUN_DIR
   → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker
   → Human Decision Report Export (skill) → human_report.html + marker
-  → Human backlog decision
+  → Решение человека (backlog)
 ```
 
-## Prerequisites
+## Требования
 
-1. [Cline VS Code extension](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) installed
-2. Project opened in VS Code (rules and skills auto-discovered)
-3. Confluence MCP configured (recommended for Market Layer) — see [confluence-mcp.md](./confluence-mcp.md)
+1. Установлено [расширение Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
+2. Проект открыт в VS Code (rules и skills подхватываются автоматически)
+3. Настроен Confluence MCP (рекомендуется для Market Layer) — [confluence-mcp.md](./confluence-mcp.md)
 
-## Fallback: manual mode
+## Fallback: ручной режим
 
-Without Cline, copy templates from `templates/` and run layers manually in any LLM interface. See [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md).
+Без Cline: скопируйте шаблоны из `templates/` и запускайте слои вручную в любом LLM. См. [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md).

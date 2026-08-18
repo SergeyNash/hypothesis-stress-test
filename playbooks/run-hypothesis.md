@@ -1,310 +1,293 @@
-Language: **English** | [Русский](./run-hypothesis.ru.md)
+# Прогон гипотезы
 
-# Run Hypothesis
+Playbook описывает, как проверить продуктовую гипотезу через фреймворк.
 
-This playbook describes how to validate a product hypothesis using the framework.
-
-**Primary method:** Cline in VS Code with skills and workflows.
-**Fallback:** manual template execution in any LLM.
+**Основной метод:** Cline в VS Code со skills и workflows.
+**Fallback:** ручной запуск шаблонов в любом LLM.
 
 ---
 
-## Cline quick path
+## Быстрый путь через Cline
 
-### Chat-first (recommended)
+### Chat-first (рекомендуется)
 
-1. Install Cline — see [implementations/cline-setup.md](../implementations/cline-setup.md)
-2. Configure Confluence MCP — see [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
-3. In Cline chat:
+1. Установить Cline — [implementations/cline-setup.md](../implementations/cline-setup.md)
+2. Настроить Confluence MCP — [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
+3. В чате Cline:
 
 ```text
 /run-hypothesis-conversational.md
 
-Describe your hypothesis in natural language.
+Опишите гипотезу естественным языком.
 ```
 
-**Intake tags:** `#hypothesis`, `#context`, `#roles`, `#new-run`.  
-**Two-step confirm:** draft card → proposed `RUN_DIR` (e.g. `002` if `001` exists). See [examples/chat-first-run.md](../examples/chat-first-run.md).
+**Теги intake:** `#гипотеза`, `#контекст`, `#роли`, `#новая`.  
+**Двойной confirm:** draft карточки → предложенный `RUN_DIR` (напр. `002`, если `001` есть). См. [examples/chat-first-run.md](../examples/chat-first-run.md).
 
-The agent collects input, shows draft, proposes new `RUN_DIR` in dialog, creates folder only after confirm, validates, and runs the pipeline.
+Агент собирает вход, показывает draft, предлагает новый `RUN_DIR` в диалоге, создаёт папку только после подтверждения, валидирует и запускает pipeline.
 
 ### File-first (fallback)
 
-1. Create `RUN_DIR/input/hypothesis.md` — see [templates/input-schema.md](../templates/input-schema.md)
-2. In Cline chat:
+1. Создать `RUN_DIR/input/hypothesis.md` — см. [templates/input-schema.md](../templates/input-schema.md)
+2. В чате Cline:
 
 ```text
 RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
-Or step by step:
+Или по шагам:
 
 ```text
 /validate-hypothesis-input.md
 ```
 
-Then individual layer workflows as needed.
+Затем отдельные workflow по слоям.
 
 ---
 
-## Goal
+## Цель
 
-Determine whether a hypothesis:
+Определить, создаёт ли гипотеза:
 
-* creates real value
-* survives external validation
-* or should be discarded early
+* реальную ценность
+* выдерживает ли внешнюю проверку
+* или должна быть отброшена на раннем этапе
 
 ---
 
-## Step 0 — Define Hypothesis
+## Шаг 0 — Сформулировать гипотезу
 
-Write a clear, testable statement in `RUN_DIR/input/hypothesis.md`.
+Напишите чёткое, проверяемое утверждение в `RUN_DIR/input/hypothesis.md`.
 
-Additionally, define:
+Дополнительно определите:
 
-1. **Relevant roles** (for internal analysis)
-2. **Research context** (for market validation)
+1. **Relevant roles** (для внутреннего анализа)
+2. **Research context** (для market validation)
 
-See [templates/input-schema.md](../templates/input-schema.md).
+См. [templates/input-schema.md](../templates/input-schema.md).
 
-### Hypothesis
+### Гипотеза
 
-Good:
+Хорошо:
 
 > Users need a way to prioritize notifications based on context
 
-Bad:
+Плохо:
 
 > Improve user experience
 
 ### Relevant Roles
 
-Select only roles that are directly impacted.
+Выбирайте только роли, которые напрямую затронуты.
 
 ### Research Context
 
-* domain / product type
+* domain / тип продукта
 * target audience
-* usage scenario
-* constraints (optional)
+* сценарий использования
+* constraints (опционально)
 
-Validate input before proceeding — skill `hypothesis-input-validation` or `/validate-hypothesis-input.md`.
+Валидируйте вход перед запуском — skill `hypothesis-input-validation` или `/validate-hypothesis-input.md`.
 
 ---
 
-## Step 1 — Run Facilitator (Roles Layer / Hypothesis Stress Test)
+## Шаг 1 — Facilitator (Roles Layer / Hypothesis Stress Test)
 
-**Cline:** skill `hypothesis-facilitator` or `/run-facilitator.md` or included in `/run-hypothesis.md`
+**Cline:** skill `hypothesis-facilitator` или `/run-facilitator.md` или в составе `/run-hypothesis.md`
 
-**Manual:** [templates/facilitator-prompt.md](../templates/facilitator-prompt.md)
+**Ручной режим:** [templates/facilitator-prompt.md](../templates/facilitator-prompt.md)
 
-This phase does **not**: make decisions, research the market, synthesize conclusions, or design experiments.
+Эта фаза **не**: принимает решения, исследует рынок, синтезирует выводы, проектирует эксперименты.
 
-Input:
+Вход:
 
-* hypothesis
-* selected roles
+* гипотеза
+* выбранные роли
 
-Output:
+Выход:
 
 * `role_outputs/*`
 * `hypothesis_summary.md`
 * `validation_questions.md`
 * `ready_for_synthesis.marker`
 
-Goal:
+Цель:
 
-* expose hidden assumptions and applicability boundaries
-* show role conflicts
-* generate behavior-based validation questions
-* discover where the hypothesis breaks
+* вскрыть скрытые допущения и границы применимости
+* показать конфликты ролей
+* сгенерировать behavior-based вопросы для интервью
+* найти, где гипотеза ломается
 
-Output language matches `input/hypothesis.md`.
+Язык outputs = язык `input/hypothesis.md`.
 
 ---
 
-## Step 2 — Run Local Evidence Discovery
+## Шаг 2 — Local Evidence Discovery
 
-**Cline:** skill `local-knowledge-retrieval` or `/run-knowledge-retrieval.md`
+**Cline:** skill `local-knowledge-retrieval` или `/run-knowledge-retrieval.md`
 
-**Manual:** [templates/knowledge-retrieval-prompt.md](../templates/knowledge-retrieval-prompt.md)
+**Ручной режим:** [templates/knowledge-retrieval-prompt.md](../templates/knowledge-retrieval-prompt.md)
 
-Output:
+Выход:
 
 * `discovery_preview.md`
 * `evidence_inventory.md`
 * `knowledge_retrieval_complete.marker`
 
-Rules:
+Правила:
 
-* one evidence item = one atomic signal
-* no synthesis in retrieval step
-* preview is always generated, extraction auto-continues in V1
+* один evidence item = один атомарный сигнал
+* без синтеза в retrieval-шаге
+* preview всегда создаётся; в V1 извлечение продолжается автоматически
 
 ---
 
-## Step 3 — Run Business Context & Value Check
+## Шаг 3 — Business Context & Value Check
 
-**Cline:** skill `business-context-value-check` or `/run-business-context-value-check.md`
+**Cline:** skill `business-context-value-check` или `/run-business-context-value-check.md`
 
 **Manual:** [templates/business-context-prompt.md](../templates/business-context-prompt.md)
 
-Input:
-
-* hypothesis
-* role outputs and hypothesis summary
-* KB strategy materials (`strategy/`, `okr/`, `business-model/`)
-
-Output:
-
-* `business_context_analysis.md` or `missing_business_context.md`
-* `business_context_complete.marker`
-
-Goal:
-
-* map stakeholder value chain (pain / value / decide / pay / block)
-* classify business effect type and strategic fit
-* separate problem existence from business case plausibility
+Выход: `business_context_analysis.md` или `missing_business_context.md`, `business_context_complete.marker`
 
 ---
 
-## Step 4 — Run Market Layer (Market Reality Check)
+## Шаг 4 — Market Layer (Market Reality Check)
 
-**Cline:** skill `hypothesis-market-layer` or `/run-market-layer.md`
+**Cline:** skill `hypothesis-market-layer` или `/run-market-layer.md`
 
-**Manual:** [templates/market-prompt.md](../templates/market-prompt.md)
+**Ручной режим:** [templates/market-prompt.md](../templates/market-prompt.md)
 
-**Inventory first:** use `evidence_inventory.md` from Local Evidence Discovery, then search Confluence MCP for additional internal signals.
+**Inventory first:** сначала используйте `evidence_inventory.md`, затем Confluence MCP для дополнительных внутренних сигналов.
 
-Input:
+Вход:
 
-* hypothesis
+* гипотеза
 * research context
 
-Output:
+Выход:
 
 * `market_analysis.md`
 * `market_analysis_complete.marker`
 
-Rules:
+Правила:
 
-* no evidence → no claim
-* sources must be explicit
-* distinguish facts from assumptions
-* keep channels separated: KB / Confluence / external / inferred
+* нет evidence → нет утверждения
+* источники должны быть явными
+* разделяйте факты и допущения
+* держите каналы раздельно: KB / Confluence / external / inferred
 
 ---
 
-## Step 5 — Run Synthesis Layer
+## Шаг 5 — Synthesis Layer
 
-**Cline:** skill `hypothesis-synthesis` or `/run-synthesis.md`
+**Cline:** skill `hypothesis-synthesis` или `/run-synthesis.md`
 
-**Manual:** [templates/synthesis-prompt.md](../templates/synthesis-prompt.md)
+**Ручной режим:** [templates/synthesis-prompt.md](../templates/synthesis-prompt.md)
 
-This phase does **not**: summarize without comparison, add market/role signals, or make final decisions.
+Эта фаза **не**: пересказывает без сравнения, добавляет сигналы, принимает финальные решения.
 
 Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
-Input:
+Вход:
 
 * `role_outputs/*`, `hypothesis_summary.md`, `market_analysis.md`
-* optional: `business_context_analysis.md`, `validation_questions.md`
+* опционально: `validation_questions.md`
 
-Output:
+Выход:
 
 * `hypothesis_map.md`
-* `hypothesis_digest.txt` (max 150 words)
+* `hypothesis_digest.txt` (макс. 150 слов)
 * `synthesis_complete.marker`
 
-Goal:
+Цель:
 
-* collide internal vs external signals
-* discover contradictions, blind spots, local optimization traps
-* surface new information visible only after comparison
-* determine impact on original hypothesis framing
+* столкнуть внутренние и внешние сигналы
+* выявить противоречия, слепые зоны, ловушки локальной оптимизации
+* показать новую информацию, видимую только после сравнения
+* определить влияние на исходную формулировку гипотезы
 
 ---
 
-## Step 6 — Run Customer Discovery Planning
+## Шаг 6 — Customer Discovery Planning
 
-**Cline:** skill `customer-discovery-planning` or `/run-customer-discovery-planning.md`
+**Cline:** skill `customer-discovery-planning` или `/run-customer-discovery-planning.md`
 
-**Manual:** [templates/customer-discovery-planning-prompt.md](../templates/customer-discovery-planning-prompt.md)
+**Ручной режим:** [templates/customer-discovery-planning-prompt.md](../templates/customer-discovery-planning-prompt.md)
 
-This phase does **not**: validate hypotheses, make product decisions, or recommend implementation.
+Эта фаза **не**: валидирует гипотезу, принимает продуктовые решения, рекомендует имплементацию.
 
-Input:
+Вход:
 
-* synthesis outputs and prior artifacts
+* артефакты synthesis и предыдущих слоёв
 
-Output:
+Выход:
 
 * `customer_discovery_plan.md`
 * `customer_discovery_planning_complete.marker`
 
-Goal:
+Цель:
 
-* extract critical unknowns and unvalidated assumptions
-* identify missing evidence and required customer conversations
-* produce a practical interview guide and participant plan
+* выделить критические неизвестные и непроверенные допущения
+* определить отсутствующие evidence и нужные customer conversations
+* собрать практичный план интервью и ролей
 
 ---
 
-## Step 7 — Run Decision Review
+## Шаг 7 — Decision Review
 
-**Cline:** skill `hypothesis-decision-review` or `/run-decision-review.md`
+**Cline:** skill `hypothesis-decision-review` или `/run-decision-review.md`
 
-**Manual:** [templates/decision-review-prompt.md](../templates/decision-review-prompt.md)
+**Ручной режим:** [templates/decision-review-prompt.md](../templates/decision-review-prompt.md)
 
-Input:
+Вход:
 
-* synthesis outputs and prior artifacts
+* артефакты synthesis и предыдущих слоёв
 
-Output:
+Выход:
 
 * `decision_review.md`
 * `decision_review_complete.marker`
 
-Goal:
+Цель:
 
-* challenge synthesis conclusions
-* identify weak evidence and hidden assumptions
-* propose cheapest validation path
+* оспорить выводы synthesis
+* выявить слабые доказательства и скрытые допущения
+* предложить самый дешёвый путь валидации
 
-Do not skip this step. Decision Review does not repeat synthesis — it adds adversarial critique.
+Не пропускайте этот шаг. Decision Review не пересказывает synthesis — добавляет adversarial critique.
 
 ---
 
-## Step 8 — Human Decision Report Export
+## Шаг 8 — Human Decision Report Export
 
-**Cline:** skill `human-report-export` or `/run-human-report-export.md`
+**Cline:** skill `human-report-export` или `/run-human-report-export.md`
 
-**Template:** [templates/human-report-template.html](../templates/human-report-template.html)
+**Шаблон:** [templates/human-report-template.html](../templates/human-report-template.html)
 
-Input:
+Вход:
 
-* completed decision review and prior artifacts
+* завершённый decision review и предыдущие артефакты
 
-Output:
+Выход:
 
 * `human_report.html`
 * `human_report_complete.marker`
 
-Goal:
+Цель:
 
-* compile a decision-facing HTML report for humans
-* show confidence, recommendation, decision readiness, what changed, validation priorities
-* provide grouped links to detailed Markdown artifacts
+* собрать decision-facing HTML-отчёт для человека
+* показать confidence, recommendation, decision readiness, what changed, validation priorities
+* дать сгруппированные ссылки на детальные Markdown-артефакты
 
-Open `outputs/human_report.html` in a browser. Markdown artifacts remain the source of truth.
+Откройте `outputs/human_report.html` в браузере. Markdown остаётся источником истины.
 
 ---
 
-## Step 9 — Backlog Decision (Human)
+## Шаг 9 — Backlog Decision (человек)
 
-Review `human_report.html` (or `decision_review.md`) and make the final backlog decision:
+Изучите `human_report.html` (или `decision_review.md`) и примите финальное решение:
 
 * Proceed
 * Proceed with Validation
@@ -313,31 +296,31 @@ Review `human_report.html` (or `decision_review.md`) and make the final backlog 
 
 ---
 
-## Interpretation Model
+## Модель интерпретации
 
 ### Validated Opportunity
 
-Internal and external signals align. → Proceed with development
+Внутренние и внешние сигналы совпадают. → Продолжать разработку
 
 ### Internal Illusion
 
-Internal logic supports it, market does not. → Do NOT build
+Внутренняя логика поддерживает, рынок — нет. → НЕ строить
 
 ### Blind Spot
 
-Market shows signal, internal model does not. → Investigate deeper
+Рынок показывает сигнал, внутренняя модель — нет. → Исследовать глубже
 
 ### Weak Signal
 
-No strong evidence anywhere. → Low priority
+Нет сильных доказательств нигде. → Низкий приоритет
 
 ### Local Optimization Trap
 
-Roles and market confirm pain, but solving it does not create strategic business value. → Reframe or narrow scope
+Роли и рынок подтверждают боль, но решение не создаёт стратегической ценности. → Переформулировать или сузить scope
 
 ---
 
-## Output Structure
+## Структура output
 
 ```text
 RUN_DIR/
@@ -357,25 +340,25 @@ RUN_DIR/
 
 ---
 
-## Expected Time
+## Ожидаемое время
 
-5–15 minutes per hypothesis (Cline assisted).
-
----
-
-## Tips
-
-* keep hypotheses narrow
-* define roles explicitly
-* configure Confluence MCP for better local signals
-* don't skip customer discovery planning or decision review
+5–15 минут на гипотезу (с Cline).
 
 ---
 
-## Principle
+## Советы
 
-This is not about generating ideas.
+* формулируйте гипотезы узко
+* явно определяйте роли
+* настройте Confluence MCP для лучших local signals
+* не пропускайте customer discovery planning и decision review
 
-It is about deciding:
+---
 
-> should this idea exist at all
+## Принцип
+
+Речь не о генерации идей.
+
+Речь о решении:
+
+> стоит ли этой идее вообще существовать

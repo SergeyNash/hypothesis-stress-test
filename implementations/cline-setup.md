@@ -1,27 +1,25 @@
-Language: **English** | [Русский](./cline-setup.ru.md)
+# Настройка Cline
 
-# Cline Setup
+Пошаговый гайд по запуску Hypothesis Stress Test через Cline в VS Code.
 
-Step-by-step guide to run Hypothesis Stress Test with Cline in VS Code.
+## 1. Установить Cline
 
-## 1. Install Cline
+1. Откройте VS Code.
+2. Extensions → найдите **Cline**.
+3. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
+4. В настройках Cline укажите LLM-провайдера (API-ключ или локальная модель).
 
-1. Open VS Code.
-2. Go to Extensions → search **Cline**.
-3. Install [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev).
-4. Configure your LLM provider in Cline settings (API key or local model).
+## 2. Открыть проект
 
-## 2. Open your project
+### Рекомендуется: KB + папка `hypothesis-stress-test/`
 
-### Recommended: KB + `hypothesis-stress-test/` folder
-
-Open **your knowledge base** and add the full framework repository inside it:
+Откройте **свою базу знаний** и добавьте в неё полный репозиторий фреймворка:
 
 ```text
 my-knowledge-base/
-  discovery/                 ← your KB
-  runs/                      ← hypothesis runs
-  hypothesis-stress-test/      ← clone or git submodule
+  discovery/                 ← ваша KB
+  runs/                      ← прогоны гипотез
+  hypothesis-stress-test/      ← clone или git submodule
     .clinerules/
     .cline/skills/
     templates/
@@ -29,49 +27,49 @@ my-knowledge-base/
     ...
 ```
 
-Cline looks for `.clinerules/` and `.cline/` at the **workspace root**. After adding the nested folder, create a symlink or copy at KB root — see [quick-start.md](./quick-start.md#knowledge-base-and-workspace).
+Cline ищет `.clinerules/` и `.cline/` в **корне workspace**. После добавления вложенной папки создайте symlink или копию в корне KB — см. [quick-start.md](./quick-start.md#база-знаний-и-workspace).
 
-### Alternative: framework only
+### Альтернатива: только фреймворк
 
 ```text
 git clone <repo-url>
 code hypothesis-stress-test
 ```
 
-Cline auto-discovers from root:
+Cline автоматически обнаружит из корня:
 
-- Rules from `.clinerules/` (including `workflows/`)
-- Skills from `.cline/skills/`
+- Rules из `.clinerules/` (включая `workflows/`)
+- Skills из `.cline/skills/`
 
-Verify in Cline panel:
+Проверьте в панели Cline:
 
-- **Rules** (scale icon) — framework rules should be listed and enabled
-- Skills — `hypothesis-*` skills should appear when relevant
+- **Rules** (иконка весов) — правила фреймворка должны быть в списке и включены
+- Skills — `hypothesis-*` skills появятся при релевантном запросе
 
-## 3. Configure Confluence MCP (recommended)
+## 3. Настроить Confluence MCP (рекомендуется)
 
-See [confluence-mcp.md](./confluence-mcp.md).
+См. [confluence-mcp.md](./confluence-mcp.md).
 
-Without Confluence, Market Layer will mark `missing local evidence`.
+Без Confluence Market Layer пометит `missing local evidence`.
 
-## 4. Run a hypothesis
+## 4. Запустить гипотезу
 
-### Chat-first (recommended)
+### Chat-first (рекомендуется)
 
-In Cline chat:
+В чате Cline:
 
 ```text
 /run-hypothesis-conversational.md
 
-Describe your hypothesis in natural language.
+Опишите гипотезу естественным языком.
 ```
 
-Use `#context` for dirty discovery notes. Use `#new-run` when a previous run exists the same day.  
-`runs/` is created only after **two** confirms: draft + proposed RUN_DIR. See [examples/chat-first-run.md](../examples/chat-first-run.md).
+Для сырых discovery-заметок — `#контекст`. Если в тот же день уже есть прогон — `#новая`.  
+`runs/` создаётся после **двух** confirm: draft + предложенный RUN_DIR. См. [examples/chat-first-run.md](../examples/chat-first-run.md).
 
 ### File-first (fallback)
 
-Create a run directory:
+Создайте директорию прогона:
 
 ```text
 runs/HYP-2026-06-22-001/
@@ -79,29 +77,29 @@ runs/HYP-2026-06-22-001/
     hypothesis.md
 ```
 
-Use `templates/input-schema.md` as reference for `input/hypothesis.md` format.
+Формат входа: [templates/input-schema.md](../templates/input-schema.md)
 
-Or copy the example:
+Или скопируйте пример:
 
 ```text
 examples/example-001/
 ```
 
-## 5. Run a hypothesis (file-first)
+## 5. Запустить гипотезу (file-first)
 
-In Cline chat, type:
+В чате Cline:
 
 ```text
 /run-hypothesis.md
 ```
 
-Or step by step:
+Или по шагам:
 
 ```text
 /validate-hypothesis-input.md
 ```
 
-Then ask Cline to run each layer, or use individual workflows:
+Затем отдельные workflow по слоям:
 
 ```text
 /run-facilitator.md
@@ -112,16 +110,14 @@ Then ask Cline to run each layer, or use individual workflows:
 /run-human-report-export.md
 ```
 
-Specify `RUN_DIR` in your message, e.g.:
+Укажите `RUN_DIR` в сообщении:
 
 ```text
 RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
-## 6. Review outputs
-
-Check `RUN_DIR/outputs/`:
+## 6. Проверить outputs
 
 ```text
 outputs/
@@ -138,23 +134,23 @@ outputs/
   human_report.html
 ```
 
-Open **`human_report.html`** in a browser for the decision-facing summary. For evidence traceability, inspect `discovery_preview.md` and `evidence_inventory.md` before reading `market_analysis.md`.
+Откройте **`human_report.html`** в браузере для decision-facing сводки. Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
 
 ## Plan vs Act mode
 
-- Use **Plan** mode to review the approach before file writes.
-- Use **Act** mode to execute layers and write artifacts.
-- Approve MCP tool calls (especially Confluence searches) when prompted.
+- **Plan** — просмотрите план до записи файлов.
+- **Act** — выполнение слоёв и запись артефактов.
+- Подтверждайте вызовы MCP (особенно поиск в Confluence).
 
 ## Troubleshooting
 
-| Issue | Fix |
-|-------|-----|
-| Rules not visible | Reload VS Code window; check `.clinerules/` exists |
-| Skills not triggering | Mention "hypothesis stress test" or use slash workflows |
-| Confluence MCP fails | See [confluence-mcp.md](./confluence-mcp.md) troubleshooting |
-| Missing outputs | Check which layer marker files are absent |
+| Проблема | Решение |
+|----------|---------|
+| Rules не видны | Перезагрузите VS Code; проверьте `.clinerules/` |
+| Skills не срабатывают | Упомяните «hypothesis stress test» или используйте slash workflows |
+| Confluence MCP не работает | [confluence-mcp.md](./confluence-mcp.md) |
+| Нет outputs | Проверьте отсутствующие marker-файлы в `outputs/` |
 
-## Manual fallback
+## Ручной режим (fallback)
 
-Copy templates from `templates/` and run in any LLM chat. See `playbooks/run-hypothesis.md`.
+Скопируйте шаблоны из `templates/` и запускайте в любом LLM-чате. См. [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md).

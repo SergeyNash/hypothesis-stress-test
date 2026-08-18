@@ -17,7 +17,7 @@
 ## Audience and context
 
 - `architecture/diagram.md`
-- `implementations/quick-start.ru.md`
+- `implementations/quick-start.md`
 
 ## Composition
 

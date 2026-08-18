@@ -1,30 +1,30 @@
 # Local Evidence Discovery
 
-Local Evidence Discovery is a pre-Market retrieval step.
+Local Evidence Discovery — шаг retrieval до Market Layer.
 
-It discovers traceable local evidence from a messy KB and writes structured retrieval artifacts.
-
----
-
-## Purpose
-
-Separate retrieval from analysis:
-
-- Discovery collects evidence.
-- Market Layer interprets it.
-- Synthesis collides interpretations.
-
-This prevents retrieval from becoming a mini-Market Layer.
+Собирает трассируемые локальные доказательства из неструктурированной KB и пишет структурированные retrieval-артефакты.
 
 ---
 
-## Inputs
+## Назначение
 
-Required:
+Отделить retrieval от анализа:
+
+- Discovery собирает evidence.
+- Market Layer интерпретирует его.
+- Synthesis сталкивает интерпретации.
+
+Так retrieval не превращается в мини-Market Layer.
+
+---
+
+## Входы
+
+Обязательно:
 
 - `RUN_DIR/input/hypothesis.md`
 
-Optional:
+Опционально:
 
 - `RUN_DIR/outputs/hypothesis_summary.md`
 
@@ -38,31 +38,31 @@ Optional:
 
 ---
 
-## Core rules
+## Базовые правила
 
-- one evidence item = one atomic signal
-- no synthesis in observations
-- no evidence -> no claim
-- preserve source traceability
-
----
-
-## V1 guardrails
-
-- bounded scan and extraction
-- extension whitelist
-- binary skip by default
-- explicit skipped reasons
-- preview is always generated first
-- extraction auto-continues after preview
+- один evidence item = один атомарный сигнал
+- без синтеза в наблюдениях
+- нет evidence → нет утверждения
+- сохранять трассируемость источника
 
 ---
 
-## Relationship with Market Layer
+## Guardrails V1
 
-Market Layer consumes `evidence_inventory.md` as a local evidence input.
+- ограниченный scan и extraction
+- whitelist расширений
+- бинарные файлы по умолчанию пропускаются
+- явные причины skip
+- preview всегда создаётся первым
+- extraction продолжается автоматически после preview
 
-Market output keeps channels separated:
+---
+
+## Связь с Market Layer
+
+Market Layer читает `evidence_inventory.md` как вход локальных доказательств.
+
+В market output каналы разделены:
 
 - Local Signals from Knowledge Base
 - Confluence Signals
@@ -73,6 +73,6 @@ Market output keeps channels separated:
 
 ## Non-goals
 
-- not a chatbot over documents
-- not a full-vault semantic search system
-- not a source confidence scoring engine
+- не чатбот по документам
+- не полнотекстовый semantic search по всему vault
+- не движок scoring уверенности источников

@@ -1,106 +1,103 @@
-<p align="right">
-  <sub>
-    🌐 <b>Language:</b>
-    <a href="./README.ru.md"><b>🇷🇺 Русский</b></a> (основной, диаграммы) ·
-    <b>🇬🇧 English</b> ·
-    <a href="./implementations/quick-start.md">Quick Start</a> ·
-    <a href="./implementations/quick-start.ru.md">Быстрый старт</a>
-  </sub>
-</p>
-
-<p align="center">
-  <sub>Диаграммы и основная документация — на русском: <a href="./README.ru.md"><b>README.ru.md</b></a></sub>
-</p>
-
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Framework version <b>2.4.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
+  <sub>Версия фреймворка <b>2.4.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
 </p>
 
 <p align="center">
-  <b>Challenge product hypotheses before you waste time building them.</b>
+  <b>Проверяйте продуктовые гипотезы до того, как начнёте их реализовывать.</b>
 </p>
 
 <p align="center">
-  A layered framework for product decision-making — run in VS Code with <a href="https://cline.bot/">Cline</a>, skills, and Confluence MCP.
+  Слоистый фреймворк для продуктовых решений — запуск в VS Code через <a href="https://cline.bot/">Cline</a>, skills и Confluence MCP.
 </p>
 
 <p align="center">
-  <a href="./implementations/quick-start.md"><b>Quick Start</b></a>
+  <a href="./implementations/quick-start.md"><b>Быстрый старт</b></a>
   ·
   <a href="./playbooks/run-hypothesis.md"><b>Playbook</b></a>
   ·
-  <a href="./implementations/README.md"><b>Docs</b></a>
+  <a href="./implementations/README.md"><b>Документация</b></a>
   ·
-  <a href="./examples/example-001/"><b>Example</b></a>
+  <a href="./examples/example-001/"><b>Пример</b></a>
   ·
-  <a href="./architecture/overview.md"><b>Architecture</b></a>
+  <a href="./architecture/overview.md"><b>Архитектура</b></a>
+  ·
+  <a href="./roadmap/README.md"><b>Roadmap</b></a>
   ·
   <a href="./CHANGELOG.md"><b>Changelog</b></a>
-  ·
-  <a href="./implementations/README.ru.md"><b>Документация (RU)</b></a>
 </p>
 
 <p align="center">
-  <img src="./assets/architecture-overview.svg" width="760"/>
+  <img src="./assets/ru/architecture-overview.png" width="760"/>
 </p>
 
 <p align="center">
-  <a href="./assets/architecture-overview.svg">Open architecture diagram</a>
+  <a href="./assets/ru/architecture-overview.png">Открыть диаграмму</a>
 </p>
 
 ---
 
-## Why this exists
+## Зачем это нужно
 
-Most product teams don't fail because they lack ideas.
+Большинство продуктовых команд терпят неудачу не из-за отсутствия идей.
 
-They fail because they:
+А потому что они:
 
-* validate ideas too late
-* rely on intuition
-* mix assumptions with reality
-* avoid confronting contradictions
+* проверяют гипотезы слишком поздно
+* полагаются на интуицию
+* смешивают предположения с реальностью
+* избегают противоречий
 
-This framework helps answer one question early:
+Этот фреймворк помогает ответить на один вопрос:
 
-> **Should this idea exist at all?**
+> **Стоит ли вообще реализовывать эту идею?**
 
 ---
 
-## The core idea
+## Ключевая идея
 
-Do not ask an LLM to generate more ideas.
+Не используйте LLM для генерации ещё большего количества идей.
 
-Use it to apply pressure to the ideas you already have.
+Используйте его, чтобы **нагружать и проверять** уже существующие.
 
 ```text
-idea → stress test → decision
+идея → стресс-тест → решение
 ```
+
+<p align="center">
+  <img src="./assets/ru/pipeline-4-stages.png" width="760"/>
+</p>
 
 ---
 
-## How it works
+## Как это работает
 
-Three analysis layers, Customer Discovery Planning, mandatory Decision Review, then human backlog decision:
+Независимые слои анализа, Customer Discovery Planning, обязательный Decision Review и финальное решение человека:
 
-| Phase | Skill | Output |
-|-------|-------|--------|
-| **Validate** | `hypothesis-input-validation` | ready `input/hypothesis.md` |
+| Фаза | Skill | Результат |
+|------|-------|-----------|
+| **Validate** | `hypothesis-input-validation` | готовый `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
-| **Business Context** (value & strategic fit) | `business-context-value-check` | `business_context_analysis.md` or `missing_business_context.md` |
+| **Local Evidence Discovery** | `local-knowledge-retrieval` | `discovery_preview.md`, `evidence_inventory.md` |
+| **Business Context** (ценность и стратегия) | `business-context-value-check` | `business_context_analysis.md` или `missing_business_context.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
-| **Synthesis** (signal collision) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
 | **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
-| **Backlog Decision** (human) | — | proceed / validate / research / reject |
+| **Backlog Decision** (человек) | — | proceed / validate / research / reject |
 
-Full run (chat-first): `/run-hypothesis-conversational.md`
+<p align="center">
+  <img src="./assets/ru/business-value-flow.png" width="760"/>
+</p>
 
-Full run (file-first): `/run-hypothesis.md`
+Слой Business Context отделяет желаемый эффект от реальной бизнес-ценности — подробнее: [layers/business-context-layer.md](./layers/business-context-layer.md)
 
-Phase by phase:
+Полный прогон (chat-first): `/run-hypothesis-conversational.md`
+
+Полный прогон (file-first): `/run-hypothesis.md`
+
+По фазам:
 
 ```text
 /validate-hypothesis-input.md
@@ -113,54 +110,54 @@ Phase by phase:
 /run-decision-review.md
 ```
 
-Specify `RUN_DIR` in your Cline message, e.g. `RUN_DIR: runs/HYP-2026-06-22-001`
+Указывайте `RUN_DIR` в сообщении Cline, например: `RUN_DIR: runs/HYP-2026-06-22-001`
 
 ---
 
-## Cline implementation
+## Реализация на Cline
 
 <p align="center">
-  <img src="./assets/cline-workflow.svg" width="800"/>
+  <img src="./assets/ru/cline-execution.png" width="800"/>
 </p>
 
-| Component | Location | Purpose |
-|-----------|----------|---------|
-| **Rules** | `.clinerules/` | Persistent framework invariants |
-| **Skills** | `.cline/skills/` | On-demand phase execution |
-| **Workflows** | `.clinerules/workflows/` | Slash commands |
-| **Confluence MCP** | MCP config | Primary local signal source |
+| Компонент | Расположение | Назначение |
+|-----------|--------------|------------|
+| **Rules** | `.clinerules/` | Постоянные инварианты фреймворка |
+| **Skills** | `.cline/skills/` | Выполнение фаз по запросу |
+| **Workflows** | `.clinerules/workflows/` | Slash-команды |
+| **Confluence MCP** | MCP config | Основной источник local signals |
 
-Setup: [implementations/cline-setup.md](./implementations/cline-setup.md)
+Настройка: [implementations/cline-setup.md](./implementations/cline-setup.md)
 
 Confluence MCP: [implementations/confluence-mcp.md](./implementations/confluence-mcp.md)
 
-Contract: [implementations/cline-contract.md](./implementations/cline-contract.md)
+Контракт: [implementations/cline-contract.md](./implementations/cline-contract.md)
 
 ---
 
-## Decision model
+## Модель принятия решений
 
 <p align="center">
-  <img src="./assets/signal-model.svg" width="660"/>
+  <img src="./assets/ru/signal-model.png" width="660"/>
 </p>
 
-The Synthesis layer (`hypothesis-synthesis`) classifies signal collisions into five patterns:
+Synthesis (`hypothesis-synthesis`) классифицирует столкновение сигналов:
 
-* **Validated Opportunity** — internal and external signals align
-* **Internal Illusion** — internal logic looks strong, market does not confirm
-* **Blind Spot** — market signal exists, internal model misses it
-* **Weak Signal** — no strong evidence from either side
-* **Local Optimization Trap** — pain confirmed, but no strategic business value
+* **Validated Opportunity** — внутренние и внешние сигналы совпадают
+* **Internal Illusion** — внутри всё выглядит логично, но рынок не подтверждает
+* **Blind Spot** — рынок показывает возможность, но внутри её не видят
+* **Weak Signal** — слабые сигналы со всех сторон
+* **Local Optimization Trap** — боль подтверждена, но стратегической ценности нет
 
 ---
 
-## Artifact flow
+## Поток артефактов
 
 <p align="center">
-  <img src="./assets/artifact-flow.svg" width="820"/>
+  <img src="./assets/ru/artifact-flow.png" width="820"/>
 </p>
 
-Every run creates a traceable decision trail:
+Каждый запуск создаёт трассируемую цепочку:
 
 ```text
 RUN_DIR/
@@ -180,104 +177,126 @@ RUN_DIR/
     *.marker
 ```
 
-Output language matches `input/hypothesis.md`.
+Язык артефактов совпадает с языком `input/hypothesis.md`.
 
 ---
 
-## Quick start (Cline)
+## Human Decision Report
 
-Full guide: **[implementations/quick-start.md](./implementations/quick-start.md)**
+<p align="center">
+  <img src="./assets/ru/human-report-slice.png" width="760"/>
+</p>
 
-In short:
-
-1. Install [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) in VS Code
-2. Open **your knowledge base** and add the `hypothesis-stress-test/` folder (clone or submodule)
-3. Symlink `.clinerules/` and `.cline/` to the KB root — see [quick start](./implementations/quick-start.md)
-4. Configure [Confluence MCP](./implementations/confluence-mcp.md)
-5. **Chat-first (recommended):** in Cline chat, invoke `/run-hypothesis-conversational.md` — use `#hypothesis` for ready statements or `#context` for dirty discovery notes; confirm draft before `runs/` is created
-6. **File-first (fallback):** create `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — see [templates/input-schema.md](./templates/input-schema.md), then `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
-
-Operational docs: [implementations/README.md](./implementations/README.md)
-
-Manual fallback: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
+`human_report.html` агрегирует артефакты всех этапов в decision-facing отчёт — решение принимает человек. Пример: [examples/example-002/outputs/human_report.html](./examples/example-002/outputs/human_report.html)
 
 ---
 
-## Example
+## Источники доказательств
+
+<p align="center">
+  <img src="./assets/ru/evidence-sources.png" width="760"/>
+</p>
+
+Локальные и внешние источники сходятся в пул проверяемых наблюдений — только факты становятся сигналами для Market Layer.
+
+---
+
+## Быстрый старт (Cline)
+
+Полный гайд: **[implementations/quick-start.md](./implementations/quick-start.md)**
+
+Кратко:
+
+1. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) в VS Code
+2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
+3. Symlink `.clinerules/` и `.cline/` в корень KB — см. [quick start](./implementations/quick-start.md)
+4. Настройте [Confluence MCP](./implementations/confluence-mcp.md)
+5. **Chat-first (рекомендуется):** в чате Cline вызовите `/run-hypothesis-conversational.md` — `#гипотеза` для готовой формулировки или `#контекст` для сырых заметок; подтвердите draft до создания `runs/`
+6. **File-first (fallback):** создайте `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md), затем `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
+
+Операционная документация: [implementations/README.md](./implementations/README.md)
+
+Ручной режим: [playbooks/run-hypothesis.md](./playbooks/run-hypothesis.md)
+
+---
+
+## Пример
 
 ```text
-examples/example-001/    # AppSec — canonical demo
-examples/example-002/    # HR Tech — universality demo
-product-sense/           # Product Sense conference materials
-humanizer/               # Russian writing skills (adapters + USAGE)
+examples/example-001/    # AppSec — эталонный demo
+examples/example-002/    # HR Tech — универсальность подхода
+product-sense/           # материалы для Product Sense
+humanizer/               # навыки редактуры русского (adapters + USAGE)
 ```
 
 Chat-first walkthrough: [examples/chat-first-run.md](./examples/chat-first-run.md)
 
-**example-001:** B2B AppSec — reframe из risk reduction в operational efficiency; **Proceed with Validation**. Артефакты на **русском**.
+**example-001:** AppSec — reframe из risk reduction в operational efficiency; **Proceed with Validation**. Артефакты на **русском**.
 
-**example-002:** B2B HR Tech — reframe из AI auto-ranking в governed recruiter assist. Артефакты на **русском**.
+**example-002:** HR Tech — reframe из AI auto-ranking в governed recruiter assist. Артефакты на **русском**.
 
-Conference talk pack: [product-sense/README.md](./product-sense/README.md) (на русском)
+Материалы конференции: [product-sense/README.md](./product-sense/README.md)
 
-Russian text editing: [humanizer/README.md](./humanizer/README.md) — skill `russian-humanizer` + project voice adapters
+Редактура русского текста: [humanizer/README.md](./humanizer/README.md) — skill `russian-humanizer` + project voice adapters
 
 ---
 
-## Framework vs tooling
+## Фреймворк vs Инструменты
 
 ```text
-Framework  → how to think (layers, contracts, decision model)
-Cline      → how to run it (rules, skills, workflows, MCP)
+Фреймворк  → как думать (слои, контракты, модель решений)
+Cline      → как запускать (rules, skills, workflows, MCP)
 ```
 
-The framework is tool-agnostic. Cline is the primary supported implementation. Manual and API modes are also possible — see [architecture/implementations.md](./architecture/implementations.md).
+Фреймворк не привязан к инструменту. Cline — основная поддерживаемая реализация. Возможны ручной режим и API (см. [architecture/implementations.md](./architecture/implementations.md)).
 
 ---
 
-## Repository structure
+## Структура репозитория
 
 ```text
-.clinerules/       Cline rules and workflows
-.cline/skills/     Cline skills per phase (+ russian-humanizer for text editing)
-layers/            reasoning model
-templates/         manual execution templates
-playbooks/         usage workflows
-examples/          worked examples
-product-sense/     conference talk materials
-humanizer/         writing skills adapters and USAGE (core in .cline/skills/russian-humanizer/references/)
-runs/              hypothesis runs (in KB workspace)
-knowledge-base/    Confluence / local signals guide
-architecture/      system design
-implementations/   Cline setup, Confluence MCP, contract
-assets/            diagrams
-CHANGELOG.md       framework version history
-VERSION            current framework version
+.clinerules/       правила и workflows Cline
+.cline/skills/     skills по фазам (+ russian-humanizer для редактуры текста)
+layers/            логика анализа
+templates/         шаблоны для ручного режима
+playbooks/         сценарии
+examples/          примеры
+product-sense/     материалы конференции
+humanizer/         adapters и USAGE для writing skills (core в .cline/skills/russian-humanizer/references/)
+runs/              прогоны гипотез (в KB workspace)
+knowledge-base/    гайд по Confluence / local signals
+architecture/      устройство системы
+implementations/   настройка Cline, Confluence MCP
+roadmap/           дорожная карта
+assets/ru/         диаграммы (PNG)
+assets/            legacy SVG и прочее
+CHANGELOG.md       история версий фреймворка
+VERSION            текущая версия фреймворка
 ```
 
 ---
 
-## Principles
+## Принципы
 
-* Separate internal and external signals
-* Local evidence inventory first, then Confluence for internal wiki signals
-* No evidence → no claim
-* Contradictions matter more than consensus
-* Challenge conclusions before backlog planning
-* Human makes the backlog decision
-* Bad ideas should die early
+* разделяй внутренние и внешние сигналы
+* сначала local evidence inventory, затем Confluence как внутренний wiki-канал
+* нет данных → нет утверждения
+* противоречия важнее согласия
+* оспаривай выводы перед backlog
+* решение принимает человек
+* плохие идеи должны умирать рано
 
 ---
 
-## What this is not
+## Чем это не является
 
-* an idea generator
-* a replacement for real users and interviews
-* a substitute for full market research
-* an autonomous decision-maker
+* генератором идей
+* заменой реальным пользователям и интервью
+* substitute для полноценного market research
+* автономным decision-maker
 
 ---
 
 <p align="center">
-  <b>Stress-test the idea before you build it.</b>
+  <b>Проверьте идею до того, как начнёте её делать.</b>
 </p>

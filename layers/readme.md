@@ -1,88 +1,88 @@
-# Layers
+# Слои
 
-This directory describes the core reasoning model of the system.
+Эта папка описывает ядро модели рассуждений системы.
 
-The framework is built around **independent layers of analysis**, each producing a different type of signal.
+Фреймворк построен вокруг **независимых слоёв анализа**. Каждый слой даёт свой тип сигнала.
 
 ---
 
-## 🧠 Why layers?
+## Зачем слои?
 
-Most hypothesis validation fails because different signals are mixed too early:
+Большинство проверок гипотез ломается, потому что сигналы смешивают слишком рано:
 
-* internal opinions
-* assumptions
-* market intuition
-* fragmented data
+* внутренние мнения
+* допущения
+* рыночная интуиция
+* разрозненные данные
 
-This leads to:
+Из этого следует:
 
-* false confidence
+* ложная уверенность
 * confirmation bias
-* weak decisions
+* слабые решения
 
 ---
 
-## ⚙️ The Layered Approach
+## Слоистый подход
 
-Instead of mixing signals, the system separates them into distinct layers:
+Сигналы не смешиваются. Система разделяет их по слоям:
 
-1. Internal perspectives
-2. Local evidence discovery (pre-market retrieval)
-3. External reality
-4. Conflict-based synthesis
+1. Внутренние перспективы
+2. Local evidence discovery (сбор до Market)
+3. Внешняя реальность
+4. Синтез через столкновение сигналов
 
-Each analysis layer operates independently.
+Каждый слой анализа работает независимо.
 
-Only after that, signals are compared.
+Только после этого сигналы сравнивают.
 
-After synthesis, **Decision Review** challenges conclusions before backlog planning.
+После synthesis **Decision Review** оспаривает выводы до планирования backlog.
 
 ---
 
-## 🔍 Types of layers
+## Типы слоёв
 
 ### Roles Layer (Internal / Facilitator / Hypothesis Stress Test)
 
-Answers:
+Отвечает на вопрос:
 
-> How does this hypothesis behave across different perspectives?
+> Как гипотеза ведёт себя с разных перспектив?
 
-Focus:
+Фокус:
 
-* value boundaries
-* internal friction
-* hidden assumptions
+* границы ценности
+* внутреннее трение
+* скрытые допущения
 
 ---
 
 ### Market Layer (External)
 
-Answers:
+Отвечает на вопрос:
 
-> Does this problem exist in reality?
+> Существует ли эта проблема в реальности?
 
-Focus:
+Фокус:
 
-* real demand
-* existing solutions
-* signal strength
+* реальный спрос
+* существующие решения
+* сила сигнала
 
 ---
 
 ### Local Evidence Discovery (Pre-Market Retrieval)
 
-Answers:
+Отвечает на вопрос:
 
-> What local evidence exists in the KB before market interpretation?
+> Какие локальные доказательства есть в KB до интерпретации рынка?
 
-Focus:
+Фокус:
 
-* traceable source-linked evidence items
-* retrieval preview (scanned/skipped/candidates)
-* atomic observations without synthesis
+* трассируемые evidence items со ссылкой на источник
+* preview retrieval (scanned / skipped / candidates)
+* атомарные наблюдения без синтеза
 
-Produces:
+Результат:
 
 * `discovery_preview.md`
 * `evidence_inventory.md`
@@ -91,19 +91,19 @@ Produces:
 
 ### Business Context & Value Check
 
-Answers:
+Отвечает на вопрос:
 
-> If this hypothesis is true, how does it create value for the business?
+> Если гипотеза верна, как она создаёт ценность для бизнеса?
 
-Focus:
+Фокус:
 
-* stakeholder value chain (pain / value / decide / pay / block)
-* business effect type and strategic fit
-* separating problem existence from business case plausibility
+* цепочка ценности стейкхолдеров (pain / value / decide / pay / block)
+* тип бизнес-эффекта и стратегическое соответствие
+* отделение «проблема существует» от «бизнес-кейс правдоподобен»
 
-Produces:
+Результат:
 
-* `business_context_analysis.md` or `missing_business_context.md`
+* `business_context_analysis.md` или `missing_business_context.md`
 
 ---
 
@@ -111,50 +111,50 @@ Produces:
 
 Skill: `hypothesis-synthesis`
 
-Answers:
+Отвечает на вопрос:
 
-> What becomes visible only when internal and external signals collide?
+> Что видно только при столкновении внутренних и внешних сигналов?
 
-Focus:
+Фокус:
 
-* cross-signal analysis (roles vs market)
-* contradictions and blind spots
-* local optimization traps
-* applicability boundaries and reframe impact
+* кросс-анализ сигналов (roles vs market)
+* противоречия и слепые зоны
+* ловушки локальной оптимизации
+* границы применимости и влияние на reframe
 
-Signal categories: Validated Opportunity, Internal Illusion, Blind Spot, Weak Signal, Local Optimization Trap.
+Категории сигналов: Validated Opportunity, Internal Illusion, Blind Spot, Weak Signal, Local Optimization Trap.
 
-Does not summarize without comparison. Does not add new market or role data.
+Не пересказывает без сравнения. Не добавляет новые market- или role-данные.
 
 ---
 
 ### Decision Review (Adversarial Gate)
 
-Answers:
+Отвечает на вопрос:
 
-> Why might the synthesis conclusion be wrong?
+> Почему вывод synthesis может быть неверным?
 
-Focus:
+Фокус:
 
-* weak evidence and overconfidence
-* hidden assumptions
-* cheapest validation path
+* слабые доказательства и избыточная уверенность
+* скрытые допущения
+* самый дешёвый путь валидации
 
-This is not a fourth signal layer. It critiques existing artifacts only.
-
----
-
-## 🔥 Key Principle
-
-> Truth emerges not from agreement, but from contradictions.
-
-The system is designed to expose tension, not remove it.
+Это не четвёртый слой сигналов. Критикуются только уже существующие артефакты.
 
 ---
 
-## 🔄 Execution Model
+## Ключевой принцип
 
-Layers are executed sequentially:
+> Истина проявляется не из согласия, а из противоречий.
+
+Система должна вскрывать напряжение, а не снимать его.
+
+---
+
+## Модель выполнения
+
+Слои идут последовательно:
 
 1. Roles Layer
 2. Local Evidence Discovery
@@ -162,38 +162,38 @@ Layers are executed sequentially:
 4. Market Layer
 5. Synthesis Layer
 6. Customer Discovery Planning
-7. Decision Review (mandatory gate)
+7. Decision Review (обязательный gate)
 8. Human Decision Report Export
-9. Human backlog decision
+9. Решение человека по backlog
 
-Each analysis layer:
+Каждый слой анализа:
 
-* consumes structured input
-* produces structured output
-* does not override previous layers
-
----
-
-## ⚠️ Important Constraints
-
-* Layers must remain independent
-* Signals must not be mixed prematurely
-* Each layer has a clearly defined responsibility
+* принимает структурированный вход
+* выдаёт структурированный выход
+* не перезаписывает предыдущие слои
 
 ---
 
-## 🧬 What this enables
+## Ограничения
 
-* reproducible reasoning
-* reduced bias
-* faster decision-making
-* clearer outcomes
+* слои остаются независимыми
+* сигналы не смешиваются преждевременно
+* у каждого слоя своя ответственность
 
 ---
 
-## 📘 Next
+## Что это даёт
 
-See:
+* воспроизводимые рассуждения
+* меньше смещения
+* быстрее решения
+* яснее исходы
+
+---
+
+## Дальше
+
+См.:
 
 * `roles-layer.md`
 * `market-layer.md`

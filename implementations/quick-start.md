@@ -1,120 +1,118 @@
-Language: **English** | [Русский](./quick-start.ru.md)
+# Быстрый старт
 
-# Quick Start
+Короткий путь: от установки Cline до первого прогона гипотезы за 10–15 минут.
 
-Short path from Cline installation to your first hypothesis run in 10–15 minutes.
-
-Full documentation: [README.md](../README.md)
+Полная документация: [README.md](./README.md)
 
 ---
 
-## Prerequisites
+## Что понадобится
 
 - VS Code
 - [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev)
-- LLM provider API key (or local model)
-- Confluence MCP (recommended) — [confluence-mcp.md](./confluence-mcp.md)
+- API-ключ LLM-провайдера (или локальная модель)
+- Confluence MCP (рекомендуется) — [confluence-mcp.md](./confluence-mcp.md)
 
 ---
 
-## Step 1. Install Cline
+## Шаг 1. Установить Cline
 
-1. Open VS Code → Extensions → search **Cline** → Install.
-2. Configure your LLM provider and API key in Cline settings.
+1. Откройте VS Code → Extensions → найдите **Cline** → Install.
+2. В настройках Cline укажите провайдера LLM и API-ключ.
 
 ---
 
-## Step 2. Open your project
+## Шаг 2. Открыть проект
 
-**Recommended:** open **your knowledge base** as the main project and add a `hypothesis-stress-test/` folder with the full framework repo. Details — [Knowledge base and workspace](#knowledge-base-and-workspace).
+**Рекомендуется:** откройте **свою базу знаний** как главный проект и добавьте в неё папку `hypothesis-stress-test/` с полным репозиторием фреймворка. Подробности — в разделе [База знаний и workspace](#база-знаний-и-workspace).
 
-**Alternative:** open only the framework repository:
+**Альтернатива:** откройте только репозиторий фреймворка:
 
 ```text
 git clone <repo-url>
 code hypothesis-stress-test
 ```
 
-Cline auto-discovers from the **workspace root**:
+Cline автоматически подхватит из **корня workspace**:
 
-- Rules from `.clinerules/` (including `workflows/` — slash commands)
-- Skills from `.cline/skills/`
+- Rules из `.clinerules/` (включая `workflows/` — slash-команды)
+- Skills из `.cline/skills/`
 
-Check the Cline panel: Rules icon (scales) — framework rules should be listed and enabled.
+Проверьте в панели Cline: иконка Rules (весы) — правила фреймворка должны быть включены.
 
 ---
 
-## Knowledge base and workspace
+## База знаний и workspace
 
-Your knowledge base and the framework wrapper are **different things**. You do **not** need two separate VS Code windows.
+База знаний и обвязка фреймворка — **разные вещи**. Открывать оба проекта одновременно **не обязательно**.
 
-| What | Source | Depends on open project? |
-| ------ | -------- | -------------------------- |
-| Wrapper (rules, skills, workflows) | `.clinerules/`, `.cline/skills/` | **Yes** — from open workspace root only |
-| Confluence (wiki) | Confluence MCP in Cline | **No** — configured once, works in any workspace |
-| Local KB files | Markdown notes in a repo | **Yes** — Cline reads files in the open project |
-| Run artifacts | `RUN_DIR/outputs/` | Any folder **inside** the open workspace |
+| Что | Откуда | Зависит от открытого проекта? |
+| ----- | -------- | ------------------------------- |
+| Обвязка (rules, skills, workflows) | `.clinerules/`, `.cline/skills/` | **Да** — только из корня открытого workspace |
+| Confluence (wiki) | Confluence MCP в Cline | **Нет** — настраивается один раз, работает из любого workspace |
+| Локальные файлы KB | Markdown и заметки в репозитории | **Да** — Cline читает файлы открытого проекта |
+| Артефакты прогона | `RUN_DIR/outputs/` | Любая папка **внутри** открытого workspace |
 
-The `knowledge-base/` folder in this repo is **documentation** about Confluence search — not your personal knowledge base.
+Папка `knowledge-base/` в этом репозитории — **документация** о поиске в Confluence, а не ваша личная база знаний.
 
-### Option A (recommended): KB as main project + `hypothesis-stress-test/` folder
+### Вариант A (рекомендуется): KB — главный проект + папка `hypothesis-stress-test/`
 
-You already have a project open — **your knowledge base**. Add a folder with the full framework repository:
+У вас уже есть открытый проект — **ваша база знаний**. Добавьте в него папку с полным репозиторием фреймворка:
 
 ```text
-my-knowledge-base/                    ← open in VS Code
-  discovery/                          ← your KB: notes, interviews, research
+my-knowledge-base/                    ← открыт в VS Code
+  discovery/                          ← ваша KB: заметки, интервью, research
   knowledge-base/
-    interviews/                        ← raw CustDev notes and interview summaries
-    persona-builds/                    ← logs of persona rebuilds from evidence
-    personas/                          ← reusable role profiles
+    interviews/                        ← сырые CustDev-заметки и саммари интервью
+    persona-builds/                    ← логи пересборки персон из evidence
+    personas/                          ← переиспользуемые профили ролей
   research/
   adr/
-  runs/                               ← RUN_DIR for hypotheses (next to KB)
+  runs/                               ← RUN_DIR для гипотез (рядом с KB)
     HYP-2026-06-22-001/
       input/
         hypothesis.md
       outputs/
-  hypothesis-stress-test/               ← full framework repository
+  hypothesis-stress-test/               ← весь репозиторий фреймворка
     .clinerules/                      ← rules + workflows (/run-hypothesis-conversational.md, /run-hypothesis.md)
-    .cline/skills/                    ← per-layer skills
-    templates/                        ← manual mode templates
+    .cline/skills/                    ← skills по слоям
+    templates/                        ← шаблоны для ручного режима
     playbooks/
     examples/
-    implementations/                  ← docs (quick start, MCP, setup)
+    implementations/                  ← документация (quick start, MCP, setup)
     ...
 ```
 
-Add the folder:
+Добавить папку:
 
 ```bash
 cd my-knowledge-base
 git submodule add https://github.com/SergeyNash/hypothesis-stress-test.git hypothesis-stress-test
-# or: git clone <repo-url> hypothesis-stress-test
+# или: git clone <repo-url> hypothesis-stress-test
 ```
 
-**Important for Cline:** rules and skills are discovered at the **workspace root**, not inside a nested folder. After adding `hypothesis-stress-test/`, do one of the following:
+**Важно про Cline:** rules и skills ищутся в **корне workspace**, а не внутри вложенной папки. После добавления `hypothesis-stress-test/` сделайте одно из двух:
 
-**A1 — symlinks at KB root (good for submodules):**
+**A1 — symlink в корне KB (удобно для submodule):**
 
 ```bash
-# Windows (cmd as admin) or mklink in PowerShell
+# Windows (cmd as admin) или mklink в PowerShell
 mklink /D .clinerules hypothesis-stress-test\.clinerules
 mklink /D .cline hypothesis-stress-test\.cline
 ```
 
-**A2 — copy dot-folders to KB root** (if symlinks are not an option):
+**A2 — скопировать dot-папки в корень KB** (если symlink не подходит):
 
 ```bash
 cp -r hypothesis-stress-test/.clinerules .
 cp -r hypothesis-stress-test/.cline .
 ```
 
-Benefits: one window; KB and framework side by side; `runs/` lives in your project; docs always at `hypothesis-stress-test/implementations/`.
+Плюсы: одно окно; KB и фреймворк рядом; `runs/` живёт в вашем проекте; документация всегда под рукой в `hypothesis-stress-test/implementations/`.
 
-### Option B: multi-root workspace
+### Вариант B: multi-root workspace
 
-Two repos, one VS Code window. Create `my-work.code-workspace`:
+Два репозитория рядом, одно окно VS Code. Файл `my-work.code-workspace`:
 
 ```json
 {
@@ -125,98 +123,98 @@ Two repos, one VS Code window. Create `my-work.code-workspace`:
 }
 ```
 
-Cline picks up rules/skills from the `hypothesis-stress-test` root. `RUN_DIR` — in KB: `runs/HYP-2026-06-22-001/`. Context via `@discovery/...`.
+Cline подхватит rules/skills из корня `hypothesis-stress-test`. `RUN_DIR` — в KB: `runs/HYP-2026-06-22-001/`. Контекст — через `@discovery/...`.
 
-### Option C: hypothesis-stress-test only
+### Вариант C: только hypothesis-stress-test
 
-Open the framework repo as workspace. Best when KB is mainly in **Confluence**, not local files.
+Открываете репозиторий фреймворка как workspace. Подходит, если KB в основном в **Confluence**, а не в локальных файлах.
 
-### How to connect knowledge sources
+### Как подключить источники знаний
 
-**Confluence (primary path):**
+**Confluence (основной путь):**
 
-1. Configure Confluence MCP — [confluence-mcp.md](./confluence-mcp.md).
-2. Run Local Evidence Discovery (`/run-knowledge-retrieval.md`) to build local file inventory.
-3. Market Layer reads inventory first, then searches Confluence.
-4. Results go to `market_analysis.md` with separate channels: KB / Confluence / External / Inferred.
+1. Настройте Confluence MCP — [confluence-mcp.md](./confluence-mcp.md).
+2. Запустите Local Evidence Discovery (`/run-knowledge-retrieval.md`) для inventory локальных файлов.
+3. Market Layer читает inventory и затем ищет сигналы в Confluence.
+4. Результаты пишутся в `market_analysis.md` с раздельными каналами: KB / Confluence / External / Inferred.
 
-**Local files:**
+**Локальные файлы:**
 
-- Open the repository containing your notes (option A or B).
-- Cline reads them in Local Evidence Discovery.
-- File-based findings are stored in `outputs/evidence_inventory.md` before Market interpretation.
+- Откройте репозиторий, где лежат заметки (вариант A или B).
+- Cline читает их на шаге Local Evidence Discovery.
+- File-based findings сначала попадают в `outputs/evidence_inventory.md`, затем интерпретируются в Market Layer.
 
-**Personas and interviews:**
+**Personas и интервью:**
 
-- Store raw CustDev materials in `knowledge-base/interviews/`.
-- Store current reusable role profiles in `knowledge-base/personas/`.
-- Store rebuild logs in `knowledge-base/persona-builds/`.
-- Roles Layer can use matching personas as supporting context.
-- A persona without linked `source_interviews` is a weak local signal, not primary evidence.
+- Сырые CustDev-материалы храните в `knowledge-base/interviews/`.
+- Текущие переиспользуемые профили ролей храните в `knowledge-base/personas/`.
+- Логи пересборки персон храните в `knowledge-base/persona-builds/`.
+- Roles Layer может использовать совпадающие personas как supporting context.
+- Persona без связанных `source_interviews` — слабый локальный сигнал, а не первичное evidence.
 
-Without Confluence and without local files in the workspace, retrieval + market will record missing local evidence gaps.
-
----
-
-## Step 3. Configure Confluence MCP
-
-Market Layer uses `evidence_inventory.md` first, then Confluence MCP.
-
-Minimal setup: [confluence-mcp.md](./confluence-mcp.md).
-
-Without Confluence, Market Layer marks `missing local evidence` — the run still works, but without internal data.
+Без Confluence и без локальных файлов retrieval + market зафиксируют gap по local evidence.
 
 ---
 
-## Step 4. Run (chat-first — recommended)
+## Шаг 3. Настроить Confluence MCP
 
-In Cline chat:
+Market Layer сначала использует `evidence_inventory.md`, затем Confluence MCP.
+
+Минимальная настройка — см. [confluence-mcp.md](./confluence-mcp.md).
+
+Без Confluence Market Layer пометит `missing local evidence` — прогон возможен, но без внутренних данных.
+
+---
+
+## Шаг 4. Запустить прогон (chat-first — рекомендуется)
+
+В чате Cline:
 
 ```text
 /run-hypothesis-conversational.md
 
-If [action], then [expected outcome for a specific audience].
+Если [действие], то [ожидаемый результат для конкретной аудитории].
 ```
 
-**Dirty discovery notes?** Start with `#context` (or `#контекст`):
+**Сырые discovery-заметки?** Начните с `#контекст` (или `#context`):
 
 ```text
 /run-hypothesis-conversational.md
-#context
+#контекст
 
-[paste Q&A table, CustDev notes, or unstructured client context]
+[вставьте таблицу Q&A, CustDev или неструктурированный контекст клиента]
 ```
 
-### Intake trigger tags
+### Trigger-теги intake
 
-| Tag | Use when |
-| --- | -------- |
-| `#hypothesis` | Clear If…then statement already |
-| `#context` | Dirty notes, Q&A tables, discovery paste |
-| `#roles` | Roles listed; need statement and context |
-| `#new-run` | Explicit new archive (implied when no `RUN_DIR:`) |
+| Тег | Когда |
+| --- | ----- |
+| `#гипотеза` / `#hypothesis` | Уже есть чёткая If…then / Если…то формулировка |
+| `#контекст` / `#context` | Сырые заметки, таблицы, discovery |
+| `#роли` / `#roles` | Перечислены роли; нужен statement и context |
+| `#новая` / `#new-run` | Явно новый прогон (подразумевается без `RUN_DIR:`) |
 
-**Two-step confirm:** (1) hypothesis draft (2) proposed `RUN_DIR` (e.g. `002` if `001` exists).  
-`runs/` is created **only after** both confirms. Until then: `runs/ NOT created yet`.
+**Двойной confirm:** (1) draft гипотезы (2) предложенный `RUN_DIR` (напр. `002`, если `001` уже есть).  
+`runs/` создаётся **только после** обоих подтверждений. До этого: `runs/ ещё НЕ создан`.
 
-The agent will:
+Агент:
 
-1. Detect intake mode (tag or auto-detect)
-2. For `#context`: extract fields, validate mapping with you, then show draft card
-3. Ask short guided questions only for missing fields
-4. Show draft and wait for **Confirm draft**
-5. Propose new `runs/HYP-YYYY-MM-DD-NNN/` in dialog (list existing runs; do not touch them)
-6. Wait for **Confirm create** — then bootstrap `input/hypothesis.md`
-7. Validate input
-8. Run the full pipeline (Facilitator → Local Evidence Discovery → Market → Synthesis → Customer Discovery Planning → Decision Review)
+1. Определит режим intake (тег или auto-detect)
+2. Для `#контекст`: извлечёт поля, покажет mapping для подтверждения, затем draft карточки
+3. Задаст короткие вопросы только по недостающим полям
+4. Покажет draft и дождётся **Подтвердить карточку**
+5. Предложит новый `runs/HYP-YYYY-MM-DD-NNN/` в диалоге (покажет существующие; не трогает их)
+6. Дождётся **Подтвердить создание** — затем bootstrap `input/hypothesis.md`
+7. Провалидирует вход
+8. Запустит полный pipeline
 
-Approve file writes and MCP tool calls when prompted.
+Подтверждайте запись файлов и вызовы MCP по запросу.
 
-Walkthrough: [examples/chat-first-run.md](../examples/chat-first-run.md)
+Пошаговый пример: [examples/chat-first-run.md](../examples/chat-first-run.md)
 
 ---
 
-## Step 4b. Create RUN_DIR (file-first — fallback)
+## Шаг 4b. Создать RUN_DIR (file-first — fallback)
 
 ```text
 runs/HYP-2026-06-22-001/
@@ -225,7 +223,7 @@ runs/HYP-2026-06-22-001/
     attachments/
 ```
 
-Minimal `input/hypothesis.md` example:
+Минимальный пример `input/hypothesis.md`:
 
 ```markdown
 # Hypothesis
@@ -239,60 +237,60 @@ Minimal `input/hypothesis.md` example:
 
 ## Statement
 
-If [action], then [expected outcome for a specific audience].
+Если [действие], то [ожидаемый результат для конкретной аудитории].
 
 ## Relevant Roles
 
-* Role 1
-* Role 2
+* Роль 1
+* Роль 2
 
 ## Research Context
 
-* Domain: [domain]
-* Target audience: [audience]
-* Scenario: [scenario]
+* Domain: [домен]
+* Target audience: [аудитория]
+* Scenario: [сценарий]
 ```
 
-Full schema: `hypothesis-stress-test/templates/input-schema.md` (or [templates/input-schema.md](../templates/input-schema.md) if workspace = framework).
+Полная схема: `hypothesis-stress-test/templates/input-schema.md` (или [templates/input-schema.md](../templates/input-schema.md) если workspace = фреймворк).
 
-Example: `hypothesis-stress-test/examples/example-001/input/hypothesis.md`
+Пример: `hypothesis-stress-test/examples/example-001/input/hypothesis.md`
 
-If `knowledge-base/personas/` contains matching role profiles, the Roles Layer can use them as supporting context. The role list in `input/hypothesis.md` still defines the scope for the current run.
+Если в `knowledge-base/personas/` есть совпадающие профили ролей, Roles Layer может использовать их как supporting context. Список ролей в `input/hypothesis.md` всё равно задаёт scope конкретного прогона.
 
 ---
 
-## Step 5. Run (file-first)
+## Шаг 5. Запустить прогон (file-first)
 
-In Cline chat:
+В чате Cline:
 
 ```text
 RUN_DIR: runs/HYP-2026-06-22-001
 /run-hypothesis.md
 ```
 
-Cline will:
+Cline выполнит:
 
-1. Validate input
-2. Run Facilitator (Roles Layer)
-3. Run Local Evidence Discovery (preview + inventory)
-4. Run Market Layer (inventory + Confluence search)
-5. Run Synthesis Layer
-6. Run Customer Discovery Planning
-7. Run Decision Review
+1. Валидацию входа
+2. Facilitator (Roles Layer)
+3. Local Evidence Discovery (preview + inventory)
+4. Market Layer (inventory + поиск в Confluence)
+5. Synthesis Layer
+6. Customer Discovery Planning
+7. Decision Review
 
-Approve file writes and MCP tool calls when prompted.
+Подтверждайте запись файлов и вызовы MCP по запросу.
 
 ---
 
-## Step 6. Read the result
+## Шаг 6. Прочитать результат
 
-Start with:
+Сначала откройте:
 
 ```text
 runs/HYP-2026-06-22-001/outputs/hypothesis_digest.txt
 ```
 
-Full analysis:
+Полный анализ:
 
 ```text
 outputs/
@@ -309,30 +307,30 @@ outputs/
   human_report.html
 ```
 
-| Artifact | Contents |
-| ---------- | ---------- |
-| `human_report.html` | **Open in browser** — decision report: confidence, readiness, what changed, next steps, grouped artifact links |
-| `hypothesis_digest.txt` | Short digest (max 150 words): viability, conflict, illusion, blind spot, next step |
-| `hypothesis_map.md` | Signal collision: divergences, blind spots, new information, applicability, reframe impact |
-| `customer_discovery_plan.md` | Interview-ready CustDev plan: unknowns, priorities, target roles, interview guide |
-| `decision_review.md` | Adversarial review: confidence, risks, validation plan |
-| `market_analysis.md` | KB signals + Confluence + external + inferred channels with sources |
+| Артефакт | Что внутри |
+| ---------- | ------------ |
+| `human_report.html` | **Открыть в браузере** — decision report: confidence, readiness, what changed, next steps, сгруппированные ссылки |
+| `hypothesis_digest.txt` | Краткий digest (макс. 150 слов): жизнеспособность, конфликт, иллюзия, слепая зона, следующий шаг |
+| `hypothesis_map.md` | Столкновение сигналов: дивергенции, слепые зоны, новая информация, границы, влияние на гипотезу |
+| `customer_discovery_plan.md` | Практичный CustDev-план: неизвестные, приоритеты, роли, гайд интервью |
+| `decision_review.md` | Adversarial review: уверенность, риски, план валидации |
+| `market_analysis.md` | Раздельные каналы KB + Confluence + external + inferred с источниками |
 
 ---
 
-## Troubleshooting
+## Если что-то пошло не так
 
-| Issue | Fix |
-| ------- | ----- |
-| Rules not visible | Check `.clinerules/` at **workspace root** (symlink from `hypothesis-stress-test/`); reload VS Code |
-| Workflow does not start | Specify `RUN_DIR:` explicitly for file-first, or use `/run-hypothesis-conversational.md` for chat-first |
-| Confluence MCP fails | [confluence-mcp.md](./confluence-mcp.md) |
-| Missing outputs | Check which layer did not finish (marker files in `outputs/`) |
+| Проблема | Решение |
+| ---------- | --------- |
+| Rules не видны | Проверьте `.clinerules/` в **корне** workspace (symlink из `hypothesis-stress-test/`); перезагрузите VS Code |
+| Workflow не запускается | Укажите `RUN_DIR:` явно для file-first или используйте `/run-hypothesis-conversational.md` для chat-first |
+| Confluence MCP не работает | [confluence-mcp.md](./confluence-mcp.md) |
+| Нет outputs | Проверьте, какой слой не завершился (marker-файлы в `outputs/`) |
 
 ---
 
-## Next steps
+## Куда идти дальше
 
-- [cline-setup.md](./cline-setup.md) — full Cline setup
-- [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) — detailed run playbook
-- [examples/example-001/](../examples/example-001/) — canonical example with artifacts
+- [cline-setup.md](./cline-setup.md) — полная настройка Cline
+- [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) — детальный сценарий прогона
+- [examples/example-001/](../examples/example-001/) — эталонный пример с артефактами

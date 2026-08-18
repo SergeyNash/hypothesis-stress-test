@@ -1,54 +1,52 @@
-Language: **English** | [Русский](./validate-input.ru.md)
+# Валидация входа
 
-# Validate Input
+Перед запуском системы проверьте входные данные гипотезы.
 
-Before running the system, validate the hypothesis input.
+**Cline:** `/validate-hypothesis-input.md` или skill `hypothesis-input-validation`
 
-**Cline:** `/validate-hypothesis-input.md` or skill `hypothesis-input-validation`
-
-**Chat-first:** if input is collected via `/run-hypothesis-conversational.md`, validation runs automatically after bootstrap. On failure, skill `conversational-hypothesis-intake` repairs the draft before re-validation.
+**Chat-first:** при сборе входа через `/run-hypothesis-conversational.md` валидация запускается автоматически после bootstrap. При ошибке skill `conversational-hypothesis-intake` уточняет draft перед повторной валидацией.
 
 ---
 
-## Checks
+## Проверки
 
-### 1. Hypothesis
+### 1. Гипотеза
 
-* Is it specific?
-* Is it testable?
+* Конкретна ли?
+* Проверяема ли?
 
 ---
 
-### 2. Roles
+### 2. Роли
 
-* Are roles defined?
-* Are they real (not generic)?
-* Are they relevant?
+* Роли определены?
+* Реальные ли (не generic)?
+* Релевантны ли?
 
 ---
 
 ### 3. Research Context
 
-* Is domain defined?
-* Is audience defined?
-* Is scenario concrete?
+* Определён ли domain?
+* Определена ли audience?
+* Конкретен ли scenario?
 
 ---
 
-## If missing
+## Если чего-то не хватает
 
-Do NOT run the system.
+НЕ запускайте систему.
 
-Instead, ask:
+Вместо этого спросите:
 
-* “Who is affected by this?”
-* “In what context does this happen?”
-* “What exactly changes?”
+* «Кого это затрагивает?»
+* «В каком контексте это происходит?»
+* «Что именно меняется?»
 
 ---
 
-## Principle
+## Принцип
 
-Bad input is not processed.
+Плохой вход не обрабатывается.
 
-It is refined.
+Он уточняется.

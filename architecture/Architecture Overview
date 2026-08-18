@@ -1,222 +1,185 @@
-# Architecture Overview
+# Обзор архитектуры
 
-This document describes the internal structure of the Hypothesis Stress Test framework.
-
----
-
-## 🧠 System Purpose
-
-The system is designed to support **product decision-making under uncertainty**.
-
-It transforms a hypothesis into:
-
-* structured internal signals
-* structured external signals
-* explicit contradictions
+Документ описывает внутреннее устройство фреймворка Hypothesis Stress Test.
 
 ---
 
-## ⚙️ High-Level Model
+## Назначение системы
 
-The system consists of four stages:
+Система поддерживает **продуктовые решения в условиях неопределённости**.
 
-```text id="m2xg5u"
-Input → Roles Layer → Local Evidence Discovery → Market Layer → Synthesis Layer → Decision Insight
+Она превращает гипотезу в:
+
+* структурированные внутренние сигналы
+* структурированные внешние сигналы
+* явные противоречия
+
+Актуальный пайплайн v2.4: см. [overview.md](./overview.md).
+
+---
+
+## Модель верхнего уровня
+
+```text
+Input → Roles Layer → Local Evidence Discovery → Business Context → Market Layer → Synthesis Layer → Customer Discovery Planning → Decision Review → решение человека
 ```
 
 ---
 
-## 🧩 Core Components
+## Основные компоненты
 
 ### 1. Input
 
-A structured hypothesis including:
+Структурированная гипотеза:
 
 * statement
 * relevant roles
 * research context
 
-This defines the scope of analysis.
+Это задаёт scope анализа.
 
 ---
 
 ### 2. Roles Layer (Internal)
 
-Produces:
+Производит:
 
-* internal signals
-* constraints
-* applicability boundaries
+* внутренние сигналы
+* ограничения
+* границы применимости
 
-Source of truth:
-
-→ product knowledge and user understanding
+Источник истины: продуктовое знание и понимание пользователей.
 
 ---
 
 ### 3. Market Layer (External)
 
-Produces:
+Производит:
 
-* external signals
-* evidence-based validation
-* signal strength
+* внешние сигналы
+* evidence-based проверку
+* силу сигнала
 
-Source of truth:
-
-→ market data, research, external sources
+Источник истины: рыночные данные, research, внешние источники.
 
 ---
 
 ### 4. Synthesis Layer (Conflict)
 
-Produces:
+Производит:
 
-* hypothesis classification
-* contradictions
-* decision boundaries
+* классификацию гипотезы
+* противоречия
+* границы решения
 
-Source of truth:
-
-→ comparison of previous layers
+Источник истины: сравнение предыдущих слоёв.
 
 ---
 
-## 🔄 Data Flow
+## Поток данных
 
-Each stage:
+Каждый этап:
 
-* consumes structured input
-* produces structured output
-* does not override previous results
+* принимает структурированный вход
+* выдаёт структурированный выход
+* не перезаписывает предыдущие результаты
 
-Artifacts flow forward:
-
-```text id="3ybd6o"
-Roles → Market → Synthesis
-```
+Артефакты идут вперёд по слоям.
 
 ---
 
-## 🧠 Signal Model
+## Модель сигналов
 
-The system operates on two types of signals:
+### Внутренние сигналы
 
-### Internal Signals
+* ролевой анализ
+* допущения
+* ограничения
 
-* role-based analysis
-* assumptions
-* constraints
+### Внешние сигналы
 
----
-
-### External Signals
-
-* market evidence
-* real-world patterns
-* observed behaviors
+* рыночные доказательства
+* паттерны реального мира
+* наблюдаемое поведение
 
 ---
 
-## ⚡ Decision Logic
+## Логика решений
 
-The system does not make decisions directly.
+Система не принимает решения сама.
 
-Instead, it exposes:
+Она показывает:
 
-* alignment
-* contradictions
-* missing signals
+* выравнивание
+* противоречия
+* отсутствующие сигналы
 
-This makes decisions **obvious, not automated**.
-
----
-
-## 🧬 Key Principles
-
-### 1. Separation of Concerns
-
-Each layer has a single responsibility.
-
-Signals are not mixed prematurely.
+Решения становятся **очевидными, а не автоматическими**.
 
 ---
 
-### 2. Evidence Over Assumption
+## Ключевые принципы
 
-* no evidence → no claim
-* uncertainty is acceptable
+### 1. Разделение ответственности
 
----
+У каждого слоя одна ответственность. Сигналы не смешиваются преждевременно.
 
-### 3. Conflict Over Consensus
+### 2. Evidence важнее допущения
 
-Contradictions are not resolved.
+* нет evidence → нет утверждения
+* неопределённость допустима
 
-They are surfaced and analyzed.
+### 3. Конфликт важнее консенсуса
 
----
+Противоречия не сглаживаются. Их вскрывают и анализируют.
 
-### 4. Human-in-the-Loop
+### 4. Human-in-the-loop
 
-The system does not replace decision-making.
-
-It supports it.
+Система не заменяет принятие решений. Она его поддерживает.
 
 ---
 
-## ⚠️ Constraints
+## Ограничения
 
-* quality depends on input quality
-* requires real user knowledge
-* does not replace market research
-* does not generate product ideas
+* качество зависит от качества входа
+* нужны реальные знания о пользователях
+* не заменяет market research
+* не генерирует продуктовые идеи
 
 ---
 
-## 🔧 Implementation
+## Имплементация
 
-The framework is **tool-agnostic**.
+Фреймворк **tool-agnostic**.
 
-It can be implemented using:
+Его можно запускать через:
 
 * ChatGPT
-* local LLMs
-* LLM-based tools
-* API workflows
+* локальные LLM
+* инструменты на базе LLM
+* API-пайплайны
 
-Templates define execution, not infrastructure.
+Шаблоны задают выполнение, а не инфраструктуру.
 
 ---
 
-## 📦 Output Model
+## Модель output
 
-Each run produces a traceable set of artifacts:
+Каждый прогон даёт трассируемый набор артефактов в `RUN_DIR/outputs/`.
 
-```text id="f9gq5t"
-RUN_DIR/
-  outputs/
-    role_outputs/
-    hypothesis_summary.md
-    market_analysis.md
-    hypothesis_map.md
+---
+
+## Результат
+
+```text
+неопределённая идея → структурированный инсайт
 ```
 
 ---
 
-## 🚀 Result
+## Связанные материалы
 
-The system transforms:
-
-```text id="fj1k64"
-uncertain idea → structured insight
-```
-
----
-
-## 📘 Related
-
-* `/layers/` — reasoning model
-* `/playbooks/` — usage
-* `/templates/` — execution
-* `/examples/` — real cases
+* `/layers/` — модель рассуждений
+* `/playbooks/` — использование
+* `/templates/` — ручное выполнение
+* `/examples/` — эталонные прогоны

@@ -1,16 +1,16 @@
-# Templates
+# Шаблоны
 
-This directory contains execution templates for running the framework manually.
+В этой папке лежат шаблоны выполнения для ручного запуска фреймворка.
 
-Templates define **how each layer is invoked**, not how the model is configured.
+Шаблоны задают **как вызывается каждый слой**, а не как конфигурируется модель.
 
-For **Cline execution**, use skills in `.cline/skills/` instead — these templates are the source material for those skills.
+Для **запуска в Cline** используйте skills в `.cline/skills/` — эти шаблоны являются исходным материалом для тех skills.
 
 ---
 
-## What are templates?
+## Что такое шаблоны?
 
-Templates are structured prompts used to execute each layer:
+Шаблоны — структурированные промпты для выполнения каждого слоя:
 
 * Roles Layer
 * Local Evidence Discovery
@@ -20,41 +20,41 @@ Templates are structured prompts used to execute each layer:
 * Decision Review
 * Human Decision Report Export
 
-They act as an **interface between the user and the system**.
+Они работают как **интерфейс между пользователем и системой**.
 
 ---
 
-## Not system prompts
+## Это не системные промпты
 
-Templates are NOT full system prompts.
+Шаблоны НЕ являются полными системными промптами.
 
-They provide:
+Они задают:
 
-* input structure
-* task definition
-* expected outputs
+* структуру входа
+* определение задачи
+* ожидаемые outputs
 
 ---
 
-## How to use
+## Как использовать
 
-### 1. Cline (recommended)
+### 1. Cline (рекомендуется)
 
-**Chat-first (new hypothesis):**
+**Chat-first (новая гипотеза):**
 
 ```text
 /run-hypothesis-conversational.md
 ```
 
-**File-first (existing RUN_DIR):**
+**File-first (существующий RUN_DIR):**
 
 ```text
 /run-hypothesis.md
 ```
 
-Skills map from templates:
+Соответствие шаблонов и skills:
 
-| Template | Skill |
+| Шаблон | Skill |
 |----------|-------|
 | `facilitator-prompt.md` | `hypothesis-facilitator` |
 | `knowledge-retrieval-prompt.md` | `local-knowledge-retrieval` |
@@ -64,50 +64,50 @@ Skills map from templates:
 | `decision-review-prompt.md` | `hypothesis-decision-review` |
 | `human-report-template.html` | `human-report-export` |
 | `input-schema.md` | `hypothesis-input-validation` |
-| `input-schema.md` | `conversational-hypothesis-intake` (draft generation) |
+| `input-schema.md` | `conversational-hypothesis-intake` (генерация draft) |
 
-### 2. Direct usage (manual)
+### 2. Прямое использование (вручную)
 
-Copy the template, fill in hypothesis, roles, and context. Run as a standard prompt in any LLM.
+Скопируйте шаблон, заполните гипотезу, роли и контекст. Запустите как обычный промпт в любой LLM.
 
-### 3. Internal workflow
+### 3. Внутренний workflow
 
-Follow steps manually without automation.
-
----
-
-## What each template includes
-
-* required inputs
-* task description
-* output expectations
+Следуйте шагам вручную без автоматизации.
 
 ---
 
-## Relationship with other parts
+## Что входит в каждый шаблон
 
-* Playbook → describes the process
-* Templates → manual execution
-* Skills → Cline automated execution
-* Layers → define reasoning logic
-
----
-
-## Important
-
-Templates assume:
-
-* a clear hypothesis
-* defined roles
-* basic research context
-
-If input is weak → output will be weak.
+* обязательные входы
+* описание задачи
+* ожидания по output
 
 ---
 
-## Next
+## Связь с другими частями
 
-See:
+* Playbook → описывает процесс
+* Шаблоны → ручной запуск
+* Skills → автоматизированный запуск в Cline
+* Слои → задают логику рассуждения
+
+---
+
+## Важно
+
+Шаблоны предполагают:
+
+* ясную гипотезу
+* определённые роли
+* базовый research-контекст
+
+Если вход слабый → выход будет слабым.
+
+---
+
+## Дальше
+
+См.:
 
 * `facilitator-prompt.md`
 * `knowledge-retrieval-prompt.md`

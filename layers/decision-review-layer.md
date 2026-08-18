@@ -1,48 +1,48 @@
 # Decision Review
 
-Decision Review is the **adversarial gate** after Customer Discovery Planning.
+Decision Review — **adversarial gate** после Customer Discovery Planning.
 
-It does not re-analyze the hypothesis. It challenges conclusions already produced by the framework.
+Он не переанализирует гипотезу. Он оспаривает выводы, которые фреймворк уже произвёл.
 
 ---
 
-## Purpose
+## Назначение
 
-Act as an independent reviewer. Identify:
+Работать как независимый ревьюер. Выявлять:
 
-- weak evidence
-- overconfidence
-- unsupported conclusions
-- hidden assumptions
-- reasoning gaps
+- слабые доказательства
+- избыточную уверенность
+- необоснованные выводы
+- скрытые допущения
+- пробелы в рассуждении
 - confirmation bias
-- missing validation
-- overlooked risks
+- отсутствующую валидацию
+- упущенные риски
 
-Goal: improve decision quality before a hypothesis enters backlog planning or implementation.
-
----
-
-## Core principle
-
-Assume the current conclusion may be wrong.
-
-Your task is not to support the recommendation.
-
-Your task is to identify why the recommendation may fail.
+Цель: повысить качество решения до того, как гипотеза попадёт в планирование backlog или реализацию.
 
 ---
 
-## Inputs
+## Ключевой принцип
 
-Required:
+Исходите из того, что текущий вывод может быть неверным.
+
+Ваша задача — не поддержать рекомендацию.
+
+Ваша задача — найти, почему рекомендация может провалиться.
+
+---
+
+## Входы
+
+Обязательно:
 
 - `input/hypothesis.md`
 - `hypothesis_summary.md`
 - `market_analysis.md`
 - `hypothesis_map.md`
 
-Optional:
+Опционально:
 
 - `role_outputs/*`
 - `hypothesis_digest.txt`
@@ -50,15 +50,15 @@ Optional:
 
 ---
 
-## Review process
+## Процесс ревью
 
-1. **Evaluate evidence quality** — classify each major conclusion: Strong / Moderate / Weak / Unsupported
-2. **Identify hidden assumptions** — what must be true for the hypothesis to work?
-3. **Search for missing perspectives** — finance, compliance, operations, platform teams, etc.
-4. **Evaluate scalability** — at 10 / 50 / 100 / enterprise scale
-5. **Evaluate business risk** — false positive and false negative risk
-6. **Challenge the recommendation** — actively attempt to disprove it
-7. **Design the cheapest validation** — maximum learning per unit of effort
+1. **Оценить качество доказательств** — классифицировать каждый крупный вывод: Strong / Moderate / Weak / Unsupported
+2. **Найти скрытые допущения** — что должно быть истинным, чтобы гипотеза сработала?
+3. **Искать отсутствующие перспективы** — finance, compliance, operations, platform-команды и т.д.
+4. **Оценить масштабируемость** — на масштабе 10 / 50 / 100 / enterprise
+5. **Оценить бизнес-риск** — риск false positive и false negative
+6. **Оспорить рекомендацию** — активно пытаться её опровергнуть
+7. **Спроектировать самую дешёвую валидацию** — максимум обучения на единицу усилий
 
 ---
 
@@ -66,11 +66,11 @@ Optional:
 
 `outputs/decision_review.md`
 
-### Structure
+### Структура
 
 - Executive Summary (confidence: High / Medium / Low; recommendation: Proceed / Proceed with Validation / Additional Research Required / Reject)
-- Evidence Quality Review (table)
-- Hidden Assumptions (table)
+- Evidence Quality Review (таблица)
+- Hidden Assumptions (таблица)
 - Missing Perspectives
 - Scalability Risks
 - Business Risks (false positive / false negative)
@@ -79,32 +79,32 @@ Optional:
 
 ---
 
-## Review rules
+## Правила ревью
 
-- Never repeat the synthesis
-- Never summarize existing outputs
-- Always add new critical thinking
-- Always look for weaknesses
-- Always assume uncertainty exists
-- If no weaknesses are found, explicitly explain why confidence is high
-
----
-
-## Relationship with other phases
-
-- Roles Layer → internal signals
-- Market Layer → external signals
-- Synthesis Layer → conflict classification
-- Customer Discovery Planning → interview-focused learning plan
-- **Decision Review** → adversarial critique of synthesis conclusions
-- **Human** → backlog decision
-
-Decision Review does not introduce new data. It critiques existing artifacts only.
+- Никогда не повторять synthesis
+- Никогда не суммировать уже существующие outputs
+- Всегда добавлять новое критическое мышление
+- Всегда искать слабые места
+- Всегда исходить из того, что неопределённость есть
+- Если слабых мест нет, явно объяснить, почему уверенность высокая
 
 ---
 
-## Next
+## Связь с другими фазами
 
-- `templates/decision-review-prompt.md` — manual execution
-- `.cline/skills/hypothesis-decision-review/SKILL.md` — Cline execution
-- `playbooks/run-hypothesis.md` — full pipeline
+- Roles Layer → внутренние сигналы
+- Market Layer → внешние сигналы
+- Synthesis Layer → классификация конфликтов
+- Customer Discovery Planning → план обучения через интервью
+- **Decision Review** → adversarial-критика выводов synthesis
+- **Человек** → решение по backlog
+
+Decision Review не вводит новые данные. Критикует только уже существующие артефакты.
+
+---
+
+## Дальше
+
+- `templates/decision-review-prompt.md` — ручной запуск
+- `.cline/skills/hypothesis-decision-review/SKILL.md` — запуск в Cline
+- `playbooks/run-hypothesis.md` — полный пайплайн

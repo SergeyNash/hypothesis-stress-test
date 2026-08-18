@@ -1,39 +1,39 @@
-# Local Evidence Discovery (Design, Phase A)
+# Local Evidence Discovery (дизайн, Phase A)
 
-This document defines the design for Local Evidence Discovery as an extension of roadmap P0 ("unstructured local knowledge base").
+Этот документ задаёт дизайн Local Evidence Discovery как расширение пункта roadmap P0 («неструктурированная локальная база знаний»).
 
-This file remains the design reference for Local Evidence Discovery.
+Файл остаётся дизайн-референсом для Local Evidence Discovery.
 
-Implementation artifacts (skill/workflow/contracts/docs integration) are tracked separately in repository files.
+Артефакты реализации (интеграция skill/workflow/контрактов/документации) отслеживаются отдельно в файлах репозитория.
 
-## 1) Purpose and boundaries
+## 1) Назначение и границы
 
-Local Evidence Discovery is not "document search."
+Local Evidence Discovery — это не «поиск по документам».
 
-Its goal is to collect a small, traceable set of evidence items for analysis layers.
+Цель — собрать небольшой, трассируемый набор evidence items для слоёв анализа.
 
 ```text
 hypothesis -> local evidence discovery -> evidence_inventory.md -> market_analysis.md
 ```
 
-Core principle: **no evidence -> no claim**.
+Ключевой принцип: **нет evidence -> нет утверждения**.
 
-### Original Phase A scope
+### Исходный scope Phase A
 
-- Retrieval architecture proposal
-- `discovery_preview.md` and `evidence_inventory.md` design
-- Evidence contract proposal
-- Example workflow proposal
+- Предложение архитектуры retrieval
+- Дизайн `discovery_preview.md` и `evidence_inventory.md`
+- Предложение контракта evidence
+- Предложение примерного workflow
 
-### Originally out of scope for Phase A
+### Изначально вне scope Phase A
 
-- Implementing new skills/workflows/templates
-- Updating `.clinerules/10-artifact-contracts.md`
-- Editing Market Layer implementation
+- Реализация новых skills/workflows/templates
+- Обновление `.clinerules/10-artifact-contracts.md`
+- Правки реализации Market Layer
 
-## 2) Canonical workspace topology
+## 2) Каноническая топология workspace
 
-Recommended setup:
+Рекомендуемая схема:
 
 ```text
 my-knowledge-base/                 <- workspace root
@@ -48,46 +48,46 @@ my-knowledge-base/                 <- workspace root
   .cline/
 ```
 
-Folder names above are illustrative, not required taxonomy.
+Имена папок выше иллюстративные, не обязательная таксономия.
 
-### Scan/exclude rules (V1 design)
+### Правила scan/exclude (дизайн V1)
 
-- Scan root: KB workspace root (recursive)
-- Exclude: `hypothesis-stress-test/`, `runs/`, `.git/`, `.clinerules/`, `.cline/`, `node_modules/`
-- Treat ad-hoc and mixed folders as valid sources
+- Корень сканирования: корень KB workspace (рекурсивно)
+- Исключить: `hypothesis-stress-test/`, `runs/`, `.git/`, `.clinerules/`, `.cline/`, `node_modules/`
+- Ad-hoc и смешанные папки считать валидными источниками
 
-## 3) Unstructured KB policy
+## 3) Политика неструктурированной KB
 
-V1 assumes a "messy vault" and must be safe by default.
+V1 исходит из «messy vault» и должен быть безопасен по умолчанию.
 
 ### Safety guardrails
 
-Defaults to define in implementation:
+Дефолты, которые нужно задать в реализации:
 
-- `max_files_scanned` (example: 200)
-- `max_file_size` (example: 2 MB)
-- `max_evidence_items` (example: 20)
-- `supported_extensions` whitelist
-- `skip_binary_by_default` for unsupported binaries
+- `max_files_scanned` (пример: 200)
+- `max_file_size` (пример: 2 MB)
+- `max_evidence_items` (пример: 20)
+- whitelist `supported_extensions`
+- `skip_binary_by_default` для неподдерживаемых бинарников
 
-If a limit is reached, write explicit `limit_reached` status in preview/inventory metadata.
+Если лимит достигнут, явно писать статус `limit_reached` в метаданных preview/inventory.
 
-## 4) Supported source kinds (V1 design)
+## 4) Поддерживаемые виды источников (дизайн V1)
 
-| source_kind | Examples | V1 handling |
+| source_kind | Примеры | Обработка V1 |
 | --- | --- | --- |
-| `markdown` | `.md`, `.markdown` | read text with quote anchor |
-| `text` | `.txt`, `.log`, `.csv` | read text with quote anchor |
-| `image` | `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif` | multimodal observation |
-| `transcript` | `.srt`, `.vtt`, transcript `.md`/`.txt` | read text with timestamp/section anchor |
-| `audio` | `.mp3`, `.wav`, `.m4a`, `.ogg` | use companion transcript, else metadata-only stub |
-| `video` | `.mp4`, `.mov`, `.webm`, `.mkv` | use companion transcript, else metadata-only stub |
+| `markdown` | `.md`, `.markdown` | читать текст с quote-якорем |
+| `text` | `.txt`, `.log`, `.csv` | читать текст с quote-якорем |
+| `image` | `.png`, `.jpg`, `.jpeg`, `.webp`, `.gif` | multimodal-наблюдение |
+| `transcript` | `.srt`, `.vtt`, транскрипт `.md`/`.txt` | читать текст с якорем timestamp/section |
+| `audio` | `.mp3`, `.wav`, `.m4a`, `.ogg` | использовать companion-транскрипт, иначе stub только с метаданными |
+| `video` | `.mp4`, `.mov`, `.webm`, `.mkv` | использовать companion-транскрипт, иначе stub только с метаданными |
 
-Explicitly unsupported in V1 extraction: `.pdf`, `.docx`, `.html`, `.pptx`, `.xlsx` (mark `skipped_unreadable` in preview).
+Явно не поддерживается извлечение в V1: `.pdf`, `.docx`, `.html`, `.pptx`, `.xlsx` (помечать `skipped_unreadable` в preview).
 
-## 5) Retrieval flow and preview
+## 5) Поток retrieval и preview
 
-Preview is always produced first, then discovery auto-continues (no interactive stop in V1).
+Preview всегда создаётся первым, затем discovery продолжается автоматически (без интерактивной остановки в V1).
 
 ```mermaid
 flowchart TD
@@ -103,11 +103,11 @@ flowchart TD
   inventory --> market
 ```
 
-### `discovery_preview.md` (proposal)
+### `discovery_preview.md` (предложение)
 
-Purpose: auditability before extraction.
+Назначение: аудируемость до extraction.
 
-Required sections:
+Обязательные секции:
 
 - Limits applied
 - Files scanned
@@ -115,22 +115,22 @@ Required sections:
 - Candidate files
 - Top relevant files with planned evidence type
 
-V1 behavior: preview generation is mandatory; extraction continues automatically after preview.
+Поведение V1: генерация preview обязательна; extraction продолжается автоматически после preview.
 
-## 6) Evidence inventory proposal
+## 6) Предложение evidence inventory
 
-`evidence_inventory.md` stores atomic local evidence, not market conclusions.
+`evidence_inventory.md` хранит атомарные локальные доказательства, а не рыночные выводы.
 
-### Why Inventory Exists
+### Зачем нужен Inventory
 
-`evidence_inventory.md` exists to separate retrieval from analysis.
+`evidence_inventory.md` существует, чтобы отделить retrieval от анализа.
 
-- Retrieval discovers evidence.
-- Market Layer interprets evidence.
-- Synthesis resolves contradictions.
-- Each layer has a single responsibility.
+- Retrieval обнаруживает доказательства.
+- Market Layer интерпретирует доказательства.
+- Synthesis разрешает противоречия.
+- У каждого слоя одна ответственность.
 
-Example structure:
+Пример структуры:
 
 ```markdown
 # Evidence Inventory
@@ -165,11 +165,11 @@ Example structure:
 - Relevance reason: Diagram explicitly shows queue wait time in CI scanning workflow
 ```
 
-## 7) Evidence contract proposal
+## 7) Предложение контракта evidence
 
-One evidence item must represent one atomic signal, without synthesis.
+Один evidence item должен представлять один атомарный сигнал, без синтеза.
 
-Forbidden:
+Запрещено:
 
 ```text
 Observation:
@@ -179,7 +179,7 @@ Reason:
 This is synthesis.
 ```
 
-Allowed:
+Разрешено:
 
 ```text
 Observation:
@@ -189,29 +189,29 @@ Source:
 workshop_queue.md
 ```
 
-| Field | Required | Notes |
+| Поле | Обязательно | Заметки |
 | --- | --- | --- |
-| `evidence_id` | yes | `EVID-NNN` |
-| `source_path` | yes | relative to KB workspace root |
-| `source_kind` | yes | `markdown`/`text`/`image`/`audio`/`video`/`transcript` |
-| `location` | optional | lines, heading, timestamp |
-| `companion_source` | optional | transcript sidecar path for media |
-| `evidence_type` | yes | `quote`, `transcript_excerpt`, `image_observation`, `metadata_only`, `observation` |
-| `extraction_note` | required for `image_observation` | extraction method only |
-| `observation` | yes | atomic fact or quote; no summary synthesis |
-| `relevance` | yes | short topic tag |
-| `relevance_reason` | yes | why item is relevant to hypothesis |
-| `retrieved_by` | yes | skill and run context |
+| `evidence_id` | да | `EVID-NNN` |
+| `source_path` | да | относительно корня KB workspace |
+| `source_kind` | да | `markdown`/`text`/`image`/`audio`/`video`/`transcript` |
+| `location` | опционально | строки, heading, timestamp |
+| `companion_source` | опционально | путь sidecar-транскрипта для медиа |
+| `evidence_type` | да | `quote`, `transcript_excerpt`, `image_observation`, `metadata_only`, `observation` |
+| `extraction_note` | обязательно для `image_observation` | только метод извлечения |
+| `observation` | да | атомарный факт или цитата; без summary-синтеза |
+| `relevance` | да | короткий тег темы |
+| `relevance_reason` | да | почему item релевантен гипотезе |
+| `retrieved_by` | да | skill и контекст прогона |
 
-Rules:
+Правила:
 
-- No generalized observations
-- `metadata_only` cannot be promoted to factual claim
-- If no extractable evidence exists, write explicit gap status
+- Без обобщённых наблюдений
+- `metadata_only` нельзя повышать до фактического утверждения
+- Если извлекаемых доказательств нет, явно писать статус gap
 
-## 8) Market integration contract (design-only)
+## 8) Контракт интеграции с Market (только дизайн)
 
-Market output should keep separate signal channels:
+Market output должен держать отдельные каналы сигналов:
 
 ```markdown
 ## Local Signals from Knowledge Base
@@ -220,9 +220,9 @@ Market output should keep separate signal channels:
 ## Inferred Signals
 ```
 
-Local findings should reference `EVID-NNN`, preserve `evidence_type`, and carry `relevance_reason`.
+Локальные findings должны ссылаться на `EVID-NNN`, сохранять `evidence_type` и нести `relevance_reason`.
 
-## 9) Example workflow
+## 9) Пример workflow
 
 ```text
 Hypothesis
@@ -234,16 +234,16 @@ Hypothesis
   -> Synthesis
 ```
 
-Example candidate paths:
+Примеры путей кандидатов:
 
 - `notes_2024/workshop_queue.md`
 - `custdev raw/whiteboard.jpg`
 - `custdev raw/2025-03-interview.srt` (+ companion `.mp4`)
 
-## 10) Phase split
+## 10) Разделение фаз
 
-Phase A: design + roadmap alignment — **completed**.
+Phase A: дизайн + выравнивание с roadmap — **завершена**.
 
-Phase B: skill/workflow/docs/contracts integration — **completed** (v2.3.0).
+Phase B: интеграция skill/workflow/docs/контрактов — **завершена** (v2.3.0).
 
-See `examples/example-001/` for canonical mixed-source discovery outputs.
+Канонические mixed-source outputs discovery см. в `examples/example-001/`.

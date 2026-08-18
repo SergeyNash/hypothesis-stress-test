@@ -1,48 +1,50 @@
-Language: **English** | [Русский](./README.ru.md)
+# Документация по имплементации
 
-# Implementation Documentation
+Операционные гайды для запуска Hypothesis Stress Test через Cline.
 
-Operational guides for running Hypothesis Stress Test with Cline.
+## Быстрый старт
 
-## Quick start
+- **[quick-start.md](./quick-start.md)** — короткий путь от нуля до первого прогона; **chat-first рекомендуется** (`/run-hypothesis-conversational.md`)
+- [Chat-first walkthrough](../examples/chat-first-run.md) — пошаговый conversational прогон
 
-- [Quick Start](./quick-start.md) — short path to first run; **chat-first recommended** (`/run-hypothesis-conversational.md`)
-- [Быстрый старт (RU)](./quick-start.ru.md) — русская версия
-- [Cline Setup](./cline-setup.md) — full installation and configuration
-- [Chat-first walkthrough](../examples/chat-first-run.md) — step-by-step conversational run
+## Настройка и MCP
 
-## Setup and MCP
+| Гайд | Описание |
+|------|----------|
+| [cline-setup.md](./cline-setup.md) | Установка Cline, открытие репозитория, первый запуск |
+| [confluence-mcp.md](./confluence-mcp.md) | Настройка Confluence MCP (основной источник local signals) |
+| [cline-contract.md](./cline-contract.md) | Соответствие концепций фреймворка компонентам Cline |
 
-| Guide | Description |
-|-------|-------------|
-| [cline-setup.md](./cline-setup.md) | Install Cline, open repo, first run |
-| [confluence-mcp.md](./confluence-mcp.md) | Confluence MCP configuration (primary local signals) |
-| [cline-contract.md](./cline-contract.md) | Mapping framework concepts to Cline components |
+## Архитектура
 
-## Architecture
-
-| Guide | Description |
-|-------|-------------|
-| [architecture/overview.md](../architecture/overview.md) | System overview |
-| [architecture/implementations.md](../architecture/implementations.md) | Implementation options |
-| [architecture/diagram.md](../architecture/diagram.md) | Diagrams |
-| [architecture/run-structure.md](../architecture/run-structure.md) | RUN_DIR structure |
+| Гайд | Описание |
+|------|----------|
+| [architecture/overview.md](../architecture/overview.md) | Обзор системы |
+| [architecture/implementations.md](../architecture/implementations.md) | Варианты имплементации |
+| [architecture/diagram.md](../architecture/diagram.md) | Диаграммы |
+| [architecture/run-structure.md](../architecture/run-structure.md) | Структура RUN_DIR |
 
 ## Playbooks
 
-| Guide | Description |
-|-------|-------------|
-| [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) | Full hypothesis run |
-| [playbooks/validate-input.md](../playbooks/validate-input.md) | Input validation |
+| Гайд | Описание |
+|------|----------|
+| [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) | Полный прогон гипотезы |
+| [playbooks/validate-input.md](../playbooks/validate-input.md) | Валидация входа |
 
-## Knowledge base
+## База знаний
 
-| Guide | Description |
-|-------|-------------|
-| [knowledge-base/README.md](../knowledge-base/README.md) | Confluence search guidance |
+| Гайд | Описание |
+|------|----------|
+| [knowledge-base/README.md](../knowledge-base/README.md) | Поиск в Confluence |
 
-## Example
+## Roadmap
 
-- [examples/chat-first-run.md](../examples/chat-first-run.md) — chat-first entry path
-- [examples/run.md](../examples/run.md) — how example-001 was processed (file-first)
-- [examples/example-001/](../examples/example-001/) — canonical outputs
+| Гайд | Описание |
+|------|----------|
+| [roadmap/README.md](../roadmap/README.md) | Дорожная карта развития фреймворка (только RU) |
+
+## Пример
+
+- [examples/chat-first-run.md](../examples/chat-first-run.md) — chat-first сценарий входа
+- [examples/run.md](../examples/run.md) — как обработан example-001 (file-first)
+- [examples/example-001/](../examples/example-001/) — эталонные артефакты

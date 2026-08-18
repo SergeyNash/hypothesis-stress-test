@@ -5,7 +5,6 @@
 ## Зачем
 
 - Единый **conference-minimal** стиль ([STYLE.md](./STYLE.md))
-- Парные **EN / RU** версии
 - Покрытие README, architecture и Product Sense deck
 - Закрытие пробелов текущих диаграмм (Business Context, Human Report, 4 этапа для зала)
 
@@ -40,7 +39,7 @@ illustration-prompts/
 
 Обновить `<img src>` в:
 
-- `README.md` / `README.ru.md`
-- `architecture/diagram.md` / `diagram.ru.md`
+- `README.md`
+- `architecture/diagram.md`
 
 До появления файлов README продолжает ссылаться на legacy `assets/*.svg`.

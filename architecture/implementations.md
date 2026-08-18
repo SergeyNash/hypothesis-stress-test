@@ -1,110 +1,110 @@
-Language: **English** | [Русский](./implementations.ru.md)
+# Имплементации
 
-# Implementations
-
-This framework is tool-agnostic at its core. The **primary supported implementation** is **Cline in VS Code**.
+Ядро фреймворка tool-agnostic. **Основная поддерживаемая имплементация** — **Cline в VS Code**.
 
 ---
 
-## Framework vs Tooling
+## Фреймворк vs инструменты
 
 ```text
-Framework  = how to think (layers, contracts, decision model)
-Cline impl = how to run it (rules, skills, workflows, MCP)
+Фреймворк  = как думать (слои, контракты, модель решений)
+Cline impl = как запускать (rules, skills, workflows, MCP)
 ```
 
-The framework defines layers and reasoning contracts. Cline provides execution, file artifacts, and Confluence integration.
+Фреймворк определяет слои и контракты рассуждений. Cline обеспечивает выполнение, файловые артефакты и интеграцию с Confluence.
 
 ---
 
-## Primary: Cline (VS Code)
+## Основная: Cline (VS Code)
 
-### Components
+### Компоненты
 
-| Piece | Location |
-|-------|----------|
+| Элемент | Расположение |
+|---------|--------------|
 | Rules | `.clinerules/` |
 | Skills | `.cline/skills/` |
 | Workflows | `.clinerules/workflows/` |
-| Setup guide | [implementations/cline-setup.md](../implementations/cline-setup.md) |
-| Contract | [implementations/cline-contract.md](../implementations/cline-contract.md) |
+| Гайд по настройке | [implementations/cline-setup.md](../implementations/cline-setup.md) |
+| Контракт | [implementations/cline-contract.md](../implementations/cline-contract.md) |
 
-### Quick start
+### Быстрый старт
 
-1. Install Cline extension in VS Code
-2. Open this repository
-3. Configure [Confluence MCP](../implementations/confluence-mcp.md)
-4. **Chat-first:** invoke `/run-hypothesis-conversational.md` in Cline chat — see [examples/chat-first-run.md](../examples/chat-first-run.md)
-5. **File-first:** create `RUN_DIR/input/hypothesis.md`, then run `/run-hypothesis.md`
+1. Установить расширение Cline в VS Code
+2. Открыть репозиторий
+3. Настроить [Confluence MCP](../implementations/confluence-mcp.md)
+4. **Chat-first:** вызвать `/run-hypothesis-conversational.md` в чате Cline — см. [examples/chat-first-run.md](../examples/chat-first-run.md)
+5. **File-first:** создать `RUN_DIR/input/hypothesis.md`, затем `/run-hypothesis.md`
 
-### Mapping
+Подробнее: [implementations/quick-start.md](../implementations/quick-start.md)
+
+### Соответствие
 
 ```text
 Template (templates/*.md)  → Cline skill (SKILL.md)
-Playbook step              → Cline workflow (slash command)
-RUN_DIR                    → local filesystem workspace
-Layer output               → markdown artifact in outputs/
-Confluence pages           → local signals in market_analysis.md
+Шаг playbook             → Cline workflow (slash command)
+RUN_DIR                    → локальная рабочая директория
+Output слоя                → markdown-артефакт в outputs/
+Страницы Confluence        → local signals в market_analysis.md
 ```
 
 ---
 
-## Confluence MCP (required for full Market Layer)
+## Confluence MCP (для полноценного Market Layer)
 
-Confluence is the **primary MCP source** for local signals.
+Confluence — **основной MCP-источник** local signals.
 
-- Search internal wiki for discovery notes, past decisions, research
-- Cite pages in `market_analysis.md`
-- Without MCP: document `missing local evidence`
+- Поиск во внутренней wiki: discovery, прошлые решения, research
+- Цитирование страниц в `market_analysis.md`
+- Без MCP: фиксировать `missing local evidence`
 
-See [implementations/confluence-mcp.md](../implementations/confluence-mcp.md).
-
----
-
-## Manual implementation
-
-Copy templates from `templates/`, fill in hypothesis and context, run in any LLM interface, save artifacts manually.
-
-Best for: first experiments, environments without Cline.
-
-Steps:
-
-1. Copy template for a layer
-2. Insert hypothesis and context
-3. Run in LLM interface
-4. Save output to `RUN_DIR/outputs/`
-5. Move to next layer
+См. [implementations/confluence-mcp.md](../implementations/confluence-mcp.md).
 
 ---
 
-## API-based implementation (future)
+## Ручная имплементация
 
-Programmatic execution via LLM API calls:
+Скопируйте шаблоны из `templates/`, заполните гипотезу и контекст, запускайте в любом LLM-интерфейсе, сохраняйте артефакты вручную.
+
+Подходит для: первых экспериментов, сред без Cline.
+
+Шаги:
+
+1. Скопировать шаблон слоя
+2. Вставить гипотезу и контекст
+3. Запустить в LLM
+4. Сохранить output в `RUN_DIR/outputs/`
+5. Перейти к следующему слою
+
+---
+
+## API-имплементация (будущее)
+
+Программное выполнение через вызовы LLM API:
 
 ```text
 hypothesis → roles call → market call → synthesis call → decision review call → artifacts
 ```
 
-Useful for high-frequency or CI-integrated analysis. Not included in v1.
+Для высокочастотного или CI-интегрированного анализа. Не входит в v1.
 
 ---
 
-## Implementation maturity
+## Зрелость имплементации
 
-| Level | Method | Best for |
-|-------|--------|----------|
-| 1 — Manual | Copy templates | Individual experiments |
-| 2 — Cline assisted | Rules + skills + workflows | Regular use, small teams |
-| 3 — Automated | API pipeline | High-frequency, platforms |
+| Уровень | Метод | Для кого |
+|---------|-------|----------|
+| 1 — Manual | Копирование templates | Индивидуальные эксперименты |
+| 2 — Cline assisted | Rules + skills + workflows | Регулярное использование, малые команды |
+| 3 — Automated | API pipeline | Высокая частота, платформы |
 
 ---
 
 ## Legacy: RooCode
 
-Previous versions targeted RooCode. RooCode is no longer supported. Legacy screenshots are in `assets/legacy/`. Use Cline as the supported IDE adapter.
+Ранние версии ориентировались на RooCode. RooCode больше не поддерживается. Скриншоты в `assets/legacy/`. Используйте Cline как поддерживаемый IDE-адаптер.
 
 ---
 
-## Key principle
+## Ключевой принцип
 
-Implementation should not change the reasoning model. Tools may vary. The layers stay the same.
+Имплементация не должна менять модель рассуждений. Инструменты могут отличаться. Слои остаются теми же.

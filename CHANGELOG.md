@@ -1,212 +1,211 @@
-Language: **English** | [Русский](./CHANGELOG.ru.md)
-
 # Changelog
 
-All notable changes to the **Hypothesis Stress Test** framework are documented in this file.
+В этом файле фиксируются все значимые изменения фреймворка **Hypothesis Stress Test**.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Формат основан на [Keep a Changelog](https://keepachangelog.com/ru/1.1.0/),
+версионирование следует [Semantic Versioning](https://semver.org/lang/ru/).
 
-Current version: see [VERSION](./VERSION).
+Текущая версия: см. [VERSION](./VERSION).
 
-## Versioning policy
+## Политика версий
 
-| Bump | When |
-| ---- | ---- |
-| **MAJOR** | Breaking changes to run structure, artifact contracts, or required input |
-| **MINOR** | New layers, skills, workflows, or optional capabilities |
-| **PATCH** | Documentation, clarifications, non-breaking skill or rule tweaks |
+| Уровень | Когда повышать |
+| ------- | -------------- |
+| **MAJOR** | Breaking changes в структуре прогона, контрактах артефактов или обязательном входе |
+| **MINOR** | Новые слои, skills, workflows или опциональные возможности |
+| **PATCH** | Документация, уточнения, некритичные правки skills и rules |
 
-Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-DD-NNN`).
+Версия фреймворка не совпадает с ID отдельных прогонов гипотез (`HYP-YYYY-MM-DD-NNN`).
 
 ---
 
 ## [2.4.0] — 2026-07-03
 
-### Added
+### Добавлено
 
-- **Business Context & Value Check** — layer, skill `business-context-value-check`, workflow `/run-business-context-value-check.md`.
-- Artifacts: `business_context_analysis.md`, `missing_business_context.md`, `business_context_complete.marker`.
-- Layer doc: `layers/business-context-layer.md`; manual template: `templates/business-context-prompt.md`.
-- **Executive Human Report** — business value, top contradictions, cheapest validation sections in template and skill.
-- **example-002** — B2B HR Tech universality demo with full pipeline outputs.
-- **product-sense/** — conference materials (talk outline, framework laws, LLM mistakes, demo script).
-- Strategy KB samples in `examples/example-001/kb-samples/strategy/`.
+- **Business Context & Value Check** — слой, skill `business-context-value-check`, workflow `/run-business-context-value-check.md`.
+- Артефакты: `business_context_analysis.md`, `missing_business_context.md`, `business_context_complete.marker`.
+- **Executive Human Report** — секции business value, contradictions, cheapest validation.
+- **example-002** — HR Tech demo для универсальности подхода.
+- **product-sense/** — материалы конференции Product Sense.
 
-### Changed
+### Изменено
 
-- Pipeline order: Roles → Evidence → **Business Context** → Market → Synthesis → CustDev → Decision Review → Human Report.
-- `examples/example-001` — business context artifacts and upgraded executive `human_report.html`.
-- README, playbooks, architecture overview, layers readme, artifact contracts — Business Context integration.
-- Framework version **2.4.0**.
+- Порядок pipeline: Roles → Evidence → **Business Context** → Market → Synthesis → …
+- example-001 обновлён: business context + executive report.
+- Версия фреймворка **2.4.0**.
 
 ---
 
 ## [Unreleased]
 
-### Added
+### Добавлено
 
-- **Russian writing skills** — sync upstream [`russian-humanizer`](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer) into `.cline/skills/russian-humanizer/` with bundled `references/`.
+- **`assets/ru/`** — 8 диаграмм Tier A+B (PNG): architecture-overview, pipeline-4-stages, artifact-flow, signal-model, evidence-sources, cline-execution, business-value-flow, human-report-slice.
+- **Russian writing skills** — sync upstream [`russian-humanizer`](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer) в `.cline/skills/russian-humanizer/` с bundled `references/`.
 - Project voice adapters: `humanizer/adapters/PRODUCT_SENSE_VOICE.md`, `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md`.
-- `humanizer/USAGE.md` — mode + adapter selection guide.
-- `product-sense/street-parable.md` — public explainer validation example (fiction mode).
-- **Human Decision Report MVP** — decision-facing `human_report.html` after Decision Review.
-- Skill: `human-report-export` — compile verdict, readiness, reframing, validation priorities from existing artifacts.
+- `humanizer/USAGE.md` — когда какой mode и adapter использовать.
+- `product-sense/street-parable.md` — validation example для публичного объяснения (fiction mode).
+- **Human Decision Report MVP** — decision-facing `human_report.html` после Decision Review.
+- Skill: `human-report-export` — компиляция verdict, readiness, reframing, validation priorities из существующих артефактов.
 - Workflow: `/run-human-report-export.md`.
 - Template: `templates/human-report-template.html`.
-- Report sections: What changed?, Decision Readiness, grouped Detailed Artifacts with relative links.
+- Секции отчёта: What changed?, Decision Readiness, сгруппированные Detailed Artifacts с relative links.
 - Marker: `human_report_complete.marker`.
-- Example: `examples/example-001/outputs/human_report.html`.
+- Пример: `examples/example-001/outputs/human_report.html`.
 
-### Changed
+### Изменено
 
-- `humanizer/README.md` — entry point for writing skills; core rules moved to skill `references/`.
-- `product-sense/HUMANIZE.md` — updated adapter and reference paths.
-- `README.md`, `README.ru.md` — `humanizer/` in repo structure; link to writing skills.
-- `implementations/cline-contract.md` — editorial skills section for `russian-humanizer`.
-- `/run-hypothesis.md` — Human Decision Report Export as Step 8 (after Decision Review).
-- `.clinerules/10-artifact-contracts.md` — `human_report.html` contract, readiness mapping, relative-link rules.
-- Playbooks, examples, architecture run-structure, cline-contract — human report as main human-facing output.
-- `roadmap/README.md` — P1 Phase 1 marked implemented.
+- `README.ru.md`, `architecture/diagram.ru.md` — иллюстрации Tier A+B из `assets/ru/` (PNG); секции Cline, Business Context, human_report.
+- `README.md` — русский язык и README.ru.md как основной в language bar.
+- `illustration-prompts/INDEX.md`, `STYLE.md` — пути output RU для Tier A (PNG).
+- `humanizer/README.md` — entry point; core rules переехали в skill `references/`.
+- `product-sense/HUMANIZE.md` — новые пути adapters и references.
+- `README.md`, `README.ru.md` — `humanizer/` в структуре репо; ссылка на writing skills.
+- `implementations/cline-contract.ru.md` — секция editorial skills для `russian-humanizer`.
+- `/run-hypothesis.md` — Human Decision Report Export как шаг 8 (после Decision Review).
+- `.clinerules/10-artifact-contracts.md` — контракт `human_report.html`, mapping readiness, правила relative links.
+- Playbooks, examples, architecture run-structure, cline-contract — human report как основной human-facing output.
+- `roadmap/README.md` — P1 фаза 1 отмечена как реализована.
 
-### Removed
+### Удалено
 
-- Duplicate flat copies: `humanizer/HUMANIZER_CORE.md`, `MODES.md`, `VOICE_ADAPTERS.md`, root `PRODUCT_SENSE_VOICE.md`.
+- Дубли flat-копий: `humanizer/HUMANIZER_CORE.md`, `MODES.md`, `VOICE_ADAPTERS.md`, корневой `PRODUCT_SENSE_VOICE.md`.
 
 ---
 
 ## [2.3.0] - 2026-06-23
 
-### Added
+### Добавлено
 
-- **Local Evidence Discovery** — pre-Market step to collect traceable evidence from unstructured local KB (not document search).
-- New skill: `local-knowledge-retrieval` (preview, guardrails, atomic `EVID-NNN` items).
-- New workflow: `/run-knowledge-retrieval.md`.
-- New layer doc: `layers/local-evidence-discovery-layer.md`.
-- New manual template: `templates/knowledge-retrieval-prompt.md`.
+- **Local Evidence Discovery** — шаг до Market Layer для сбора трассируемых evidence из неструктурированной локальной KB (не «поиск по документам»).
+- Skill: `local-knowledge-retrieval` (preview, guardrails, атомарные `EVID-NNN`).
+- Workflow: `/run-knowledge-retrieval.md`.
+- Layer doc: `layers/local-evidence-discovery-layer.md`.
+- Manual template: `templates/knowledge-retrieval-prompt.md`.
 - Design reference: `architecture/local-knowledge-retrieval.md`.
-- New artifacts: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
-- Evidence contract fields: `evidence_type`, `relevance_reason`, `extraction_note`; atomicity rules.
-- Example mixed-source KB: `examples/example-001/kb-samples/` with discovery outputs.
+- Артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
+- Контракт evidence: `evidence_type`, `relevance_reason`, `extraction_note`; правила атомарности.
+- Пример mixed-source KB: `examples/example-001/kb-samples/` + discovery outputs.
 
-### Changed
+### Изменено
 
-- `/run-hypothesis.md` — Local Evidence Discovery as Step 3 (between Facilitator and Market).
-- `hypothesis-market-layer` skill — inventory-first, then Confluence MCP; four signal channels in output.
-- `/run-market-layer.md` — read `evidence_inventory.md` before Confluence search.
-- `.clinerules/10-artifact-contracts.md`, `20-evidence-rules.md` — discovery artifacts and channel separation.
-- Market output structure: `Local Signals from Knowledge Base`, `Confluence Signals`, `External Market Signals`, `Inferred Signals`.
+- `/run-hypothesis.md` — Local Evidence Discovery как шаг 3 (между Facilitator и Market).
+- Skill `hypothesis-market-layer` — inventory-first, затем Confluence MCP; четыре канала сигналов в output.
+- `/run-market-layer.md` — читать `evidence_inventory.md` до Confluence search.
+- `.clinerules/10-artifact-contracts.md`, `20-evidence-rules.md` — артефакты discovery и разделение каналов.
+- Структура Market output: Local KB / Confluence / External / Inferred.
 - Playbooks, quick-start, cline-setup, architecture docs, SVG diagrams — inventory-first flow.
-- `examples/example-001/outputs/market_analysis.md` — local signals with `EVID-*` references.
-- `roadmap/README.md` — P0 #1 marked implemented; `architecture/todo.md` — P0 #1 checklist.
+- `examples/example-001/outputs/market_analysis.md` — local signals со ссылками на `EVID-*`.
+- `roadmap/README.md` — P0 #1 отмечен как реализовано; `architecture/todo.md` — чеклист P0 #1.
 
 ---
 
 ## [2.2.2] - 2026-06-23
 
-### Added
+### Добавлено
 
-- **Two-step confirm** for conversational run: (1) hypothesis draft (2) proposed `RUN_DIR` (`HYP-YYYY-MM-DD-NNN`).
-- **RUN_DIR dialog** (Step 4b): scan today's runs, propose next suffix, list existing runs as «will not modify».
-- **New run isolation**: without explicit `RUN_DIR:` in message, always create a new archive — never reuse open tabs.
-- **Trigger tag** `#new-run` / `#новая` / `#новый-прогон` for explicit new-run intent.
-- **Artifact allowlist** guardrail: no non-contract files (e.g. `product_specification.md`) in conversational flow.
-- Example C (second hypothesis same day → `002` vs `001`) in `examples/chat-first-run.md` and `.ru.md`.
+- **Двойной confirm** для conversational run: (1) draft гипотезы (2) предложенный `RUN_DIR` (`HYP-YYYY-MM-DD-NNN`).
+- **Диалог RUN_DIR** (Step 4b): сканирование прогонов за день, предложение следующего suffix, список существующих — «не трогаю».
+- **New run isolation**: без явного `RUN_DIR:` в сообщении — всегда новый archive, без reuse открытых табов.
+- **Trigger-тег** `#new-run` / `#новая` / `#новый-прогон` для явного указания нового прогона.
+- **Artifact allowlist**: запрет несуществующих в контракте файлов (например `product_specification.md`) в conversational flow.
+- Пример C (вторая гипотеза в тот же день → `002` vs `001`) в `examples/chat-first-run.md` и `.ru.md`.
 
-### Changed
+### Изменено
 
-- `conversational-hypothesis-intake` skill: Step 4a/4b split, isolation rules, continue-existing only with `RUN_DIR:`.
-- `run-hypothesis-conversational.md` workflow: RUN_DIR dialog between draft confirm and bootstrap; do-not rules.
-- `.clinerules/10-artifact-contracts.md` — dialog-confirmed bootstrap replaces automatic bootstrap.
-- `.clinerules/00-hypothesis-framework.md` — entry modes: new hypothesis = new `HYP-*-NNN` via dialog.
-- Quick start, playbooks, cline-setup (EN/RU) — two-step confirm and `#new-run` guidance.
+- Skill `conversational-hypothesis-intake`: разделение Step 4a/4b, правила isolation, continue-existing только с `RUN_DIR:`.
+- Workflow `run-hypothesis-conversational.md`: диалог RUN_DIR между confirm draft и bootstrap; do-not rules.
+- `.clinerules/10-artifact-contracts.md` — dialog-confirmed bootstrap вместо автоматического.
+- `.clinerules/00-hypothesis-framework.md` — режимы входа: новая гипотеза = новый `HYP-*-NNN` через диалог.
+- Quick start, playbooks, cline-setup (EN/RU) — двойной confirm и guidance по `#новая`.
 
 ---
 
 ## [2.2.1] - 2026-06-23
 
-### Added
+### Добавлено
 
-- **Intake trigger tags** for conversational run: `#hypothesis`, `#context`, `#roles` (and RU aliases `#гипотеза`, `#контекст`, `#роли`).
-- **Dirty input mode** (`#context`): extract hypothesis fields from Q&A tables, CustDev notes, and unstructured discovery paste.
-- **Extraction validation step**: agent shows mapped Statement/Roles/Context and asks user to confirm before draft card.
-- **Status messages** before bootstrap: `runs/ NOT created yet` until explicit confirm.
-- Example B (dirty `#context` flow) in `examples/chat-first-run.md` and `.ru.md`.
+- **Trigger-теги intake** для conversational run: `#hypothesis`, `#context`, `#roles` (и RU-алиасы `#гипотеза`, `#контекст`, `#роли`).
+- **Режим dirty input** (`#контекст`): извлечение полей гипотезы из таблиц Q&A, CustDev-заметок и неструктурированного discovery.
+- **Шаг валидации извлечения**: агент показывает mapping Statement/Roles/Context и спрашивает подтверждение до draft карточки.
+- **Статус-сообщения** до bootstrap: `runs/ ещё НЕ создан` до явного confirm.
+- Пример B (dirty `#контекст`) в `examples/chat-first-run.md` и `.ru.md`.
 
-### Changed
+### Изменено
 
-- `conversational-hypothesis-intake` skill: intake modes (ready / dirty / roles-only), auto-detect, confirm triggers.
-- `run-hypothesis-conversational.md` workflow: Step 0 mode detection; dirty-input example.
-- Quick start, playbooks, cline-setup, README (EN/RU) — trigger tags and dirty-input guidance.
-- `roadmap/README.md` — P0 #2 release table (2.2.0 / 2.2.1), follow-up backlog.
-- `architecture/todo.md` — Conversational Run (P0 #2) completed and open items.
+- Skill `conversational-hypothesis-intake`: режимы intake (ready / dirty / roles-only), auto-detect, триггеры confirm.
+- Workflow `run-hypothesis-conversational.md`: Step 0 определение режима; пример dirty input.
+- Quick start, playbooks, cline-setup, README (EN/RU) — теги и guidance для грязных входов.
+- `roadmap/README.md` — таблица релизов P0 #2 (2.2.0 / 2.2.1), follow-up бэклог.
+- `architecture/todo.md` — секция Conversational Run (P0 #2): выполненное и открытые пункты.
 
 ---
 
 ## [2.2.0] - 2026-06-23
 
-### Added
+### Добавлено
 
-- **Conversational Run (chat-first)** — primary entry path for new hypothesis runs from Cline chat.
-- New skill: `conversational-hypothesis-intake` (guided Q&A, draft card preview, confirm/revise/cancel).
-- New workflow: `/run-hypothesis-conversational.md` (intake → auto `RUN_DIR` bootstrap → validate → full pipeline).
-- Automatic run archive creation under `runs/HYP-YYYY-MM-DD-NNN/` with `input/hypothesis.md` and `run.md`.
-- Automatic metadata assignment: `Hypothesis ID`, `Run ID`, `Created at`, `Status`.
-- Validation repair loop: failed input returns to conversational intake before re-validation.
-- Example walkthrough: `examples/chat-first-run.md` (EN) and `examples/chat-first-run.ru.md` (RU).
+- **Conversational Run (chat-first)** — основной сценарий запуска новой гипотезы из чата Cline.
+- Новый skill: `conversational-hypothesis-intake` (guided Q&A, preview карточки, подтвердить/исправить/отменить).
+- Новый workflow: `/run-hypothesis-conversational.md` (intake → auto bootstrap `RUN_DIR` → validate → полный pipeline).
+- Автоматическое создание run archive в `runs/HYP-YYYY-MM-DD-NNN/` с `input/hypothesis.md` и `run.md`.
+- Автоназначение metadata: `Hypothesis ID`, `Run ID`, `Created at`, `Status`.
+- Repair-loop при failed validation: возврат в conversational intake перед повторной валидацией.
+- Пошаговый пример: `examples/chat-first-run.md` (EN) и `examples/chat-first-run.ru.md` (RU).
 
-### Changed
+### Изменено
 
-- Chat-first documented as **recommended** entry path; file-first (`RUN_DIR` + `/run-hypothesis.md`) remains as fallback.
-- `.clinerules/10-artifact-contracts.md` — rules for conversational `RUN_DIR` bootstrap and ID assignment.
-- `.clinerules/00-hypothesis-framework.md` — entry modes table (chat-first vs file-first).
-- `roadmap/README.md` — Conversational Run marked **P0 #2 implemented**; Business Context renumbered to P0 #3.
-- EN/RU docs synchronized: README, quick-start, cline-setup, cline-contract, playbooks, validate-input, templates/readme, architecture/implementations, architecture/overview, implementations/README.
+- Chat-first задокументирован как **рекомендуемый** путь входа; file-first (`RUN_DIR` + `/run-hypothesis.md`) сохранён как fallback.
+- `.clinerules/10-artifact-contracts.md` — правила bootstrap `RUN_DIR` и назначения ID в conversational flow.
+- `.clinerules/00-hypothesis-framework.md` — таблица режимов входа (chat-first vs file-first).
+- `roadmap/README.md` — Conversational Run отмечен как **P0 #2 реализовано**; Business Context перенумерован в P0 #3.
+- Синхронизирована EN/RU документация: README, quick-start, cline-setup, cline-contract, playbooks, validate-input, templates/readme, architecture/implementations, architecture/overview, implementations/README.
 
 ---
 
 ## [2.1.0] - 2026-06-23
 
-### Added
+### Добавлено
 
-- New phase **Customer Discovery Planning** between Synthesis and Decision Review.
-- New skill: `customer-discovery-planning`.
-- New workflow: `/run-customer-discovery-planning.md`.
-- New manual template: `templates/customer-discovery-planning-prompt.md`.
-- New layer docs: `layers/customer-discovery-planning-layer.md`.
-- New artifacts: `customer_discovery_plan.md` and `customer_discovery_planning_complete.marker`.
-- Example artifacts for `examples/example-001`:
+- Новый этап **Customer Discovery Planning** между Synthesis и Decision Review.
+- Новый skill: `customer-discovery-planning`.
+- Новый workflow: `/run-customer-discovery-planning.md`.
+- Новый manual template: `templates/customer-discovery-planning-prompt.md`.
+- Новый layer doc: `layers/customer-discovery-planning-layer.md`.
+- Новые артефакты: `customer_discovery_plan.md` и `customer_discovery_planning_complete.marker`.
+- Добавлены примерные артефакты для `examples/example-001`:
   - `outputs/customer_discovery_plan.md`
   - `outputs/customer_discovery_planning_complete.marker`
-- New skill: `local-knowledge-retrieval` (**Local Evidence Discovery**).
-- New workflow: `/run-knowledge-retrieval.md`.
-- New manual template: `templates/knowledge-retrieval-prompt.md`.
-- New layer doc: `layers/local-evidence-discovery-layer.md`.
-- New retrieval artifacts: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
+- Новый skill: `local-knowledge-retrieval` (**Local Evidence Discovery**).
+- Новый workflow: `/run-knowledge-retrieval.md`.
+- Новый manual template: `templates/knowledge-retrieval-prompt.md`.
+- Новый layer doc: `layers/local-evidence-discovery-layer.md`.
+- Новые retrieval-артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
 
-### Changed
+### Изменено
 
-- Full pipeline order updated to:
+- Порядок полного пайплайна обновлён:
   - Validate -> Facilitator -> Market -> Synthesis -> Customer Discovery Planning -> Decision Review -> Human backlog decision.
-- Decision Review prerequisites now include Customer Discovery Planning outputs.
-- Synthesis next-step guidance now points to Customer Discovery Planning before Decision Review.
-- Artifact contracts, workflows, and docs updated across EN/RU:
+- Prerequisites для Decision Review теперь учитывают outputs Customer Discovery Planning.
+- В Synthesis следующий шаг теперь ведёт сначала в Customer Discovery Planning, затем в Decision Review.
+- Контракты артефактов, workflows и документация синхронизированы в EN/RU:
   - README, playbooks, quick start, architecture docs, Cline contract/setup docs.
-- Pipeline diagrams updated:
+- Обновлены диаграммы пайплайна:
   - `assets/architecture-overview.svg`
   - `assets/artifact-flow.svg`
   - `assets/cline-workflow.svg`
-- Full pipeline order now includes Local Evidence Discovery before Market:
+- Полный пайплайн теперь включает Local Evidence Discovery перед Market:
   - Validate -> Facilitator -> Local Evidence Discovery -> Market -> Synthesis -> Customer Discovery Planning -> Decision Review -> Human backlog decision.
-- Market Layer updated to channel-separated output:
+- В Market Layer добавлено раздельное представление каналов:
   - `Local Signals from Knowledge Base`
   - `Confluence Signals`
   - `External Market Signals`
   - `Inferred Signals`
-- Market now consumes `evidence_inventory.md` before Confluence search (inventory-first, then Confluence, then external/inferred).
-- Artifact contracts and evidence rules updated for atomic evidence items (`evidence_type`, `relevance_reason`, `extraction_note`) and retrieval preview.
-- EN/RU docs updated across architecture, playbooks, quick-start, Cline contract/setup, knowledge-base docs, and templates.
-- Additional diagrams and reference output updated for the new flow:
+- Market Layer теперь сначала использует `evidence_inventory.md`, затем Confluence, затем external/inferred.
+- Обновлены контракты артефактов и evidence-rules для атомарных evidence items (`evidence_type`, `relevance_reason`, `extraction_note`) и retrieval preview.
+- Синхронизирована EN/RU документация: architecture, playbooks, quick-start, Cline contract/setup, knowledge-base docs, templates.
+- Дополнительно обновлены диаграммы и reference-output под новый поток:
   - `assets/cline-mcp-confluence.svg`
   - `assets/artifact-flow-clean.svg`
   - `examples/example-001/outputs/market_analysis.md`
@@ -215,76 +214,76 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 
 ## [2.0.0] - 2026-06-22
 
-### Changed
+### Изменено
 
-- **Run archive contract (breaking):** hypothesis input moved to `RUN_DIR/input/hypothesis.md`; outputs remain in `RUN_DIR/outputs/`.
-- `RUN_DIR` naming pattern: `runs/HYP-YYYY-MM-DD-NNN/`.
-- Required **Metadata** block in input: Hypothesis ID, Created at, Run ID, Status.
-- All skills, workflows, templates, and docs updated for the new paths.
-- `examples/example-001` migrated to the archive layout (`input/`, `outputs/`, `run.md`).
+- **Контракт run archive (breaking):** вход гипотезы перенесён в `RUN_DIR/input/hypothesis.md`; outputs остаются в `RUN_DIR/outputs/`.
+- Шаблон имени `RUN_DIR`: `runs/HYP-YYYY-MM-DD-NNN/`.
+- Обязательный блок **Metadata** во входе: Hypothesis ID, Created at, Run ID, Status.
+- Все skills, workflows, templates и документация обновлены под новые пути.
+- `examples/example-001` переведён на layout архива (`input/`, `outputs/`, `run.md`).
 
-### Added
+### Добавлено
 
-- Optional `input/attachments/` directory for supporting files per run.
-- Migration note in `.clinerules/10-artifact-contracts.md` for users on the old layout.
+- Опциональная папка `input/attachments/` для вспомогательных файлов прогона.
+- Migration note в `.clinerules/10-artifact-contracts.md` для пользователей старого layout.
 
 ---
 
 ## [1.3.0] - 2026-06-19
 
-### Added
+### Добавлено
 
-- **Persona model:** `knowledge-base/personas/`, `knowledge-base/interviews/`, `knowledge-base/persona-builds/`.
-- Five initial AppSec personas (initial profiles, `confidence: low` until backed by CustDev).
-- Persona evidence rules in `.clinerules/20-evidence-rules.md`.
-- Roles Layer support for matching personas as supporting context (`hypothesis-facilitator` skill).
+- **Модель персон:** `knowledge-base/personas/`, `knowledge-base/interviews/`, `knowledge-base/persona-builds/`.
+- Пять начальных AppSec personas (initial profiles, `confidence: low` до привязки CustDev).
+- Правила persona evidence в `.clinerules/20-evidence-rules.md`.
+- Поддержка matching personas в Roles Layer (`hypothesis-facilitator` skill).
 
 ---
 
 ## [1.2.0] - 2026-06-09
 
-### Added
+### Добавлено
 
-- **Local Optimization Trap** signal pattern in Synthesis Layer.
-- `validation_questions.md` as a Facilitator output (behavior-based interview questions).
+- Паттерн **Local Optimization Trap** в Synthesis Layer.
+- `validation_questions.md` как output Facilitator (behavior-based вопросы для интервью).
 
-### Changed
+### Изменено
 
-- Roles Layer reframed as **Facilitator** in pipeline documentation.
-- Signal model and synthesis skill expanded with cross-signal patterns.
+- Roles Layer в документации переименован в **Facilitator**.
+- Расширены signal model и synthesis skill.
 
 ---
 
 ## [1.1.0] - 2026-06-09
 
-### Added
+### Добавлено
 
-- **Decision Review** as a mandatory gate after Synthesis.
-- `hypothesis-decision-review` skill and `/run-decision-review.md` workflow.
-- `decision_review.md` and `decision_review_complete.marker` artifacts.
+- **Decision Review** как обязательный gate после Synthesis.
+- Skill `hypothesis-decision-review` и workflow `/run-decision-review.md`.
+- Артефакты `decision_review.md` и `decision_review_complete.marker`.
 
 ---
 
 ## [1.0.0] - 2026-06-09
 
-### Added
+### Добавлено
 
-- Tool-agnostic layered framework: Roles, Market, Synthesis.
+- Tool-agnostic слоистый фреймворк: Roles, Market, Synthesis.
 - **Cline adapter:** `.clinerules/`, `.cline/skills/`, slash-command workflows.
-- Artifact contracts, completion markers, `RUN_DIR` isolation.
-- Confluence-first Market Layer and evidence rules (`local` / `external` / `inferred`).
+- Контракты артефактов, completion markers, изоляция `RUN_DIR`.
+- Market Layer с Confluence-first и evidence rules (`local` / `external` / `inferred`).
 - Quick Start, playbooks, architecture docs, `examples/example-001`.
-- Bilingual documentation (EN / RU).
+- Двуязычная документация (EN / RU).
 
 ---
 
 ## [0.1.0] - 2026-06-08
 
-### Added
+### Добавлено
 
-- Initial framework concept: stress-test existing ideas instead of generating new ones.
-- Manual execution templates in `templates/`.
-- Layer reasoning model in `layers/`.
+- Начальная концепция: стресс-тест существующих идей, а не генерация новых.
+- Manual templates в `templates/`.
+- Модель слоёв в `layers/`.
 
 [2.2.2]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.1...v2.2.2
 [2.2.1]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v2.2.0...v2.2.1
@@ -293,6 +292,6 @@ Framework version is independent of individual hypothesis run IDs (`HYP-YYYY-MM-
 [2.0.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.3.0...v2.0.0
 [1.3.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.1.0...v1.2.0
-[1.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.0.0...v1.1.0
+[1.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v1.0.0...v1.0.0
 [1.0.0]: https://github.com/SergeyNash/hypothesis-stress-test/compare/v0.1.0...v1.0.0
 [0.1.0]: https://github.com/SergeyNash/hypothesis-stress-test/releases/tag/v0.1.0

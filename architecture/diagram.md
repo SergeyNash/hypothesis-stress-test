@@ -1,43 +1,65 @@
-Language: **English** | [Русский](./diagram.ru.md)
+# Диаграммы архитектуры
 
-# Architecture Diagram
-
-## System view
+## Общий вид системы
 
 <p align="center">
-  <img src="../assets/architecture-overview.svg" width="760"/>
+  <img src="../assets/ru/architecture-overview.png" width="760"/>
 </p>
 
-Framework layers (Roles → Market → Synthesis → Customer Discovery Planning → Decision Review) with Cline adapter and Confluence MCP for local signals.
+Полный конвейер v2.4: от гипотезы и бизнес-контекста до артефактов и решения человека.
 
-## Artifact flow
+## Конвейер — 4 этапа
 
 <p align="center">
-  <img src="../assets/artifact-flow.svg" width="820"/>
+  <img src="../assets/ru/pipeline-4-stages.png" width="760"/>
 </p>
 
-How `input/hypothesis.md` becomes structured decision artifacts through Cline skills and workflows.
+Упрощённая схема для сцены и быстрого объяснения: разделить POV → найти evidence → столкнуть сигналы → сформировать следующий шаг.
 
-## Cline execution flow
+## Поток артефактов
 
 <p align="center">
-  <img src="../assets/cline-workflow.svg" width="800"/>
+  <img src="../assets/ru/artifact-flow.png" width="820"/>
 </p>
 
-Rules, skills, workflows, and Confluence MCP in the execution path.
+Как `input/hypothesis.md` превращается в структурированные артефакты решения через Cline skills и workflows.
 
-## Signal model
+## Поток выполнения Cline
 
 <p align="center">
-  <img src="../assets/signal-model.svg" width="660"/>
+  <img src="../assets/ru/cline-execution.png" width="800"/>
 </p>
 
-Five synthesis signal patterns based on internal vs external signal collision (including Local Optimization Trap).
+Правила, сценарий, навыки и MCP: Cline выполняет конвейер и сохраняет трассируемые артефакты.
 
-## Confluence MCP integration
+## Поток бизнес-ценности
 
 <p align="center">
-  <img src="../assets/cline-mcp-confluence.svg" width="700"/>
+  <img src="../assets/ru/business-value-flow.png" width="760"/>
 </p>
 
-Confluence as the primary local signal source for Market Layer.
+Слой Business Context: от широкой идеи к проверяемой гипотезе с бизнес-рамкой. См. [layers/business-context-layer.md](../layers/business-context-layer.md).
+
+## Модель сигналов
+
+<p align="center">
+  <img src="../assets/ru/signal-model.png" width="660"/>
+</p>
+
+Пять паттернов synthesis на основе столкновения внутренних и внешних сигналов (включая Local Optimization Trap).
+
+## Срез human_report
+
+<p align="center">
+  <img src="../assets/ru/human-report-slice.png" width="760"/>
+</p>
+
+Как артефакты прогона собираются в `human_report.html` для принятия решения человеком.
+
+## Источники доказательств
+
+<p align="center">
+  <img src="../assets/ru/evidence-sources.png" width="760"/>
+</p>
+
+Локальные и внешние источники evidence: Confluence, база знаний, интервью, рынок — в пул проверяемых наблюдений для Market Layer.

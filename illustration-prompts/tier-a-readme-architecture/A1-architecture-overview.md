@@ -18,9 +18,9 @@
 
 ## Audience and context
 
-- `README.md` / `README.ru.md` — hero diagram
-- `architecture/diagram.md` / `diagram.ru.md` — System view
-- `architecture/overview.md` / `overview.ru.md`
+- `README.md` — hero diagram
+- `architecture/diagram.md` — System view
+- `architecture/overview.md`
 
 ## Composition
 

@@ -1,12 +1,12 @@
-# Personas
+# Персоны
 
-Personas are synthesized role profiles used by the Roles Layer.
+Персоны — синтезированные профили ролей, которые использует Roles Layer.
 
-They are not raw evidence. A persona should summarize recurring patterns from interviews, customer discovery notes, internal research, and domain expertise.
+Это не сырые доказательства. Персона должна суммировать повторяющиеся паттерны из интервью, заметок customer discovery, внутренних исследований и экспертизы в домене.
 
-## Contract
+## Контракт
 
-Each persona file should include frontmatter:
+Каждый файл персоны должен содержать frontmatter:
 
 ```yaml
 persona: Application Security Engineer
@@ -17,14 +17,14 @@ last_updated: YYYY-MM-DD
 confidence: low | medium | high
 ```
 
-## Evidence Rule
+## Правило доказательств
 
-If `source_interviews` is empty, treat the persona as a weak local signal.
+Если `source_interviews` пуст, считайте персону слабым локальным сигналом.
 
-If the persona is backed by linked interviews or research notes, cite those sources in the Market Layer and Decision Review when relevant.
+Если персона опирается на связанные интервью или research-заметки, цитируйте эти источники в Market Layer и Decision Review, когда это уместно.
 
-## Relationship To Interviews
+## Связь с интервью
 
-- `knowledge-base/interviews/` stores raw CustDev and interview materials.
-- `knowledge-base/persona-builds/` documents how personas were rebuilt from interview evidence.
-- `knowledge-base/personas/` stores the current reusable persona artifacts.
+- `knowledge-base/interviews/` хранит сырые CustDev-материалы и материалы интервью.
+- `knowledge-base/persona-builds/` документирует, как персоны пересобирались из доказательств интервью.
+- `knowledge-base/personas/` хранит текущие переиспользуемые артефакты персон.

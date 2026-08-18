@@ -1,249 +1,235 @@
 # Market Layer
 
-The Market Layer provides an **external validation** of a hypothesis.
+Market Layer даёт **внешнюю проверку** гипотезы.
 
-It evaluates whether the problem exists in reality, beyond internal assumptions.
-
----
-
-## 🧠 Purpose
-
-The goal is not to prove the hypothesis.
-
-The goal is to determine:
-
-> Does this problem exist outside our internal model?
+Оценивает, существует ли проблема в реальности — за пределами внутренних допущений.
 
 ---
 
-## ⚙️ What it does
+## Назначение
 
-The layer analyzes the hypothesis using:
+Цель — не доказать гипотезу.
 
-* local knowledge base
-* prior research
-* market data
-* external sources (if needed)
+Цель — ответить:
 
-It produces an **evidence-based view** of the problem space.
+> Существует ли эта проблема вне нашей внутренней модели?
 
 ---
 
-## 📚 Sources of truth
+## Что делает
 
-The layer relies on three types of signals:
+Слой анализирует гипотезу через:
+
+* локальную базу знаний
+* прошлые исследования
+* рыночные данные
+* внешние источники (если нужно)
+
+Результат — **evidence-based картина** пространства проблемы.
+
+---
+
+## Источники истины
+
+Три типа сигналов:
 
 ### 1. Local Knowledge
 
-* internal documents
-* research notes
-* past interviews
-* product analytics
+* внутренние документы
+* research-заметки
+* прошлые интервью
+* продуктовая аналитика
 
-This is the most trusted source.
+Самый доверенный источник.
 
 ---
 
 ### 2. External Sources
 
-* articles
-* case studies
-* discussions
-* public data
+* статьи
+* кейсы
+* обсуждения
+* публичные данные
 
-Must include references when used.
+При использовании нужны ссылки.
 
 ---
 
 ### 3. Inferred Signals
 
-* patterns derived from available data
-* logical conclusions
+* паттерны из доступных данных
+* логические выводы
 
-Must be clearly marked as inference.
-
----
-
-## 🔍 Core Questions
-
-The layer answers:
-
-### 1. Problem Existence
-
-Does this problem actually exist?
+Должны быть явно помечены как inference.
 
 ---
 
-### 2. Affected Audience
+## Базовые вопросы
 
-Who experiences it?
+### 1. Существование проблемы
 
----
-
-### 3. Current Solutions
-
-How is it solved today?
+Существует ли проблема на самом деле?
 
 ---
 
-### 4. Gaps
+### 2. Затронутая аудитория
 
-Where do current solutions fail?
-
----
-
-## 📊 Signal Strength
-
-Each finding must be classified:
-
-* **Strong signal** — repeated, supported by multiple sources
-* **Weak signal** — limited or indirect evidence
-* **No signal** — no reliable evidence
+Кто её испытывает?
 
 ---
 
-## 🧠 How it thinks
+### 3. Текущие решения
 
-The layer operates under strict rules:
-
-* no evidence → no claim
-* no generalization without support
-* no assumption of demand
-
-It prefers:
-
-> uncertainty over false certainty
+Как её решают сегодня?
 
 ---
 
-## ⚠️ What it does NOT do
+### 4. Разрывы
 
-* does not assume market demand
-* does not validate ideas based on intuition
-* does not generate trends
-* does not confirm the hypothesis
+Где текущие решения не срабатывают?
 
 ---
 
-## 📦 Output
+## Сила сигнала
 
-The Market Layer produces:
+Каждый finding классифицируется:
 
-* market_analysis.md
-* structured signal classification
-* references (if external sources are used)
+* **Strong signal** — повторяется, подтверждён несколькими источниками
+* **Weak signal** — ограниченные или косвенные доказательства
+* **No signal** — надёжных доказательств нет
 
 ---
 
-Each finding must include:
+## Как думает слой
 
-* **signal type**:
+Строгие правила:
+
+* нет evidence → нет утверждения
+* нет обобщений без опоры
+* нет допущения спроса
+
+Предпочтение:
+
+> неопределённость лучше ложной уверенности
+
+---
+
+## Чего слой не делает
+
+* не предполагает рыночный спрос
+* не валидирует идеи интуицией
+* не генерирует тренды
+* не подтверждает гипотезу
+
+---
+
+## Output
+
+Market Layer производит:
+
+* `market_analysis.md`
+* структурированную классификацию сигналов
+* ссылки (если использованы внешние источники)
+
+---
+
+Каждый finding включает:
+
+* **тип сигнала**:
 
   * local
   * external
   * inferred
 
-* **signal strength**:
+* **сила сигнала**:
 
   * strong
   * weak
   * none
 
-* **evidence (if available)**:
+* **evidence (если есть)**:
 
-  * link
-  * document reference
-  * source description
-
----
-
-## 🧩 Output semantics
-
-The result is:
-
-* an external signal map
-* a structured view of real-world evidence
-* explicit separation between facts and assumptions
-
-This is not truth.
-
-This is a **structured external signal**.
-
+  * ссылка
+  * документ
+  * описание источника
 
 ---
 
-## 🧩 Output semantics
+## Семантика output
 
-The result is:
+Результат:
 
-* an external signal map
-* a view of real-world patterns
-* a level of confidence in the problem
+* карта внешних сигналов
+* структурированный вид реальных доказательств
+* явное разделение фактов и допущений
 
-This is not truth.
+Это не истина.
 
-This is a **structured external signal**.
-
----
-
-## ⚠️ Common mistakes
-
-* inventing market demand
-* using generic statements
-* relying on a single source
-* mixing assumptions with facts
-* ignoring missing evidence
+Это **структурированный внешний сигнал**.
 
 ---
 
-## 🔄 Relationship with other layers
+## Частые ошибки
 
-* Roles Layer → defines internal logic
-* Synthesis Layer → compares signals
-
-Market Layer alone is insufficient.
-
----
-
-## 🧬 Key principle
-
-> External reality is not obligated to match internal logic.
-
-The Market Layer tests whether the hypothesis survives contact with the real world.
+* выдуманный рыночный спрос
+* общие формулировки
+* опора на один источник
+* смешение допущений с фактами
+* игнорирование отсутствующих доказательств
 
 ---
 
-## 🔀 Signal Separation
+## Связь с другими слоями
 
-All findings must be separated into:
+* Roles Layer → задаёт внутреннюю логику
+* Synthesis Layer → сравнивает сигналы
+
+Одного Market Layer недостаточно.
+
+---
+
+## Ключевой принцип
+
+> Внешняя реальность не обязана совпадать с внутренней логикой.
+
+Market Layer проверяет, выдерживает ли гипотеза контакт с миром.
+
+---
+
+## Разделение каналов
+
+Findings разделяются так:
 
 ### Local Signals
-- internal documents
-- past research
-- internal discussions
+
+- внутренние документы
+- прошлые исследования
+- внутренние обсуждения
 
 ---
 
 ### External Signals
-- public sources
-- articles
-- discussions
+
+- публичные источники
+- статьи
+- обсуждения
 
 ---
 
 ### Inferred Signals
-- logical conclusions
-- patterns
+
+- логические выводы
+- паттерны
 
 ---
 
-Each type must be explicitly labeled.
+Каждый тип помечается явно.
 
 ---
 
-## 📘 Next
+## Дальше
 
-See:
+См.:
 
 * `roles-layer.md`
 * `synthesis-layer.md`

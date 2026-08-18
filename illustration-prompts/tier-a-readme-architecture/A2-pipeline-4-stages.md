@@ -19,7 +19,7 @@
 ## Audience and context
 
 - `product-sense/talk-outline.md` — §3 Конвейер (главная схема доклада)
-- `architecture/overview.ru.md` — секция «для продуктовой аудитории»
+- `architecture/overview.md` — секция «для продуктовой аудитории»
 
 ## Composition
 

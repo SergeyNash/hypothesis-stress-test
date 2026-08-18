@@ -1,75 +1,73 @@
-Language: **English** | [Русский](./README.ru.md)
+# База знаний
 
-# Knowledge Base
+Ваша личная база знаний — это **отдельный проект** (заметки, discovery, research). Фреймворк добавляется папкой `hypothesis-stress-test/` внутри него. См. [quick-start.md](../implementations/quick-start.md#база-знаний-и-workspace).
 
-Your personal knowledge base is a **separate project** (notes, discovery, research). Add the framework as a `hypothesis-stress-test/` folder inside it. See [quick-start.md](../implementations/quick-start.md#knowledge-base-and-workspace).
+Фреймворк теперь явно разделяет retrieval и анализ:
 
-The framework now separates local retrieval and analysis:
+- **Local Evidence Discovery** собирает file-based evidence в `discovery_preview.md` и `evidence_inventory.md`.
+- **Market Layer** интерпретирует inventory + Confluence + external сигналы.
 
-- **Local Evidence Discovery** collects file-based local evidence into `discovery_preview.md` and `evidence_inventory.md`.
-- **Market Layer** interprets inventory + Confluence + external signals.
+## Основной источник: Confluence
 
-## Primary source: Confluence
-
-Configure Confluence MCP before running Market Layer. See:
+Настройте Confluence MCP перед запуском Market Layer. См.:
 
 ```text
 implementations/confluence-mcp.md
 ```
 
-## What to search in Confluence
+## Что искать в Confluence
 
-When stress-testing a hypothesis, search for:
+При стресс-тесте гипотезы ищите:
 
-- Customer discovery notes and interview summaries
-- Persona source materials and role research
-- Product requirement discussions
+- Заметки customer discovery и саммари интервью
+- Исходные материалы для персон и исследования ролей
+- Обсуждения продуктовых требований
 - Architecture decision records
-- Past hypothesis or initiative evaluations
-- Support or operational pain reports
-- Competitive analysis stored internally
+- Прошлые оценки гипотез и инициатив
+- Отчёты об операционных проблемах
+- Внутренний competitive analysis
 
-## Local persona model
+## Локальная модель персон
 
-The repository can store local role knowledge in three layers:
+Репозиторий может хранить знания о ролях в три слоя:
 
 ```text
 knowledge-base/
-  interviews/      raw CustDev notes and interview summaries
-  persona-builds/  rebuild logs explaining how personas changed
-  personas/        current reusable role profiles
+  interviews/      сырые CustDev-заметки и саммари интервью
+  persona-builds/  журналы пересборки персон
+  personas/        текущие переиспользуемые профили ролей
 ```
 
-`personas/` are synthesized artifacts. They should not be treated as raw evidence.
+`personas/` — это синтезированные артефакты. Их не следует считать первичным evidence.
 
-If a persona has no linked `source_interviews`, treat it as a weak local signal. If a persona is rebuilt from interviews, cite the underlying interviews or persona build when using it as local evidence.
+Если у persona нет связанных `source_interviews`, считайте её слабым локальным сигналом. Если persona пересобрана из интервью, при использовании в качестве local evidence ссылайтесь на исходные интервью или persona build.
 
-## Signal labeling
+## Маркировка сигналов
 
-Market findings should keep channels separated:
+В `market_analysis.md` каналы должны быть разделены:
 
 - `Local Signals from Knowledge Base`
 - `Confluence Signals`
 - `External Market Signals`
 - `Inferred Signals`
 
-All Confluence findings go into `market_analysis.md` under **Confluence Signals** with:
+Все findings из Confluence попадают в раздел **Confluence Signals** с указанием:
 
-- Signal strength: strong / weak / none
-- Source citation (page title + URL)
+- Силы сигнала: strong / weak / none
+- Цитаты источника (название страницы + URL)
 
-## Without Confluence
+## Без Confluence
 
-If MCP is not configured:
+Если MCP не настроен:
 
-- Local KB inventory can still provide local file evidence
-- Market Layer should mark Confluence channel as missing
-- External sources remain secondary and require explicit user approval
+- локальный inventory из KB всё равно может дать local evidence
+- канал Confluence помечается как отсутствующий
+- external sources остаются вторичными и требуют явного одобрения пользователя
 
-## Future extensions
+## Будущие расширения
 
-Optional secondary sources (not required for v1):
+Опциональные вторичные источники (не обязательны для v1):
 
 - Jira work items
-- Internal wikis beyond Confluence
-- Local research repositories in this repo
+- Внутренние wiki помимо Confluence
+- Локальные research-репозитории в этом репо

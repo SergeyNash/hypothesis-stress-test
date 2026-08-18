@@ -1,10 +1,10 @@
-# Interviews
+# Интервью
 
-This directory stores raw CustDev materials and interview summaries.
+В этой папке хранятся сырые CustDev-материалы и саммари интервью.
 
-Interview files are the primary evidence used to rebuild personas in `knowledge-base/personas/`.
+Файлы интервью — основные доказательства для пересборки персон в `knowledge-base/personas/`.
 
-## Suggested Format
+## Рекомендуемый формат
 
 ```markdown
 ---
@@ -31,9 +31,9 @@ confidence: low | medium | high
 ## Open Questions
 ```
 
-## Rules
+## Правила
 
-- Preserve source context and date.
-- Separate direct quotes from interpretation.
-- Link interviews from persona files when they influence a role profile.
-- Do not treat uncited persona statements as strong evidence.
+- Сохранять контекст источника и дату.
+- Отделять прямые цитаты от интерпретации.
+- Связывать интервью из файлов персон, когда они влияют на профиль роли.
+- Не считать неуказанные утверждения персоны сильным доказательством.

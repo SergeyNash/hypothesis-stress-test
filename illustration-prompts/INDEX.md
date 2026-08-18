@@ -7,7 +7,7 @@
 | ID | Prompt file | Output EN | Output RU | Used in |
 |----|-------------|-----------|-----------|---------|
 | A1 | [A1-architecture-overview.md](./tier-a-readme-architecture/A1-architecture-overview.md) | `assets/en/architecture-overview.svg` | `assets/ru/architecture-overview.png` | README, diagram.md, overview |
-| A2 | [A2-pipeline-4-stages.md](./tier-a-readme-architecture/A2-pipeline-4-stages.md) | `assets/en/pipeline-4-stages.svg` | `assets/ru/pipeline-4-stages.png` | talk-outline §3, overview.ru |
+| A2 | [A2-pipeline-4-stages.md](./tier-a-readme-architecture/A2-pipeline-4-stages.md) | `assets/en/pipeline-4-stages.svg` | `assets/ru/pipeline-4-stages.png` | talk-outline §3, overview |
 | A3 | [A3-artifact-flow.md](./tier-a-readme-architecture/A3-artifact-flow.md) | `assets/en/artifact-flow.svg` | `assets/ru/artifact-flow.png` | README, diagram.md |
 | A4 | [A4-signal-model.md](./tier-a-readme-architecture/A4-signal-model.md) | `assets/en/signal-model.svg` | `assets/ru/signal-model.png` | README Decision model |
 | A5 | [A5-evidence-sources.md](./tier-a-readme-architecture/A5-evidence-sources.md) | `assets/en/evidence-sources.svg` | `assets/ru/evidence-sources.png` | diagram.md, quick-start |
@@ -56,9 +56,8 @@
 
 Update `<img src>` in:
 
-- `README.md` → `assets/en/…`
-- `README.ru.md` → `assets/ru/…`
-- `architecture/diagram.md` / `diagram.ru.md`
+- `README.md` → `assets/ru/…`
+- `architecture/diagram.md`
 - `product-sense/talk-outline.md` — add column «Файл слайда»
 
 Legacy files until replaced: `assets/architecture-overview.svg`, `artifact-flow.svg`, `cline-workflow.svg`, `signal-model.svg`, `cline-mcp-confluence.svg`.

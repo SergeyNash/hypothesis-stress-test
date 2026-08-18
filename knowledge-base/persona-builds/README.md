@@ -1,10 +1,10 @@
 # Persona Builds
 
-Persona build files document how reusable personas were synthesized from interviews and research materials.
+Файлы persona build документируют, как переиспользуемые персоны были синтезированы из интервью и research-материалов.
 
-Use this directory when a persona is rebuilt from new CustDev evidence.
+Используйте эту папку, когда персона пересобирается по новым CustDev-доказательствам.
 
-## Suggested Format
+## Рекомендуемый формат
 
 ```markdown
 ---
@@ -30,6 +30,6 @@ confidence: medium
 ## Evidence Gaps
 ```
 
-## Rule
+## Правило
 
-A persona build should explain why a persona changed, not only what changed.
+Persona build должен объяснять, почему персона изменилась, а не только что изменилось.

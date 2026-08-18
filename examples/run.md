@@ -1,14 +1,12 @@
-Language: **English** | [Русский](./run.ru.md)
+# Прогон
 
-# Run
-
-This file describes how the hypothesis was processed through the framework.
+Этот файл описывает, как гипотеза была обработана через фреймворк.
 
 ---
 
-## Input
+## Вход
 
-Hypothesis file:
+Файл гипотезы:
 
 ```text
 examples/example-001/input/hypothesis.md
@@ -16,7 +14,7 @@ examples/example-001/input/hypothesis.md
 
 ---
 
-## Execution Mode
+## Режим выполнения
 
 **Primary:** Conversational (chat-first) via `/run-hypothesis-conversational.md` — see [chat-first-run.md](./chat-first-run.md)
 
@@ -27,31 +25,31 @@ RUN_DIR: examples/example-001
 /run-hypothesis.md
 ```
 
-**Fallback:** manual execution using templates in any LLM interface.
+**Fallback:** ручной запуск через шаблоны в любом LLM-интерфейсе.
 
 ---
 
-## Prerequisites
+## Предварительные требования
 
-1. Cline extension installed — [implementations/cline-setup.md](../implementations/cline-setup.md)
-2. Confluence MCP configured (recommended) — [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
-3. Input validated — `/validate-hypothesis-input.md`
+1. Установлено расширение Cline — [implementations/cline-setup.md](../implementations/cline-setup.md)
+2. Настроен Confluence MCP (рекомендуется) — [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
+3. Вход провалидирован — `/validate-hypothesis-input.md`
 
 ---
 
-## Step 1 — Facilitator (Roles Layer)
+## Шаг 1 — Facilitator (Roles Layer)
 
 **Cline skill:** `hypothesis-facilitator`
 
-**Manual template:** `templates/facilitator-prompt.md`
+**Ручной шаблон:** `templates/facilitator-prompt.md`
 
-Input:
+Вход:
 
-* hypothesis statement
-* relevant roles
-* scenario context
+* формулировка гипотезы
+* релевантные роли
+* контекст сценария
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/role_outputs/
@@ -60,26 +58,26 @@ outputs/validation_questions.md
 outputs/ready_for_synthesis.marker
 ```
 
-Purpose:
+Цель:
 
-* expose hidden assumptions and applicability boundaries
-* show role conflicts
-* generate behavior-based validation questions
+* вскрыть скрытые допущения и границы применимости
+* показать конфликты ролей
+* сгенерировать behavior-based вопросы для интервью
 
 ---
 
-## Step 2 — Local Evidence Discovery
+## Шаг 2 — Local Evidence Discovery
 
 **Cline skill:** `local-knowledge-retrieval`
 
-**Manual template:** `templates/knowledge-retrieval-prompt.md`
+**Ручной шаблон:** `templates/knowledge-retrieval-prompt.md`
 
-Input:
+Вход:
 
-* hypothesis statement
-* optional facilitator summary
+* формулировка гипотезы
+* опционально summary из Facilitator
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/discovery_preview.md
@@ -87,57 +85,57 @@ outputs/evidence_inventory.md
 outputs/knowledge_retrieval_complete.marker
 ```
 
-Purpose:
+Цель:
 
-* discover source-linked local evidence before analysis
-* keep evidence atomic (no synthesis)
-* provide retrieval audit trail (scanned/skipped/candidates)
+* собрать source-linked local evidence до анализа рынка
+* сохранить атомарность evidence (без синтеза)
+* дать audit trail retrieval (scanned/skipped/candidates)
 
 ---
 
-## Step 3 — Market Layer
+## Шаг 3 — Market Layer
 
 **Cline skill:** `hypothesis-market-layer`
 
-**Manual template:** `templates/market-prompt.md`
+**Ручной шаблон:** `templates/market-prompt.md`
 
-**Inventory first:** read `outputs/evidence_inventory.md`, then search Confluence MCP for additional internal signals.
+**Inventory first:** сначала читать `outputs/evidence_inventory.md`, затем Confluence MCP для дополнительных внутренних сигналов.
 
-Input:
+Вход:
 
-* hypothesis statement
+* формулировка гипотезы
 * research context
-* domain and product type
+* domain и тип продукта
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/market_analysis.md
 outputs/market_analysis_complete.marker
 ```
 
-Purpose:
+Цель:
 
-* validate whether the problem exists externally
-* interpret local signals from KB inventory + Confluence
-* identify current solution patterns
-* classify signal strength
+* проверить, существует ли проблема вовне
+* интерпретировать local signals из KB inventory + Confluence
+* выявить текущие паттерны решений
+* классифицировать силу сигналов
 
 ---
 
-## Step 4 — Synthesis Layer
+## Шаг 4 — Synthesis Layer
 
 **Cline skill:** `hypothesis-synthesis`
 
-**Manual template:** `templates/synthesis-prompt.md`
+**Ручной шаблон:** `templates/synthesis-prompt.md`
 
-Input:
+Вход:
 
 * role outputs
 * hypothesis summary
 * market analysis
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/hypothesis_map.md
@@ -145,87 +143,87 @@ outputs/hypothesis_digest.txt
 outputs/synthesis_complete.marker
 ```
 
-Purpose:
+Цель:
 
-* collide internal and external signals
-* discover contradictions, blind spots, local optimization traps
-* surface new information visible only after comparison
-* determine impact on original hypothesis framing
+* столкнуть внутренние и внешние сигналы
+* выявить противоречия, слепые зоны, ловушки локальной оптимизации
+* показать новую информацию, видимую только после сравнения
+* определить влияние на исходную формулировку гипотезы
 
 ---
 
-## Step 5 — Customer Discovery Planning
+## Шаг 5 — Customer Discovery Planning
 
 **Cline skill:** `customer-discovery-planning`
 
-**Manual template:** `templates/customer-discovery-planning-prompt.md`
+**Ручной шаблон:** `templates/customer-discovery-planning-prompt.md`
 
-Input:
+Вход:
 
-* synthesis outputs and prior artifacts
+* артефакты synthesis и предыдущих слоёв
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/customer_discovery_plan.md
 outputs/customer_discovery_planning_complete.marker
 ```
 
-Purpose:
+Цель:
 
-* transform uncertainty into a practical customer research plan
-* prioritize unknowns by decision impact
-* define interview roles and behavior-based interview guide
+* перевести неопределённость в практичный план CustDev-исследования
+* приоритизировать неизвестные по влиянию на решение
+* определить роли для интервью и behavior-based гайд
 
 ---
 
-## Step 6 — Decision Review
+## Шаг 6 — Decision Review
 
 **Cline skill:** `hypothesis-decision-review`
 
-**Manual template:** `templates/decision-review-prompt.md`
+**Ручной шаблон:** `templates/decision-review-prompt.md`
 
-Input:
+Вход:
 
-* synthesis outputs and prior artifacts
+* артефакты synthesis и предыдущих слоёв
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/decision_review.md
 outputs/decision_review_complete.marker
 ```
 
-Purpose:
+Цель:
 
-* challenge synthesis conclusions
-* identify weak evidence and hidden assumptions
-* propose cheapest validation path
+* оспорить выводы synthesis
+* выявить слабые доказательства и скрытые допущения
+* предложить самый дешёвый путь валидации
 
 ---
 
-## Step 7 — Human Decision Report Export
+## Шаг 7 — Human Decision Report Export
 
 **Cline skill:** `human-report-export`
 
-**Manual template:** `templates/human-report-template.html`
+**Шаблон:** `templates/human-report-template.html`
 
-Expected output:
+Ожидаемый output:
 
 ```text
 outputs/human_report.html
 outputs/human_report_complete.marker
 ```
 
-Purpose:
+Цель:
 
-* compile decision-facing HTML for humans
-* show confidence, recommendation, decision readiness, what changed
-* link to detailed Markdown artifacts for drill-down
+* собрать decision-facing HTML для человека
+* показать confidence, recommendation, decision readiness, what changed
+* дать ссылки на детальные Markdown-артефакты
 
 ---
 
-## Expected Result
+## Ожидаемый результат
 
 ```text
 examples/example-001/
@@ -249,10 +247,10 @@ examples/example-001/
 
 ---
 
-## Notes
+## Примечания
 
-This example uses a domain-specific B2B AppSec hypothesis.
+Пример использует доменно-специфичную B2B AppSec гипотезу.
 
-The framework itself is domain-agnostic.
+Сам фреймворк domain-agnostic.
 
-Canonical outputs in `examples/example-001/outputs/` were produced by the framework layers and serve as reference artifacts.
+Эталонные outputs в `examples/example-001/outputs/` служат референсными артефактами.

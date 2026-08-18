@@ -1,69 +1,69 @@
 # TODO
 
-## Cline Implementation
+## Имплементация Cline
 
-- [x] Create `.clinerules/` with framework rules
-- [x] Create `.cline/skills/` for each layer
-- [x] Create workflows in `.clinerules/workflows/`
-- [x] Document Cline setup and contract
-- [x] Document Confluence-first MCP model
-- [x] Update README and playbooks for Cline-first path
-- [x] Archive RooCode assets to `assets/legacy/`
+- [x] Создать `.clinerules/` с правилами фреймворка
+- [x] Создать `.cline/skills/` для каждого слоя
+- [x] Создать workflows в `.clinerules/workflows/`
+- [x] Задокументировать setup и контракт Cline
+- [x] Задокументировать Confluence-first модель MCP
+- [x] Обновить README и playbooks под Cline-first путь
+- [x] Перенести ассеты RooCode в `assets/legacy/`
 
-## Market Layer Improvements
+## Улучшения Market Layer
 
-- [ ] Add structured research context to input
-- [ ] Improve source attribution rules
-- [ ] Separate local vs external signals in validation
-- [ ] Introduce signal strength classification automation
+- [ ] Добавить структурированный research-контекст во вход
+- [ ] Улучшить правила атрибуции источников
+- [ ] Разделять local vs external сигналы в валидации
+- [ ] Ввести автоматизацию классификации силы сигнала
 
-## Roles Layer Improvements
+## Улучшения Roles Layer
 
-- [x] Add `hypothesis-facilitator` skill with 6-step stress-test process
-- [x] Add `validation_questions.md` artifact
-- [ ] Improve role selection strategy
-- [ ] Add reusable role profile templates in `/roles`
+- [x] Добавить skill `hypothesis-facilitator` с 6-шаговым процессом stress-test
+- [x] Добавить артефакт `validation_questions.md`
+- [ ] Улучшить стратегию выбора ролей
+- [ ] Добавить переиспользуемые шаблоны профилей ролей в `/roles`
 
-## Experiment Design (future)
+## Experiment Design (будущее)
 
-- [ ] Add experiment design phase after Decision Review
+- [ ] Добавить фазу experiment design после Decision Review
 
 ## Synthesis Layer
 
-- [x] Add `hypothesis-synthesis` skill with 7-step collision process and 5 signal categories
-- [ ] Improve conflict classification automation
-- [ ] Add confidence scoring automation
+- [x] Добавить skill `hypothesis-synthesis` с 7-шаговым collision-процессом и 5 категориями сигналов
+- [ ] Улучшить автоматизацию классификации конфликтов
+- [ ] Добавить автоматизацию scoring уверенности
 
 ## Decision Review
 
-- [x] Add `hypothesis-decision-review` skill and workflow
-- [x] Add `decision_review.md` artifact contract
-- [x] Add worked example with full decision review in `examples/`
+- [x] Добавить skill `hypothesis-decision-review` и workflow
+- [x] Добавить контракт артефакта `decision_review.md`
+- [x] Добавить разобранный пример с полным decision review в `examples/`
 
-## System
+## Система
 
-- [x] Define minimal viable input format (`templates/input-schema.md`)
-- [x] Standardize RUN_DIR structure (`architecture/run-structure.md`)
+- [x] Задать минимальный жизнеспособный формат входа (`templates/input-schema.md`)
+- [x] Стандартизировать структуру RUN_DIR (`architecture/run-structure.md`)
 
-## Input / Prompt Validation
+## Валидация входа / промпта
 
-- [x] Add validation skill before Roles Layer
-- [ ] Detect missing roles automatically in workflow
-- [ ] Detect missing research context automatically
+- [x] Добавить skill валидации до Roles Layer
+- [ ] Автоматически детектировать отсутствующие роли в workflow
+- [ ] Автоматически детектировать отсутствующий research-контекст
 
 ## Local Evidence Discovery — P0 #1
 
 См. [roadmap/README.md](../roadmap/README.md#p0--поддержка-неструктурированной-базы-знаний). Релиз: **v2.3.0**.
 
 - [x] Design-doc: `architecture/local-knowledge-retrieval.md`
-- [x] Skill `local-knowledge-retrieval` — preview, guardrails, atomic evidence extraction
+- [x] Skill `local-knowledge-retrieval` — preview, guardrails, извлечение атомарных evidence
 - [x] Workflow `/run-knowledge-retrieval.md`
-- [x] Layer doc + manual template (`layers/local-evidence-discovery-layer.md`, `templates/knowledge-retrieval-prompt.md`)
+- [x] Документация слоя + ручной шаблон (`layers/local-evidence-discovery-layer.md`, `templates/knowledge-retrieval-prompt.md`)
 - [x] Интеграция в `/run-hypothesis.md` (шаг 3) и Market Layer (inventory-first)
 - [x] Артефакты: `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`
 - [x] Контракты: `10-artifact-contracts.md`, `20-evidence-rules.md`
-- [x] Документация, playbooks, SVG diagrams
-- [x] Пример mixed-source: `examples/example-001/kb-samples/` + discovery outputs
+- [x] Документация, playbooks, SVG-диаграммы
+- [x] Пример mixed-source: `examples/example-001/kb-samples/` + outputs discovery
 - [ ] Поддержка `.pdf` / `.docx` / `.html` (V2)
 - [ ] E2E на реальном Obsidian vault в `runs/HYP-*`
 
@@ -73,16 +73,16 @@
 
 См. [roadmap/README.md](../roadmap/README.md#p0--conversational-run-chat-first-запуск-из-чата). Релизы: **v2.2.0** (базовый flow), **v2.2.1** (dirty input + trigger-теги), **v2.2.2** (dialog RUN_DIR + isolation).
 
-- [x] Skill `conversational-hypothesis-intake` — guided Q&A, draft preview, confirm/revise/cancel
-- [x] Workflow `/run-hypothesis-conversational.md` — intake → dialog-confirmed `RUN_DIR` bootstrap → validate → pipeline
-- [x] Auto ID assignment (`HYP-*`, `RUN-*`) и правила в `10-artifact-contracts.md`
-- [x] Chat-first как recommended path в quick-start, README, playbooks (EN/RU)
-- [x] Примеры `examples/chat-first-run.md` / `.ru.md`
+- [x] Skill `conversational-hypothesis-intake` — guided Q&A, preview draft, confirm/revise/cancel
+- [x] Workflow `/run-hypothesis-conversational.md` — intake → dialog-confirmed bootstrap `RUN_DIR` → validate → pipeline
+- [x] Автоназначение ID (`HYP-*`, `RUN-*`) и правила в `10-artifact-contracts.md`
+- [x] Chat-first как рекомендуемый путь в quick-start, README, playbooks (EN/RU)
+- [x] Примеры `examples/chat-first-run.md`
 - [x] Trigger-теги intake: `#гипотеза` / `#hypothesis`, `#контекст` / `#context`, `#роли` / `#roles`
 - [x] Dirty input mode: извлечение из Q&A / CustDev + валидация mapping с пользователем
 - [x] Статус до confirm RUN_DIR: `runs/ ещё НЕ создан`
 - [x] Двойной confirm: draft гипотезы + предложенный `RUN_DIR` (Step 4a/4b)
-- [x] New run isolation: без `RUN_DIR:` — новый archive; не reuse открытых табов
+- [x] Изоляция нового прогона: без `RUN_DIR:` — новый archive; не reuse открытых табов
 - [x] Trigger `#новая` / `#new-run`; continue-existing только с явным `RUN_DIR:`
 - [x] Artifact allowlist в conversational flow (без несуществующих артефактов)
 - [x] Пример C: вторая гипотеза в тот же день (`002` vs `001`)
@@ -96,15 +96,15 @@
 
 См. [roadmap/README.md](../roadmap/README.md#p1--human-output-и-режим-артефактов).
 
-- [x] Skill `human-report-export` — compile `human_report.html` from existing artifacts
+- [x] Skill `human-report-export` — собирать `human_report.html` из существующих артефактов
 - [x] Workflow `/run-human-report-export.md`
-- [x] Template `templates/human-report-template.html`
-- [x] Contract in `10-artifact-contracts.md` — What changed?, Decision Readiness, grouped links
-- [x] Integration in `/run-hypothesis.md`
-- [x] Example `examples/example-001/outputs/human_report.html`
-- [x] Executive report upgrade — business value, contradictions, cheapest validation (v2.4.0)
-- [ ] Phase 2: artifact mode `full` / `minimal` at run start
-- [ ] Future: full run export `run_report.html`
+- [x] Шаблон `templates/human-report-template.html`
+- [x] Контракт в `10-artifact-contracts.md` — What changed?, Decision Readiness, grouped links
+- [x] Интеграция в `/run-hypothesis.md`
+- [x] Пример `examples/example-001/outputs/human_report.html`
+- [x] Обновление executive report — business value, contradictions, cheapest validation (v2.4.0)
+- [ ] Phase 2: режим артефактов `full` / `minimal` в начале прогона
+- [ ] В будущем: полный экспорт прогона `run_report.html`
 
 ---
 
@@ -114,32 +114,32 @@
 
 - [x] Skill `business-context-value-check`
 - [x] Workflow `/run-business-context-value-check.md`
-- [x] Layer doc + manual template
+- [x] Документация слоя + ручной шаблон
 - [x] Артефакты и контракты в `10-artifact-contracts.md`
 - [x] Интеграция в `/run-hypothesis.md` и playbooks
 - [x] Примеры example-001 и example-002
 
 ---
 
-## Product Sense conference pack
+## Пакет конференции Product Sense
 
-- [x] `product-sense/` — talk outline, framework laws, LLM mistakes, demo script
-- [x] `examples/example-002/` — non-AppSec universality demo
-- [x] `russian-humanizer` — upstream sync in `.cline/skills/russian-humanizer/` with bundled `references/`
+- [x] `product-sense/` — outline доклада, законы фреймворка, ошибки LLM, demo-скрипт
+- [x] `examples/example-002/` — демо универсальности вне AppSec
+- [x] `russian-humanizer` — upstream-синк в `.cline/skills/russian-humanizer/` с bundled `references/`
 - [x] `humanizer/adapters/` — PRODUCT_SENSE_VOICE, PUBLIC_EXPLAINER_VOICE
-- [x] `product-sense/street-parable.md` — public explainer validation example
+- [x] `product-sense/street-parable.md` — пример валидации public explainer
 
 ---
 
-## Documentation
+## Документация
 
-- [x] Add Cline as primary implementation
-- [x] Emphasize inventory-first local evidence, then Confluence MCP
-- [x] Add product manager as primary user in README
-- [ ] Add examples of role profiles
+- [x] Добавить Cline как основную имплементацию
+- [x] Подчеркнуть inventory-first local evidence, затем Confluence MCP
+- [x] Указать product manager как основного пользователя в README
+- [ ] Добавить примеры профилей ролей
 
-## Secondary MCP (future)
+## Вторичный MCP (будущее)
 
-- [ ] Jira / Linear integration
-- [ ] Slack integration
-- [ ] Web search for external signals
+- [ ] Интеграция Jira / Linear
+- [ ] Интеграция Slack
+- [ ] Web search для external signals

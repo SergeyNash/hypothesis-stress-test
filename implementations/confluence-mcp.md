@@ -1,36 +1,34 @@
-Language: **English** | [Русский](./confluence-mcp.ru.md)
+# Настройка Confluence MCP
 
-# Confluence MCP Setup
+Confluence — **основной MCP-источник** local signals для Market Layer.
 
-Confluence is the **primary MCP source** for local signals in the Market Layer.
+## Почему Confluence важен
 
-## Why Confluence matters
+Внутренний Confluence часто содержит:
 
-Internal Confluence often contains:
+- Реальные проблемы пользователей и заметки discovery
+- Прошлые продуктовые решения
+- Архитектурные ограничения
+- Артефакты customer research
+- Исторические обсуждения гипотез
 
-- Real user problems and discovery notes
-- Past product decisions
-- Architectural constraints
-- Customer research artifacts
-- Historical hypothesis discussions
+Это надёжнее внешних источников для **local signals**.
 
-This is more reliable than generic external sources for **local signals**.
+## Рекомендуется: Atlassian Rovo MCP Server (официальный)
 
-## Recommended: Atlassian Rovo MCP Server (official)
+Для **Confluence Cloud** с OAuth 2.1:
 
-For **Confluence Cloud** with OAuth 2.1:
+### Требования
 
-### Prerequisites
+- Atlassian Cloud с Confluence
+- Node.js 18+ (для прокси `mcp-remote`)
+- Расширение Cline в VS Code
 
-- Atlassian Cloud site with Confluence
-- Node.js 18+ (for `mcp-remote` proxy)
-- Cline VS Code extension
+### Настройка в Cline
 
-### Cline configuration
-
-1. Open Cline panel → **MCP Servers** icon (stacked servers in toolbar).
-2. Open **Configure** tab → **Configure MCP Servers**.
-3. Add the Atlassian remote server:
+1. Панель Cline → иконка **MCP Servers** (стопка серверов в тулбаре).
+2. Вкладка **Configure** → **Configure MCP Servers**.
+3. Добавьте удалённый сервер Atlassian:
 
 ```json
 {
@@ -49,18 +47,18 @@ For **Confluence Cloud** with OAuth 2.1:
 }
 ```
 
-4. Restart the MCP server and complete OAuth in the browser when prompted.
-5. Verify Confluence search/read tools appear in the tool list.
+4. Перезапустите MCP-сервер и пройдите OAuth в браузере.
+5. Убедитесь, что инструменты поиска/чтения Confluence появились в списке.
 
-> **Note:** Use endpoint `https://mcp.atlassian.com/v1/mcp/authv2` (not the legacy `/sse` endpoint).
+> **Важно:** используйте endpoint `https://mcp.atlassian.com/v1/mcp/authv2` (не устаревший `/sse`).
 
-Docs: [Atlassian Rovo MCP Server](https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/)
+Документация: [Atlassian Rovo MCP Server](https://support.atlassian.com/atlassian-rovo-mcp-server/docs/getting-started-with-the-atlassian-remote-mcp-server/)
 
-## Alternative: Community Confluence MCP (API token)
+## Альтернатива: community Confluence MCP (API token)
 
-For environments where OAuth is not available, use a community server with API token auth.
+Если OAuth недоступен — community-сервер с API token.
 
-### Example: mcp-atlassian
+### Пример: mcp-atlassian
 
 ```json
 {
@@ -80,36 +78,36 @@ For environments where OAuth is not available, use a community server with API t
 }
 ```
 
-Generate API token: Atlassian Account Settings → Security → API tokens.
+API token: Atlassian Account Settings → Security → API tokens.
 
-Docs: [mcp-atlassian](https://github.com/sooperset/mcp-atlassian)
+Документация: [mcp-atlassian](https://github.com/sooperset/mcp-atlassian)
 
 ### Server / Data Center
 
-Use Personal Access Token (PAT) instead of username + API token. See your server's MCP documentation.
+Используйте Personal Access Token (PAT) вместо username + API token. См. документацию вашего MCP-сервера.
 
-## How Market Layer uses Confluence
+## Как Market Layer использует Confluence
 
-When running Market Layer (`hypothesis-market-layer` skill or `/run-market-layer.md`):
+При запуске Market Layer (skill `hypothesis-market-layer` или `/run-market-layer.md`):
 
-1. Search Confluence for pages related to:
-   - The hypothesis domain and scenario
-   - Similar problems or past initiatives
-   - User research and customer feedback
-   - Architectural or process constraints
+1. Ищите в Confluence страницы по:
+   - домену и сценарию гипотезы
+   - похожим проблемам и прошлым инициативам
+   - user research и обратной связи
+   - архитектурным и процессным ограничениям
 
-2. For each relevant finding, record in `market_analysis.md` under **Confluence Signals**:
+2. Для каждого finding записывайте в `market_analysis.md` в раздел **Confluence Signals**:
 
 ```markdown
 ## Confluence Signals
 
-- [finding description]
+- [описание finding]
   - signal: strong | weak | none
   - type: local
   - source: [Page Title](https://your-site.atlassian.net/wiki/spaces/...)
 ```
 
-3. If no relevant pages found — state explicitly:
+3. Если релевантных страниц нет — явно укажите:
 
 ```markdown
 ## Confluence Signals
@@ -120,9 +118,9 @@ No relevant local evidence found.
 - note: Confluence search returned no matches for [query terms]
 ```
 
-## Without Confluence MCP
+## Без Confluence MCP
 
-Market Layer can still run, but must document:
+Market Layer может работать, но обязан зафиксировать:
 
 ```markdown
 ## MCP Status
@@ -132,24 +130,24 @@ Confluence MCP: not configured
 missing confluence evidence — MCP not available
 ```
 
-Do not fabricate internal knowledge. External signals may be used if the user approves.
+Не выдумывайте внутренние знания. External signals — только с одобрения пользователя.
 
-## Security
+## Безопасность
 
-| Rule | Detail |
-|------|--------|
-| Credentials | Environment variables or Cline MCP config only — never commit to repo |
-| autoApprove | Limit to read-only search/get operations |
-| Permissions | MCP respects user's existing Confluence access |
-| Write tools | Disable or do not auto-approve Confluence write operations for analysis runs |
+| Правило | Детали |
+|---------|--------|
+| Credentials | Только env или конфиг Cline MCP — не коммитить в репозиторий |
+| autoApprove | Только для read-only search/get операций |
+| Permissions | MCP уважает существующие права доступа в Confluence |
+| Write tools | Отключить или не auto-approve для аналитических прогонов |
 
-## Secondary MCP sources (future)
+## Вторичные MCP-источники (будущее)
 
-These are optional extensions, not required for v1:
+Опциональные расширения, не обязательны для v1:
 
-- Jira / Linear — linked work items
-- Slack — informal discussions
-- Web search — external market signals
-- Filesystem — local repo artifacts
+- Jira / Linear — связанные задачи
+- Slack — неформальные обсуждения
+- Web search — внешние market signals
+- Filesystem — локальные артефакты репозитория
 
-Confluence remains the primary local signal source.
+Confluence остаётся основным источником local signals.

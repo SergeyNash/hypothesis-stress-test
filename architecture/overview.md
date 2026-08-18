@@ -1,39 +1,39 @@
-Language: **English** | [Русский](./overview.ru.md)
+# Обзор архитектуры
 
-# Architecture Overview
+Hypothesis Stress Test — **слоистый фреймворк рассуждений** с **адаптером имплементации на Cline**.
 
-Hypothesis Stress Test is a **layered reasoning framework** with a **Cline implementation adapter**.
+## Слои (ядро фреймворка)
 
-## Layers (framework core)
+Независимые слои анализа производят структурированные сигналы:
 
-Three independent analysis layers produce structured signals:
+| Слой | Вопрос | Output |
+|------|--------|--------|
+| **Roles** (facilitator / stress test) | Как гипотеза ведёт себя с разных перспектив? | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
+| **Local Evidence Discovery** | Какие локальные доказательства есть до интерпретации рынка? | `discovery_preview.md`, `evidence_inventory.md` |
+| **Business Context** (ценность и стратегия) | Как гипотеза создаёт бизнес-ценность? | `business_context_analysis.md` или `missing_business_context.md` |
+| **Market** (market reality check) | Существует ли проблема в реальности? | `market_analysis.md` |
+| **Synthesis** (`hypothesis-synthesis`) | Что становится видно только при столкновении сигналов? | `hypothesis_map.md`, `hypothesis_digest.txt` |
 
-| Layer | Question | Output |
-|-------|----------|--------|
-| **Roles** (facilitator / stress test) | How does this behave across perspectives? | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
-| **Market** (market reality check) | Does this problem exist in reality? | `market_analysis.md` |
-| **Synthesis** (`hypothesis-synthesis`) | What becomes visible only when signals collide? | `hypothesis_map.md`, `hypothesis_digest.txt` |
+Слои не смешивают сигналы преждевременно. Synthesis сталкивает уже существующие артефакты — не переанализирует их и не добавляет новые данные.
 
-Layers do not mix signals prematurely. Synthesis collides facilitator and market artifacts — it does not re-analyze them.
+После Synthesis — **Customer Discovery Planning**, который переводит неопределённость в практичный CustDev-план интервью. Эта фаза не валидирует гипотезу и не принимает решения.
 
-After Synthesis, **Customer Discovery Planning** converts unresolved uncertainty into a practical interview and research plan. It does not validate hypotheses and does not make decisions.
+После Customer Discovery Planning — обязательный **Decision Review**: adversarial review выводов перед backlog. Новых сигналов не добавляет.
 
-After Customer Discovery Planning, **Decision Review** (mandatory gate) adversarially challenges conclusions before backlog planning. It does not add new signals.
+## Адаптер Cline
 
-## Cline adapter
+Фреймворк запускается в VS Code через [Cline](https://cline.bot/):
 
-The framework runs in VS Code via [Cline](https://cline.bot/) using:
+| Компонент | Расположение | Роль |
+|-----------|--------------|------|
+| Rules | `.clinerules/` | Постоянные инварианты |
+| Skills | `.cline/skills/` | Выполнение слоёв по запросу |
+| Workflows | `.clinerules/workflows/` | Оркестрация через slash-команды |
+| MCP | Confluence (primary) | Получение local signals |
 
-| Component | Location | Role |
-|-----------|----------|------|
-| Rules | `.clinerules/` | Persistent invariants |
-| Skills | `.cline/skills/` | On-demand layer execution |
-| Workflows | `.clinerules/workflows/` | Slash-command orchestration |
-| MCP | Confluence (primary) | Local signal retrieval |
+Полное соответствие: [implementations/cline-contract.md](../implementations/cline-contract.md)
 
-See [implementations/cline-contract.md](../implementations/cline-contract.md) for the full mapping.
-
-## Data flow
+## Поток данных
 
 ```text
 input/hypothesis.md
@@ -50,41 +50,41 @@ input/hypothesis.md
   → customer_discovery_plan.md
   → Decision Review (skill)
   → decision_review.md
-  → Human backlog decision
+  → Решение человека (backlog)
 ```
 
-## Artifact contract
+## Контракт артефактов
 
-Each run uses an isolated `RUN_DIR`. See [run-structure.md](./run-structure.md) and `.clinerules/10-artifact-contracts.md`.
+Каждый прогон использует изолированный `RUN_DIR`. См. [run-structure.md](./run-structure.md) и `.clinerules/10-artifact-contracts.md`.
 
-## Decision model
+## Модель решений
 
-The Synthesis Layer classifies signal collisions into five patterns:
+Synthesis Layer классифицирует гипотезы по пяти паттернам:
 
-- **Validated Opportunity** — internal and external signals align
-- **Internal Illusion** — internal logic strong, market weak
-- **Blind Spot** — market signal exists, internal model misses it
-- **Weak Signal** — no strong evidence
-- **Local Optimization Trap** — pain confirmed, no strategic business value
+- **Validated Opportunity** — внутренние и внешние сигналы совпадают
+- **Internal Illusion** — внутренняя логика сильная, рынок слабый
+- **Blind Spot** — рыночный сигнал есть, внутренняя модель его не видит
+- **Weak Signal** — нет сильных доказательств
+- **Local Optimization Trap** — боль подтверждена, стратегической ценности нет
 
-See [signal model diagram](../assets/signal-model.svg).
+Диаграмма: [signal model](../assets/signal-model.svg)
 
-## Framework vs implementation
+## Фреймворк vs имплементация
 
 ```text
-Framework  → layers, contracts, reasoning model (tool-agnostic)
+Фреймворк  → слои, контракты, модель рассуждений (tool-agnostic)
 Cline impl → rules, skills, workflows, Confluence MCP
 ```
 
-The framework can also run manually via `templates/` without Cline.
+Фреймворк можно запускать вручную через `templates/` без Cline.
 
-## Documentation map
+## Карта документации
 
-| Topic | File |
-|-------|------|
-| Cline setup | [implementations/cline-setup.md](../implementations/cline-setup.md) |
+| Тема | Файл |
+|------|------|
+| Настройка Cline | [implementations/cline-setup.md](../implementations/cline-setup.md) |
 | Confluence MCP | [implementations/confluence-mcp.md](../implementations/confluence-mcp.md) |
-| Cline contract | [implementations/cline-contract.md](../implementations/cline-contract.md) |
-| Run playbook | [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) |
-| Chat-first run | [examples/chat-first-run.md](../examples/chat-first-run.md) |
-| Example | [examples/example-001/](../examples/example-001/) |
+| Контракт Cline | [implementations/cline-contract.md](../implementations/cline-contract.md) |
+| Playbook | [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) |
+| Chat-first прогон | [examples/chat-first-run.md](../examples/chat-first-run.md) |
+| Пример | [examples/example-001/](../examples/example-001/) |
