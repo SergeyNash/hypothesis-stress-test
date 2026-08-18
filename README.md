@@ -73,10 +73,11 @@
 
 ## Как это работает
 
-Независимые слои анализа, Customer Discovery Planning, обязательный Decision Review и финальное решение человека:
+Независимые слои анализа, Customer Discovery Planning, обязательный Decision Review, Human Report и финальное решение человека. В `.cline/skills/` — **11 skills**: 10 в пайплайне и один для редактуры текста.
 
 | Фаза | Skill | Результат |
 |------|-------|-----------|
+| **Intake** (chat-first) | `conversational-hypothesis-intake` | draft карточки и `input/hypothesis.md` |
 | **Validate** | `hypothesis-input-validation` | готовый `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
 | **Local Evidence Discovery** | `local-knowledge-retrieval` | `discovery_preview.md`, `evidence_inventory.md` |
@@ -85,7 +86,14 @@
 | **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
 | **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
+| **Human Report** | `human-report-export` | `human_report.html` |
 | **Backlog Decision** (человек) | — | proceed / validate / research / reject |
+
+Вне пайплайна гипотез:
+
+| Skill | Назначение |
+|-------|------------|
+| `russian-humanizer` | редактура русского текста; см. [humanizer/README.md](./humanizer/README.md) |
 
 <p align="center">
   <img src="./assets/ru/business-value-flow.png" width="760"/>
@@ -108,6 +116,7 @@
 /run-synthesis.md
 /run-customer-discovery-planning.md
 /run-decision-review.md
+/run-human-report-export.md
 ```
 
 Указывайте `RUN_DIR` в сообщении Cline, например: `RUN_DIR: runs/HYP-2026-06-22-001`
@@ -169,11 +178,16 @@ RUN_DIR/
     role_outputs/*
     hypothesis_summary.md
     validation_questions.md
+    discovery_preview.md
+    evidence_inventory.md
+    business_context_analysis.md
+    missing_business_context.md  # только при отсутствии контекста
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
+    human_report.html
     *.marker
 ```
 
