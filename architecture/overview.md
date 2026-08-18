@@ -55,7 +55,7 @@ input/hypothesis.md
 
 ## Контракт артефактов
 
-Каждый прогон использует изолированный `RUN_DIR`. См. [run-structure.md](./run-structure.md) и `.clinerules/10-artifact-contracts.md`.
+Каждый прогон использует изолированный `RUN_DIR`. См. [run-structure.md](./run-structure.md), [artifact-lifecycle.md](./artifact-lifecycle.md) и `.clinerules/10-artifact-contracts.md`.
 
 ## Модель решений
 
@@ -82,6 +82,7 @@ Cline impl → rules, skills, workflows, Confluence MCP
 
 | Тема | Файл |
 |------|------|
+| Жизненный цикл артефактов | [artifact-lifecycle.md](./artifact-lifecycle.md) |
 | Настройка Cline | [implementations/cline-setup.md](../implementations/cline-setup.md) |
 | Confluence MCP | [implementations/confluence-mcp.md](../implementations/confluence-mcp.md) |
 | Контракт Cline | [implementations/cline-contract.md](../implementations/cline-contract.md) |

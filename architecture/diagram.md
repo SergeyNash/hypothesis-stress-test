@@ -24,6 +24,8 @@
 
 Как `input/hypothesis.md` превращается в структурированные артефакты решения через Cline skills и workflows.
 
+Mermaid и таблица «кто пишет / кто читает»: [artifact-lifecycle.md](./artifact-lifecycle.md).
+
 ## Поток выполнения Cline
 
 <p align="center">

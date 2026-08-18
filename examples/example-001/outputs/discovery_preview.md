@@ -1,38 +1,36 @@
 # Preview discovery
 
-Пример прогона — Local Evidence Discovery по mixed-source KB в `examples/example-001/kb-samples/`.
+Run-local KB island: `examples/example-001/kb-samples/`.
 
-## Применённые лимиты
+## Limits
 
-| Лимит | Значение |
-| ----- | -------- |
-| max_files_scanned | 200 |
-| max_file_size | 2 MB |
-| max_evidence_items | 20 |
-| skip_binary_by_default | true |
+- max_files_scanned: 200
+- max_file_size: 2 MB
+- max_evidence_items: 20
+- skip_binary_by_default: true
+- limit_reached: false
 
-Корень сканирования: `examples/example-001/kb-samples/` как unstructured KB island.
+## Scanned
 
-## Отсканированные файлы
+- kb-samples/notes_2024/workshop_queue.md
+- kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md
+- kb-samples/custdev raw/whiteboard_scan_queues.txt
+- kb-samples/strategy/product-strategy-2025.md
 
-| Путь | Тип | Результат |
-| ---- | --- | --------- |
-| `kb-samples/notes_2024/workshop_queue.md` | markdown | candidate |
-| `kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md` | markdown | candidate |
-| `kb-samples/custdev raw/whiteboard_scan_queues.txt` | text | candidate |
+## Skipped
 
-## Пропущенные файлы
+- нет файлов в пределах лимитов V1 (нет `.pdf` / `.docx` / `.html` / бинарных медиа без sidecar)
 
-| Путь | Причина |
-| ---- | ------- |
-| `2025-03-appsec-interview.m4a` | audio — metadata only, нет transcript sidecar |
+## Candidates
 
-## Кандидаты
+- kb-samples/notes_2024/workshop_queue.md — planned evidence_type: quote
+- kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md — planned evidence_type: transcript_excerpt
+- kb-samples/custdev raw/whiteboard_scan_queues.txt — planned evidence_type: image_observation
+- kb-samples/strategy/product-strategy-2025.md — planned evidence_type: quote
 
-1. `workshop_queue.md` — planned evidence_type: quote — заметки воркшопа о latency очереди
-2. `2025-03-appsec-interview-excerpt.md` — planned evidence_type: transcript_excerpt — excerpt custdev-интервью
-3. `whiteboard_scan_queues.txt` — planned evidence_type: image_observation — caption whiteboard
+## Top relevant
 
-## Следующий шаг
-
-V1: extraction автоматически после preview → `evidence_inventory.md`.
+- kb-samples/notes_2024/workshop_queue.md — quote — wait time критичных проектов, Slack-reorder, отсутствие критериев
+- kb-samples/custdev raw/2025-03-appsec-interview-excerpt.md — transcript_excerpt — нет automation по criticality; сомнение, что порядок скана снижает production risk
+- kb-samples/custdev raw/whiteboard_scan_queues.txt — image_observation — FIFO, waiting 4h+, no audit trail
+- kb-samples/strategy/product-strategy-2025.md — quote — buyer CISO, land на queue/workflow, риск operator-only фич

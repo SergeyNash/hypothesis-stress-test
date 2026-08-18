@@ -28,6 +28,8 @@ RUN_DIR/
 
 Шаблон имени `RUN_DIR`: `runs/HYP-YYYY-MM-DD-NNN/`
 
+Кто пишет каждый файл и кто его потом читает: [artifact-lifecycle.md](./artifact-lifecycle.md).
+
 ---
 
 ## Принцип
