@@ -35,8 +35,14 @@ project voice from:
 - `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md` — public explainer texts,
   street pitches, parables (mode: `fiction` or `general`)
 
-Do not humanize framework contracts (`layers/`, `.clinerules/`,
-`examples/*/outputs/`).
+Do not humanize framework contracts:
+
+- `layers/`
+- `.clinerules/` including `workflows/`
+- `.cline/skills/`
+- `templates/input-schema.md`
+- `examples/*/outputs/`
+- `scripts/`
 
 See `humanizer/USAGE.md` for mode + adapter selection.
 
@@ -77,7 +83,16 @@ Ask only when the missing answer materially changes the edit.
 
 ## Mode Selection
 
-Use modes from `references/MODES.md`:
+Use modes from `references/MODES.md`. Canonical slugs:
+
+| Slug | MODES.md heading |
+| ---- | ---------------- |
+| `general` | General |
+| `product_content` | Product Content |
+| `fiction` | Fiction |
+| `business` | Business |
+| `essay` | Essay |
+| `chat_reply` | Chat Reply |
 
 - `general`: neutral Russian drafts.
 - `product_content`: product, engineering, security, management, technology.
@@ -207,6 +222,7 @@ For short or medium text, return:
 For long text, offer or use a staged approach:
 
 - first pass: sample rewrite and style diagnosis;
+- wait for user OK before rewriting the full document;
 - second pass: full chapter/section rewrite;
 - third pass: consistency pass.
 

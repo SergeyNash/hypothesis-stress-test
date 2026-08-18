@@ -18,18 +18,22 @@ RUN_DIR: [set your run directory]
 ## Prerequisites
 
 - `outputs/ready_for_synthesis.marker`
+- `outputs/knowledge_retrieval_complete.marker`
+- `outputs/business_context_complete.marker` (`completed` or `skipped_missing_context`)
 - `outputs/market_analysis_complete.marker`
 - `outputs/role_outputs/*`
 - `outputs/hypothesis_summary.md`
+- `outputs/evidence_inventory.md`
+- `outputs/business_context_analysis.md` or `outputs/missing_business_context.md`
 - `outputs/market_analysis.md`
 
 ---
 
 ## Task
 
-Compare internal (roles) vs external (market) signals. Discover what becomes visible only after collision.
+Compare internal (roles), local evidence, Business Context, and external (market) signals. Discover what becomes visible only after collision.
 
-Do NOT generate new ideas. Do NOT add external assumptions. Do NOT smooth contradictions.
+Do NOT perform new retrieval or research. Do NOT generate new evidence or ideas. Do NOT add external assumptions. Do NOT smooth contradictions. If Business Context is missing, preserve the gap and do not infer strategic fit.
 
 ---
 
@@ -46,12 +50,13 @@ Do NOT generate new ideas. Do NOT add external assumptions. Do NOT smooth contra
 ## Analysis process
 
 1. Internal alignment (agreement / tension / conflict zones)
-2. Market validation (confirmed / weak / unconfirmed problems, alternatives)
-3. Cross-signal analysis with validation priority (HIGH / MEDIUM / LOW)
-4. Applicability discovery
-5. Blind spot discovery
-6. New information discovery (mandatory — only post-comparison insights)
-7. Decision impact on original hypothesis (keep / narrow / expand / reframe / change audience / require validation / reject)
+2. Business Context check (stakeholder/value flow, strategic fit, or explicit gap)
+3. Market validation (confirmed / weak / unconfirmed problems, alternatives)
+4. Cross-signal analysis with validation priority (HIGH / MEDIUM / LOW)
+5. Applicability discovery
+6. Blind spot discovery
+7. New information discovery (mandatory — only post-comparison insights)
+8. Decision impact on original hypothesis (keep / narrow / expand / reframe / change audience / require validation / reject)
 
 ---
 
@@ -65,7 +70,7 @@ Match the language of `input/hypothesis.md`.
 
 1. `RUN_DIR/outputs/hypothesis_map.md` — full synthesis (see skill for EN/RU structure)
 2. `RUN_DIR/outputs/hypothesis_digest.txt` — max 150 words
-3. `RUN_DIR/outputs/synthesis_complete.marker`
+3. `RUN_DIR/outputs/synthesis_complete.marker` — valid JSON per `.clinerules/10-artifact-contracts.md`
 
 ---
 
@@ -74,6 +79,8 @@ Match the language of `input/hypothesis.md`.
 - Focus on conflicts, not summaries
 - Never smooth contradictions
 - Never invent signals
+- Use only existing artifacts and their cited evidence; do not perform new retrieval/research
+- Treat missing Business Context as a gap, not as evidence of strategic fit
 - Uncertainty is allowed and expected
 
 See `.cline/skills/hypothesis-synthesis/SKILL.md` for full output structures.

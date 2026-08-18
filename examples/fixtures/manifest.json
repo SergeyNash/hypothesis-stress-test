@@ -1,0 +1,28 @@
+{
+  "fixtures": [
+    {
+      "path": "vague-statement",
+      "expect": ["VAGUE_STATEMENT"]
+    },
+    {
+      "path": "id-mismatch",
+      "expect": ["RUN_DIR_ID_MISMATCH"]
+    },
+    {
+      "path": "missing-marker",
+      "expect": ["MISSING_BUSINESS_CONTEXT_GATE"]
+    },
+    {
+      "path": "empty-kb",
+      "expect": []
+    },
+    {
+      "path": "mcp-unavailable",
+      "expect": []
+    },
+    {
+      "path": "external-research-declined",
+      "expect": []
+    }
+  ]
+}

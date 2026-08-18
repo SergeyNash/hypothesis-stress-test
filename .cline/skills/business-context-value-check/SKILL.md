@@ -25,13 +25,19 @@ This skill does **not** decide whether to build. It maps the **value mechanism**
 Required:
 
 - `RUN_DIR/input/hypothesis.md`
-- `RUN_DIR/outputs/ready_for_synthesis.marker` (Roles Layer complete)
+- `RUN_DIR/outputs/ready_for_synthesis.marker` with canonical JSON
+  `status: completed`
+- `RUN_DIR/outputs/knowledge_retrieval_complete.marker` with canonical JSON
+  `status: completed`
 
 Recommended:
 
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/role_outputs/*`
 - `RUN_DIR/outputs/evidence_inventory.md`
+
+If Local Evidence is missing, stop and ask the user to run
+`/run-knowledge-retrieval.md` first.
 
 ## KB search paths
 
@@ -47,8 +53,9 @@ Also scan `evidence_inventory.md` for strategy-related `EVID-NNN` items.
 
 If strategy, GTM, OKR, or business-model materials are **not found**:
 
-1. Write `RUN_DIR/outputs/missing_business_context.md` listing missing sources and what to add.
-2. Write `RUN_DIR/outputs/business_context_complete.marker` with note `analysis_skipped_missing_context`.
+1. Write `RUN_DIR/outputs/missing_business_context.md` using the gap template below.
+2. Write `RUN_DIR/outputs/business_context_complete.marker` with
+   `status: skipped_missing_context`.
 3. **Stop** — do not invent business context.
 
 If materials exist, proceed to Step 2.
@@ -138,19 +145,56 @@ Problem → Beneficiary → Behavior change → Business effect
 ...
 ```
 
-### `business_context_complete.marker`
+### `missing_business_context.md`
 
-```text
-Business context analysis completed.
-Ready for Market Layer.
+Required sections (EN or RU to match input language):
+
+```markdown
+# Missing Business Context
+
+## Missing Source Types
+- strategy
+- okr
+- business-model / GTM
+
+## Searched Paths
+- ...
+
+## Impact on Downstream Layers
+- Market: proceed with explicit gap; do not infer strategic fit
+- Synthesis: Local Optimization Trap / buyer-value analysis unavailable
+- Decision Review / Human Report: Decision Readiness may be Needs business context
+
+## What To Add To KB
+- ...
 ```
 
-Or if skipped:
+### `business_context_complete.marker`
 
-```text
-Business context analysis skipped.
-missing_business_context.md created.
-Ready for Market Layer with explicit gap.
+Completed analysis:
+
+```json
+{
+  "status": "completed",
+  "completed_phase": "business_context",
+  "next_phase": "market",
+  "inputs": [
+    "outputs/business_context_analysis.md"
+  ]
+}
+```
+
+Gap path:
+
+```json
+{
+  "status": "skipped_missing_context",
+  "completed_phase": "business_context",
+  "next_phase": "market",
+  "inputs": [
+    "outputs/missing_business_context.md"
+  ]
+}
 ```
 
 ## Review rules

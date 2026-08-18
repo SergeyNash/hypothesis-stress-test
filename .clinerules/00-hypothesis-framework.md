@@ -12,11 +12,13 @@ Do not ask the LLM to generate more ideas. Use it to apply pressure to ideas you
 idea → stress test → decision
 ```
 
-## Three analysis layers (never mix prematurely)
+## Independent analysis layers (never mix prematurely)
 
 | Layer | Purpose | Output |
 |-------|---------|--------|
 | **Roles** (facilitator / stress test) | Internal perspectives, assumptions, conflicts | role_outputs/*, hypothesis_summary.md, validation_questions.md |
+| **Local Evidence Discovery** | Traceable KB evidence before interpretation | discovery_preview.md, evidence_inventory.md |
+| **Business Context** | Value mechanism and strategic fit, or explicit gap | business_context_analysis.md or missing_business_context.md |
 | **Market** | External reality | market_analysis.md |
 | **Synthesis** | Signal collision | hypothesis_map.md, hypothesis_digest.txt |
 
@@ -49,7 +51,7 @@ After Customer Discovery Planning, run **Decision Review** — an adversarial cr
 9. Export Human Decision Report — skill `human-report-export`
 10. Human backlog decision
 
-Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Customer Discovery Planning converts uncertainty into research actions without validating hypotheses. Decision Review critiques artifacts only — it does not add new data.
+Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Customer Discovery Planning converts uncertainty into research actions without validating hypotheses. Decision Review critiques existing artifacts only — it may reference Roles, Local Evidence, Business Context, Market, Synthesis, and Customer Discovery Planning, but it does not add new data.
 
 ## Human-in-the-loop
 
@@ -83,7 +85,7 @@ Use project skills from `.cline/skills/` or invoke workflows:
 | Mode | When to use |
 | ---- | ----------- |
 | **Chat-first (new)** | New hypothesis without `RUN_DIR:` — `/run-hypothesis-conversational.md`; agent proposes new `HYP-*-NNN` in dialog; never silently reuses an existing archive |
-| **Chat-first (continue)** | Re-run existing archive — `RUN_DIR: runs/HYP-...` + `/run-hypothesis-conversational.md` or `/run-hypothesis.md` |
+| **Chat-first (continue)** | Resume existing archive — `RUN_DIR: runs/HYP-...` + `/run-hypothesis-conversational.md` or `/run-hypothesis.md`; preflight skips completed phases |
 | **File-first** | Existing `RUN_DIR/input/hypothesis.md` — `/run-hypothesis.md` |
 
 New hypothesis = new isolated `runs/HYP-YYYY-MM-DD-NNN/`. Open files from a previous run must not become the write target.

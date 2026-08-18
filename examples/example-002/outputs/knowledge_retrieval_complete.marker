@@ -1,1 +1,9 @@
-Local evidence discovery completed.
+{
+  "status": "completed",
+  "completed_phase": "local_evidence",
+  "next_phase": "business_context",
+  "inputs": [
+    "outputs/discovery_preview.md",
+    "outputs/evidence_inventory.md"
+  ]
+}

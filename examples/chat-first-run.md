@@ -96,15 +96,24 @@ If Application Security engineers can manually prioritize projects in the SAST s
 
 ## Шаг 4 — Подтверждение
 
-Агент спрашивает:
+Сначала агент подтверждает draft:
 
 ```text
-Подтвердить и запустить / Исправить / Отменить
+Подтвердить карточку / Исправить / Отменить
 ```
 
-Пользователь отвечает: **Подтвердить и запустить**
+Пользователь отвечает: **Подтвердить карточку**. Затем агент предлагает новый
+свободный каталог:
 
-До этого шага файлы не создаются.
+```text
+RUN_DIR: runs/HYP-2026-06-23-001
+Подтвердить создание 001 / Указать другой ID / Отмена
+```
+
+Пользователь отвечает: **Подтвердить создание 001**. Только теперь формальный
+`IntakeResult` получает `confirmed: true`, `intake_mode`,
+`proposed_run_dir` и `draft_markdown`; workflow может создавать файлы.
+Неоднозначное «ок» не считается подтверждением: агент повторяет варианты.
 
 ---
 
@@ -136,7 +145,17 @@ Metadata назначается автоматически:
 
 Skill `hypothesis-input-validation` проверяет `input/hypothesis.md`.
 
-При failed validation агент возвращается в repair mode (точечные вопросы), обновляет файл и повторяет валидацию.
+Он понимает русские и английские алиасы заголовков/полей и возвращает:
+
+```yaml
+validation: pass
+failed_checks: []
+repair_hints: []
+```
+
+При `validation: fail` массив содержит стабильные коды и точечные подсказки.
+Агент возвращается в repair mode, а файл обновляет только после явного
+подтверждения исправленного draft.
 
 ---
 
@@ -146,10 +165,12 @@ Skill `hypothesis-input-validation` проверяет `input/hypothesis.md`.
 
 1. Facilitator (Roles Layer)
 2. Local Evidence Discovery
-3. Market Layer
-4. Synthesis Layer
-5. Customer Discovery Planning
-6. Decision Review
+3. Business Context & Value Check
+4. Market Layer
+5. Synthesis Layer
+6. Customer Discovery Planning
+7. Decision Review
+8. Human Decision Report Export
 
 Те же артефакты, что и при file-first — см. [run.md](./run.md).
 
@@ -286,6 +307,24 @@ Scenario: Many scan projects without grouping or shared parameters
 3. Показывает `001` как существующий — «не трогаю»
 4. Создаёт `002/` только после **Подтвердить создание 002**
 5. **Не** создаёт `product_specification.md` и другие вне контракта файлы
+
+---
+
+## Пример D — Resume существующего RUN_DIR
+
+```text
+RUN_DIR: runs/HYP-2026-06-23-001
+/run-hypothesis-conversational.md
+```
+
+Intake и bootstrap пропускаются. `/run-hypothesis.md` читает тела marker как
+JSON, проверяет их status, prerequisite-артефакты и показывает завершённые
+этапы и первую безопасную точку resume. Завершённые этапы не запускаются снова.
+
+Если marker содержит free text или malformed JSON, он не считается
+завершением: агент предлагает проверить и мигрировать marker, rerun этапа или
+отмену. Миграция, повтор invalidated/completed этапа и перезапись существующих
+outputs требуют явного подтверждения.
 
 ### Неправильное поведение (guardrails предотвращают)
 

@@ -14,6 +14,7 @@
 
 * Roles Layer
 * Local Evidence Discovery
+* Business Context & Value Check
 * Market Layer
 * Synthesis Layer
 * Customer Discovery Planning
@@ -58,6 +59,7 @@
 |----------|-------|
 | `facilitator-prompt.md` | `hypothesis-facilitator` |
 | `knowledge-retrieval-prompt.md` | `local-knowledge-retrieval` |
+| `business-context-prompt.md` | `business-context-value-check` |
 | `market-prompt.md` | `hypothesis-market-layer` |
 | `synthesis-prompt.md` | `hypothesis-synthesis` |
 | `customer-discovery-planning-prompt.md` | `customer-discovery-planning` |
@@ -111,6 +113,7 @@
 
 * `facilitator-prompt.md`
 * `knowledge-retrieval-prompt.md`
+* `business-context-prompt.md`
 * `market-prompt.md`
 * `synthesis-prompt.md`
 * `customer-discovery-planning-prompt.md`

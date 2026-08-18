@@ -44,7 +44,7 @@
 
 - source_path: `kb-samples/strategy/product-strategy-2026.md`
 - source_kind: local_kb
-- evidence_type: market_context
+- evidence_type: observation
 - observation: Стратегия платформы знаний: покупатель — владелец базы; приоритет актуальности и цитируемости, не автономный чат по документам.
 - relevance: высокая
 - relevance_reason: strategic fit после переформулировки

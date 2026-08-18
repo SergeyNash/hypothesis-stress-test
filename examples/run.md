@@ -1,6 +1,6 @@
 # Прогон
 
-Этот файл описывает, как гипотеза была обработана через фреймворк.
+Этот файл описывает, как гипотеза была обработана через фреймворк v2.4.
 
 ---
 
@@ -33,7 +33,13 @@ RUN_DIR: examples/example-001
 
 1. Установлено расширение Cline — [implementations/cline-setup.md](../implementations/cline-setup.md)
 2. Настроен Confluence MCP (рекомендуется) — [implementations/confluence-mcp.md](../implementations/confluence-mcp.md)
-3. Вход провалидирован — `/validate-hypothesis-input.md`
+3. Подготовлен `input/hypothesis.md`
+
+---
+
+## Шаг 0 — Validate
+
+Проверить `input/hypothesis.md` через skill `hypothesis-input-validation` или `/validate-hypothesis-input.md`. Следующий слой запускается только для валидного входа.
 
 ---
 
@@ -93,7 +99,35 @@ outputs/knowledge_retrieval_complete.marker
 
 ---
 
-## Шаг 3 — Market Layer
+## Шаг 3 — Business Context & Value Check
+
+**Cline skill:** `business-context-value-check`
+
+**Ручной шаблон:** `templates/business-context-prompt.md`
+
+Вход:
+
+* формулировка гипотезы и outputs Roles Layer
+* `outputs/evidence_inventory.md`
+* доступные strategy / OKR / business-model материалы
+
+Ожидаемый output:
+
+```text
+outputs/business_context_analysis.md
+# или, если контекст отсутствует:
+outputs/missing_business_context.md
+outputs/business_context_complete.marker
+```
+
+Цель:
+
+* проверить business value, stakeholder map и strategic fit
+* зафиксировать пробел контекста без выдуманного стратегического соответствия
+
+---
+
+## Шаг 4 — Market Layer
 
 **Cline skill:** `hypothesis-market-layer`
 
@@ -106,6 +140,7 @@ outputs/knowledge_retrieval_complete.marker
 * формулировка гипотезы
 * research context
 * domain и тип продукта
+* `outputs/business_context_analysis.md` или `outputs/missing_business_context.md`
 
 Ожидаемый output:
 
@@ -123,7 +158,7 @@ outputs/market_analysis_complete.marker
 
 ---
 
-## Шаг 4 — Synthesis Layer
+## Шаг 5 — Synthesis Layer
 
 **Cline skill:** `hypothesis-synthesis`
 
@@ -133,6 +168,8 @@ outputs/market_analysis_complete.marker
 
 * role outputs
 * hypothesis summary
+* local evidence inventory
+* business context analysis или явный gap
 * market analysis
 
 Ожидаемый output:
@@ -152,7 +189,7 @@ outputs/synthesis_complete.marker
 
 ---
 
-## Шаг 5 — Customer Discovery Planning
+## Шаг 6 — Customer Discovery Planning
 
 **Cline skill:** `customer-discovery-planning`
 
@@ -160,7 +197,7 @@ outputs/synthesis_complete.marker
 
 Вход:
 
-* артефакты synthesis и предыдущих слоёв
+* артефакты synthesis и предыдущих слоёв, включая Business Context или явный gap
 
 Ожидаемый output:
 
@@ -177,7 +214,7 @@ outputs/customer_discovery_planning_complete.marker
 
 ---
 
-## Шаг 6 — Decision Review
+## Шаг 7 — Decision Review
 
 **Cline skill:** `hypothesis-decision-review`
 
@@ -185,7 +222,7 @@ outputs/customer_discovery_planning_complete.marker
 
 Вход:
 
-* артефакты synthesis и предыдущих слоёв
+* существующие артефакты Roles, Local Evidence, Business Context, Market, Synthesis и Customer Discovery Planning
 
 Ожидаемый output:
 
@@ -199,10 +236,11 @@ outputs/decision_review_complete.marker
 * оспорить выводы synthesis
 * выявить слабые доказательства и скрытые допущения
 * предложить самый дешёвый путь валидации
+* не проводить новый retrieval/research и не вводить сигналы без ссылок
 
 ---
 
-## Шаг 7 — Human Decision Report Export
+## Шаг 8 — Human Decision Report Export
 
 **Cline skill:** `human-report-export`
 
@@ -223,6 +261,12 @@ outputs/human_report_complete.marker
 
 ---
 
+## Шаг 9 — Решение человека
+
+Человек изучает `outputs/human_report.html` и исходные Markdown-артефакты, затем принимает решение. Pipeline не принимает это решение автоматически.
+
+---
+
 ## Ожидаемый результат
 
 ```text
@@ -236,6 +280,8 @@ examples/example-001/
     validation_questions.md
     discovery_preview.md
     evidence_inventory.md
+    business_context_analysis.md
+    missing_business_context.md  # только при отсутствии контекста
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
@@ -253,4 +299,10 @@ examples/example-001/
 
 Сам фреймворк domain-agnostic.
 
-Эталонные outputs в `examples/example-001/outputs/` служат референсными артефактами.
+Эталонные outputs в `examples/example-001/outputs/` служат референсными артефактами. Ветка без бизнес-контекста — `examples/example-004`. Негативные случаи — `examples/fixtures/`.
+
+Статическая проверка контракта (stdlib, без LLM):
+
+```text
+python scripts/validate_runs.py
+```

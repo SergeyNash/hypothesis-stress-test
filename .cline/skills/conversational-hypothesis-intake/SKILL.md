@@ -42,7 +42,10 @@ Do NOT create `RUN_DIR` or write any files until **both** steps pass.
 
 - Do NOT invoke `/run-hypothesis.md` until bootstrap is complete and validation passes
 - Draft markdown MUST follow `templates/input-schema.md` and `.clinerules/10-artifact-contracts.md`
-- Use English section headings (`## Metadata`, `## Statement`, etc.) even when body text is Russian
+- Select Russian or English canonical aliases from `templates/input-schema.md`
+  to match the user's input language, and use that language consistently in the
+  draft. Validation understands both languages; English headings are not
+  required.
 - Metadata IDs are placeholders until bootstrap assigns final values after Step 4b
 - Always show intake status before each confirm step (see **Status messages**)
 
@@ -176,6 +179,20 @@ Quality bar (same as `hypothesis-input-validation`):
 - Scenario must be concrete enough for market validation
 - Flag if more than 5 roles (noise risk)
 
+### Dedicated `#roles` flow
+
+For `#roles` / `#роли` (or auto-detected roles-only input):
+
+1. Parse and echo the proposed role list; do not infer a statement from role
+   names alone.
+2. If there are more than 5 roles, ask the user to narrow the scope before
+   continuing.
+3. Ask for the missing statement, Domain, Target audience, and Scenario in one
+   targeted round.
+4. Preserve the confirmed roles verbatim unless they are placeholders; ask for
+   clarification rather than silently replacing them.
+5. Continue to Step 3 only after the statement and required context exist.
+
 ### Step 3 — Draft card preview
 
 Render the full canonical markdown draft in chat. Use this structure:
@@ -209,7 +226,10 @@ Render the full canonical markdown draft in chat. Use this structure:
 - Owner: [optional]
 ```
 
-Omit optional Research Context lines when not provided.
+Use the equivalent Russian structure (`# Гипотеза`, `## Метаданные`,
+`## Формулировка`, `## Релевантные роли`, `## Контекст исследования` and
+localized field names) for Russian input. Omit optional Research Context lines
+when not provided.
 
 Show a short human summary before the draft:
 
@@ -239,7 +259,9 @@ Match the user's language.
 | Revise | Ask what to change; update draft; show preview again; repeat Step 4a |
 | Cancel | Stop; do not propose RUN_DIR or bootstrap |
 
-Do NOT treat silence, «ок», or continuing the conversation as confirm.
+Do NOT treat silence, «ок», “okay”, “looks fine”, or continuing the
+conversation as confirm. If the response is not an explicit confirm, revise,
+or cancel intent, re-display the three choices and ask again; do not advance.
 
 ### Step 4b — RUN_DIR dialog (new archive)
 
@@ -275,11 +297,12 @@ Rules:
 
 | Response | Action |
 | -------- | ------ |
-| Confirm RUN_DIR | Return confirmed draft + `proposed_rundir` to workflow for bootstrap |
+| Confirm RUN_DIR | Return formal `IntakeResult` to workflow for bootstrap |
 | Specify other ID | Validate free suffix; re-show dialog; repeat Step 4b |
 | Cancel | Stop; do not bootstrap or run |
 
 Do NOT write any files in this skill — workflow executes bootstrap after Step 4b.
+An ambiguous response is not confirmation: re-display the choices and wait.
 
 ## Field mapping (chat → hypothesis.md)
 
@@ -305,17 +328,22 @@ When invoked after failed validation:
 
 ## Output to workflow
 
-After Step 4b confirm, provide:
+After Step 4b confirm, return exactly this formal handoff (additional chat prose
+may follow, but workflow control uses these keys):
 
-- `confirmed: true`
-- `draft_confirmed: true`
-- `rundir_confirmed: true`
-- `proposed_rundir`: `runs/HYP-YYYY-MM-DD-NNN`
-- `intake_mode`: `ready` | `dirty` | `roles-only` | `auto`
-- `draft_hypothesis_md` — full markdown body (Metadata placeholders filled at bootstrap)
-- `summary` — one-line statement, roles, context
+```yaml
+IntakeResult:
+  confirmed: true
+  intake_mode: ready | dirty | roles-only | auto
+  proposed_run_dir: runs/HYP-YYYY-MM-DD-NNN
+  draft_markdown: |
+    # complete confirmed hypothesis.md body
+```
 
-The workflow `run-hypothesis-conversational.md` creates files only after receiving `rundir_confirmed`.
+Before both confirmations, `confirmed` MUST be `false`; omit
+`proposed_run_dir` until Step 4b and perform no file writes. The workflow
+`run-hypothesis-conversational.md` bootstraps only when all four fields are
+present, `confirmed: true`, and the proposed directory is still free.
 
 ## Reference
 

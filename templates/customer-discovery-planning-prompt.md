@@ -12,11 +12,12 @@ Synthesis must be complete. Read:
 
 - `input/hypothesis.md`
 - `outputs/hypothesis_summary.md`
+- `outputs/evidence_inventory.md`
+- `outputs/business_context_analysis.md` or `outputs/missing_business_context.md`
 - `outputs/market_analysis.md`
 - `outputs/hypothesis_map.md`
 - `outputs/validation_questions.md` (optional)
 - `outputs/role_outputs/*` (optional)
-- `outputs/decision_review.md` (optional)
 
 ---
 
@@ -33,6 +34,8 @@ The goal is:
 Do not validate the hypothesis.
 
 Do not make product decisions.
+
+Use only existing Roles, Local Evidence, Business Context, Market, and Synthesis artifacts. Do not perform new retrieval/research, introduce new evidence, or treat planned validation as completed evidence. Preserve missing Business Context as an explicit Business Value / Strategic Fit / Buyer gap.
 
 ---
 
@@ -112,5 +115,5 @@ Write `RUN_DIR/outputs/customer_discovery_plan.md` using this structure:
 ## Expected Learning Outcomes
 ```
 
-Create `RUN_DIR/outputs/customer_discovery_planning_complete.marker` when done.
+Create `RUN_DIR/outputs/customer_discovery_planning_complete.marker` as valid JSON per `.clinerules/10-artifact-contracts.md` when done.
 

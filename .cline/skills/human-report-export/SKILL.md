@@ -29,16 +29,21 @@ Required:
 
 - `RUN_DIR/input/hypothesis.md`
 - `RUN_DIR/outputs/decision_review.md`
+- `RUN_DIR/outputs/decision_review_complete.marker` with canonical JSON
+  `status: completed`
 
 Recommended:
 
-- `RUN_DIR/outputs/decision_review_complete.marker`
 - `RUN_DIR/outputs/hypothesis_digest.txt`
 - `RUN_DIR/outputs/hypothesis_map.md`
 - `RUN_DIR/outputs/customer_discovery_plan.md`
-- `RUN_DIR/outputs/business_context_analysis.md`
+- `RUN_DIR/outputs/business_context_analysis.md` or
+  `RUN_DIR/outputs/missing_business_context.md`
 
-Stop if `decision_review.md` is missing. Ask user to complete Decision Review first.
+Stop if Decision Review is incomplete. Ask user to complete it first.
+
+Validate-only mode: if the user asks to check the report without writing files,
+run the HTML section checklist and stop.
 
 ## Source mapping
 
@@ -91,6 +96,8 @@ If section missing, omit section or show "not available".
 
 From `decision_review.md` → `Validation Plan`: list items marked Low effort first (max 4). Include objective and expected learning.
 
+If there is no effort column, take the first 4 validation items in document order and label them `effort: unspecified`.
+
 ## Relative link rules
 
 Report path: `RUN_DIR/outputs/human_report.html`
@@ -111,9 +118,32 @@ Report path: `RUN_DIR/outputs/human_report.html`
 1. Read source artifacts listed above.
 2. Use `templates/human-report-template.html` as structural reference.
 3. Fill all required sections. Use same language as `input/hypothesis.md`.
-4. Write `RUN_DIR/outputs/human_report.html` — single file, inline CSS + minimal vanilla JS.
-5. Write `RUN_DIR/outputs/human_report_complete.marker`.
-6. Tell user to open `outputs/human_report.html` in a browser.
+4. Tick this checklist before writing (or in validate-only mode):
+   1. Sticky header — Hypothesis ID, confidence, recommendation, decision readiness
+   2. Executive overview
+   3. Business value (or not-available card when gap)
+   4. What changed?
+   5. Top contradictions
+   6. Decision summary
+   7. Cheapest validation
+   8. Validation priorities
+   9. Signal snapshot (or not-available)
+   10. Detailed artifacts
+5. Write `RUN_DIR/outputs/human_report.html` — single file, inline CSS + minimal vanilla JS.
+6. Write `RUN_DIR/outputs/human_report_complete.marker`:
+
+```json
+{
+  "status": "completed",
+  "completed_phase": "human_report",
+  "next_phase": "human_decision",
+  "inputs": [
+    "outputs/human_report.html"
+  ]
+}
+```
+
+7. Tell user to open `outputs/human_report.html` in a browser.
 
 ## HTML constraints
 

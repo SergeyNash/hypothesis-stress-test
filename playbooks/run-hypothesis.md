@@ -56,7 +56,7 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 ---
 
-## Шаг 0 — Сформулировать гипотезу
+## Шаг 0 — Validate: сформулировать и проверить гипотезу
 
 Напишите чёткое, проверяемое утверждение в `RUN_DIR/input/hypothesis.md`.
 
@@ -149,7 +149,15 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 **Manual:** [templates/business-context-prompt.md](../templates/business-context-prompt.md)
 
+Вход:
+
+* `input/hypothesis.md`
+* outputs Roles Layer и `evidence_inventory.md`
+* доступные strategy / OKR / business-model материалы
+
 Выход: `business_context_analysis.md` или `missing_business_context.md`, `business_context_complete.marker`
+
+Если контекст отсутствует, marker получает статус `skipped_missing_context`: downstream-слои сохраняют gap и не выдумывают strategic fit.
 
 ---
 
@@ -165,6 +173,7 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 * гипотеза
 * research context
+* `business_context_analysis.md` или `missing_business_context.md`
 
 Выход:
 
@@ -186,13 +195,15 @@ RUN_DIR: runs/HYP-2026-06-22-001
 
 **Ручной режим:** [templates/synthesis-prompt.md](../templates/synthesis-prompt.md)
 
-Эта фаза **не**: пересказывает без сравнения, добавляет сигналы, принимает финальные решения.
+Эта фаза **не**: пересказывает без сравнения, выполняет новый retrieval/research, добавляет сигналы, принимает финальные решения.
 
-Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
+Prerequisites: `ready_for_synthesis.marker` + `knowledge_retrieval_complete.marker` + `business_context_complete.marker` + `market_analysis_complete.marker`
 
 Вход:
 
-* `role_outputs/*`, `hypothesis_summary.md`, `market_analysis.md`
+* `role_outputs/*`, `hypothesis_summary.md`, `evidence_inventory.md`
+* `business_context_analysis.md` или `missing_business_context.md`
+* `market_analysis.md`
 * опционально: `validation_questions.md`
 
 Выход:
@@ -216,11 +227,11 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 **Ручной режим:** [templates/customer-discovery-planning-prompt.md](../templates/customer-discovery-planning-prompt.md)
 
-Эта фаза **не**: валидирует гипотезу, принимает продуктовые решения, рекомендует имплементацию.
+Эта фаза **не**: валидирует гипотезу, выполняет новый retrieval/research, вводит новые evidence, принимает продуктовые решения, рекомендует имплементацию.
 
 Вход:
 
-* артефакты synthesis и предыдущих слоёв
+* артефакты Roles, Local Evidence, Business Context, Market и Synthesis
 
 Выход:
 
@@ -243,7 +254,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 Вход:
 
-* артефакты synthesis и предыдущих слоёв
+* существующие артефакты Roles, Local Evidence, Business Context, Market, Synthesis и Customer Discovery Planning
 
 Выход:
 
@@ -256,7 +267,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 * выявить слабые доказательства и скрытые допущения
 * предложить самый дешёвый путь валидации
 
-Не пропускайте этот шаг. Decision Review не пересказывает synthesis — добавляет adversarial critique.
+Не пропускайте этот шаг. Decision Review не пересказывает synthesis — добавляет adversarial critique. Он не выполняет новый retrieval/research и не вводит сигналы без citations: фактические возражения должны вести к существующим артефактам и их evidence.
 
 ---
 
@@ -287,7 +298,7 @@ Prerequisites: `ready_for_synthesis.marker` + `market_analysis_complete.marker`
 
 ## Шаг 9 — Backlog Decision (человек)
 
-Изучите `human_report.html` (или `decision_review.md`) и примите финальное решение:
+Изучите `human_report.html` и связанные исходные Markdown-артефакты, затем примите финальное решение:
 
 * Proceed
 * Proceed with Validation
@@ -330,12 +341,24 @@ RUN_DIR/
     role_outputs/
     hypothesis_summary.md
     validation_questions.md
+    discovery_preview.md
+    evidence_inventory.md
+    business_context_analysis.md
+    missing_business_context.md  # только при отсутствии контекста
     market_analysis.md
     hypothesis_map.md
     hypothesis_digest.txt
     customer_discovery_plan.md
     decision_review.md
     human_report.html
+    ready_for_synthesis.marker
+    knowledge_retrieval_complete.marker
+    business_context_complete.marker
+    market_analysis_complete.marker
+    synthesis_complete.marker
+    customer_discovery_planning_complete.marker
+    decision_review_complete.marker
+    human_report_complete.marker
 ```
 
 ---

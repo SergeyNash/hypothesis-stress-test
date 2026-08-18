@@ -66,10 +66,9 @@ Optional:
 - role profiles from `knowledge-base/personas/`
 - persona build logs from `knowledge-base/persona-builds/`
 - interview notes from `knowledge-base/interviews/`
-- interview notes
-- market research
-- customer feedback
-- historical artifacts
+- historical artifacts from a previous run of this same `RUN_DIR`
+
+Do not ingest fresh market research or new external findings. Market Layer owns that work.
 
 ## Working directory
 
@@ -334,7 +333,15 @@ Only assess confidence and uncertainty.
 
 ### File 2: `RUN_DIR/outputs/role_outputs/{role_slug}.md`
 
-One file per role. Slug: lowercase with underscores (e.g. `appsec_engineer`, `ciso`).
+One file per role. Slug: lowercase ASCII with underscores (e.g. `appsec_engineer`, `ciso`).
+
+Slug rules:
+
+- trim, lowercase
+- replace spaces and hyphens with `_`
+- transliterate Cyrillic names to ASCII when possible (`Разработчик` → `razrabotchik`); if transliteration is unavailable, use a short ASCII token plus a numeric suffix
+- collapse repeated underscores
+- keep the original role name in the file heading
 
 **English structure:**
 
@@ -456,13 +463,17 @@ Priority: CRITICAL | SECONDARY | DOES NOT ADDRESS PAIN
 
 ### File 4: `RUN_DIR/outputs/ready_for_synthesis.marker`
 
-```text
-Facilitator phase completed.
-Role analyses generated.
-Hidden assumptions extracted.
-Applicability boundaries identified.
-Validation questions prepared.
-Ready for Market Layer.
+```json
+{
+  "status": "completed",
+  "completed_phase": "facilitator",
+  "next_phase": "local_evidence",
+  "inputs": [
+    "outputs/role_outputs/*",
+    "outputs/hypothesis_summary.md",
+    "outputs/validation_questions.md"
+  ]
+}
 ```
 
 ## Review rules

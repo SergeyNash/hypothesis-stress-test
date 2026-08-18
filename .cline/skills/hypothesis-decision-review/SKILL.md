@@ -26,13 +26,21 @@ The goal is to improve decision quality before a hypothesis enters backlog plann
 
 ## Prerequisites
 
-Read `RUN_DIR/outputs/customer_discovery_planning_complete.marker` (recommended) and `RUN_DIR/outputs/synthesis_complete.marker`, or confirm required artifacts exist:
+Required canonical JSON markers:
+
+- `RUN_DIR/outputs/synthesis_complete.marker` with `status: completed`
+- `RUN_DIR/outputs/customer_discovery_planning_complete.marker` with
+  `status: completed`
+
+Required artifacts:
 
 - `RUN_DIR/outputs/hypothesis_map.md`
 - `RUN_DIR/outputs/hypothesis_digest.txt`
-- `RUN_DIR/outputs/customer_discovery_plan.md` (recommended)
+- `RUN_DIR/outputs/customer_discovery_plan.md`
+- `RUN_DIR/outputs/business_context_analysis.md` **or**
+  `RUN_DIR/outputs/missing_business_context.md`
 
-Do not run if Synthesis outputs are missing. Ask user to complete Synthesis first.
+Do not run if Synthesis or Customer Discovery Planning is incomplete.
 
 ## Inputs
 
@@ -42,14 +50,17 @@ Required:
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/market_analysis.md`
 - `RUN_DIR/outputs/hypothesis_map.md`
+- `RUN_DIR/outputs/customer_discovery_plan.md`
+- `RUN_DIR/outputs/business_context_analysis.md` **or**
+  `RUN_DIR/outputs/missing_business_context.md`
 
 Optional:
 
 - `RUN_DIR/outputs/role_outputs/*`
 - `RUN_DIR/outputs/hypothesis_digest.txt`
-- `RUN_DIR/outputs/customer_discovery_plan.md`
-- additional market research
-- interview notes
+- `RUN_DIR/outputs/evidence_inventory.md`
+
+Do not ingest additional market research or interview notes that are not already in this `RUN_DIR`.
 
 ## Core Principle
 
@@ -196,95 +207,104 @@ Maximum learning per unit of effort.
 
 `RUN_DIR/outputs/decision_review.md`
 
+Language matches `input/hypothesis.md`. Use the English or Russian section set below, not a mix.
+
 ### Completion marker
 
-`RUN_DIR/outputs/decision_review_complete.marker`
+```json
+{
+  "status": "completed",
+  "completed_phase": "decision_review",
+  "next_phase": "human_report",
+  "inputs": [
+    "outputs/decision_review.md"
+  ]
+}
+```
 
-## Output Structure
+## Recommendation tokens
+
+Store one canonical token and a localized label:
+
+| Token | EN label | RU label |
+| ----- | -------- | -------- |
+| `proceed` | Proceed | Продолжить |
+| `proceed_with_validation` | Proceed with Validation | Продолжить с валидацией |
+| `additional_research` | Additional Research Required | Нужно дополнительное исследование |
+| `reject` | Reject | Отклонить |
+
+## Output Structure (English)
 
 ```markdown
 # Decision Review
 
 ## Executive Summary
 
-Short assessment of confidence level.
-
-Confidence:
-
-- High
-- Medium
-- Low
-
-Recommendation:
-
-- Proceed
-- Proceed with Validation
-- Additional Research Required
-- Reject
+Confidence: High | Medium | Low
+Recommendation token: proceed | proceed_with_validation | additional_research | reject
+Recommendation: [localized label]
 
 ## Evidence Quality Review
 
-| Conclusion | Evidence Strength | Notes |
-|------------|------------------|-------|
+| Conclusion | Evidence Strength | Source artifact | Notes |
+|------------|------------------|-----------------|-------|
 
 ## Hidden Assumptions
 
-| Assumption | Risk | Impact |
-|------------|------|--------|
+| Assumption | Risk | Impact | Source artifact |
+|------------|------|--------|-----------------|
 
 ## Missing Perspectives
-
-List stakeholder groups or viewpoints not sufficiently represented.
+...
 
 ## Scalability Risks
-
-List scalability concerns and boundary conditions.
+...
 
 ## Business Risks
 
 ### False Positive Risk
-
-What happens if we implement this and we are wrong?
+...
 
 ### False Negative Risk
-
-What happens if we reject this and we are wrong?
+...
 
 ## Validation Plan
 
-List the cheapest and fastest ways to reduce uncertainty.
-
-For each item include:
-
 - objective
 - expected learning
-- estimated effort
+- estimated effort (Low | Medium | High)
 
 ## Final Recommendation
-
-Provide a final recommendation.
-
-Always explain:
-
-- why confidence is high or low
-- what evidence is still missing
-- what should happen next
+...
 ```
+
+## Структура output (русский)
+
+```markdown
+# Decision Review
+
+## Краткое резюме
+
+Уверенность: Высокая | Средняя | Низкая
+Токен рекомендации: proceed | proceed_with_validation | additional_research | reject
+Рекомендация: Продолжить | Продолжить с валидацией | Нужно дополнительное исследование | Отклонить
+```
+
+Remaining Russian sections mirror the English structure: качество evidence, скрытые допущения, отсутствующие перспективы, риски масштабирования, бизнес-риски, план валидации, итоговая рекомендация.
 
 ## Review Rules
 
-Never repeat the synthesis.
-
-Never summarize existing outputs.
-
-Always add new critical thinking.
-
-Always look for weaknesses.
-
-Always assume uncertainty exists.
-
-If no weaknesses are found, explicitly explain why confidence is high.
+- Never repeat the synthesis
+- Never summarize existing outputs
+- Always add new critical thinking
+- Always look for weaknesses
+- Always assume uncertainty exists
+- If no weaknesses are found, explicitly explain why confidence is high
+- Do not perform new retrieval, Confluence/external research, market research, or role analysis
+- Do not generate new signals or introduce facts not already cited in prior artifacts
+- Every factual challenge must remain traceable to an existing artifact and its cited evidence
+- Missing evidence is a gap to report, not permission to fill it
 
 ## Reference
 
-Based on `templates/decision-review-prompt.md` and `layers/decision-review-layer.md`.
+Based on `templates/decision-review-prompt.md`, `layers/decision-review-layer.md`, and `.clinerules/20-evidence-rules.md`.

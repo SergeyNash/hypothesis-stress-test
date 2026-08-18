@@ -39,14 +39,16 @@ Decision Review — **adversarial gate** после Customer Discovery Planning.
 
 - `input/hypothesis.md`
 - `hypothesis_summary.md`
+- `evidence_inventory.md`
+- `business_context_analysis.md` или `missing_business_context.md`
 - `market_analysis.md`
 - `hypothesis_map.md`
+- `customer_discovery_plan.md`
 
 Опционально:
 
 - `role_outputs/*`
 - `hypothesis_digest.txt`
-- `customer_discovery_plan.md`
 
 ---
 
@@ -54,7 +56,7 @@ Decision Review — **adversarial gate** после Customer Discovery Planning.
 
 1. **Оценить качество доказательств** — классифицировать каждый крупный вывод: Strong / Moderate / Weak / Unsupported
 2. **Найти скрытые допущения** — что должно быть истинным, чтобы гипотеза сработала?
-3. **Искать отсутствующие перспективы** — finance, compliance, operations, platform-команды и т.д.
+3. **Выявить отсутствующие перспективы** в существующих артефактах — finance, compliance, operations, platform-команды и т.д.
 4. **Оценить масштабируемость** — на масштабе 10 / 50 / 100 / enterprise
 5. **Оценить бизнес-риск** — риск false positive и false negative
 6. **Оспорить рекомендацию** — активно пытаться её опровергнуть
@@ -87,16 +89,23 @@ Decision Review — **adversarial gate** после Customer Discovery Planning.
 - Всегда искать слабые места
 - Всегда исходить из того, что неопределённость есть
 - Если слабых мест нет, явно объяснить, почему уверенность высокая
+- Можно ссылаться на существующие Roles, Local Evidence, Business Context, Market, Synthesis и Customer Discovery Planning артефакты
+- Нельзя выполнять новый retrieval, Confluence/external research, market research или role analysis
+- Нельзя вводить сигналы без citations; фактическая критика должна быть прослеживаема до существующего артефакта и его evidence
+- Отсутствующий Business Context — пробел для рекомендации и будущей валидации, а не основание выдумывать strategic fit
 
 ---
 
 ## Связь с другими фазами
 
 - Roles Layer → внутренние сигналы
+- Local Evidence → атомарные локальные evidence
+- Business Context → stakeholder/value flow, strategic fit или явный gap
 - Market Layer → внешние сигналы
 - Synthesis Layer → классификация конфликтов
 - Customer Discovery Planning → план обучения через интервью
 - **Decision Review** → adversarial-критика выводов synthesis
+- Human Report → decision-facing представление существующих артефактов
 - **Человек** → решение по backlog
 
 Decision Review не вводит новые данные. Критикует только уже существующие артефакты.

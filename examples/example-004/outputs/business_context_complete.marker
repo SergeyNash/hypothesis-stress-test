@@ -1,0 +1,8 @@
+{
+  "status": "skipped_missing_context",
+  "completed_phase": "business_context",
+  "next_phase": "market",
+  "inputs": [
+    "outputs/missing_business_context.md"
+  ]
+}

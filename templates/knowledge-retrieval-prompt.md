@@ -11,6 +11,7 @@ RUN_DIR: [set your run directory]
 Read:
 
 - `RUN_DIR/input/hypothesis.md`
+- `RUN_DIR/outputs/ready_for_synthesis.marker` (`status: completed`)
 - `RUN_DIR/outputs/hypothesis_summary.md` (if present)
 
 ---
@@ -110,11 +111,20 @@ Source: workshop_queue.md
 
 ---
 
+## Prerequisites
+
+- `RUN_DIR/input/hypothesis.md`
+- `RUN_DIR/outputs/ready_for_synthesis.marker` (`status: completed`)
+
+If `RUN_DIR/kb-samples/` exists, scan it first.
+
+---
+
 ## Step 3 — Completion marker
 
-Write:
-
-`RUN_DIR/outputs/knowledge_retrieval_complete.marker`
+Write canonical JSON from `.clinerules/10-artifact-contracts.md` to
+`RUN_DIR/outputs/knowledge_retrieval_complete.marker`.
+`next_phase` must be `business_context`.
 
 ---
 

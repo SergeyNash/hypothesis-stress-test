@@ -19,7 +19,8 @@ Use after Roles Layer and Local Evidence Discovery, before Market Layer.
    - business effect type(s)
    - strategic fit (High / Medium / Low) with citations
    - key risks and opportunities
-4. Write `business_context_complete.marker`.
+4. Write `business_context_complete.marker` as canonical JSON
+   (`status: completed` or `skipped_missing_context`).
 
 ## Rules
 

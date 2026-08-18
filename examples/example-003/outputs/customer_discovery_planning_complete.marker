@@ -1,1 +1,8 @@
-Customer Discovery Planning завершён.
+{
+  "status": "completed",
+  "completed_phase": "customer_discovery_planning",
+  "next_phase": "decision_review",
+  "inputs": [
+    "outputs/customer_discovery_plan.md"
+  ]
+}

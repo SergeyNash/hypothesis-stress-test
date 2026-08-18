@@ -1,1 +1,8 @@
-Decision review completed.
+{
+  "status": "completed",
+  "completed_phase": "decision_review",
+  "next_phase": "human_report",
+  "inputs": [
+    "outputs/decision_review.md"
+  ]
+}

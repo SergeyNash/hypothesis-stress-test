@@ -6,6 +6,18 @@ RUN_DIR: [set your run directory]
 
 ---
 
+## Prerequisites
+
+Read:
+
+* `outputs/evidence_inventory.md`
+* `outputs/business_context_complete.marker` (`completed` or `skipped_missing_context`)
+* `outputs/business_context_analysis.md` or `outputs/missing_business_context.md`
+
+Use Business Context to constrain stakeholder, buyer, value, and strategic-fit interpretation. If it is missing, preserve the explicit gap: market evidence must not be used to fabricate internal strategic fit.
+
+---
+
 ## Hypothesis
 
 [Same hypothesis as before]
@@ -49,6 +61,7 @@ You MUST:
 * no evidence → no claim
 * distinguish facts from assumptions
 * provide references when using external information
+* do not invent Business Context or treat an explicit context gap as evidence
 
 ---
 
@@ -75,7 +88,7 @@ Generate `RUN_DIR/outputs/market_analysis.md` with sections:
 
 Generate completion marker:
 
-`RUN_DIR/outputs/market_analysis_complete.marker`
+`RUN_DIR/outputs/market_analysis_complete.marker` as valid JSON per `.clinerules/10-artifact-contracts.md`
 
 ---
 

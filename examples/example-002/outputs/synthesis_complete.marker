@@ -1,2 +1,9 @@
-Synthesis завершён.
-Готов к Customer Discovery Planning.
+{
+  "status": "completed",
+  "completed_phase": "synthesis",
+  "next_phase": "customer_discovery_planning",
+  "inputs": [
+    "outputs/hypothesis_map.md",
+    "outputs/hypothesis_digest.txt"
+  ]
+}

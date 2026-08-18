@@ -1,1 +1,8 @@
-Market Layer завершён.
+{
+  "status": "completed",
+  "completed_phase": "market",
+  "next_phase": "synthesis",
+  "inputs": [
+    "outputs/market_analysis.md"
+  ]
+}

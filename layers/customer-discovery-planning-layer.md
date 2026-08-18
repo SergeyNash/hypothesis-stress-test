@@ -25,12 +25,13 @@ Customer Discovery Planning — **слой планирования исслед
 - `hypothesis_summary.md`
 - `market_analysis.md`
 - `hypothesis_map.md`
+- `evidence_inventory.md`
+- `business_context_analysis.md` или `missing_business_context.md`
 
 Опционально:
 
 - `validation_questions.md`
 - `role_outputs/*`
-- `decision_review.md`
 
 Условие старта:
 
@@ -50,6 +51,7 @@ Customer Discovery Planning — **слой планирования исслед
 ## Основной процесс
 
 1. Извлечь критические неизвестные из допущений, слабых сигналов, противоречий и отсутствующих доказательств.
+   Отдельно сохранить пробелы Business Context как Business Value / Strategic Fit / Buyer Risk, не заполняя их предположениями.
 2. Классифицировать неопределённость по типу риска:
    - Problem Risk
    - Frequency Risk
@@ -64,6 +66,8 @@ Customer Discovery Planning — **слой планирования исслед
 5. Собрать interview guide, основанный на поведении.
 6. Приоритизировать неизвестные по влиянию на решение (HIGH / MEDIUM / LOW).
 7. Задать ожидаемые результаты обучения.
+
+Слой использует только существующие Roles, Local Evidence, Business Context, Market и Synthesis артефакты. Он не выполняет новый retrieval/research, не создаёт новые evidence-сигналы и не выдаёт запланированную валидацию за проведённую.
 
 ---
 
@@ -82,6 +86,8 @@ Customer Discovery Planning — **слой планирования исслед
 ## Связь с другими фазами
 
 - Facilitator (Roles Layer) -> внутренний pressure test и заготовки вопросов для интервью
+- Local Evidence -> существующие evidence и пробелы
+- Business Context -> stakeholder/value flow, strategic fit или явный gap
 - Market Layer -> внешние доказательства
 - Synthesis -> карта противоречий и неизвестных
 - **Customer Discovery Planning** -> план customer research

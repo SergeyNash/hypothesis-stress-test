@@ -1,2 +1,8 @@
-Human decision report export completed.
-human_report.html generated.
+{
+  "status": "completed",
+  "completed_phase": "human_report",
+  "next_phase": "human_decision",
+  "inputs": [
+    "outputs/human_report.html"
+  ]
+}

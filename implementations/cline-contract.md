@@ -34,6 +34,7 @@
 | `hypothesis-input-validation` | Перед любым слоем |
 | `hypothesis-facilitator` | Facilitator (Roles Layer / stress test) |
 | `local-knowledge-retrieval` | Local Evidence Discovery (preview + inventory) |
+| `business-context-value-check` | Business Context & Value Check (ценность, strategic fit и явные пробелы контекста) |
 | `hypothesis-market-layer` | Market Layer + KB inventory + Confluence MCP |
 | `hypothesis-synthesis` | Synthesis Layer (signal collision) |
 | `customer-discovery-planning` | Customer Discovery Planning (практичный план интервью) |
@@ -61,6 +62,7 @@ Upstream: [thinking-lab/skills/russian-humanizer](https://github.com/SergeyNash/
 | `validate-hypothesis-input.md` | `/validate-hypothesis-input.md` |
 | `run-facilitator.md` | `/run-facilitator.md` |
 | `run-knowledge-retrieval.md` | `/run-knowledge-retrieval.md` |
+| `run-business-context-value-check.md` | `/run-business-context-value-check.md` |
 | `run-hypothesis.md` | `/run-hypothesis.md` |
 | `run-market-layer.md` | `/run-market-layer.md` |
 | `run-synthesis.md` | `/run-synthesis.md` |
@@ -74,26 +76,48 @@ Upstream: [thinking-lab/skills/russian-humanizer](https://github.com/SergeyNash/
 
 ```text
 Пользователь описывает гипотезу в чате
-  → conversational intake (skill) → draft карточки → подтверждение
+  → conversational intake (skill) → draft карточки → два подтверждения
   → bootstrap RUN_DIR + input/hypothesis.md
   → валидация входа (skill или workflow)
   → полный pipeline через /run-hypothesis.md
   → Решение человека (backlog)
 ```
 
+Intake передаёт workflow формальный `IntakeResult`: `confirmed`,
+`intake_mode`, `proposed_run_dir`, `draft_markdown`. Пока не подтверждены и
+карточка, и новый `RUN_DIR`, файловых записей нет. Заголовки и поля входа
+понимают RU/EN-алиасы из `templates/input-schema.md`; язык draft и результатов
+следует за входом.
+
 ### File-first (fallback)
 
 ```text
 Пользователь указывает RUN_DIR
   → валидация входа (skill или workflow)
-  → Facilitator (skill) → role_outputs + summary + validation_questions + marker
+  → preflight JSON markers → первый незавершённый/невалидный этап
+  → Facilitator (если нужен) → role_outputs + summary + validation_questions + marker
   → Local Evidence Discovery (skill) → discovery_preview + evidence_inventory + marker
+  → Business Context & Value Check (skill) → business_context_analysis или missing_business_context + marker
   → Market Layer (skill + inventory + Confluence MCP) → market_analysis + marker
   → Synthesis (hypothesis-synthesis) → hypothesis_map + digest + marker
   → Customer Discovery Planning (skill) → customer_discovery_plan + marker
   → Decision Review (skill) → decision_review + marker
   → Human Decision Report Export (skill) → human_report.html + marker
   → Решение человека (backlog)
+```
+
+Валидация возвращает `validation`, `failed_checks` со стабильными кодами и
+`repair_hints`; отдельный marker для неё не создаётся. При resume workflow
+доверяет только canonical JSON marker вместе с его prerequisite-артефактами,
+пропускает завершённые этапы и заранее показывает точку продолжения.
+Malformed/free-text marker считается legacy: пользователь выбирает миграцию
+после проверки, rerun или отмену. Перезапись outputs и повтор completed /
+invalidated этапа всегда требуют явного подтверждения.
+
+Канонический порядок полного прогона:
+
+```text
+Validate → Facilitator → Local Evidence → Business Context → Market → Synthesis → Customer Discovery Planning → Decision Review → Human Report → решение человека
 ```
 
 ## Требования

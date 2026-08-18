@@ -38,13 +38,14 @@ Required:
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/market_analysis.md`
 - `RUN_DIR/outputs/role_outputs/*`
+- `RUN_DIR/outputs/business_context_analysis.md` **or**
+  `RUN_DIR/outputs/missing_business_context.md`
 
 Optional:
 
 - `RUN_DIR/outputs/validation_questions.md`
-- `RUN_DIR/outputs/business_context_analysis.md`
+- `RUN_DIR/outputs/evidence_inventory.md`
 - additional role outputs
-- previous synthesis artifacts
 
 ## Working directory
 
@@ -60,18 +61,25 @@ Write all artifact headings and body text in the **same language as `input/hypot
 
 ## Start conditions
 
-Run synthesis only if these exist:
+Run synthesis only if these canonical JSON markers exist:
 
-- `RUN_DIR/outputs/ready_for_synthesis.marker`
-- `RUN_DIR/outputs/market_analysis_complete.marker`
+- `RUN_DIR/outputs/ready_for_synthesis.marker` (`status: completed`)
+- `RUN_DIR/outputs/knowledge_retrieval_complete.marker` (`status: completed`)
+- `RUN_DIR/outputs/business_context_complete.marker` (`status: completed` or `skipped_missing_context`)
+- `RUN_DIR/outputs/market_analysis_complete.marker` (`status: completed`)
 
-Or equivalent output files: `role_outputs/*`, `hypothesis_summary.md`, `market_analysis.md`.
-
-If markers or required files are missing:
+If any required marker or artifact is missing:
 
 - stop analysis
 - report incomplete pipeline
 - describe missing dependencies
+
+Do not fall back to “files exist so markers are optional”.
+
+If `missing_business_context.md` is present, add an explicit section
+**Buyer/value analysis unavailable** / **Анализ ценности покупателя недоступен**
+in `hypothesis_map.md`. Do not infer Local Optimization Trap strategic-fit
+claims without Business Context.
 
 ## Core principle
 
@@ -125,12 +133,12 @@ Risk: improving local efficiency without improving strategic outcomes.
 
 ### Step 1 — Internal alignment analysis
 
-Analyze all role outputs. Determine:
+Read `hypothesis_summary.md` role-conflict sections. Do **not** re-list Facilitator conflicts.
 
-- Agreement zones
-- Tension zones
-- Conflict zones
-- Role-specific risks
+Compare those already recorded conflicts against later layers:
+
+- Which facilitator conflicts are still unresolved after Market / Business Context?
+- Which appear only after cross-layer comparison?
 
 ### Step 2 — Market validation analysis
 
@@ -345,13 +353,16 @@ Next step:
 
 ### File 3: `RUN_DIR/outputs/synthesis_complete.marker`
 
-```text
-Synthesis completed.
-Roles analyzed.
-Market analyzed.
-Contradictions identified.
-Applicability boundaries discovered.
-Ready for Customer Discovery Planning.
+```json
+{
+  "status": "completed",
+  "completed_phase": "synthesis",
+  "next_phase": "customer_discovery_planning",
+  "inputs": [
+    "outputs/hypothesis_map.md",
+    "outputs/hypothesis_digest.txt"
+  ]
+}
 ```
 
 ## Review rules

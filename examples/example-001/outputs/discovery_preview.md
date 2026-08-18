@@ -29,9 +29,9 @@
 
 ## Кандидаты
 
-1. `workshop_queue.md` — заметки воркшопа о latency очереди
-2. `2025-03-appsec-interview-excerpt.md` — excerpt custdev-интервью
-3. `whiteboard_scan_queues.txt` — caption whiteboard / image observation
+1. `workshop_queue.md` — planned evidence_type: quote — заметки воркшопа о latency очереди
+2. `2025-03-appsec-interview-excerpt.md` — planned evidence_type: transcript_excerpt — excerpt custdev-интервью
+3. `whiteboard_scan_queues.txt` — planned evidence_type: image_observation — caption whiteboard
 
 ## Следующий шаг
 

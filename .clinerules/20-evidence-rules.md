@@ -96,9 +96,11 @@ If Confluence MCP is not configured:
 
 ## Decision Review
 
-Decision Review applies to **Synthesis + Customer Discovery Planning outputs only**:
+Decision Review may reference the existing **Roles, Local Evidence, Business Context, Market, Synthesis, and Customer Discovery Planning** artifacts to challenge conclusions and evaluate the quality of the recommendation.
 
-- Do not generate new market or role signals
-- Do not cite sources not already present in prior artifacts
+- Do not perform new local retrieval, Confluence searches, external research, market research, or role analysis
+- Do not generate new signals or introduce facts not already cited in prior artifacts
+- Every factual challenge must remain traceable to an existing artifact and its cited evidence
+- Missing evidence or a missing perspective is a gap to report and validate later, not permission to fill it with uncited information
 - Challenge evidence quality, assumptions, and conclusions — do not repeat synthesis
 - Propose validation activities; do not treat them as completed evidence

@@ -31,6 +31,7 @@ RUN_DIR/
     synthesis_complete.marker
     customer_discovery_planning_complete.marker
     decision_review_complete.marker
+    human_report_complete.marker
 ```
 
 ## Input: input/hypothesis.md
@@ -154,24 +155,107 @@ Created only when strategy/OKR/business-model materials are absent. Must list mi
 
 ## Completion markers
 
-Markers signal that a layer finished and outputs are ready for the next step:
+Marker presence means that the named phase was attempted and the marker body is the canonical machine-readable result. Presence alone does not always mean that a full analysis artifact exists: consumers MUST read `status`.
 
-| Marker | Created after |
-| -------- | --------------- |
-| `ready_for_synthesis.marker` | Facilitator (Roles Layer) |
-| `knowledge_retrieval_complete.marker` | Local Evidence Discovery |
-| `business_context_complete.marker` | Business Context & Value Check |
-| `market_analysis_complete.marker` | Market Layer |
-| `synthesis_complete.marker` | Synthesis Layer |
-| `customer_discovery_planning_complete.marker` | Customer Discovery Planning |
-| `decision_review_complete.marker` | Decision Review |
-| `human_report_complete.marker` | Human Report Export |
+Canonical status semantics:
+
+- `completed` — the phase completed and its required outputs listed in `inputs` are available to the next phase.
+- `skipped_missing_context` — allowed only for `business_context_complete.marker`; the phase completed as a gap check, `missing_business_context.md` exists, and downstream phases must preserve this gap rather than infer strategic fit.
+
+Marker bodies MUST be valid JSON with the keys `status`, `completed_phase`, `next_phase`, and `inputs` when the completed phase produced or checked relevant artifacts. Canonical examples do not support legacy free-text marker bodies.
+
+### Canonical machine-readable marker registry
+
+```json
+{
+  "ready_for_synthesis.marker": {
+    "status": "completed",
+    "completed_phase": "facilitator",
+    "next_phase": "local_evidence",
+    "inputs": [
+      "outputs/role_outputs/*",
+      "outputs/hypothesis_summary.md",
+      "outputs/validation_questions.md"
+    ]
+  },
+  "knowledge_retrieval_complete.marker": {
+    "status": "completed",
+    "completed_phase": "local_evidence",
+    "next_phase": "business_context",
+    "inputs": [
+      "outputs/discovery_preview.md",
+      "outputs/evidence_inventory.md"
+    ]
+  },
+  "business_context_complete.marker": [
+    {
+      "status": "completed",
+      "completed_phase": "business_context",
+      "next_phase": "market",
+      "inputs": [
+        "outputs/business_context_analysis.md"
+      ]
+    },
+    {
+      "status": "skipped_missing_context",
+      "completed_phase": "business_context",
+      "next_phase": "market",
+      "inputs": [
+        "outputs/missing_business_context.md"
+      ]
+    }
+  ],
+  "market_analysis_complete.marker": {
+    "status": "completed",
+    "completed_phase": "market",
+    "next_phase": "synthesis",
+    "inputs": [
+      "outputs/market_analysis.md"
+    ]
+  },
+  "synthesis_complete.marker": {
+    "status": "completed",
+    "completed_phase": "synthesis",
+    "next_phase": "customer_discovery_planning",
+    "inputs": [
+      "outputs/hypothesis_map.md",
+      "outputs/hypothesis_digest.txt"
+    ]
+  },
+  "customer_discovery_planning_complete.marker": {
+    "status": "completed",
+    "completed_phase": "customer_discovery_planning",
+    "next_phase": "decision_review",
+    "inputs": [
+      "outputs/customer_discovery_plan.md"
+    ]
+  },
+  "decision_review_complete.marker": {
+    "status": "completed",
+    "completed_phase": "decision_review",
+    "next_phase": "human_report",
+    "inputs": [
+      "outputs/decision_review.md"
+    ]
+  },
+  "human_report_complete.marker": {
+    "status": "completed",
+    "completed_phase": "human_report",
+    "next_phase": "human_decision",
+    "inputs": [
+      "outputs/human_report.html"
+    ]
+  }
+}
+```
+
+The registry describes each individual marker body; write only the object under that marker's filename, not the entire registry. For `business_context_complete.marker`, write exactly one of the two objects in its array.
 
 ### human_report.html (human report export)
 
 Decision-facing HTML report for humans. Generated after Decision Review. Does not replace Markdown artifacts as source of truth.
 
-**Prerequisites:** `decision_review_complete.marker` or `decision_review.md`.
+**Canonical prerequisite:** `decision_review_complete.marker` with `status: completed`. A bare `decision_review.md` is a historical-run migration fallback only.
 
 **Source artifacts (read-only):**
 
@@ -252,17 +336,24 @@ Max 150 words: viability, key conflict, primary illusion, blind spot, risk, insi
 
 Must include: research objective, what is already known, critical unknowns with risk type and priority, recommended interview roles, behavior-based interview guide, research priorities (HIGH / MEDIUM / LOW), expected learning outcomes. Language matches `input/hypothesis.md`.
 
-Do not run Market Layer until Facilitator completes (`ready_for_synthesis.marker` or equivalent facilitator outputs). Local Evidence Discovery is recommended before Business Context but optional for backward compatibility.
+Canonical order:
 
-Do not run Market Layer until Business Context & Value Check completes (`business_context_complete.marker` or `business_context_analysis.md` / `missing_business_context.md` present). For legacy runs without business context artifacts, Market may proceed with explicit gap note.
+```text
+Validate → Facilitator → Local Evidence → Business Context → Market → Synthesis → Customer Discovery Planning → Decision Review → Human Report → human decision
+```
 
-Do not run Synthesis until both Facilitator and Market markers exist (`ready_for_synthesis.marker` + `market_analysis_complete.marker`, or equivalent output files).
+For canonical runs, do not start the next phase until the preceding marker exists and has an allowed canonical status:
 
-Do not run Customer Discovery Planning until Synthesis completes (`synthesis_complete.marker` or `hypothesis_map.md` + `hypothesis_digest.txt` present).
+- Local Evidence requires `ready_for_synthesis.marker` with `status: completed`.
+- Business Context requires `knowledge_retrieval_complete.marker` with `status: completed`.
+- Market requires `business_context_complete.marker` with `status: completed` or `status: skipped_missing_context`.
+- Synthesis requires `market_analysis_complete.marker` with `status: completed`; it also consumes the existing Facilitator, Local Evidence, and Business Context artifacts or explicit Business Context gap.
+- Customer Discovery Planning requires `synthesis_complete.marker` with `status: completed`.
+- Decision Review requires `customer_discovery_planning_complete.marker` with `status: completed`.
+- Human Report requires `decision_review_complete.marker` with `status: completed`.
+- Human decision requires `human_report_complete.marker` with `status: completed`.
 
-Do not run Decision Review until Customer Discovery Planning completes (`customer_discovery_planning_complete.marker` or `customer_discovery_plan.md` present).
-
-Do not run Human Report Export until Decision Review completes (`decision_review_complete.marker` or `decision_review.md` present).
+Equivalent output files and legacy free-text markers may be used only when migrating historical runs; they are not canonical completion signals.
 
 ## RUN_DIR examples
 

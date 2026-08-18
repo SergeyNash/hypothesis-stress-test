@@ -1,6 +1,6 @@
 ---
 name: local-knowledge-retrieval
-description: Discover traceable local evidence from a messy knowledge base before Market Layer. Produce discovery_preview.md and evidence_inventory.md with atomic evidence items only.
+description: Discover traceable local evidence from a messy knowledge base before Business Context and Market Layer. Produce discovery_preview.md and evidence_inventory.md with atomic evidence items only.
 ---
 
 # Local Evidence Discovery
@@ -14,18 +14,23 @@ This skill does not perform market interpretation.
 `evidence_inventory.md` separates retrieval from analysis:
 
 - Retrieval discovers evidence.
-- Market Layer interprets evidence.
+- Business Context and Market Layer interpret evidence.
 - Synthesis resolves contradictions.
 
 ## Prerequisites
 
+Required:
+
 - `RUN_DIR/input/hypothesis.md` exists
-- `RUN_DIR` is provided by user
+- `RUN_DIR/outputs/ready_for_synthesis.marker` with canonical JSON
+  `status: completed`
 - Workspace root is the KB project root (recommended)
 
 Optional input:
 
 - `RUN_DIR/outputs/hypothesis_summary.md` (for relevance hints)
+
+If the Facilitator marker is missing, stop and ask the user to run Facilitator first.
 
 ## Scope and limits (V1 defaults)
 
@@ -49,13 +54,17 @@ Explicitly skip in V1:
 
 - `.pdf`, `.docx`, `.html`, `.pptx`, `.xlsx`
 
+Record `limit_reached: true` in preview metadata when a cap stops the scan or extraction.
+
 ## Scan root and exclusions
 
-Scan recursively from KB workspace root.
+If `RUN_DIR/kb-samples/` exists, scan it **first** as a run-local KB island (used by examples and isolated demos).
+
+Otherwise scan recursively from KB workspace root.
 
 Exclude:
 
-- `hypothesis-stress-test/`
+- `hypothesis-stress-test/` (skip only when the workspace root is a parent KB, not when this repo is the workspace)
 - `runs/`
 - `.git/`
 - `.clinerules/`
@@ -70,13 +79,29 @@ Write output headings/body in the same language as `input/hypothesis.md`.
 
 ### Step 1 — Build preview (always)
 
-Write `RUN_DIR/outputs/discovery_preview.md` with:
+Write `RUN_DIR/outputs/discovery_preview.md`:
 
-- limits applied
-- files scanned
-- files skipped (with reasons)
-- candidate files
-- top relevant files with planned evidence type
+```markdown
+# Discovery Preview
+
+## Limits
+- max_files_scanned: 200
+- max_file_size: 2 MB
+- max_evidence_items: 20
+- limit_reached: true | false
+
+## Scanned
+- [path]
+
+## Skipped
+- [path] — reason
+
+## Candidates
+- [path] — planned evidence_type
+
+## Top relevant
+- [path] — planned evidence_type — why relevant
+```
 
 Preview is mandatory and non-blocking in V1.
 
@@ -116,12 +141,21 @@ Each `EVID-NNN` item must include:
 - `relevance_reason`
 - `retrieved_by`
 
-For `image_observation`, include `extraction_note`:
+For `image_observation`, include `extraction_note`.
 
-- `derived from visible text in image`
-- `derived from diagram labels and layout`
-- `derived from whiteboard handwriting`
-- `derived from image content (no readable text)`
+Canonical item:
+
+```markdown
+### EVID-001
+
+- source_path: kb-samples/notes_2024/workshop_queue.md
+- source_kind: markdown
+- evidence_type: quote
+- observation: "Critical projects wait several hours before scanning."
+- relevance: scan queue latency
+- relevance_reason: Direct wait-time claim for critical projects
+- retrieved_by: local-knowledge-retrieval
+```
 
 ### Step 5 — Media without transcript
 
@@ -137,13 +171,18 @@ If audio/video has no transcript:
 2. `RUN_DIR/outputs/evidence_inventory.md`
 3. `RUN_DIR/outputs/knowledge_retrieval_complete.marker`
 
-Marker content:
+Marker body (JSON):
 
-```text
-Local Evidence Discovery completed.
-discovery_preview.md generated.
-evidence_inventory.md generated.
-Ready for Market Layer.
+```json
+{
+  "status": "completed",
+  "completed_phase": "local_evidence",
+  "next_phase": "business_context",
+  "inputs": [
+    "outputs/discovery_preview.md",
+    "outputs/evidence_inventory.md"
+  ]
+}
 ```
 
 ## Review rules
@@ -152,3 +191,4 @@ Ready for Market Layer.
 - no generalized observations
 - no synthesis in retrieval step
 - preserve traceability to source path and anchor
+- next phase is Business Context, not Market

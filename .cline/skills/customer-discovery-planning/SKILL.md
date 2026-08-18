@@ -35,12 +35,17 @@ Required:
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/market_analysis.md`
 - `RUN_DIR/outputs/hypothesis_map.md`
+- `RUN_DIR/outputs/synthesis_complete.marker` with `status: completed`
+- `RUN_DIR/outputs/business_context_analysis.md` **or**
+  `RUN_DIR/outputs/missing_business_context.md`
 
 Optional:
 
-- `RUN_DIR/outputs/decision_review.md`
 - `RUN_DIR/outputs/validation_questions.md`
 - `RUN_DIR/outputs/role_outputs/*`
+- `RUN_DIR/outputs/evidence_inventory.md`
+
+Do not read `decision_review.md`. That artifact is produced after this phase.
 
 ## Working directory
 
@@ -105,14 +110,18 @@ The objective is evidence, not opinions.
 
 ### Step 1 — Extract unknowns
 
-Review all available artifacts.
+Review all available artifacts, including Business Context or `missing_business_context.md`.
+
+If `validation_questions.md` exists, **extend** those questions: reuse wording, add missing roles/unknowns, and do not duplicate the same interview item.
+
+Bind each Critical Unknown to `EVID-*` IDs when inventory items exist; otherwise mark `evidence: missing`.
 
 Identify:
 
 - assumptions without evidence;
 - weak signals;
 - unresolved contradictions;
-- missing perspectives;
+- missing perspectives, including Buyer Risk / Strategic Fit Risk from Business Context;
 - unsupported conclusions.
 
 Create a list of:
@@ -375,11 +384,15 @@ Good:
 
 ### File 2: `RUN_DIR/outputs/customer_discovery_planning_complete.marker`
 
-```text
-Customer Discovery Planning completed.
-Critical unknowns identified.
-Interview plan prepared.
-Ready for Decision Review.
+```json
+{
+  "status": "completed",
+  "completed_phase": "customer_discovery_planning",
+  "next_phase": "decision_review",
+  "inputs": [
+    "outputs/customer_discovery_plan.md"
+  ]
+}
 ```
 
 ## Review rules

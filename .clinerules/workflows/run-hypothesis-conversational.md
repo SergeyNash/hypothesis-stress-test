@@ -12,7 +12,7 @@ Check the user message first:
 
 | Condition | Path |
 | --------- | ---- |
-| Message contains `RUN_DIR: runs/HYP-...` | **Continue existing run** — skip intake; validate `input/hypothesis.md`; invoke `/run-hypothesis.md` if valid |
+| Message contains `RUN_DIR: runs/HYP-...` | **Resume existing run** — skip intake and bootstrap; delegate to `/run-hypothesis.md` preflight/resume logic |
 | No `RUN_DIR:` in message | **New hypothesis** — full intake + dialog bootstrap (Steps 0b–5) |
 
 For **new hypothesis**, auto-apply `#new-run` semantics: never reuse an existing archive from open tabs or prior context.
@@ -43,6 +43,8 @@ Activate skill `conversational-hypothesis-intake`.
 - Show draft `input/hypothesis.md` preview
 - **Step 4a:** wait for hypothesis draft confirm (`Confirm draft` / `Подтвердить карточку`)
 - **Step 4b:** propose new `RUN_DIR`, list existing runs today, wait for RUN_DIR confirm (`Confirm create` / `Подтвердить создание`)
+- Require an unambiguous response at each confirmation. For «ок», “okay”, silence,
+  or unrelated continuation, repeat the choices and wait.
 
 Stop if the user cancels at any step.
 
@@ -50,9 +52,21 @@ Do NOT write files until Step 4b completes.
 
 ### 2. Bootstrap RUN_DIR
 
-Execute **only after** intake returns `rundir_confirmed: true` and `proposed_rundir`.
+Execute **only after** intake returns:
 
-Use the user-confirmed path from intake (e.g. `runs/HYP-2026-06-23-002`).
+```yaml
+IntakeResult:
+  confirmed: true
+  intake_mode: ready | dirty | roles-only | auto
+  proposed_run_dir: runs/HYP-YYYY-MM-DD-NNN
+  draft_markdown: |
+    # confirmed markdown
+```
+
+Reject an incomplete or differently shaped handoff. Re-check that
+`proposed_run_dir` does not exist immediately before creating it; if it now
+exists, return to the RUN_DIR proposal and confirmation step. Use
+`draft_markdown` from the confirmed handoff.
 
 #### ID assignment
 
@@ -107,7 +121,9 @@ Invoke `/validate-hypothesis-input.md` or skill `hypothesis-input-validation` ag
 If validation fails:
 
 - Activate skill `conversational-hypothesis-intake` in repair mode
-- Update `input/hypothesis.md` after user confirms revised draft
+- Show the structured `validation`, `failed_checks`, and `repair_hints`
+- Update `input/hypothesis.md` only after user explicitly confirms the revised
+  draft and the overwrite
 - Re-run validation
 - Repeat until validation passes or user cancels
 
@@ -118,7 +134,8 @@ Do NOT start the pipeline on invalid input.
 When validation passes:
 
 1. Update `Status` in `input/hypothesis.md` to `running` if still `draft`
-2. Invoke `/run-hypothesis.md` with the bootstrapped `RUN_DIR`
+2. Invoke `/run-hypothesis.md` with the bootstrapped `RUN_DIR`; its preflight
+   will select the first incomplete phase
 
 The conversational workflow does not duplicate layer logic — it delegates to the existing end-to-end workflow.
 
@@ -131,16 +148,22 @@ After pipeline completes, display:
 - Key verdict from `outputs/decision_review.md`
 - Reminder: human makes the final backlog decision
 
-## Continue existing run (when `RUN_DIR:` provided)
+## Resume existing run (when `RUN_DIR:` provided)
 
 If the user message includes `RUN_DIR: runs/HYP-...`:
 
 1. Do NOT run new-hypothesis intake
 2. Do NOT create a new folder
-3. Validate `RUN_DIR/input/hypothesis.md`
-4. If valid, invoke `/run-hypothesis.md` with that `RUN_DIR`
+3. Invoke `/run-hypothesis.md` with that `RUN_DIR`
+4. Let its preflight validate input, read canonical JSON marker bodies, verify
+   prerequisite artifacts/status, skip completed phases, and summarize the
+   first safe resume point
+5. If a marker is malformed or free text, ask whether to verify and migrate it,
+   rerun the phase, or cancel. Never trust or overwrite it silently.
+6. Require explicit confirmation before rerunning a completed/invalidated phase
+   or overwriting existing outputs.
 
-Use this when resuming or re-running an existing archive — not for a new hypothesis.
+Use this for safe resume. A full rerun is not implied by providing `RUN_DIR`.
 
 ## User trigger examples
 
@@ -170,7 +193,8 @@ RUN_DIR: runs/HYP-2026-06-23-001
 /run-hypothesis-conversational.md
 ```
 
-Skips new intake; validates and runs pipeline on existing archive.
+Skips new intake and bootstrap; reports completed phases and resumes at the
+first incomplete/invalid phase after any required confirmation.
 
 ## Do not
 
@@ -180,6 +204,8 @@ Skips new intake; validates and runs pipeline on existing archive.
 - Bootstrap before RUN_DIR dialog confirm (Step 4b)
 - Skip hypothesis draft confirm (Step 4a)
 - Treat «ок» or continued chat as confirmation
+- Blindly rerun all phases for an existing `RUN_DIR`
+- Trust or overwrite malformed/free-text legacy markers
 - Run ad-hoc analysis plans instead of intake → dialog → bootstrap → pipeline
 - Start pipeline before validation passes
 

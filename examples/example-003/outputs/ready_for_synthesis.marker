@@ -1,2 +1,10 @@
-Facilitator (Roles Layer) завершён.
-Готов к Local Evidence Discovery и Business Context.
+{
+  "status": "completed",
+  "completed_phase": "facilitator",
+  "next_phase": "local_evidence",
+  "inputs": [
+    "outputs/role_outputs/*",
+    "outputs/hypothesis_summary.md",
+    "outputs/validation_questions.md"
+  ]
+}

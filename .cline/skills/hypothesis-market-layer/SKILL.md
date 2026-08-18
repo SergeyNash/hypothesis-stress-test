@@ -9,9 +9,24 @@ Validate whether the problem exists in reality using evidence-based analysis.
 
 ## Prerequisites
 
-- `RUN_DIR/input/hypothesis.md` exists
-- Roles Layer outputs are optional but recommended
-- `RUN_DIR/outputs/evidence_inventory.md` is optional but recommended
+Required:
+
+- `RUN_DIR/input/hypothesis.md`
+- `RUN_DIR/outputs/business_context_complete.marker` with canonical JSON
+  `status: completed` or `status: skipped_missing_context`
+- `RUN_DIR/outputs/business_context_analysis.md` **or**
+  `RUN_DIR/outputs/missing_business_context.md`
+
+Recommended:
+
+- `RUN_DIR/outputs/evidence_inventory.md`
+- `RUN_DIR/outputs/hypothesis_summary.md`
+
+If the Business Context gate is missing, stop. Do not start Market Layer.
+
+Use Business Context only to frame buyer, value, and strategic-fit interpretation.
+If the gap artifact exists, preserve it: market evidence must not fabricate
+internal strategic fit.
 
 ## Step 0 — Local KB inventory (if present)
 
@@ -51,17 +66,22 @@ Confluence MCP: not configured
 
 Do not fabricate internal knowledge.
 
-## Step 2 — External signals (secondary)
+## Step 2 — External signals (secondary, default skip)
 
-Only after Confluence search, if gaps remain:
+Do **not** search external sources unless the user explicitly approves.
 
-- Search external sources if user approves
-- Cite URLs for every external claim
-- Label signal type: **external**
+Default: skip external research and record:
+
+```markdown
+## External Market Signals
+- skipped — user did not approve external research
+```
+
+If the user approves, cite URLs for every external claim and label type **external**.
 
 ## Step 3 — Inferred signals (last resort)
 
-Logical conclusions from available data only. Label as **inferred** with explicit basis.
+Logical conclusions from available data only. Label as **inferred** with explicit `basis:`.
 
 ## Evidence rules
 
@@ -85,22 +105,36 @@ Confluence MCP: configured | not configured
 - [finding] — signal: strong|weak|none — evidence_id: EVID-NNN — evidence_type: ... — source: [path]
 
 ## Confluence Signals
-...
+- [finding] — signal: strong|weak|none — source: [page title](url)
 
 ## External Market Signals
-...
+- [finding] — signal: strong|weak|none — source: [reference]
+  or: skipped — user did not approve external research
 
 ## Inferred Signals
-...
+- [finding] — signal: strong|weak|none — basis: [what it was inferred from]
 
 ## Signal Summary
 - Overall local KB signal: strong|weak|none
 - Overall confluence signal: strong|weak|none
 - Overall external signal: strong|weak|none
-- Missing evidence: ...
+- Missing evidence: [list gaps]
 ```
 
-Write `RUN_DIR/outputs/market_analysis_complete.marker`.
+Write `RUN_DIR/outputs/market_analysis_complete.marker`:
+
+```json
+{
+  "status": "completed",
+  "completed_phase": "market",
+  "next_phase": "synthesis",
+  "inputs": [
+    "outputs/market_analysis.md"
+  ]
+}
+```
+
+Match heading language to `input/hypothesis.md`.
 
 ## Reference
 

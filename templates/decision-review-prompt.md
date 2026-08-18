@@ -8,14 +8,16 @@ RUN_DIR: [set your run directory]
 
 ## Prerequisites
 
-Synthesis must be complete. Read:
+Customer Discovery Planning must be complete. Read:
 
 - `input/hypothesis.md`
 - `outputs/hypothesis_summary.md`
+- `outputs/evidence_inventory.md`
+- `outputs/business_context_analysis.md` or `outputs/missing_business_context.md`
 - `outputs/market_analysis.md`
 - `outputs/hypothesis_map.md`
 - `outputs/hypothesis_digest.txt` (optional)
-- `outputs/customer_discovery_plan.md` (recommended)
+- `outputs/customer_discovery_plan.md`
 - `outputs/role_outputs/*` (optional)
 
 ---
@@ -27,6 +29,8 @@ Assume the current conclusion may be wrong.
 Do not support the recommendation. Identify why it may fail.
 
 Do NOT repeat or summarize synthesis outputs. Add new critical thinking only.
+
+You may reference existing Roles, Local Evidence, Business Context, Market, Synthesis, and Customer Discovery Planning artifacts. Do NOT perform new retrieval, Confluence/external research, market research, or role analysis. Do NOT introduce uncited signals. Every factual challenge must be traceable to an existing artifact and its cited evidence; report missing context as a gap for validation.
 
 ---
 
@@ -84,7 +88,7 @@ For each item: objective, expected learning, estimated effort
 ## Final Recommendation
 ```
 
-Create `RUN_DIR/outputs/decision_review_complete.marker` when done.
+Create `RUN_DIR/outputs/decision_review_complete.marker` as valid JSON per `.clinerules/10-artifact-contracts.md` when done.
 
 ---
 
@@ -92,5 +96,7 @@ Create `RUN_DIR/outputs/decision_review_complete.marker` when done.
 
 - Never repeat the synthesis
 - Never summarize existing outputs
+- Never perform new retrieval/research or introduce uncited signals
+- Treat missing Business Context as a gap, not inferred strategic fit
 - Always look for weaknesses
 - If no weaknesses are found, explain why confidence is high
