@@ -239,7 +239,6 @@ RUN_DIR/
 ```text
 examples/example-001/    # AppSec — эталонный demo
 examples/example-002/    # HR Tech — универсальность подхода
-product-sense/           # материалы для Product Sense
 humanizer/               # навыки редактуры русского (adapters + USAGE)
 ```
 
@@ -248,8 +247,6 @@ Chat-first walkthrough: [examples/chat-first-run.md](./examples/chat-first-run.m
 **example-001:** AppSec — reframe из risk reduction в operational efficiency; **Proceed with Validation**. Артефакты на **русском**.
 
 **example-002:** HR Tech — reframe из AI auto-ranking в governed recruiter assist. Артефакты на **русском**.
-
-Материалы конференции: [product-sense/README.md](./product-sense/README.md)
 
 Редактура русского текста: [humanizer/README.md](./humanizer/README.md) — skill `russian-humanizer` + project voice adapters
 
@@ -275,7 +272,6 @@ layers/            логика анализа
 templates/         шаблоны для ручного режима
 playbooks/         сценарии
 examples/          примеры
-product-sense/     материалы конференции
 humanizer/         adapters и USAGE для writing skills (core в .cline/skills/russian-humanizer/references/)
 runs/              прогоны гипотез (в KB workspace)
 knowledge-base/    гайд по Confluence / local signals

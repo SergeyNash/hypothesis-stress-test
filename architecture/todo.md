@@ -121,16 +121,6 @@
 
 ---
 
-## Пакет конференции Product Sense
-
-- [x] `product-sense/` — outline доклада, законы фреймворка, ошибки LLM, demo-скрипт
-- [x] `examples/example-002/` — демо универсальности вне AppSec
-- [x] `russian-humanizer` — upstream-синк в `.cline/skills/russian-humanizer/` с bundled `references/`
-- [x] `humanizer/adapters/` — PRODUCT_SENSE_VOICE, PUBLIC_EXPLAINER_VOICE
-- [x] `product-sense/street-parable.md` — пример валидации public explainer
-
----
-
 ## Документация
 
 - [x] Добавить Cline как основную имплементацию

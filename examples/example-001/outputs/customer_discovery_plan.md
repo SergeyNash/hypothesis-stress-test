@@ -1,4 +1,4 @@
-# План Customer Discovery
+ёёё# План Customer Discovery
 
 ## Цель исследования
 

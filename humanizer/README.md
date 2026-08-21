@@ -33,7 +33,6 @@ Copy-Item -Recurse "$env:TEMP\thinking-lab-sync\skills\russian-humanizer\*" ".cl
 
 | Adapter | Когда |
 |---------|--------|
-| [`adapters/PRODUCT_SENSE_VOICE.md`](adapters/PRODUCT_SENSE_VOICE.md) | Материалы конференции в `product-sense/` |
 | [`adapters/PUBLIC_EXPLAINER_VOICE.md`](adapters/PUBLIC_EXPLAINER_VOICE.md) | Публичные объяснения, притчи «для улицы» |
 
 Подробнее: [`USAGE.md`](USAGE.md)
@@ -42,10 +41,9 @@ Copy-Item -Recurse "$env:TEMP\thinking-lab-sync\skills\russian-humanizer\*" ".cl
 
 ```
 Используй russian-humanizer.
-Mode: business.
-Voice adapter: humanizer/adapters/PRODUCT_SENSE_VOICE.md.
+Mode: general.
 
-Сохрани смысл и ограничения adapter.
+Сохрани смысл. Без новых фактов.
 Отредактируй:
 <фрагмент>
 ```

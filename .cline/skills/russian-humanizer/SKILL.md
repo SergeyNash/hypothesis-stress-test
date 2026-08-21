@@ -30,8 +30,6 @@ the wrong skill.
 When working in this repository, bundled `references/` stay canonical. Add
 project voice from:
 
-- `humanizer/adapters/PRODUCT_SENSE_VOICE.md` — files under `product-sense/`
-  (mode: `business` or `essay`)
 - `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md` — public explainer texts,
   street pitches, parables (mode: `fiction` or `general`)
 

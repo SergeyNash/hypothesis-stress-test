@@ -43,9 +43,8 @@
 
 - **`assets/ru/`** — 8 диаграмм Tier A+B (PNG): architecture-overview, pipeline-4-stages, artifact-flow, signal-model, evidence-sources, cline-execution, business-value-flow, human-report-slice.
 - **Russian writing skills** — sync upstream [`russian-humanizer`](https://github.com/SergeyNash/thinking-lab/tree/main/skills/russian-humanizer) в `.cline/skills/russian-humanizer/` с bundled `references/`.
-- Project voice adapters: `humanizer/adapters/PRODUCT_SENSE_VOICE.md`, `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md`.
+- Project voice adapter: `humanizer/adapters/PUBLIC_EXPLAINER_VOICE.md`.
 - `humanizer/USAGE.md` — когда какой mode и adapter использовать.
-- `product-sense/street-parable.md` — validation example для публичного объяснения (fiction mode).
 - **Human Decision Report MVP** — decision-facing `human_report.html` после Decision Review.
 - Skill: `human-report-export` — компиляция verdict, readiness, reframing, validation priorities из существующих артефактов.
 - Workflow: `/run-human-report-export.md`.
@@ -58,9 +57,7 @@
 
 - `README.ru.md`, `architecture/diagram.ru.md` — иллюстрации Tier A+B из `assets/ru/` (PNG); секции Cline, Business Context, human_report.
 - `README.md` — русский язык и README.ru.md как основной в language bar.
-- `illustration-prompts/INDEX.md`, `STYLE.md` — пути output RU для Tier A (PNG).
 - `humanizer/README.md` — entry point; core rules переехали в skill `references/`.
-- `product-sense/HUMANIZE.md` — новые пути adapters и references.
 - `README.md`, `README.ru.md` — `humanizer/` в структуре репо; ссылка на writing skills.
 - `implementations/cline-contract.ru.md` — секция editorial skills для `russian-humanizer`.
 - `/run-hypothesis.md` — Human Decision Report Export как шаг 8 (после Decision Review).
@@ -70,6 +67,9 @@
 
 ### Удалено
 
+- `product-sense/` — материалы конференции Product Sense.
+- `illustration-prompts/` — брифы иллюстраций, включая слайды доклада.
+- `humanizer/adapters/PRODUCT_SENSE_VOICE.md`.
 - Дубли flat-копий: `humanizer/HUMANIZER_CORE.md`, `MODES.md`, `VOICE_ADAPTERS.md`, корневой `PRODUCT_SENSE_VOICE.md`.
 
 ---
