@@ -28,3 +28,10 @@ confidence: low | medium | high
 - `knowledge-base/interviews/` хранит сырые CustDev-материалы и материалы интервью.
 - `knowledge-base/persona-builds/` документирует, как персоны пересобирались из доказательств интервью.
 - `knowledge-base/personas/` хранит текущие переиспользуемые артефакты персон.
+
+## Профиль CIO
+
+- [CIO крупной российской компании](chief-information-officer-cio.md) — цифровой аватар для Roles Layer и отдельного ролевого диалога.
+- [Исследовательское обоснование и калибровочные сценарии](../persona-builds/2026-10-13-chief-information-officer-cio.md).
+
+Профиль имеет `source_status: initial_profile`, `source_interviews: []` и `confidence: low`: это исследовательская модель роли, а не подтверждение клиентского спроса. Добавьте `CIO` в релевантные роли гипотезы и явно укажите файл профиля при запуске `/run-facilitator.md`. Инструкции подключения находятся в самом профиле.
