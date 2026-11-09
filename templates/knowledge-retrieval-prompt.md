@@ -40,9 +40,7 @@ Supported kinds:
 - transcript files
 - audio/video only with companion transcript (or metadata-only stub)
 
-Skip in V1:
-
-- pdf/docx/html/pptx/xlsx
+Read PDF/DOCX/XLSX/HTML with scripts/extract_evidence.py; keep anchors and extraction limits. Skip unsupported binaries (including PPTX).
 
 Exclude directories:
 
@@ -133,3 +131,7 @@ Write canonical JSON from `.clinerules/10-artifact-contracts.md` to
 - no evidence -> no claim
 - metadata_only cannot become factual claim
 - if no extractable evidence exists, state gap explicitly
+
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.

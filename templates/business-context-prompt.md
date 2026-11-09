@@ -33,3 +33,7 @@ Use after Roles Layer and Local Evidence Discovery, before Market Layer.
 - `RUN_DIR/outputs/business_context_analysis.md`
 - `RUN_DIR/outputs/missing_business_context.md` (if gap)
 - `RUN_DIR/outputs/business_context_complete.marker`
+
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.

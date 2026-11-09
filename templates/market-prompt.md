@@ -97,3 +97,7 @@ Generate completion marker:
 * do NOT invent market demand
 * do NOT generalize without evidence
 * prefer uncertainty over hallucination
+
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.

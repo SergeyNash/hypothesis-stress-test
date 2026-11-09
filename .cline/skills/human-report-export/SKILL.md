@@ -1,7 +1,14 @@
 ---
 name: human-report-export
-description: Generate an executive human_report.html after Decision Review. Compile verdict, business value, contradictions, cheapest validation, and grouped artifact links.
+description: Generate an executive human_report.html after Decision Review. Compile verdict, business value, contradictions, cheapest validation, and grouped artifact links. Supports digital_product and service_business decisions.
 ---
+
+## Application profile (resolve before this skill)
+
+Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Human report**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+
 
 # Human Decision Report Export (Executive)
 
@@ -157,3 +164,7 @@ Report path: `RUN_DIR/outputs/human_report.html`
 - Do not re-run analysis layers
 - Do not modify source Markdown artifacts
 - Missing optional artifacts → show "not available" card, not failure
+
+## Service profile report
+
+For service_business the service profile replaces the default Ready for backlog mapping. Include service viability, service decision, boundaries and the next validation criterion. Use data-service-field and data-status attributes for the four canonical statuses; they must match decision_review.md. Add data-service-decision to the service-viability section. Do not mark expansion readiness if any contour is conditional/unknown/contradicted.

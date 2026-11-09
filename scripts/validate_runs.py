@@ -9,8 +9,14 @@ from __future__ import annotations
 import json
 import re
 import sys
+from datetime import date
 from html.parser import HTMLParser
 from pathlib import Path
+
+try:
+    from .service_profile import fields, get, usable, validate_service_input, validate_service_outputs
+except ImportError:
+    from service_profile import fields, get, usable, validate_service_input, validate_service_outputs
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -254,27 +260,28 @@ def validate_input(run_dir: Path, *, check_folder_id: bool) -> list[str]:
             codes.append("MISSING_SECTION")
 
     meta = find_section(sections, SECTION_ALIASES["metadata"]) or ""
-    meta_l = meta.lower()
-    hid = None
-    for line in meta.splitlines():
-        low = line.lower()
-        if "hypothesis id" in low or "id гипотезы" in low:
-            hid = line.split(":", 1)[-1].strip()
-        if "run id" in low or "id прогона" in low:
-            rid = line.split(":", 1)[-1].strip()
-            if not RUN_ID_RE.match(rid):
-                codes.append("INVALID_HYPOTHESIS_ID")
-        if "created at" in low or "дата создания" in low:
-            created = line.split(":", 1)[-1].strip()
-            if not DATE_RE.match(created):
-                codes.append("MISSING_SECTION")
-        if "status" in low or "статус" in low:
-            status_raw = line.split(":", 1)[-1].strip().lower()
-            status = STATUS_ALIASES.get(status_raw, status_raw)
-            if status not in STATUSES:
-                codes.append("INVALID_STATUS")
+    values = fields(meta)
+    hid = get(values, *META_ALIASES['hypothesis_id'])
+    rid = get(values, *META_ALIASES['run_id'])
+    created = get(values, *META_ALIASES['created_at'])
+    status = get(values, *META_ALIASES['status'])
+    if not rid or not created or not status:
+        codes.append('MISSING_SECTION')
+    if rid and not RUN_ID_RE.fullmatch(rid):
+        codes.append('INVALID_HYPOTHESIS_ID')
+    try:
+        date.fromisoformat(created)
+    except ValueError:
+        codes.append('MISSING_SECTION')
+    if status not in STATUSES:
+        codes.append('INVALID_STATUS')
+    for aliases in SECTION_ALIASES.values():
+        occurrences = sum(1 for line in text.splitlines()
+                          if re.fullmatch(r'#+\s+(' + '|'.join(re.escape(a) for a in aliases) + r')\s*', line, re.I))
+        if occurrences > 1:
+            codes.append('MISSING_SECTION')
 
-    if hid is None or not HYP_ID_RE.match(hid):
+    if not HYP_ID_RE.fullmatch(hid):
         codes.append("INVALID_HYPOTHESIS_ID")
     elif check_folder_id and run_dir.name != hid:
         codes.append("RUN_DIR_ID_MISMATCH")
@@ -284,19 +291,9 @@ def validate_input(run_dir: Path, *, check_folder_id: bool) -> list[str]:
     weak = ("улучшить" in low and "опыт" in low) or (
         "improve" in low and "experience" in low
     )
-    # If…then / Если…то are recommended, not required (see input-validation skill).
-    dimensions = 0
-    if re.search(r"если|if\b", statement, re.I):
-        dimensions += 1
-    if re.search(
-        r"\bто\b|then\b|будет|будут|сократ|быстрее|выраст|получит",
-        statement,
-        re.I,
-    ):
-        dimensions += 1
-    if len(statement.split()) >= 12:
-        dimensions += 1
-    if weak or dimensions < 3:
+    # Structural heuristic only. The skill checks causality/falsifiability;
+    # non-if statements are valid and must not fail for grammar alone.
+    if weak or len(statement.split()) < 8 or not usable(statement):
         codes.append("VAGUE_STATEMENT")
 
     roles = find_section(sections, SECTION_ALIASES["roles"]) or ""
@@ -306,10 +303,12 @@ def validate_input(run_dir: Path, *, check_folder_id: bool) -> list[str]:
     elif len(role_items) > 5:
         codes.append("TOO_MANY_ROLES")
 
-    context = (find_section(sections, SECTION_ALIASES["context"]) or "").lower()
+    context = fields(find_section(sections, SECTION_ALIASES["context"]) or "")
     for aliases in CONTEXT_ALIASES.values():
-        if not any(alias in context for alias in aliases):
+        if not usable(get(context, *aliases)):
             codes.append("MISSING_CONTEXT_FIELD")
+
+    codes.extend(validate_service_input(text))
 
     return sorted(set(codes))
 
@@ -327,6 +326,25 @@ def validate_marker(path: Path, expected: dict) -> list[str]:
         codes.append("INVALID_MARKER_NEXT")
     if "inputs" not in data or not isinstance(data["inputs"], list):
         codes.append("INVALID_MARKER_INPUTS")
+    else:
+        required = {
+            'facilitator': ['outputs/role_outputs/*', 'outputs/hypothesis_summary.md', 'outputs/validation_questions.md'],
+            'local_evidence': ['outputs/discovery_preview.md', 'outputs/evidence_inventory.md'],
+            'business_context': ['outputs/missing_business_context.md'] if data.get('status') == 'skipped_missing_context' else ['outputs/business_context_analysis.md'],
+            'market': ['outputs/market_analysis.md'],
+            'synthesis': ['outputs/hypothesis_map.md', 'outputs/hypothesis_digest.txt'],
+            'customer_discovery_planning': ['outputs/customer_discovery_plan.md'],
+            'decision_review': ['outputs/decision_review.md'],
+            'human_report': ['outputs/human_report.html'],
+        }[expected['completed_phase']]
+        if data['inputs'] != required:
+            codes.append('INVALID_MARKER_INPUTS')
+        run_dir = path.parent.parent.resolve()
+        for pattern in required:
+            matches = list(run_dir.glob(pattern))
+            if not matches or any(not p.is_file() or not p.resolve().is_relative_to(run_dir)
+                                  or not p.stat().st_size for p in matches):
+                codes.append('MISSING_MARKER_ARTIFACT')
     return codes
 
 
@@ -452,6 +470,8 @@ def validate_complete_run(run_dir: Path) -> list[str]:
     codes.extend(validate_decision(outputs / "decision_review.md"))
     codes.extend(validate_digest(outputs / "hypothesis_digest.txt"))
     codes.extend(validate_html_links(outputs / "human_report.html"))
+    if (run_dir / 'input/hypothesis.md').exists():
+        codes.extend(validate_service_outputs(run_dir))
     return sorted(set(codes))
 
 

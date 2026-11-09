@@ -1,5 +1,7 @@
 # Run Customer Discovery Planning
 
+Resolve the application profile from input Metadata (new intake: propose and confirm). No field → digital_product. For service_business load [the service profile](../../profiles/service-business.md) and apply its phase-specific requirements, including service readiness instead of backlog readiness. Preserve canonical artifact paths and gates.
+
 Execute Customer Discovery Planning for an existing `RUN_DIR` after Synthesis completes.
 
 ## Prerequisites

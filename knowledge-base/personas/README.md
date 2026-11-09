@@ -44,3 +44,14 @@ confidence: low | medium | high
 Профиль имеет `source_status: initial_profile`, `source_interviews: []` и `confidence: low`. По умолчанию CFO представляет компанию-заказчика. Добавьте `CFO` в релевантные роли и явно привяжите файл при запуске `/run-facilitator.md`.
 
 Для совместного анализа перечислите `CIO` и `CFO` в ролях гипотезы и укажите оба профиля. Их отдельные перспективы помогают обнаруживать конфликты между технической исполнимостью, экономикой и финансированием. Согласие двух синтетических ролей не является независимым подтверждением спроса.
+
+## Сервисные перспективы
+
+| Роль | Сторона | Профиль |
+|---|---|---|
+| Инженер системного ПО заказчика (ЛВР) | customer | [system-software-engineer.md](system-software-engineer.md) |
+| Технический менеджер оказания услуги | provider | [service-delivery-manager.md](service-delivery-manager.md) |
+| Сервисный инженер | provider | [provider-service-engineer.md](provider-service-engineer.md) |
+| Руководитель направления | provider | [service-business-owner.md](service-business-owner.md) |
+
+Все четыре initial_profile, source_interviews: [], confidence: low. [Происхождение](../persona-builds/2026-11-09-service-business.md). CIO/CFO сохраняют сторону customer. Выбирать до пяти необходимых ролей и явно связывать их со стороной и файлом; профиль инженера не превращает симуляцию в доказательство оказания услуги.

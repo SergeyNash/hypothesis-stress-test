@@ -1,7 +1,14 @@
 ---
 name: customer-discovery-planning
-description: Transform unresolved assumptions, weak signals, contradictions, and uncertainty into a practical customer research and interview plan.
+description: Transform unresolved assumptions, weak signals, contradictions, and uncertainty into a practical customer research and interview plan. Supports digital_product and service_business decisions.
 ---
+
+## Application profile (resolve before this skill)
+
+Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Validation planning**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+
 
 # Customer Discovery Planning
 

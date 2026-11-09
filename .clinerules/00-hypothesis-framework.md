@@ -1,6 +1,6 @@
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.4.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.5.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
 
@@ -89,3 +89,7 @@ Use project skills from `.cline/skills/` or invoke workflows:
 | **File-first** | Existing `RUN_DIR/input/hypothesis.md` — `/run-hypothesis.md` |
 
 New hypothesis = new isolated `runs/HYP-YYYY-MM-DD-NNN/`. Open files from a previous run must not become the write target.
+
+## Application profiles
+
+HST supports digital-product and service-business decisions. Read `profiles/README.md`; missing profile means digital_product. Service profile changes decision criteria within the same phases: customer value, buying path, delivery feasibility, provider economics. The human decides about research, pilot, offer, capability, sales expansion or rejection. Personas simulate perspectives and never establish independent demand evidence.

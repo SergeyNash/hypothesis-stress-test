@@ -76,3 +76,7 @@ Market Layer читает `evidence_inventory.md` как вход локальн
 - не чатбот по документам
 - не полнотекстовый semantic search по всему vault
 - не движок scoring уверенности источников
+
+## Service-business profile
+
+For service_business apply **Evidence** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.

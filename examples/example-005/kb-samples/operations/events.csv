@@ -1,0 +1,6 @@
+source_status,synthetic_fixture
+event_class,cases,active_provider_hours,client_approval_cases
+service_stopped,20,12,8
+disk_pressure,20,16,12
+database_lock,10,20,10
+other,10,12,4

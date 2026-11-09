@@ -1,5 +1,7 @@
 # Run Hypothesis (Full)
 
+Resolve the application profile from input Metadata (new intake: propose and confirm). No field → digital_product. For service_business load [the service profile](../../profiles/service-business.md) and apply its phase-specific requirements, including service readiness instead of backlog readiness. Preserve canonical artifact paths and gates.
+
 End-to-end and resumable hypothesis stress test for a single `RUN_DIR`.
 
 ## Preflight and resume plan
@@ -138,3 +140,7 @@ Stop at that phase if verification fails; do not proceed to downstream phases.
 ## Reference
 
 See `playbooks/run-hypothesis.md` for interpretation model and tips.
+
+## Service execution
+
+Run all existing phases with the selected profile. Before Market, verify Business Context includes both value chains, promise/boundaries, delivery and capacity/economics (or explicit gaps). Before report, verify service viability and service decision in Decision Review. Profile/type/role-side changes invalidate downstream results; include affected outputs in the resume plan. Use the main action from the service profile in the final report, not a generic instruction to build.

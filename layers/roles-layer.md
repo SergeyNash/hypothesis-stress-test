@@ -138,3 +138,7 @@ Roles Layer описывает, как гипотеза *должна* рабо�
 * `synthesis-layer.md`
 * `templates/facilitator-prompt.md` — ручной запуск
 * `.cline/skills/hypothesis-facilitator/SKILL.md` — запуск через Cline
+
+## Service-business profile
+
+For service_business apply **Roles** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.

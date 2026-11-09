@@ -395,3 +395,26 @@ When creating a new run via `/run-hypothesis-conversational.md` (no `RUN_DIR:` i
 Old: runs/my-hypothesis/hypothesis.md
 New: runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md
 ```
+
+## Service-business extension (v2.5, backward compatible)
+
+Read `profiles/service-business.md` for service_business. No new phases, markers or output names. customer_discovery_plan.md is the broader service-validation plan. The default profile remains digital_product.
+
+For service runs add source_origin and evidence_status to every EVID. Allowed source_origin: customer_record / provider_record / external / synthetic. Allowed evidence_status: observed / reported / assumed / synthetic. A synthetic origin requires synthetic status and cannot support a real-market claim. Extended source_kind: pdf, docx, xlsx, html, in addition to existing types. Preserve extraction anchors and limitations.
+
+Service Business Context must include Customer Value, Provider Value, Service Promise and Boundaries, Delivery Feasibility, Capacity and Economics (or RU equivalents). When no usable business context exists, the gap artifact lists these unknowns; with operational/commercial context but no strategy, assess what is available and keep Strategic Fit Unknown.
+
+Business Context (analysis or gap), hypothesis_map.md and decision_review.md each contain canonical status lines under `Service Viability / Жизнеспособность сервиса`:
+
+```text
+- customer_value: supported | conditional | unknown | contradicted
+- buying_path: supported | conditional | unknown | contradicted
+- delivery_feasibility: supported | conditional | unknown | contradicted
+- provider_economics: supported | conditional | unknown | contradicted
+```
+
+Each status needs cited rationale and gaps. Review may downgrade an earlier status with a reason. Never derive supported for real business from synthetic material.
+
+Decision Review also contains `- service_decision: limited_pilot | revise_offer | revise_price_scope | build_capability | expand_sales | additional_research | reject` plus localized action. Keep the general recommendation token. expand_sales requires all four supported by real evidence, proceed and high confidence; other mappings are defined in the service profile.
+
+The HTML section id=service-viability contains data-service-decision and four elements with data-service-field and data-status matching Decision Review. Required service-plan table columns: Question / Вопрос; Method / Метод; Sample / Выборка; Baseline / База сравнения; Metric / Метрика; Success criterion / Критерий успеха; Stop criterion / Критерий остановки; Deadline / Срок; Owner / Владелец; Evidence / Доказательство; Branches / Развилки. Proposed thresholds are labelled proposals. No trial is executed by producing the plan.

@@ -1,7 +1,14 @@
 ---
 name: hypothesis-facilitator
-description: Stress-test a product hypothesis through role-based analysis, hidden assumptions, applicability boundaries, conflicts, and validation questions. This skill does not validate ideas. It attempts to break them.
+description: Stress-test a product hypothesis through role-based analysis, hidden assumptions, applicability boundaries, conflicts, and validation questions. This skill does not validate ideas. It attempts to break them. Supports digital_product and service_business decisions.
 ---
+
+## Application profile (resolve before this skill)
+
+Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Roles**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+
 
 # Hypothesis Facilitator (Roles Layer)
 

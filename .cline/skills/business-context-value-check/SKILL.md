@@ -1,7 +1,14 @@
 ---
 name: business-context-value-check
-description: Map stakeholder value flow, business effect type, and strategic fit from KB strategy materials. Separate problem existence from business case plausibility.
+description: Map stakeholder value flow, business effect type, and strategic fit from KB strategy materials. Separate problem existence from business case plausibility. Supports digital_product and service_business decisions.
 ---
+
+## Application profile (resolve before this skill)
+
+Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Business context**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+
 
 # Business Context & Value Check
 
@@ -51,7 +58,7 @@ Also scan `evidence_inventory.md` for strategy-related `EVID-NNN` items.
 
 ## Step 1 — Context availability check
 
-If strategy, GTM, OKR, or business-model materials are **not found**:
+For **digital_product**, if strategy, GTM, OKR, or business-model materials are **not found** (service_business uses the profile-specific availability rule):
 
 1. Write `RUN_DIR/outputs/missing_business_context.md` using the gap template below.
 2. Write `RUN_DIR/outputs/business_context_complete.marker` with
@@ -207,3 +214,7 @@ Gap path:
 ## Next step
 
 After completion, run skill `hypothesis-market-layer` or workflow `/run-market-layer.md`.
+
+## Service profile context availability
+
+For `service_business`, strategy-document absence alone does not trigger the default stop. Assess usable operational/commercial context as required by the service profile, set Strategic Fit to Unknown when strategy is absent, and write available checks. Use the gap path only when no usable business context exists. Keep customer outcome and provider economics separate. Write the four canonical status fields specified in the artifact contract.
