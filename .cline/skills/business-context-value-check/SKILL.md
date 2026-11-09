@@ -22,7 +22,7 @@ This skill does **not** decide whether to build. It maps the **value mechanism**
 
 ## What this skill does NOT do
 
-- Does not perform market research
+- Does not decide market viability; commissions public evidence collection through `external-business-research` before assessing the value mechanism.
 - Does not re-run role analysis
 - Does not make final product decisions
 - Does not estimate revenue without evidence
@@ -55,6 +55,12 @@ Search workspace knowledge base for strategy materials:
 - Run-local samples: `kb-samples/strategy/`, `kb-samples/okr/`, `kb-samples/business-model/`
 
 Also scan `evidence_inventory.md` for strategy-related `EVID-NNN` items.
+
+## Step 0 — External evidence brief and collection
+
+Activate `external-business-research` after local-source completeness review, including when internal strategy is missing. Write `outputs/external_research.md` with actual search/read log, source ledger, contradictions and gaps. Passive public research is part of the requested full run unless explicitly excluded; distinguish host approval pending, actual refusal, unavailable tools and no results. Record them in the progress journal and show the user. Preserve internal strategic-fit gaps; external facts cannot fill them.
+
+Search existing workspace folder names in the discovery catalog too; the English KB paths below are examples, not a whitelist. Strategy/development/growth and Russian equivalents can be anywhere.
 
 ## Step 1 — Context availability check
 

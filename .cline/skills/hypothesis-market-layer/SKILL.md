@@ -68,23 +68,19 @@ If Confluence MCP is not available, add:
 
 ```markdown
 ## MCP Status
-Confluence MCP: not configured
+Confluence MCP: unavailable
+Reason: [actual tool availability/configuration issue]
 ```
+
+An actual 401/403 is auth_error, not “not configured” or no_results. Record the failed operation without credentials; tell the user immediately and offer to restore access or continue without this channel. After one failed authentication attempt do not retry until configuration changes. Journal actual queries, pages found/read and sources used. Never claim a tool call from a planned query.
 
 Do not fabricate internal knowledge.
 
-## Step 2 — External signals (secondary, default skip)
+## Step 2 — External signals
 
-Do **not** search external sources unless the user explicitly approves.
+Read `outputs/external_research.md` from Business Context first; preserve EXT-IDs, source dates, URLs and coverage limitations. Search remaining critical gaps with `external-business-research` without repeating completed queries. Full-run public read-only research is enabled unless the user explicitly excludes it. Do not require a second framework approval.
 
-Default: skip external research and record:
-
-```markdown
-## External Market Signals
-- skipped — user did not approve external research
-```
-
-If the user approves, cite URLs for every external claim and label type **external**.
+If tools require approval, log waiting_approval and ask through the host mechanism. Silence is not refusal. Record `declined` only for an actual user decision; otherwise distinguish unavailable, error, no_results, partial and completed. Missing internal context or a Confluence error must not disable public research. External facts do not prove our internal strategy or customer willingness to pay.
 
 ## Step 3 — Inferred signals (last resort)
 
@@ -106,7 +102,7 @@ Write `RUN_DIR/outputs/market_analysis.md` with sections:
 # Market Analysis
 
 ## MCP Status
-Confluence MCP: configured | not configured
+Confluence MCP: completed | no_results | unavailable | auth_error | error | waiting_approval | declined
 
 ## Local Signals from Knowledge Base
 - [finding] — signal: strong|weak|none — evidence_id: EVID-NNN — evidence_type: ... — source: [path]
@@ -116,7 +112,7 @@ Confluence MCP: configured | not configured
 
 ## External Market Signals
 - [finding] — signal: strong|weak|none — source: [reference]
-  or: skipped — user did not approve external research
+  or: [actual coverage status and specific reason]
 
 ## Inferred Signals
 - [finding] — signal: strong|weak|none — basis: [what it was inferred from]

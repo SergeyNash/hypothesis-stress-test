@@ -168,3 +168,7 @@ Report path: `RUN_DIR/outputs/human_report.html`
 ## Service profile report
 
 For service_business the service profile replaces the default Ready for backlog mapping. Include service viability, service decision, boundaries and the next validation criterion. Use data-service-field and data-status attributes for the four canonical statuses; they must match decision_review.md. Add data-service-decision to the service-viability section. Do not mark expansion readiness if any contour is conditional/unknown/contradicted.
+
+## Coverage and final handoff
+
+Compile actual source coverage from discovery_preview, external_research and the event journal when present. Clearly distinguish skipped, unavailable/auth_error, no_results, partial, read and used; do not manufacture missing legacy logs. Link external research and progress artifacts when present. The final chat response leads with verdict/confidence, main finding, material evidence limitations, next action and report path. Technical HTML checks/marker counts belong to verification, not the executive result.

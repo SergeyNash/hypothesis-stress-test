@@ -24,6 +24,10 @@ RUN_DIR/
     customer_discovery_plan.md
     decision_review.md
     human_report.html
+    external_research.md       # public evidence brief, search log and source ledger
+    pipeline_events.jsonl      # append-only actual execution events
+    progress.json              # derived current-state snapshot
+    progress.html              # live viewer via local loopback HTTP
     ready_for_synthesis.marker
     knowledge_retrieval_complete.marker
     business_context_complete.marker
@@ -92,6 +96,8 @@ Roles listed in `input/hypothesis.md` remain the run-specific source of scope. P
 | Evidence inventory | `outputs/evidence_inventory.md` | Local Evidence Discovery |
 | Business context analysis | `outputs/business_context_analysis.md` | Business Context & Value Check |
 | Missing business context | `outputs/missing_business_context.md` | Business Context & Value Check (gap only) |
+| External research | `outputs/external_research.md` | Business Context / external-business-research |
+| Execution events and live view | `outputs/pipeline_events.jsonl`, `progress.json`, `progress.html` | Run orchestrator |
 | Market analysis | `outputs/market_analysis.md` | Market Layer |
 | Full synthesis | `outputs/hypothesis_map.md` | Synthesis Layer |
 | Short digest | `outputs/hypothesis_digest.txt` | Synthesis Layer |
@@ -123,7 +129,7 @@ Must include:
 - candidate files
 - top relevant files with planned evidence type
 
-Preview is mandatory and generated before evidence extraction.
+Preview is mandatory and generated before evidence extraction. Include directory coverage, selection reasons, metadata enumeration limits/errors and per-file extraction status/reason. A listed path is not proof that its contents were read.
 
 ### evidence_inventory.md (local evidence discovery)
 
@@ -144,6 +150,8 @@ Optional fields:
 - `location`
 - `companion_source`
 - `extraction_note` (required for `image_observation`)
+
+For new interactive runs, inventory also contains `Retrieval Review / Проверка полноты` with `status: pending | accepted | waived`, scope and the actual user decision. Before writing the retrieval completion marker, show scope/gaps and offer additions; require accepted or an explicit prior waiver. Pending inventory must not unlock Business Context. Historical completed examples remain valid without retroactively claiming a review. Source changes after completion require authorized downstream rerun.
 
 ### business_context_analysis.md (business context & value check)
 
@@ -418,3 +426,9 @@ Each status needs cited rationale and gaps. Review may downgrade an earlier stat
 Decision Review also contains `- service_decision: limited_pilot | revise_offer | revise_price_scope | build_capability | expand_sales | additional_research | reject` plus localized action. Keep the general recommendation token. expand_sales requires all four supported by real evidence, proceed and high confidence; other mappings are defined in the service profile.
 
 The HTML section id=service-viability contains data-service-decision and four elements with data-service-field and data-status matching Decision Review. Required service-plan table columns: Question / Вопрос; Method / Метод; Sample / Выборка; Baseline / База сравнения; Metric / Метрика; Success criterion / Критерий успеха; Stop criterion / Критерий остановки; Deadline / Срок; Owner / Владелец; Evidence / Доказательство; Branches / Развилки. Proposed thresholds are labelled proposals. No trial is executed by producing the plan.
+
+## Observability and public research
+
+New runs include external_research.md with brief, query/read log, EXT source ledger, dates/URLs, contradictions and explicit channel status. It is produced during Business Context even when internal context is missing; it cannot replace internal strategy. Market reuses it. Old completed examples are historical fixtures and do not imply this coverage.
+
+`pipeline_events.jsonl` holds actual phase/source events with monotonically increasing IDs, UTC timestamps, phase, kind, state and short message; source records also carry channel/query/URLs. `progress.json` derives from those events, `progress.html` renders it over loopback HTTP. These are supporting outputs, not new completion gates. No claims of source calls may be inferred from phase markers. See `30-run-observability.md`. Temporary write/lock files are transient and must be absent when validating complete runs.

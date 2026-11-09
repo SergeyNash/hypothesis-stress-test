@@ -38,6 +38,10 @@ Collect hypothesis input through chat, produce a canonical `input/hypothesis.md`
 - Open files or tabs from a previous run are **read-only context** — never the write target for a new hypothesis
 - If `runs/HYP-YYYY-MM-DD-001` exists and the user starts a new hypothesis the same day, propose `002` (next free suffix) — do not reuse `001`
 
+### User-facing pauses
+
+At draft confirmation say “Проверьте, верно ли я понял идею; после подтверждения предложу папку для этой проверки”. At directory confirmation explain that it stores this hypothesis and all results; do not present RUN_DIR as an unexplained decision. During pauses say “Жду вашего ответа”, not “Прогон завершён”. Preserve unknown facts as assumptions; do not turn plausible baseline into observed evidence.
+
 ### Two-step confirm
 
 1. **Step 4a** — confirm hypothesis draft card

@@ -107,3 +107,7 @@ Synthesis и Decision Review используют business context, чтобы �
 ## Service-business profile
 
 For service_business apply **Business context** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.
+
+## External evidence collection
+
+Business Context commissions `external-business-research` after local-source review, including on the missing-internal-context path. The collection result external_research.md separates market/company facts from inferences and unresolved gaps. Market interprets it and fills residual gaps. Public facts do not establish internal strategic fit.

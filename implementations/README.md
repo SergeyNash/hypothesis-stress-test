@@ -4,7 +4,7 @@
 
 ## Быстрый старт
 
-- **[quick-start.md](./quick-start.md)** — короткий путь от нуля до первого прогона; **chat-first рекомендуется** (`/run-hypothesis-conversational.md`)
+- **[quick-start.md](./quick-start.md)** — короткий путь от нуля до первого прогона; **chat-first рекомендуется** (skill `hst-start`, без обязательных workflows)
 - [Chat-first walkthrough](../examples/chat-first-run.md) — пошаговый conversational прогон
 
 ## Настройка и MCP

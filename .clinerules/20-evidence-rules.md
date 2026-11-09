@@ -8,8 +8,8 @@ Every finding in `market_analysis.md` must be labeled:
 
 | Type | Source | Trust |
 | ------ | -------- | ------- |
-| **local** | KB evidence inventory + Confluence | Highest |
-| **external** | Public sources, articles, vendor docs | Medium — cite URL |
+| **local** | KB evidence inventory + Confluence | Assess directness, provenance, age and relevance |
+| **external** | Public sources, articles, vendor docs | Assess primary source and independence — cite URL |
 | **inferred** | Logical conclusion from available data | Lowest — mark explicitly |
 
 ## Local Evidence Discovery (KB files)
@@ -91,7 +91,7 @@ If Confluence MCP is not configured:
 - Add a section `## MCP Status` with `Confluence MCP: not configured`
 - Keep KB-local signals from inventory (if present)
 - Mark Confluence channel as missing (`Confluence local evidence missing`)
-- Proceed with external research only if the user explicitly requests it
+- Continue public research included in the full-run request unless explicitly excluded; Confluence availability does not control the external channel.
 - Do not fabricate internal knowledge
 
 ## Decision Review
@@ -108,3 +108,7 @@ Decision Review may reference the existing **Roles, Local Evidence, Business Con
 ## Service evidence and provenance
 
 For service_business use the evidence fields and caveats from profiles/service-business.md. Local storage is not a trust rank: assess source directness, independence, sample, age and relevance. A contract demonstrates an obligation, not actual delivery; time saved is not automatically cash saved. Synthetic fixtures and role simulations cannot validate real demand. New reader support: PDF/DOCX/XLSX/HTML through scripts/extract_evidence.py; partial extraction and formula text must not become complete numeric evidence.
+
+## Public research and source coverage
+
+Collect public evidence during Business Context via `external-business-research`; Market consumes it and searches residual gaps. A full-run request includes passive public search unless explicitly excluded. Do not add a second framework approval gate. Host permissions remain authoritative; waiting approval is not refusal. Record actual queries/read results and references separately from plans, including no_results, unavailable, auth_error and explicit declined. Notify the user of channel failure when it happens. Never log credentials, cookies, headers or access tokens. Public evidence does not substitute for internal strategy or customer validation.

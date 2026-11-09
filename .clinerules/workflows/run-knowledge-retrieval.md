@@ -27,7 +27,7 @@ canonical marker, continue with hypothesis-only relevance matching.
 3. Activate skill `local-knowledge-retrieval`.
 4. Generate `RUN_DIR/outputs/discovery_preview.md`.
 5. Continue automatically to generate `RUN_DIR/outputs/evidence_inventory.md`.
-6. Generate `RUN_DIR/outputs/knowledge_retrieval_complete.marker` as the canonical JSON body from `.clinerules/10-artifact-contracts.md`.
+6. Show the completeness review from the skill; wait for additions or “Continue”. Process additions and update both artifacts before repeating the review. Record accepted/waived review in inventory; only then generate `RUN_DIR/outputs/knowledge_retrieval_complete.marker` with the canonical JSON body from `.clinerules/10-artifact-contracts.md`.
 7. Show the user brief retrieval summary:
    - scanned files
    - skipped files
@@ -39,7 +39,7 @@ canonical marker, continue with hypothesis-only relevance matching.
 
 - Do not interpret market meaning in this workflow.
 - Keep evidence items atomic and source-linked.
-- Do not block on manual confirmation after preview (V1).
+- Preview proceeds to extraction automatically; the inventory completeness review is a separate pause before the completion marker.
 - Next phase is Business Context, not Market.
 
 ## Reference

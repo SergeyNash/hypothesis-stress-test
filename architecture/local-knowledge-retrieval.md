@@ -1,6 +1,8 @@
 # Local Evidence Discovery (дизайн, Phase A)
 
-Этот документ задаёт дизайн Local Evidence Discovery как расширение пункта roadmap P0 («неструктурированная локальная база знаний»).
+Этот документ сохраняет исходный дизайн Local Evidence Discovery. Текущий исполняемый контракт: `.cline/skills/local-knowledge-retrieval/SKILL.md` и `.clinerules/10-artifact-contracts.md`.
+
+Обновление onboarding: PDF/DOCX/XLSX/HTML поддерживаются; до отбора создаётся каталог `scripts/discover_sources.py`; после inventory выполняется проверка полноты с пользователем до completion marker. Исторические таблицы V1 ниже не являются актуальными запретами.
 
 Файл остаётся дизайн-референсом для Local Evidence Discovery.
 

@@ -88,6 +88,10 @@ ALLOWED_OUTPUTS = {
     "customer_discovery_plan.md",
     "decision_review.md",
     "human_report.html",
+    "external_research.md",
+    "pipeline_events.jsonl",
+    "progress.json",
+    "progress.html",
     "ready_for_synthesis.marker",
     "knowledge_retrieval_complete.marker",
     "business_context_complete.marker",
@@ -352,8 +356,12 @@ def validate_evidence(path: Path) -> list[str]:
     if not path.exists():
         return ["MISSING_EVIDENCE_INVENTORY"]
     text = path.read_text(encoding="utf-8")
+    review = find_section(parse_sections(text), ("retrieval review", "проверка полноты"))
+    review_codes = []
+    if review is not None and field_map(review).get('status') not in {'accepted', 'waived'}:
+        review_codes.append('INCOMPLETE_RETRIEVAL_REVIEW')
     blocks = re.split(r"(?=^###\s+EVID-\d+)", text, flags=re.M)
-    codes: list[str] = []
+    codes: list[str] = review_codes
     found = False
     for block in blocks:
         match = re.match(r"###\s+(EVID-\d+)", block.strip())

@@ -8,12 +8,11 @@ from __future__ import annotations
 
 import argparse
 import json
-import os
 import zipfile
 from html.parser import HTMLParser
 from pathlib import Path
+from discover_sources import discover
 
-EXCLUDED = {'.git', '.cline', '.clinerules', 'node_modules', 'runs', 'examples', '__pycache__'}
 TEXT = {'.md', '.markdown', '.txt', '.log', '.csv', '.srt', '.vtt'}
 
 
@@ -141,14 +140,10 @@ def extract(path, root, *, max_file_size=2 * 1024 * 1024, max_units=1000, max_ch
     return result
 
 
-def candidates(root):
-    framework = Path(__file__).resolve().parents[1]
-    for directory, dirs, names in os.walk(root, followlinks=False):
-        dirs[:] = sorted(d for d in dirs if d not in EXCLUDED and d != 'hypothesis-stress-test'
-                         and Path(directory, d).resolve() != framework
-                         and not Path(directory, d).is_symlink())
-        for name in sorted(names):
-            yield Path(directory, name)
+def candidates(root, query=''):
+    for item in discover(root, query)['files']:
+        if item['reader'] == 'document':
+            yield Path(root) / item['path']
 
 
 def positive(value):
@@ -162,6 +157,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('paths', nargs='*', help='Files under --root; without paths scan root')
     parser.add_argument('--root', type=Path, required=True)
+    parser.add_argument('--query', default='', help='Topic terms for automatic candidate ordering')
     parser.add_argument('--max-files', type=positive, default=200)
     parser.add_argument('--max-file-size', type=positive, default=2 * 1024 * 1024)
     parser.add_argument('--max-units', type=positive, default=1000)
@@ -170,10 +166,15 @@ def main():
     root = args.root.resolve()
     if not root.is_dir():
         parser.error('--root must be an existing directory')
-    paths = (root / p for p in args.paths) if args.paths else candidates(root)
+    catalog = None if args.paths else discover(root, args.query)
+    paths = ((root / p for p in args.paths) if args.paths else
+             (root / item['path'] for item in catalog['files'] if item['reader'] == 'document'))
     output = {'root': str(root), 'limits': vars(args).copy(), 'files': [], 'limit_reached': False}
     output['limits'].pop('root')
     output['limits'].pop('paths')
+    if catalog is not None:
+        output['discovery'] = catalog
+        output['limit_reached'] = catalog['limit_reached']
     for n, path in enumerate(paths):
         if n >= args.max_files:
             output['limit_reached'] = True

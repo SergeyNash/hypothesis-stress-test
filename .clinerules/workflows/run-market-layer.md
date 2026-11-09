@@ -31,7 +31,7 @@ Market Layer.
 4. Read `RUN_DIR/outputs/evidence_inventory.md` if available and map findings to local KB signals.
 5. Search Confluence MCP for additional local/internal signals.
 6. If Confluence MCP unavailable — document MCP status and continue with KB inventory + explicit gaps.
-7. Use external sources only after an explicit user approval; default is skip.
+7. Reuse external_research.md and search residual gaps; full-run public research is enabled unless explicitly excluded. Log actual tool outcomes and host permission waits.
 8. Write `RUN_DIR/outputs/market_analysis.md`.
 9. Write `RUN_DIR/outputs/market_analysis_complete.marker` as the canonical JSON body from `.clinerules/10-artifact-contracts.md`.
 10. Summarize signal strength and missing evidence to the user.

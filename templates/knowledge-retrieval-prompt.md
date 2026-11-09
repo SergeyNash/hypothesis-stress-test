@@ -31,7 +31,7 @@ Do not synthesize conclusions.
 - max_files_scanned: 200
 - max_file_size: 2 MB
 - max_evidence_items: 20
-- skip_binary_by_default: true
+- Skip unsupported binaries only; PDF/DOCX/XLSX are supported.
 
 Supported kinds:
 
@@ -52,6 +52,10 @@ Exclude directories:
 - `node_modules/`
 
 ---
+
+## Step 0 — Catalog before selecting
+
+Resolve the actual framework directory, including downloaded ZIP names. Run its `scripts/discover_sources.py --root <KB_ROOT> --query "<topic terms>"`. Review nested folder/file names before exclusions. Hypotheses/growth/development/ideas/strategy/research and Russian equivalents are priority hints. Do not reject a parent business folder without checking descendants. Record metadata limits/errors separately from extraction limits. Include input/attachments explicitly; keep generated outputs excluded.
 
 ## Step 1 — Preview (always)
 
@@ -118,7 +122,11 @@ If `RUN_DIR/kb-samples/` exists, scan it first.
 
 ---
 
-## Step 3 — Completion marker
+## Step 3 — Completeness review
+
+After inventory, show scope/read/skipped/partial files and gaps. Ask whether the user wants to add materials or point out a missed folder; wait for additions or Continue. Process additions and repeat. Record `Retrieval Review` with `status: accepted` (or `waived` only for an explicit prior instruction). While pending, no retrieval completion marker and no Business Context. On late additions, invalidate downstream results through the authorized rerun flow.
+
+## Step 4 — Completion marker
 
 Write canonical JSON from `.clinerules/10-artifact-contracts.md` to
 `RUN_DIR/outputs/knowledge_retrieval_complete.marker`.

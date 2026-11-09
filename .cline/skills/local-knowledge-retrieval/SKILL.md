@@ -46,7 +46,7 @@ Use strict guardrails:
 - `max_files_scanned`: 200
 - `max_file_size`: 2 MB
 - `max_evidence_items`: 20
-- `skip_binary_by_default`: true
+- Skip only unsupported binaries; PDF/DOCX/XLSX have readers and MUST NOT be skipped as binary.
 
 Supported source kinds:
 
@@ -68,7 +68,13 @@ Record `limit_reached: true` in preview metadata when a cap stops the scan or ex
 
 If `RUN_DIR/kb-samples/` exists, scan it **first** as a run-local KB island (used by examples and isolated demos).
 
-Otherwise scan recursively from KB workspace root.
+Otherwise scan recursively from KB workspace root. Do not narrow to familiar Markdown folders.
+
+Before relevance filtering, run `<FRAMEWORK_DIR>/scripts/discover_sources.py --root <KB_ROOT> --query "<short topic terms>"` with Python. Resolve FRAMEWORK_DIR by its `.cline/skills/` and `scripts/` contents; a downloaded ZIP may be named `hypothesis-stress-test-main` or renamed. In standalone mode FRAMEWORK_DIR equals KB_ROOT.
+
+Inspect the metadata catalog of directories and files before rejecting a parent folder. Names containing hypotheses, growth, development, ideas, strategy, research (including Russian equivalents) and topic matches are search hints, not evidence. Inspect their descendants and relevant documents even when an ancestor has a generic name. Do not label a whole business folder “out of focus” without checking descendants. If enumeration fails or reaches its cap, report incomplete coverage, never “no relevant materials”.
+
+Use `scripts/extract_evidence.py --root <KB_ROOT> --query "<topic terms>"` for bounded automatic extraction, or pass selected relative file paths explicitly. Automatic mode ranks supported documents before applying its extraction cap; its discovery metadata lists unsupported and media files separately. Record metadata traversal limits separately from extraction limits. Check media with available tools or report a specific gap. Include `RUN_DIR/input/attachments/` explicitly as an additional input island: general scanning excludes runs, but user-supplied attachments must be read; generated outputs must never become evidence.
 
 Exclude:
 
@@ -111,11 +117,11 @@ Write `RUN_DIR/outputs/discovery_preview.md`:
 - [path] — planned evidence_type — why relevant
 ```
 
-Preview is mandatory and non-blocking in V1.
+Preview is mandatory and generated before extraction. Include directory coverage, candidate-selection reasons, metadata enumeration errors/limits, and per-file extraction status (`extracted`, `partial`, `skipped` + reason). Never count a directory listing as a read document. Preserve reader errors, size limits and missing dependencies explicitly.
 
 ### Step 2 — Auto-continue extraction
 
-After preview, automatically extract evidence to `evidence_inventory.md` (no confirm gate in V1).
+After preview, extract evidence to `evidence_inventory.md`. Then perform the completeness review below before completing this phase.
 
 ### Step 3 — Atomic evidence only
 
@@ -172,6 +178,20 @@ If audio/video has no transcript:
 - allow metadata-only stub
 - do not invent content
 - do not turn metadata-only into factual claim
+
+## Completeness review (after inventory, before completion marker)
+
+Show a short localized summary: inspected folders, files read, evidence items, relevant skipped/partial files, limits and remaining gaps. Ask: «Хотите добавить материалы или указать папку, которую я не учёл? Можно указать путь, приложить файл или ответить “Продолжить”.»
+
+Wait for the answer. Clearly state «Жду проверки полноты источников», not that the run is finished. A displayed inventory alone is not acceptance. Existing explicit instruction to continue without review may waive the pause; record the waiver and do not infer it from silence.
+
+- Additional paths/files: stay in this phase, extract them, update preview and inventory, preserve existing EVID identifiers, show the updated summary and repeat review. Never create fabricated evidence to fill gaps.
+- Continue / enough materials: record acceptance in the inventory's `Retrieval Review / Проверка полноты` section, then write the canonical completion marker.
+- Stop: keep the draft artifacts; do not write the completion marker or start Business Context.
+
+The review section records `status: pending | accepted | waived`, reviewed scope, additions/limits and the user's actual decision in prose. On resume without a marker, inspect this section: do not ask again if accepted/waived and inputs have not changed. Older completed runs keep their canonical markers; do not claim they had this review.
+
+If materials are added after completion, list Business Context → Market → Synthesis → Customer Discovery Planning → Decision Review → Human Report as stale; obtain the existing rerun authorization before replacing outputs. Do not reuse their completion markers as proof of current results.
 
 ## Required outputs
 
