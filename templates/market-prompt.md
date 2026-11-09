@@ -43,7 +43,7 @@ Use evidence channels in this order:
 
 1. Local KB inventory (`outputs/evidence_inventory.md`) if available
 2. Confluence MCP
-3. External sources (only if gaps remain and user approves)
+3. External evidence from external_research.md, plus public search for residual gaps unless explicitly excluded
 4. Inferred signals (last resort)
 
 You MUST:

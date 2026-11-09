@@ -37,3 +37,7 @@ Use after Roles Layer and Local Evidence Discovery, before Market Layer.
 ## Application profile
 
 Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.
+
+## Public evidence during context collection
+
+Before context assessment, run `external-business-research` with hypothesis/local gaps; record brief, actual queries/read outcomes, EXT sources, dates, contradictions and limits in outputs/external_research.md. Full-run passive public research is included unless explicitly excluded; respect host permissions and distinguish waiting, refusal, unavailability and no results. Do not replace missing internal strategy with public facts. Market reuses this result.

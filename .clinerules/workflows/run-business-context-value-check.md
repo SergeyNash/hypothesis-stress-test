@@ -26,7 +26,7 @@ If the Local Evidence marker is missing, stop and ask the user to run
 
 1. Confirm the gates above.
 2. Activate skill `business-context-value-check`.
-3. Search KB for strategy, OKR, business-model materials.
+3. Activate `external-business-research` to collect public evidence into external_research.md. Search the catalog/inventory for strategy, OKR, business-model materials in any workspace folder. External evidence does not replace internal context.
 4. If context missing:
    - Produce `missing_business_context.md`.
    - Produce `business_context_complete.marker` with

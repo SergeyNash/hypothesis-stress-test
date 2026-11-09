@@ -43,7 +43,7 @@ After Customer Discovery Planning, run **Decision Review** — an adversarial cr
 1. Validate input (hypothesis, roles, research context)
 2. Run Facilitator (Roles Layer) — skill `hypothesis-facilitator`
 3. Run Local Evidence Discovery — skill `local-knowledge-retrieval`
-4. Run Business Context & Value Check — skill `business-context-value-check`
+4. Run Business Context & Value Check — skill `business-context-value-check`, including `external-business-research`
 5. Run Market Layer (Confluence MCP + inventory for local signals)
 6. Run Synthesis Layer
 7. Run Customer Discovery Planning
@@ -67,7 +67,9 @@ Analysis layers are **sequential** and **independent**. Synthesis consumes artif
 
 ## Skills and workflows
 
-Use project skills from `.cline/skills/` or invoke workflows:
+Primary entry points are skills `hst-start` (new hypothesis) and `hst-run` (existing RUN_DIR). Use natural language naming the skill, or its slash command if the installed Cline version exposes it. Do not require slash support. Workflows below remain legacy compatibility aliases:
+
+Use project skills from `.cline/skills/` or invoke compatibility workflows:
 
 - `/run-hypothesis-conversational.md` — **chat-first** full run (intake → dialog confirm `RUN_DIR` → bootstrap → validate → pipeline)
 - `/validate-hypothesis-input.md` — check input before running
@@ -93,3 +95,5 @@ New hypothesis = new isolated `runs/HYP-YYYY-MM-DD-NNN/`. Open files from a prev
 ## Application profiles
 
 HST supports digital-product and service-business decisions. Read `profiles/README.md`; missing profile means digital_product. Service profile changes decision criteria within the same phases: customer value, buying path, delivery feasibility, provider economics. The human decides about research, pilot, offer, capability, sales expansion or rejection. Personas simulate perspectives and never establish independent demand evidence.
+
+For actual progress/source-call reporting follow `30-run-observability.md`.

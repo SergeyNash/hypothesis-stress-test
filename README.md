@@ -73,7 +73,7 @@
 
 ## Как это работает
 
-Независимые слои анализа, Customer Discovery Planning, обязательный Decision Review, Human Report и финальное решение человека. В `.cline/skills/` — **11 skills**: 10 в пайплайне и один для редактуры текста.
+Независимые слои анализа, Customer Discovery Planning, обязательный Decision Review, Human Report и финальное решение человека. В `.cline/skills/` — **14 skills**: 10 фазовых, два навыка запуска (`hst-start`, `hst-run`), внешнее исследование и редактура текста.
 
 | Фаза | Skill | Результат |
 |------|-------|-----------|
@@ -81,7 +81,7 @@
 | **Validate** | `hypothesis-input-validation` | готовый `input/hypothesis.md` |
 | **Facilitator** (Roles / stress test) | `hypothesis-facilitator` | `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md` |
 | **Local Evidence Discovery** | `local-knowledge-retrieval` | `discovery_preview.md`, `evidence_inventory.md` |
-| **Business Context** (ценность и стратегия) | `business-context-value-check` | `business_context_analysis.md` или `missing_business_context.md` |
+| **Business Context** (ценность и стратегия) | `business-context-value-check` + `external-business-research` | бизнес-контекст или явный gap; `external_research.md` |
 | **Market** (market reality check) | `hypothesis-market-layer` | `market_analysis.md` |
 | **Synthesis** (столкновение сигналов) | `hypothesis-synthesis` | `hypothesis_map.md`, `hypothesis_digest.txt` |
 | **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
@@ -101,7 +101,9 @@
 
 Слой Business Context отделяет желаемый эффект от реальной бизнес-ценности — подробнее: [layers/business-context-layer.md](./layers/business-context-layer.md)
 
-Полный прогон (chat-first): `/run-hypothesis-conversational.md`
+Полный прогон: попросите Cline использовать **`hst-start`** для новой гипотезы или **`hst-run`** для существующей. Навыки работают без workflows. Старые команды сохранены как совместимые входы.
+
+Старый chat-first alias: `/run-hypothesis-conversational.md`
 
 Полный прогон (file-first): `/run-hypothesis.md`
 
@@ -221,12 +223,14 @@ RUN_DIR/
 
 Кратко:
 
-1. Установите [Cline](https://marketplace.visualstudio.com/items?itemName=saoudrizwan.claude-dev) в VS Code
-2. Откройте **свою базу знаний** и добавьте папку `hypothesis-stress-test/` (clone или submodule)
-3. Symlink `.clinerules/` и `.cline/` в корень KB — см. [quick start](./implementations/quick-start.md)
-4. Настройте [Confluence MCP](./implementations/confluence-mcp.md)
-5. **Chat-first (рекомендуется):** в чате Cline вызовите `/run-hypothesis-conversational.md` — `#гипотеза` для готовой формулировки или `#контекст` для сырых заметок; подтвердите draft до создания `runs/`
-6. **File-first (fallback):** создайте `runs/HYP-YYYY-MM-DD-NNN/input/hypothesis.md` — см. [templates/input-schema.md](./templates/input-schema.md), затем `RUN_DIR: runs/HYP-YYYY-MM-DD-NNN` + `/run-hypothesis.md`
+1. Распакуйте фреймворк в свою базу знаний или откройте его отдельно; материалы оставьте на своих местах.
+2. Установите Cline и настройте модель.
+3. Для вложенного фреймворка запустите `python <папка-фреймворка>/scripts/setup_workspace.py --workspace .` и затем `--apply`, если нет конфликтов.
+4. Установите `requirements-evidence.txt` для PDF/DOCX/XLSX и проверьте Rules/Skills по [инструкции](implementations/quick-start.md).
+5. Напишите Cline: «Используй hst-start для полного стресс-теста», затем идею и пути к важным материалам.
+6. Проверьте карточку и полноту источников. Ход работы виден в локальном HTML; итог — `outputs/human_report.html`.
+
+Confluence необязателен. Интернет-исследование входит в полный прогон, если явно не исключено. Недоступность источников и ожидание разрешений показываются отдельно.
 
 Операционная документация: [implementations/README.md](./implementations/README.md)
 
@@ -322,3 +326,7 @@ VERSION            текущая версия фреймворка
 - [Локальные PDF/DOCX/XLSX readers](implementations/evidence-extraction.md)
 
 Проверка: python scripts/validate_runs.py; python -m unittest discover -s tests -v. Архитектурные PNG иллюстрируют общий замысел; точный порядок фаз и профильные проверки задаёт текстовый контракт.
+
+## Доработка старта и полноты исследования
+
+[План, диагностика и статусы](roadmap/onboarding-evidence.md). Живой прогресс: `scripts/run_progress.py`, настройка рабочего пространства: `scripts/setup_workspace.py`. Новые сценарии требуют повторной синхронизации `.cline` и `.clinerules` в корне вашей KB; одного обновления вложенной папки недостаточно. Старые примеры сохранены как исторические результаты, не как демонстрация новых обращений к источникам.

@@ -122,6 +122,13 @@ class Contracts(unittest.TestCase):
         self.edit('outputs/evidence_inventory.md', '- source_origin: synthetic', '')
         self.assertIn('MISSING_SERVICE_PROVENANCE', validate_service_outputs(self.run))
 
+    def test_pending_source_review_cannot_be_a_completed_run(self):
+        p = self.run/'outputs/evidence_inventory.md'
+        p.write_text(p.read_text() + '\n## Проверка полноты\n- status: pending\n')
+        self.assertIn('INCOMPLETE_RETRIEVAL_REVIEW', validator.validate_complete_run(self.run))
+        p.write_text(p.read_text().replace('status: pending', 'status: accepted'))
+        self.assertEqual([], validator.validate_complete_run(self.run))
+
     def test_contract_arithmetic(self):
         self.assertEqual(15000, 90000 - 18*3000 - 12000 - 9000)
         self.assertEqual(-21000, 90000 - 30*3000 - 12000 - 9000)
