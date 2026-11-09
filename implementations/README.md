@@ -48,3 +48,7 @@
 - [examples/chat-first-run.md](../examples/chat-first-run.md) — chat-first сценарий входа
 - [examples/run.md](../examples/run.md) — как обработан example-001 (file-first)
 - [examples/example-001/](../examples/example-001/) — эталонные артефакты
+
+## Сервисные гипотезы
+
+С версии 2.5 поддерживается профиль [service_business](../profiles/service-business.md) внутри существующего конвейера. [Профили применения](../profiles/README.md) задают критерии независимо от Cline/manual исполнения. Пример развития: [проактивная поддержка с ИИ](../examples/example-005/run.md). Статусы реализации: [перечень](../roadmap/service-business.md).

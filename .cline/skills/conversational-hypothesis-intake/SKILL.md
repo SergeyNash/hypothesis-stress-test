@@ -1,7 +1,14 @@
 ---
 name: conversational-hypothesis-intake
-description: Collect a product hypothesis through guided chat dialogue, draft input/hypothesis.md, propose a new RUN_DIR in dialog, and obtain user confirmation before bootstrap. Supports trigger tags (#hypothesis, #context, #new-run). Use when starting a new stress test without manually creating RUN_DIR.
+description: Collect a product hypothesis through guided chat dialogue, draft input/hypothesis.md, propose a new RUN_DIR in dialog, and obtain user confirmation before bootstrap. Supports trigger tags (#hypothesis, #context, #new-run). Use when starting a new stress test without manually creating RUN_DIR. Supports digital_product and service_business decisions.
 ---
+
+## Application profile (resolve before this skill)
+
+Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Intake and validation**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+
 
 # Conversational Hypothesis Intake
 
@@ -351,3 +358,7 @@ present, `confirmed: true`, and the proposed directory is still free.
 - `.cline/skills/hypothesis-input-validation/SKILL.md` — validation gate
 - `.clinerules/workflows/run-hypothesis-conversational.md` — bootstrap and run orchestration
 - `examples/chat-first-run.md` — ready, dirty, and second-run-same-day examples
+
+## Service intake
+
+For a service decision, propose `service_business` and the main hypothesis type. Reuse supplied facts to fill decision owner, baseline, customer outcome, service promise, provider change and role bindings. Ask only for consequential gaps; record unknown scope/economics as unknown instead of demanding a full contract. Include these fields in the confirmed draft and IntakeResult.draft_markdown. Never silently select a customer persona for a provider role.

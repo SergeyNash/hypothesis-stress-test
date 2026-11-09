@@ -273,10 +273,12 @@ Cline выполнит:
 1. Валидацию входа
 2. Facilitator (Roles Layer)
 3. Local Evidence Discovery (preview + inventory)
-4. Market Layer (inventory + поиск в Confluence)
-5. Synthesis Layer
-6. Customer Discovery Planning
-7. Decision Review
+4. Business Context & Value Check
+5. Market Layer (inventory + поиск в Confluence)
+6. Synthesis Layer
+7. Customer Discovery Planning
+8. Decision Review
+9. Human Decision Report
 
 Подтверждайте запись файлов и вызовы MCP по запросу.
 
@@ -334,3 +336,9 @@ outputs/
 - [cline-setup.md](./cline-setup.md) — полная настройка Cline
 - [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) — детальный сценарий прогона
 - [examples/example-001/](../examples/example-001/) — эталонный пример с артефактами
+
+## Сервисный запуск
+
+В chat-first сообщите, какое решение о развитии сервиса проверяем. Агент предложит service_business, тип гипотезы, владельца, текущий способ, результат заказчика и границы обещания в одной карточке. Неизвестные условия сохраняются как gaps. Пример: «Если обрабатывать заранее выбранные события до обращения клиента, сможем ли снизить воздействие сбоев и выгодно обслуживать больше контуров?»
+
+Для file-first используйте [example-005/input/hypothesis.md](../examples/example-005/input/hypothesis.md) как форму, заменив синтетические вводные своими. Полный запуск содержит Business Context после Local Evidence и Human Report после Decision Review. Откройте human_report.html: он показывает четыре контура и сервисное действие. Readers PDF/DOCX/XLSX: [инструкция](evidence-extraction.md).

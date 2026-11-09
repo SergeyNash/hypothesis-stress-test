@@ -93,3 +93,7 @@ Customer Discovery Planning — **слой планирования исслед
 - **Customer Discovery Planning** -> план customer research
 - Decision Review -> adversarial-критика и quality gate рекомендации
 - Человек -> финальное решение по backlog
+
+## Service-business profile
+
+For service_business apply **Validation planning** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.

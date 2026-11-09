@@ -100,3 +100,7 @@ Create `RUN_DIR/outputs/decision_review_complete.marker` as valid JSON per `.cli
 - Treat missing Business Context as a gap, not inferred strategic fit
 - Always look for weaknesses
 - If no weaknesses are found, explain why confidence is high
+
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.

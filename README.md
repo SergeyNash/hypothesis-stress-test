@@ -1,11 +1,11 @@
 # 🧠 Hypothesis Stress Test
 
 <p align="center">
-  <sub>Версия фреймворка <b>2.4.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
+  <sub>Версия фреймворка <b>2.5.0</b> · <a href="./CHANGELOG.md">Changelog</a></sub>
 </p>
 
 <p align="center">
-  <b>Проверяйте продуктовые гипотезы до того, как начнёте их реализовывать.</b>
+  <b>Проверяйте гипотезы развития цифровых продуктов и сервисного бизнеса до вложения ресурсов.</b>
 </p>
 
 <p align="center">
@@ -87,7 +87,7 @@
 | **Customer Discovery Planning** | `customer-discovery-planning` | `customer_discovery_plan.md` |
 | **Decision Review** | `hypothesis-decision-review` | `decision_review.md` |
 | **Human Report** | `human-report-export` | `human_report.html` |
-| **Backlog Decision** (человек) | — | proceed / validate / research / reject |
+| **Решение человека** | — | продуктовое действие или сервисный пилот / предложение / компетенции / продажи |
 
 Вне пайплайна гипотез:
 
@@ -310,3 +310,15 @@ VERSION            текущая версия фреймворка
 <p align="center">
   <b>Проверьте идею до того, как начнёте её делать.</b>
 </p>
+
+## Сервисный бизнес (v2.5)
+
+Профиль service_business расширяет HST на новые услуги, предложения, коммерческие модели, способы оказания, улучшения и продления. Он разделяет ценность заказчику, путь покупки, исполнимость и экономику поставщика. Тот же порядок фаз и артефакты; без выбора профиля действует digital_product.
+
+- [Профили и выбор режима](profiles/README.md)
+- [Контракт сервисного профиля](profiles/service-business.md)
+- [Гипотеза развития: проактивная поддержка с ИИ](examples/example-005/run.md) — синтетический пример, не доказательство спроса
+- [Перечень изменений и статусы](roadmap/service-business.md)
+- [Локальные PDF/DOCX/XLSX readers](implementations/evidence-extraction.md)
+
+Проверка: python scripts/validate_runs.py; python -m unittest discover -s tests -v. Архитектурные PNG иллюстрируют общий замысел; точный порядок фаз и профильные проверки задаёт текстовый контракт.

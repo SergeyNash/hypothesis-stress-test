@@ -84,3 +84,7 @@ Match the language of `input/hypothesis.md`.
 - Uncertainty is allowed and expected
 
 See `.cline/skills/hypothesis-synthesis/SKILL.md` for full output structures.
+
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.

@@ -73,3 +73,7 @@ Generate:
 - Goal: discover where the hypothesis breaks
 
 See `.cline/skills/hypothesis-facilitator/SKILL.md` for full output structures (EN and RU).
+
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.

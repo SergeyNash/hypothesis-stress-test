@@ -201,3 +201,7 @@ Skill: `hypothesis-synthesis`
 * `business-context-layer.md`
 * `synthesis-layer.md`
 * `decision-review-layer.md`
+
+## Сервисные гипотезы
+
+С версии 2.5 поддерживается профиль [service_business](../profiles/service-business.md) внутри существующего конвейера. [Профили применения](../profiles/README.md) задают критерии независимо от Cline/manual исполнения. Пример развития: [проактивная поддержка с ИИ](../examples/example-005/run.md). Статусы реализации: [перечень](../roadmap/service-business.md).

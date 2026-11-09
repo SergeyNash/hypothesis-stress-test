@@ -104,3 +104,7 @@ Decision Review may reference the existing **Roles, Local Evidence, Business Con
 - Missing evidence or a missing perspective is a gap to report and validate later, not permission to fill it with uncited information
 - Challenge evidence quality, assumptions, and conclusions — do not repeat synthesis
 - Propose validation activities; do not treat them as completed evidence
+
+## Service evidence and provenance
+
+For service_business use the evidence fields and caveats from profiles/service-business.md. Local storage is not a trust rank: assess source directness, independence, sample, age and relevance. A contract demonstrates an obligation, not actual delivery; time saved is not automatically cash saved. Synthetic fixtures and role simulations cannot validate real demand. New reader support: PDF/DOCX/XLSX/HTML through scripts/extract_evidence.py; partial extraction and formula text must not become complete numeric evidence.

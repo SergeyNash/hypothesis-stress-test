@@ -233,3 +233,7 @@ Findings разделяются так:
 
 * `roles-layer.md`
 * `synthesis-layer.md`
+
+## Service-business profile
+
+For service_business apply **Market** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.

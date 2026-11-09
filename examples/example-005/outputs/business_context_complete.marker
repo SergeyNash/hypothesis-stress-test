@@ -1,0 +1,8 @@
+{
+  "status": "completed",
+  "completed_phase": "business_context",
+  "next_phase": "market",
+  "inputs": [
+    "outputs/business_context_analysis.md"
+  ]
+}

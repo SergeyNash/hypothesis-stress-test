@@ -1,7 +1,14 @@
 ---
 name: hypothesis-input-validation
-description: Validate hypothesis input before running the stress-test framework. Use when starting a new hypothesis run, before Roles or Market layers, or when input quality is uncertain.
+description: Validate hypothesis input before running the stress-test framework. Use when starting a new hypothesis run, before Roles or Market layers, or when input quality is uncertain. Supports digital_product and service_business decisions.
 ---
+
+## Application profile (resolve before this skill)
+
+Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Intake and validation**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+
 
 # Hypothesis Input Validation
 
@@ -128,3 +135,7 @@ Suggest next step: invoke `/run-hypothesis.md` workflow, or `/run-hypothesis-con
 ## Reference
 
 See `templates/input-schema.md` and `playbooks/validate-input.md`.
+
+## Service-specific validation
+
+Additional stable codes: `INVALID_PROFILE`, `INVALID_HYPOTHESIS_TYPE`, `MISSING_SERVICE_FIELD`. For `service_business`, require type, decision owner, baseline, Service Context and its four fields from the profile. Accept explicit unknowns in service context as research gaps; reject empty/placeholder fields. Do not impose service fields on product runs. Static scripts can check structure; semantic testability and credibility still require this skill.

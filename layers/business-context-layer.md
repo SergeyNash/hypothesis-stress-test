@@ -103,3 +103,7 @@ Synthesis и Decision Review используют business context, чтобы �
 
 - `templates/business-context-prompt.md` — ручной запуск
 - `.cline/skills/business-context-value-check/SKILL.md` — запуск через Cline
+
+## Service-business profile
+
+For service_business apply **Business context** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.

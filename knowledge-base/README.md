@@ -71,3 +71,7 @@ knowledge-base/
 - Jira work items
 - Внутренние wiki помимо Confluence
 - Локальные research-репозитории в этом репо
+
+## Сервисные гипотезы
+
+С версии 2.5 поддерживается профиль [service_business](../profiles/service-business.md) внутри существующего конвейера. [Профили применения](../profiles/README.md) задают критерии независимо от Cline/manual исполнения. Пример развития: [проактивная поддержка с ИИ](../examples/example-005/run.md). Статусы реализации: [перечень](../roadmap/service-business.md).

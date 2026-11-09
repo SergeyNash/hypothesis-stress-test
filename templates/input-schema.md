@@ -139,3 +139,21 @@ Where `RUN_DIR` is the hypothesis run archive, e.g. `runs/HYP-2026-06-22-001/`.
 ## Principle
 
 Weak input → weak output
+
+## Application profiles (v2.5)
+
+Optional Metadata: `Application Profile / Профиль применения`: `digital_product` (default) or `service_business`. Unknown tokens fail validation. Product inputs remain valid without the field.
+
+For service_business require:
+
+| Location | EN / RU field | Value |
+|---|---|---|
+| Metadata | Hypothesis Type / Тип гипотезы | new_service, service_offer, commercial_model, delivery_model, service_improvement, renewal_expansion |
+| Metadata | Decision Owner / Владелец решения | Role/person who will decide the next step |
+| Research Context | Baseline / Текущий способ | Current approach or alternative |
+| Service Context / Сервисный контекст | Customer Outcome / Результат заказчика | Observable result, or explicit unknown |
+| Service Context | Service Promise / Обещание услуги | Scope, actions/result, boundaries, or explicit unknown |
+| Service Context | Provider Change / Изменение у поставщика | Change on the provider side, or explicit unknown |
+| Service Context | Role Bindings / Привязка ролей | Name → customer/provider/partner → profile path if present |
+
+Explicit unknowns in service context remain gaps, not proof. Empty/placeholder fields fail. See [service profile](../profiles/service-business.md) and [complete development example](../examples/example-005/input/hypothesis.md). Both sides share the five-role limit; do not automatically include every persona.

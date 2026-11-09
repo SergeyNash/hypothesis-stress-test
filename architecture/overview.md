@@ -89,3 +89,7 @@ Cline impl → rules, skills, workflows, Confluence MCP
 | Playbook | [playbooks/run-hypothesis.md](../playbooks/run-hypothesis.md) |
 | Chat-first прогон | [examples/chat-first-run.md](../examples/chat-first-run.md) |
 | Пример | [examples/example-001/](../examples/example-001/) |
+
+## Сервисные гипотезы
+
+С версии 2.5 поддерживается профиль [service_business](../profiles/service-business.md) внутри существующего конвейера. [Профили применения](../profiles/README.md) задают критерии независимо от Cline/manual исполнения. Пример развития: [проактивная поддержка с ИИ](../examples/example-005/run.md). Статусы реализации: [перечень](../roadmap/service-business.md).

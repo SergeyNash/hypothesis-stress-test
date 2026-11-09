@@ -127,3 +127,7 @@ Synthesis Layer — слой **столкновения сигналов**.
 - `customer-discovery-planning-layer.md`
 - `templates/synthesis-prompt.md` — ручной запуск
 - `.cline/skills/hypothesis-synthesis/SKILL.md` — запуск через Cline
+
+## Service-business profile
+
+For service_business apply **Synthesis** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.

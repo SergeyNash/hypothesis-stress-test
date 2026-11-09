@@ -117,3 +117,6 @@ Write `RUN_DIR/outputs/customer_discovery_plan.md` using this structure:
 
 Create `RUN_DIR/outputs/customer_discovery_planning_complete.marker` as valid JSON per `.clinerules/10-artifact-contracts.md` when done.
 
+## Application profile
+
+Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.
