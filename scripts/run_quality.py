@@ -30,11 +30,15 @@ def normalized(text):
     return re.sub(r'\s+', ' ', unescape(text)).strip()
 
 
-def validate_quality(run):
+def validate_quality(run, *, strict=False):
     run = Path(run).resolve()
     try:
         if protocol(run) < 2:
-            return []
+            return ['STRICT_AUDIT_REQUIRES_PROTOCOL_2'] if strict else []
+        config = read_json(run / 'run_config.json')
+        grounded = strict or config.get('audit_version', 1) == 2
+        if config.get('audit_version', 1) not in {1, 2}:
+            return ['UNSUPPORTED_AUDIT_VERSION']
         ledger = read_json(run / 'outputs/claim_ledger.json')
         review = read_json(run / 'outputs/quality_review.json')
     except (OSError, UnicodeError, ValueError, TypeError):
@@ -138,11 +142,18 @@ def validate_quality(run):
     checks = review.get('checks', [])
     if not isinstance(checks, list) or not all(isinstance(x, dict) for x in checks):
         return sorted(set(errors + ['INVALID_QUALITY_REVIEW']))
-    if {x.get('id') for x in checks} != CHECKS or len(checks) != len(CHECKS):
+    from grounded_audit import EXTRA_CHECKS, validate_grounding
+    expected_checks = CHECKS | EXTRA_CHECKS if grounded else CHECKS
+    if {x.get('id') for x in checks} != expected_checks or len(checks) != len(expected_checks):
         errors.append('INCOMPLETE_QUALITY_REVIEW')
     for check in checks:
         if check.get('status') not in {'pass', 'not_applicable'} or not isinstance(check.get('reason'), str) or not check.get('reason', '').strip():
             errors.append('QUALITY_REVIEW_FAILED:' + str(check.get('id')))
         if not isinstance(check.get('claim_ids'), list) or not all(isinstance(c, str) and c in claim_ids for c in check['claim_ids']):
             errors.append('INVALID_REVIEW_CLAIM_IDS')
+    if grounded:
+        try:
+            errors.extend(validate_grounding(run, ledger, review))
+        except (OSError, ValueError, TypeError, KeyError, AttributeError, ArithmeticError):
+            errors.append('INVALID_GROUNDED_AUDIT_SCHEMA')
     return sorted(set(errors))

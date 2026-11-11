@@ -7,7 +7,12 @@
       "scopes": [
         "operations"
       ],
-      "facts": []
+      "facts": [],
+      "role": "reported_fact",
+      "anchor_ids": [
+        "REPLACE_WITH_CAPTURED_ANCHOR_ID"
+      ],
+      "quote": "REPLACE with exact source fragment"
     }
   ],
   "claims": [

@@ -3,50 +3,109 @@
     {
       "id": "claim_references",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "commercial_behavior",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
+      "claim_ids": []
+    },
+    {
+      "id": "counterevidence",
+      "status": "fail",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "decision_logic",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
+      "claim_ids": []
+    },
+    {
+      "id": "entity_scope",
+      "status": "fail",
+      "reason": "REPLACE after source and output review",
+      "claim_ids": []
+    },
+    {
+      "id": "experiment_consistency",
+      "status": "fail",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "numeric_scope",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "original_intent",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
+      "claim_ids": []
+    },
+    {
+      "id": "procurement",
+      "status": "fail",
+      "reason": "REPLACE after source and output review",
+      "claim_ids": []
+    },
+    {
+      "id": "research_execution",
+      "status": "fail",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "simulations_not_evidence",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "source_lineage",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     },
     {
       "id": "unknown_not_refuted",
       "status": "fail",
-      "reason": "REPLACE after reviewing source anchors and output claims",
+      "reason": "REPLACE after source and output review",
       "claim_ids": []
     }
-  ]
+  ],
+  "comparisons": [],
+  "research": {
+    "status": "partial",
+    "reason": "REPLACE with actual query/read coverage",
+    "tracks": {
+      "offers": [],
+      "procurement": [],
+      "operations": [],
+      "counterexamples": []
+    },
+    "read_event_ids": []
+  },
+  "context": {
+    "provider": "REPLACE",
+    "client_scope": "REPLACE with actual bounded subset",
+    "scope_status": "unknown",
+    "entity_review": "REPLACE with identity/affiliation checks"
+  },
+  "procurement": {
+    "status": "not_applicable",
+    "reason": "REPLACE; allowed only with no procurement-scoped sources"
+  },
+  "experiments": [],
+  "decision": {
+    "action": "additional_research",
+    "contour_claim_ids": {},
+    "execution_allowed": false,
+    "conditions": []
+  }
 }

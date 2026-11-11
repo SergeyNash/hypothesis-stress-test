@@ -439,3 +439,7 @@ New runs include external_research.md with brief, query/read log, EXT source led
 ## Protocol 2 completion gate
 
 New runs have root `run_config.json` (`protocol_version: 2`, `execution_mode: full | phase`, `language`, `heavy_analysis: ask`, `analysis_choices`). `outputs/claim_ledger.json` and `quality_review.json` are required at full completion, as specified in `implementations/run-quality.md`. `run_validation.json` is written by `scripts/run_control.py finish` with the actual run target, scope, status and errors. Source event history still cannot be reconstructed from markers. Existing marker bodies stay unchanged; final completion now additionally checks the actual RUN_DIR and its declared audit. Historical examples without run_config remain structural regression fixtures. Hidden viewer identity/log files are supporting runtime state, never evidence.
+
+## Source-bound audit version 2
+
+New run_config.json adds audit_version: 2. Supporting outputs add source_snapshot.json (script-captured, source hashes/anchors/fragments/pages) and validation_history.jsonl (append-only validation attempts). claim_ledger/quality_review follow implementations/run-quality.md and templates. Completion checks original fragments and declared relationships; missing originals/review mappings fail explicitly. Historical audit_version 1 remains labelled declared consistency. Marker JSON bodies are unchanged.

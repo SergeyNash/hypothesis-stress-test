@@ -96,6 +96,8 @@ ALLOWED_OUTPUTS = {
     "claim_ledger.json",
     "quality_review.json",
     "run_validation.json",
+    "source_snapshot.json",
+    "validation_history.jsonl",
     "ready_for_synthesis.marker",
     "knowledge_retrieval_complete.marker",
     "business_context_complete.marker",
@@ -564,14 +566,14 @@ def validate_examples() -> list[str]:
     return failures
 
 
-def check_run(run_dir, *, check_folder_id=True):
+def check_run(run_dir, *, check_folder_id=True, strict=False):
     run_dir = Path(run_dir).resolve()
     try:
         if not run_dir.is_dir():
             return ['RUN_DIR_NOT_FOUND']
         codes = validate_complete_run(run_dir)
         from run_quality import validate_quality
-        codes.extend(validate_quality(run_dir))
+        codes.extend(validate_quality(run_dir, strict=strict))
         if check_folder_id:
             codes.extend(validate_input(run_dir, check_folder_id=True))
         return sorted(set(codes))
@@ -584,17 +586,25 @@ def main(argv=None) -> int:
     target = parser.add_mutually_exclusive_group(required=True)
     target.add_argument('--run-dir', type=Path, help='Validate this actual hypothesis run (never examples)')
     target.add_argument('--examples', action='store_true', help='Repository self-test only; says nothing about user runs')
+    parser.add_argument('--strict', action='store_true', help='Apply source-bound audit v2 to an older protocol-2 run without modifying it')
     parser.add_argument('--json', action='store_true', help='Machine-readable result with target and limitations')
     args = parser.parse_args(argv)
+    if args.strict and not args.run_dir:
+        parser.error('--strict requires --run-dir')
     if args.run_dir:
         scope, name = 'run', str(args.run_dir.resolve())
-        failures = check_run(args.run_dir)
+        failures = check_run(args.run_dir, strict=args.strict)
     else:
         scope, name = 'repository_examples', str(ROOT / 'examples')
         failures = validate_examples()
     result = {'scope': scope, 'target': name, 'status': 'FAIL' if failures else 'PASS',
-              'errors': failures, 'checks': ('artifact contracts and declared audit consistency' if args.run_dir and (args.run_dir / 'run_config.json').exists() else 'artifact contracts only; no claim audit for legacy runs'),
+              'errors': failures, 'strict_requested': args.strict, 'checks': ('artifact contracts and applicable audit (see audit_version)' if args.run_dir and (args.run_dir / 'run_config.json').exists() else 'artifact contracts only; no claim audit for legacy runs'),
               'limitations': 'Does not prove source truth, demand, profitability or research completeness.'}
+    if args.run_dir and (args.run_dir / 'run_config.json').exists():
+        try:
+            result['audit_version'] = 2 if args.strict else json.loads((args.run_dir / 'run_config.json').read_text(encoding='utf-8-sig')).get('audit_version', 1)
+        except (OSError, ValueError, AttributeError):
+            result['audit_version'] = 'invalid'
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:

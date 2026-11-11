@@ -104,6 +104,19 @@ def record(run, *, phase, state, message, channel=None, query='', urls=None):
             problems += check_run(run)
         if problems:
             raise ValueError('completion verification failed: ' + ', '.join(problems))
+    if phase == 'facilitator' and state == 'running' and not channel:
+        config_path = Path(run) / 'run_config.json'
+        config = json.loads(config_path.read_text(encoding='utf-8-sig')) if config_path.exists() else {}
+        if config.get('audit_version') == 2:
+            viewer = config.get('viewer', {})
+            if viewer.get('status') == 'ready':
+                from run_control import verify_viewer
+                try:
+                    verify_viewer(viewer['url'], Path(run).resolve())
+                except (OSError, ValueError, KeyError) as exc:
+                    raise ValueError('Viewer unavailable before facilitator; restart viewer and show URL, or report actual failure.') from exc
+            elif not (viewer.get('status') == 'unavailable' and viewer.get('notified') and viewer.get('reason')):
+                raise ValueError('Prepare and show the verified progress URL before facilitator.')
     output = output_dir(run)
     with lock(output):
         rows = events(output)
