@@ -32,3 +32,9 @@ Start with primary sources (company disclosures, official procurement and award 
 6. Contradictions, unresolved questions, and handoff to Business Context/Market. Public evidence cannot establish our internal strategic priorities or replace customer validation.
 
 Log actual tool calls and outcomes in the pipeline event journal; never record completed search before the tool returned. Report page discovery, page reading, and evidence use as separate actions. Market reuses EXT-IDs and sources; only search residual gaps instead of rerunning the same queries. Proposed interviews and pilots remain future work.
+
+## Actual search and provenance
+
+Run real search queries before page reading; direct fetches of guessed URLs alone are not a market search. Cover offers/competitors/substitutes, buying/procurement signals, operational problems and disconfirming queries in the relevant language/geography. Log query text, result discovery, actual reads and use separately. Prioritize original provider service terms/SLA, procurement awards/contracts and original studies. A secondary citation to a paper is not a direct read of that paper. Follow a primary reference or mark it indirect. After a blocked report, search alternative primary sources within budget. Do not require a paid market overview to investigate service offers.
+
+HTTP 401 is auth_error; 403 is unavailable with HTTP reason; timeouts/fetch failures are error/unavailable. no_results is only a successful search returning no relevant results. Report bounded coverage and residual gaps; never convert failed access into market absence. Local copies of public tenders retain their existing lineage/EVID and are not fresh independent web confirmation. Follow `implementations/run-quality.md`.

@@ -225,3 +225,7 @@ first incomplete/invalid phase after any required confirmation.
 - Examples: `examples/chat-first-run.md`
 - Full pipeline: `run-hypothesis.md`
 - Playbook: `playbooks/run-hypothesis.md`
+
+## Mandatory post-bootstrap handoff
+
+Once confirmed input passes validation, run `scripts/run_control.py prepare --run-dir <RUN_DIR> --mode full` using the resolved FRAMEWORK_DIR. Show its verified live URL immediately, even while waiting for a later phase choice. For a draft-only choice use mode phase and do not start roles. Follow `.clinerules/40-run-quality.md`; do not wait for the user to request progress.

@@ -16,7 +16,7 @@ SUPPORTED = {'.md', '.markdown', '.txt', '.log', '.csv', '.srt', '.vtt',
 MEDIA = {'.png', '.jpg', '.jpeg', '.webp', '.gif', '.mp3', '.wav', '.m4a',
          '.ogg', '.mp4', '.mov', '.webm', '.mkv'}
 EXCLUDED = {'.git', '.cline', '.clinerules', '.obsidian', '.agents', '.github',
-            'node_modules', 'runs', 'examples', '__pycache__'}
+            '.venv', 'venv', 'env', '.env', 'site-packages', 'node_modules', 'runs', 'examples', '__pycache__'}
 HINTS = ('гипотез', 'развит', 'иде', 'стратег', 'исследован', 'интервью',
          'hypothes', 'growth', 'idea', 'strateg', 'research', 'discovery', 'interview')
 

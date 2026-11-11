@@ -28,6 +28,55 @@ def get(values, *aliases, default=''):
     return next((values[a.casefold()] for a in aliases if a.casefold() in values), default)
 
 
+def machine_token(value):
+    """Read one token with optional Markdown and a separated human explanation.
+
+    Never salvage an invalid enum by searching for a valid word inside prose.
+    """
+    match = re.fullmatch(r"[*`]*([a-z_]+)[*`]*(?:\s+(?:[—–]|-)\s+[^\n]+)?", value.strip())
+    return match[1] if match else None
+
+
+PLAN_FIELDS = (
+    ('вопрос', 'question', 'гипотеза', 'hypothesis'), ('метод', 'method'),
+    ('выборка', 'sample'), ('база сравнения', 'baseline'), ('метрика', 'metric'),
+    ('критерий успеха', 'success criterion'), ('критерий остановки', 'stop criterion'),
+    ('срок', 'deadline'), ('владелец', 'owner'), ('доказательство', 'evidence'),
+    ('развилки', 'branches', 'ветки'),
+)
+
+
+def plan_tables_complete(text):
+    tables, current = [], []
+    for line in text.splitlines() + ['']:
+        if line.lstrip().startswith('|'):
+            cells = [c.strip().strip('*`').casefold() for c in line.strip().strip('|').split('|')]
+            if not all(re.fullmatch(r'[: -]+', c or '-') for c in cells):
+                current.append(cells)
+        elif current:
+            tables.append(current); current = []
+    found = False
+    for table in tables:
+        header = table[0]
+        # Wide table: canonical columns; check every action row, not scattered labels.
+        if any(any(a in c for a in PLAN_FIELDS[0]) for c in header):
+            found = True
+            indexes = [next((i for i,c in enumerate(header) if any(a in c for a in aliases)), None)
+                       for aliases in PLAN_FIELDS]
+            if None in indexes or len(table) < 2:
+                return False
+            if any(any(i >= len(row) or not usable(row[i]) for i in indexes) for row in table[1:]):
+                return False
+        # Vertical field/value table, one complete action per table.
+        elif any(any(a in row[0] for a in PLAN_FIELDS[0]) for row in table[1:] if row):
+            found = True
+            for aliases in PLAN_FIELDS:
+                if not any(len(row)>1 and any(a in row[0] for a in aliases) and usable(row[1])
+                           for row in table[1:]):
+                    return False
+    return found
+
+
 def usable(value):
     return bool(value.strip()) and not re.fullmatch(r'\[.*\]|<.*>|\.{3}|…|tbd|todo', value.strip(), re.I)
 
@@ -81,7 +130,7 @@ class ServiceHTML(HTMLParser):
 
 def validate_service_outputs(run_dir):
     run_dir = Path(run_dir)
-    if profile_of((run_dir/'input/hypothesis.md').read_text()) != 'service_business':
+    if profile_of((run_dir/'input/hypothesis.md').read_text(encoding='utf-8-sig')) != 'service_business':
         return []
     out = run_dir/'outputs'
     codes = []
@@ -94,25 +143,25 @@ def validate_service_outputs(run_dir):
         if not path.exists():
             codes.append('MISSING_SERVICE_ASSESSMENT')
             continue
-        values = fields(path.read_text())
-        statuses = {key: values.get(key) for key in CONTOURS}
+        values = fields(path.read_text(encoding='utf-8-sig'))
+        statuses = {key: machine_token(values.get(key, '')) for key in CONTOURS}
         status_by_file[path.name] = statuses
         if any(value not in STATUSES for value in statuses.values()):
             codes.append('INVALID_SERVICE_STATUS')
     if bc.name == 'business_context_analysis.md' and bc.exists():
-        heads = '\n'.join(re.findall(r'^#+\s+(.+)$', bc.read_text(), re.M)).casefold()
+        heads = '\n'.join(re.findall(r'^#+\s+(.+)$', bc.read_text(encoding='utf-8-sig'), re.M)).casefold()
         for aliases in [('customer value','ценность заказчику'),('provider value','ценность поставщику'),
                         ('service promise and boundaries','обещание и границы'),
                         ('delivery feasibility','исполнимость'),('capacity and economics','мощность и экономика')]:
             if not any(a in heads for a in aliases):
                 codes.append('MISSING_SERVICE_SECTION')
     decision = out/'decision_review.md'
-    decision_text = decision.read_text() if decision.exists() else ''
-    action = fields(decision_text).get('service_decision')
+    decision_text = decision.read_text(encoding='utf-8-sig') if decision.exists() else ''
+    action = machine_token(fields(decision_text).get('service_decision', ''))
     if action not in DECISIONS:
         codes.append('INVALID_SERVICE_DECISION')
-    recommendation = re.search(r'(?:Токен рекомендации|Recommendation token):\s*\**([a-z_]+)', decision_text)
-    token = recommendation.group(1) if recommendation else None
+    token_line = re.search(r'^\s*(?:[-*]\s+)?(?:Токен рекомендации|Recommendation token):\s*(.+)$', decision_text, re.M | re.I)
+    token = machine_token(token_line[1]) if token_line else None
     if token not in {'proceed','proceed_with_validation','additional_research','reject'}:
         codes.append('MISSING_RECOMMENDATION_TOKEN')
     if action == 'reject' and token != 'reject' or action == 'additional_research' and token != 'additional_research':
@@ -122,7 +171,7 @@ def validate_service_outputs(run_dir):
     inventory = out/'evidence_inventory.md'
     synthetic = False
     if inventory.exists():
-        for block in re.split(r'(?=^###\s+EVID-\d+)', inventory.read_text(), flags=re.M)[1:]:
+        for block in re.split(r'(?=^###\s+EVID-\d+)', inventory.read_text(encoding='utf-8-sig'), flags=re.M)[1:]:
             item = fields(block)
             if item.get('source_origin') not in {'customer_record','provider_record','external','synthetic'}:
                 codes.append('MISSING_SERVICE_PROVENANCE')
@@ -138,17 +187,12 @@ def validate_service_outputs(run_dir):
         if synthetic or not statuses or any(v != 'supported' for v in statuses.values()) or token != 'proceed' or not high:
             codes.append('UNSUPPORTED_SALES_EXPANSION')
     plan = out/'customer_discovery_plan.md'
-    if plan.exists():
-        rows = [line.casefold() for line in plan.read_text().splitlines() if line.startswith('|')]
-        for aliases in [('вопрос','question'),('метод','method'),('выборка','sample'),('база сравнения','baseline'),
-                        ('метрика','metric'),('критерий успеха','success criterion'),('критерий остановки','stop criterion'),
-                        ('срок','deadline'),('владелец','owner'),('доказательство','evidence'),('развилки','branches')]:
-            if not any(any(alias in row for alias in aliases) for row in rows):
-                codes.append('INCOMPLETE_SERVICE_VALIDATION_PLAN')
+    if plan.exists() and not plan_tables_complete(plan.read_text(encoding='utf-8-sig')):
+        codes.append('INCOMPLETE_SERVICE_VALIDATION_PLAN')
     html = out/'human_report.html'
     if html.exists():
         parser = ServiceHTML()
-        parser.feed(html.read_text())
+        parser.feed(html.read_text(encoding='utf-8-sig'))
         if (parser.values != status_by_file.get('decision_review.md') or parser.decision != action
                 or parser.duplicates):
             codes.append('SERVICE_REPORT_MISMATCH')

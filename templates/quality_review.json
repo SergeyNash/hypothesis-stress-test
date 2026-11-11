@@ -1,0 +1,52 @@
+{
+  "checks": [
+    {
+      "id": "claim_references",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "commercial_behavior",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "decision_logic",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "numeric_scope",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "original_intent",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "simulations_not_evidence",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "source_lineage",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    },
+    {
+      "id": "unknown_not_refuted",
+      "status": "fail",
+      "reason": "REPLACE after reviewing source anchors and output claims",
+      "claim_ids": []
+    }
+  ]
+}

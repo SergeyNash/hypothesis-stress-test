@@ -315,3 +315,7 @@ Remaining Russian sections mirror the English structure: качество eviden
 ## Reference
 
 Based on `templates/decision-review-prompt.md`, `layers/decision-review-layer.md`, and `.clinerules/20-evidence-rules.md`.
+
+## Evidence quality gate
+
+Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.

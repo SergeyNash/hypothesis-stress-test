@@ -12,7 +12,7 @@ from pathlib import Path
 import sys
 from urllib.parse import unquote, urlsplit
 
-from validate_runs import MARKER_REGISTRY, validate_input, validate_marker
+from validate_runs import MARKER_REGISTRY, validate_input, validate_marker, check_run
 
 ROOT = Path(__file__).resolve().parents[1]
 PHASES = ['intake', 'validation'] + [v['completed_phase'] for v in MARKER_REGISTRY.values()]
@@ -100,6 +100,8 @@ def record(run, *, phase, state, message, channel=None, query='', urls=None):
             if phase == 'local_evidence':
                 from validate_runs import validate_evidence
                 problems += validate_evidence(Path(run) / 'outputs/evidence_inventory.md')
+        if phase == 'human_report':
+            problems += check_run(run)
         if problems:
             raise ValueError('completion verification failed: ' + ', '.join(problems))
     output = output_dir(run)

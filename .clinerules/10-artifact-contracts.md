@@ -24,6 +24,9 @@ RUN_DIR/
     customer_discovery_plan.md
     decision_review.md
     human_report.html
+    claim_ledger.json          # protocol 2: claims, source lineage and numeric scope
+    quality_review.json        # protocol 2: explicit evidence/decision review
+    run_validation.json        # actual current-run validation result
     external_research.md       # public evidence brief, search log and source ledger
     pipeline_events.jsonl      # append-only actual execution events
     progress.json              # derived current-state snapshot
@@ -432,3 +435,7 @@ The HTML section id=service-viability contains data-service-decision and four el
 New runs include external_research.md with brief, query/read log, EXT source ledger, dates/URLs, contradictions and explicit channel status. It is produced during Business Context even when internal context is missing; it cannot replace internal strategy. Market reuses it. Old completed examples are historical fixtures and do not imply this coverage.
 
 `pipeline_events.jsonl` holds actual phase/source events with monotonically increasing IDs, UTC timestamps, phase, kind, state and short message; source records also carry channel/query/URLs. `progress.json` derives from those events, `progress.html` renders it over loopback HTTP. These are supporting outputs, not new completion gates. No claims of source calls may be inferred from phase markers. See `30-run-observability.md`. Temporary write/lock files are transient and must be absent when validating complete runs.
+
+## Protocol 2 completion gate
+
+New runs have root `run_config.json` (`protocol_version: 2`, `execution_mode: full | phase`, `language`, `heavy_analysis: ask`, `analysis_choices`). `outputs/claim_ledger.json` and `quality_review.json` are required at full completion, as specified in `implementations/run-quality.md`. `run_validation.json` is written by `scripts/run_control.py finish` with the actual run target, scope, status and errors. Source event history still cannot be reconstructed from markers. Existing marker bodies stay unchanged; final completion now additionally checks the actual RUN_DIR and its declared audit. Historical examples without run_config remain structural regression fixtures. Hidden viewer identity/log files are supporting runtime state, never evidence.
