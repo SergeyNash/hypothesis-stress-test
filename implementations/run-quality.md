@@ -28,3 +28,65 @@ The quality review must include each check below, `status: pass | not_applicable
 Decision Review must read the original input and actual evidence sources, challenge earlier summaries, and correct upstream errors before exporting. Low confidence is not a low false-positive probability. A competitor offer does not validate our delivery/economics or authorize full launch. Experiments may test commercial demand and delivery separately, with a baseline, observable success/stop criteria, owner/date and explicit decision branches. Interviews are not automatically the only next action. Preserve unknown strategy/OKR status instead of inventing fit.
 
 Human Report compiles corrected artifacts. Include the original hypothesis quote and what changed with traceable reasons. Do not turn weak support into a stronger headline. The final message leads with the verdict, confidence, supported vs unknown conclusions, coverage/limitations, next action and links; avoid technical tag counts, unverified security claims and English boilerplate for Russian runs.
+
+## Audit version 2: grounded source contract
+
+New `prepare` creates `protocol_version: 2, audit_version: 2`. The old protocol-2 audit remains explicitly version 1 for historical runs; it does not gain source verification by passing an updated binary. `validate_runs.py --run-dir <RUN_DIR> --strict --json` applies the new checks read-only to an older protocol-2 run. Missing bindings are failures, not permission to manufacture provenance or replace the original run. Do not alter audit_version on resume just to avoid or enable a gate. Regenerate affected artifacts only through an authorized rerun.
+
+### Capture and retrieve
+
+Before creating EVIDs, capture bounded, deterministic fragments:
+
+```text
+python <FRAMEWORK_DIR>/scripts/source_snapshot.py --run-dir <RUN_DIR> --root <KB_ROOT> --path <relative-file> --max-units 1000 --max-chars 100000
+```
+
+Repeat `--path` for files. The helper writes `outputs/source_snapshot.json` with file hash, source root/path, extraction status and limits, stable anchor IDs, raw text and location. It never interprets or executes source contents. It preserves DOCX body order, table cells and actual hyperlink targets. XLSX distinguishes literal values, `formula_cached` (saved, possibly stale; not recalculated), and `formula_not_evaluated` (no saved value). A formula is not automatically missing data. For partial reading use the reported `next_unit` with `--start-unit`; pages merge only for the same file hash. Do not omit table/appendix coverage or say an unread section has no relevant data. Give the usual quick/deep/skip choice before costly additional analysis; accepting partial reading limits conclusions.
+
+For web/Confluence content, save the actual returned text with URL/title/access date in a run input attachment, then capture that file. Preserve links to actual query/read events. Local byte/fragment verification does not authenticate the remote publication or validate its factual truth. Do not write a model paraphrase and label it a raw tool response.
+
+Each non-simulation source in claim_ledger has:
+- `anchor_ids`: IDs from the generated snapshot;
+- `quote`: an exact excerpt of one bound fragment;
+- `role`: `reported_fact`, `author_inference`, or `context` (simulation uses `simulation`);
+- existing kind, independence_group, scopes and facts.
+
+Each EVID block also records `- anchor_ids: ["..."]` and `- source_quote: <exact excerpt>` plus its actual source_path and location. The validator checks the mapping, raw quote, captured file hash and fragment text against the still-available original. If the original file is unavailable, source reverification fails explicitly. Snapshot edits cannot make a wrong number pass. A citation to the right filename but wrong EVID/cell is not valid evidence.
+
+Numeric facts add `value_anchor` (must belong to that source), `context_anchors` (headers/period/sample notes), and `question` (the business question measured). Preserve value/unit/period/population/metric. Year claims require an anchored year context. A numeric reported observation cannot be dropped from the fact model just because it weakens the preferred narrative. Bind claims' numbers to sources actually cited by that claim. Decision-driving target quotes must contain the substantive conclusion, never just a contour status line.
+
+### Counterevidence and review
+
+All eight original review checks remain, plus `counterevidence`, `entity_scope`, `procurement`, `research_execution`, `experiment_consistency`. Each needs actual reasoning and claim IDs. Read the source again when reviewing; a completed checkbox is not evidence.
+
+`quality_review.comparisons` compares multiple numeric facts for each shared `question`: `fact_refs` as `SOURCE-ID/fact-id`, `relationship` (`different_populations`, `different_periods`, `conflicting`, `consistent`), `reason`, `impact_claim_ids`. A project conversion rate and the share of companies operating a production solution are different denominators; they cannot by themselves estimate installed base, support spend or reachable market size. Resolve the effect on the decision rather than choosing the convenient percentage. The validator verifies coverage of declared fact groups; semantic completeness remains the reviewer's responsibility.
+
+The original Formulation section, including failure conditions, must appear verbatim in Human Report (HTML escaping/whitespace may differ). Label proposed reframing as a hypothesis and tie it to validated premises. Do not invent intent to launch mass sales immediately. Narrow lints flag categorical market-absence and pilot-rate-as-market-size phrases, including when the claim status says conditional. These lints are bounded checks, not general language understanding.
+
+`quality_review.context` records `provider`, `client_scope`, `scope_status: verified | unknown`, `entity_review`, and `anchor_ids` when verified. Resolve organization vs subsidiary vs business unit explicitly. If a provider label joins names as aliases/affiliations, bind affiliation_anchor_ids to an actual source establishing the relationship; a slash is not proof of affiliation. A client list from one account meeting is a subset until completeness is established. A provider's public AI portfolio is not automatically the service team's available competence/capacity. Do not conflate two companies because both occur in the KB.
+
+### Procurement and money
+
+If procurement sources are used, `quality_review.procurement` normally contains unique `records` and checked `aggregates`; otherwise state `status: not_applicable` with a reason. A procurement-scoped source prevents skipping reconciliation.
+
+Records have `procedure_id`, `id_anchor`, `segment`, `allocation_reason`, `year`, `publication_anchor`, and optional `nmc`, `nmc_anchor`. One ID appearing in several files is one procedure. Preserve occurrences/source anchors and explain the owning segment. Do not classify by filename alone when a mixed equipment/software/service procurement crosses levels. An ambiguous allocation is a gap, never silent double counting.
+
+Each aggregate has `segment`, `metric: count | nmc`, `period`, unique `procedure_ids` and `value`. The checker recomputes counts/sums from the referenced records and rejects missing amounts, wrong segment, duplicate IDs and out-of-period records. Distinguish raw row counts, deduplicated procedure counts and sums by manually labelled service category. Pure maintenance, implementation and mixed contracts are separate questions; total NMC is not the support market, and NMC is not contract price or payment. For quick/partial reading use `status: reported_only`, `reason`, `fact_refs` (SOURCE-ID/fact-id of the raw reported totals), and `limitation_target` (exact output quote explaining that deduplication/allocation was not independently recomputed). Raw values/year/segment remain bound to source anchors. This does not certify checked totals or market size. It avoids forcing expensive full-register reconciliation after the user chose quick/skip.
+
+Claims using commercial evidence declare `commercial_level: announcement | contract | payment | none`; contract/payment requires the corresponding `contract_anchor`/`payment_anchor`. A named supplier, completed procurement stage, signed proposal or issued invoice alone cannot certify payment. A failed procedure can coexist with supplier/contract-price fields: retain the inconsistency and inspect the contract card; never infer no contract solely from that label.
+
+### Search execution and experiments
+
+`quality_review.research` has `status: covered | partial | unavailable | declined`, `reason`; for searched coverage, `tracks` maps offers/procurement/operations/counterexamples to actual internet query_started event IDs and `read_event_ids` points to real read/used events with URLs. Start from local reference links/competitor names and continue residual gaps after page failure. Successful searches with zero results, access failures, and unavailable tools are distinct. A single guessed URL/404 is not a search. No invented quota-filling calls.
+
+Unavailable/declined coverage names `exception_event_ids`, a real `blocker` (search_tool_unavailable/network_unavailable/host_permission/authentication for unavailability), and `limitation_target` binding the disclosed gap in an output. Do not relabel a 404 as a tool outage. Partial coverage retains actual tracks and an explicit limitation. Unsupported category absence cannot appear in conclusions even when a run completes with a genuine coverage gap.
+
+`quality_review.experiments` records each decision-driving action with `id`, `owner`, `duration_days`, `stop_after_days`, `tests`, `success_observation`, `decision_branch`, `target` (exact plan quote), and exact duration_quote/stop_quote/success_quote from that target. The stop horizon cannot exceed the action deadline. Literal days/weeks/months in the plan are checked against declared days (calendar-month bounds are used, not a fabricated fixed month). Fixing JSON while leaving a six-month stop in an eight-week plan still fails. Payment success means funds_received/paid_invoice/bank_receipt, never signed_invoice. Preserve the same criterion and horizon in plan, decision and report; compare the actual texts in the review.
+
+`quality_review.decision` binds `action` to service_decision and `contour_claim_ids` to four claims whose scopes/statuses equal the canonical contour fields. For limited_pilot, state `execution_allowed` and `conditions`. A proposed experiment may retain unknown contours; an authorized delivery additionally requires access_anchor, cost_cap_anchor, capacity_anchor, approval_anchor and stop_conditions. The framework cannot authorize service obligations for the human.
+
+### Completion and limits
+
+Use `run_control.py start --run-dir <RUN_DIR> --phase <phase>` before every layer; it initializes or recovers the viewer and returns its URL. For audit-v2 runs the first facilitator start checks live HTTP, not only a saved ready flag. If the host cannot maintain the viewer, report the actual error and separate-terminal command, then record `viewer-unavailable --reason <reported failure>`; do not silently skip progress or pretend the page is live.
+
+`finish` preserves every validation attempt in `outputs/validation_history.jsonl` and the latest result in run_validation.json. Repair causes and affected outputs, not audit flags. PASS states the applied audit version and its limits. Source-bound consistency is stronger than self-declared JSON consistency, but cannot prove truth of a study, completeness of discovery/search, or absence of unmodelled semantic errors.

@@ -10,7 +10,7 @@ import sys
 import time
 from urllib.request import urlopen
 
-from run_progress import atomic, init, record
+from run_progress import atomic, init, record, NAMES
 from validate_runs import check_run, validate_input
 
 
@@ -45,6 +45,13 @@ def verify_viewer(url, run):
     return url + 'outputs/progress.html'
 
 
+def stamp_viewer(run, url):
+    config = load_config(run)
+    if config.get('audit_version') == 2:
+        config['viewer'] = {'status': 'ready', 'url': url, 'verified_at': datetime.now(timezone.utc).isoformat()}
+        save_config(run, config)
+
+
 def viewer(run):
     import uuid
     state_path = run / 'outputs/.viewer-state.json'
@@ -54,7 +61,9 @@ def viewer(run):
         atomic(identity, json.dumps({'token': uuid.uuid4().hex}))
     if config.get('viewer_url'):
         try:
-            return verify_viewer(config['viewer_url'], run)
+            actual = verify_viewer(config['viewer_url'], run)
+            stamp_viewer(run, config['viewer_url'])
+            return actual
         except (OSError, ValueError):
             pass
     log = run / 'outputs/.viewer-server.log'
@@ -72,6 +81,7 @@ def viewer(run):
                 actual = verify_viewer(url, run)
                 config['viewer_url'] = url
                 atomic(state_path, json.dumps(config))
+                stamp_viewer(run, url)
                 return actual
             if process.poll() is not None:
                 break
@@ -90,7 +100,7 @@ def prepare(run, mode):
     if not config and any((run / 'outputs').glob('*.marker')):
         raise ValueError('Legacy run: use viewer/read-only validation; an explicit protocol upgrade is required.')
     if not config:
-        config = {'protocol_version': 2, 'execution_mode': mode, 'language': 'ru',
+        config = {'protocol_version': 2, 'audit_version': 2, 'execution_mode': mode, 'language': 'ru',
                   'heavy_analysis': 'ask', 'analysis_choices': []}
         save_config(run, config)
     init(run)
@@ -119,6 +129,11 @@ def finish(run):
     errors = check_run(run)
     report = {'scope': 'run', 'target': str(run), 'status': 'FAIL' if errors else 'PASS',
               'errors': errors, 'limitations': 'Contracts and declared audit consistency only; not source truth or market demand.'}
+    report['at'] = datetime.now(timezone.utc).isoformat()
+    report['audit_version'] = load_config(run).get('audit_version', 1)
+    report['checks'] = ('source-bound consistency and explicit review' if report['audit_version'] == 2 else 'declared consistency; source binding not checked')
+    with (run / 'outputs/validation_history.jsonl').open('a', encoding='utf-8') as history:
+        history.write(json.dumps(report, ensure_ascii=False) + '\n')
     atomic(run / 'outputs/run_validation.json', json.dumps(report, ensure_ascii=False, indent=2))
     if errors:
         record(run, phase='human_report', state='error', message='Проверка текущего прогона: FAIL; см. run_validation.json')
@@ -131,14 +146,29 @@ def finish(run):
     return report
 
 
+def start(run, phase):
+    config = load_config(run)
+    if not config:
+        url = prepare(run, 'full')
+    else:
+        init(run)
+        view = config.get('viewer', {})
+        url = None if view.get('status') == 'unavailable' and view.get('notified') else viewer(run)
+    record(run, phase=phase, state='running', message='Начат этап: ' + NAMES[phase])
+    return url
+
+
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep'])
+    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start'])
     p.add_argument('--run-dir', type=Path, required=True)
     p.add_argument('--mode', choices=['full', 'phase'], default='full')
     p.add_argument('--choice', choices=['quick', 'deep', 'skip'])
     p.add_argument('--file', action='append', default=[])
     p.add_argument('--purpose', default='')
+    p.add_argument('--reason', default='')
+    from run_progress import PHASES
+    p.add_argument('--phase', choices=PHASES)
     a = p.parse_args()
     run = a.run_dir.resolve()
     try:
@@ -146,6 +176,17 @@ def main():
             print(prepare(run, a.mode))
         elif a.action == 'viewer':
             init(run); print(viewer(run))
+        elif a.action == 'start':
+            if not a.phase:
+                p.error('start requires --phase')
+            url = start(run, a.phase)
+            print(url or 'Viewer unavailable; reason has been reported to the user.')
+        elif a.action == 'viewer-unavailable':
+            if not a.reason:
+                p.error('record the actual failure explained to the user in --reason')
+            config = load_config(run)
+            config['viewer'] = {'status': 'unavailable', 'reason': a.reason, 'notified': True}
+            save_config(run, config)
         elif a.action == 'analysis-choice':
             if not a.choice or not a.file or not a.purpose:
                 p.error('analysis-choice requires --choice, --file and --purpose (actual user response)')

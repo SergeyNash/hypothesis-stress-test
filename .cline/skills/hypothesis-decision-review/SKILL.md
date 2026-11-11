@@ -319,3 +319,7 @@ Based on `templates/decision-review-prompt.md`, `layers/decision-review-layer.md
 ## Evidence quality gate
 
 Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.
+
+## Source-bound audit v2
+
+For new runs read the audit-version-2 contract in `FRAMEWORK_DIR/implementations/run-quality.md`. Use generated source_snapshot anchors; bind EVID quotes/numeric facts to original cells/paragraphs, compare counterevidence and keep reported facts separate from author assessments. Before this phase use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show its actual viewer URL. Do not repair a failing audit by changing a status or inventing missing anchors. Repair the underlying claim and affected artifacts.

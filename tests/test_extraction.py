@@ -89,6 +89,38 @@ class Extraction(unittest.TestCase):
         self.assertEqual('sheet:Costs/cell:A1',result['units'][0]['location'])
         self.assertEqual('formula_not_evaluated: =A1-75000',result['units'][1]['text'])
 
+    @unittest.skipUnless(importlib.util.find_spec('docx'),'optional python-docx missing')
+    def test_docx_body_order_links_and_table_survive_bounded_read(self):
+        from docx import Document
+        from docx.oxml import OxmlElement
+        from docx.oxml.ns import qn
+        from docx.opc.constants import RELATIONSHIP_TYPE
+        d=Document();p=d.add_paragraph('Study says 53% of companies.')
+        h=OxmlElement('w:hyperlink');h.set(qn('r:id'),d.part.relate_to('https://example.com/study',RELATIONSHIP_TYPE.HYPERLINK,is_external=True))
+        run=OxmlElement('w:r');t=OxmlElement('w:t');t.text='Source';run.append(t);h.append(run);p._p.append(h)
+        d.add_table(rows=1,cols=1).cell(0,0).text='Companies and projects have different denominators.'
+        for _ in range(20):d.add_paragraph('Later appendix text')
+        path=self.root/'study.docx';d.save(path)
+        result=extract(path,self.root,max_units=3)
+        self.assertTrue(result['limit_reached'])
+        self.assertEqual(['paragraph:1','paragraph:1/link:1','table:1/row:1/cell:1'],[u['location'] for u in result['units']])
+        self.assertIn('Source',result['units'][0]['text'])
+        self.assertEqual('https://example.com/study',result['units'][1]['text'])
+
+    @unittest.skipUnless(importlib.util.find_spec('openpyxl'),'optional openpyxl missing')
+    def test_xlsx_cached_formula_value_is_preserved_without_recalculation(self):
+        from openpyxl import Workbook
+        import zipfile
+        w=Workbook();w.active['A1']=4;w.active['B1']='=A1/2'
+        path=self.root/'cached.xlsx';w.save(path);w.close()
+        with zipfile.ZipFile(path) as z:parts={n:z.read(n) for n in z.namelist()}
+        # Saved-value fixture, not a recalculation or edit of any user workbook.
+        parts['xl/worksheets/sheet1.xml']=parts['xl/worksheets/sheet1.xml'].replace(b'<f>A1/2</f><v></v>',b'<f>A1/2</f><v>2</v>')
+        with zipfile.ZipFile(path,'w') as z:
+            for n,b in parts.items():z.writestr(n,b)
+        result=extract(path,self.root)
+        self.assertEqual('formula_cached: 2; formula: =A1/2',result['units'][1]['text'])
+
     @unittest.skipUnless(importlib.util.find_spec('openpyxl'),'optional openpyxl missing')
     def test_sparse_worksheet_dimension_is_bounded(self):
         from openpyxl import Workbook

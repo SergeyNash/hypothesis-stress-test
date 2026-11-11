@@ -40,3 +40,7 @@ python scripts/extract_evidence.py --root /path/to/kb notes.md contract.pdf work
 При автоматическом извлечении `discovery` содержит полный ограниченный каталог; лимит 200 относится к попыткам чтения поддерживаемых документов после сортировки. Медиа и неподдерживаемые расширения остаются в каталоге с reader=media/unsupported и требуют отдельного рассмотрения или явного gap. Вложенный фреймворк исключается по структуре, включая ZIP-имя `hypothesis-stress-test-main`. Файлы `RUN_DIR/input/attachments/` читать явными путями или отдельным root, поскольку общий scan исключает runs.
 
 После inventory показать пользователю покрытие/пропуски и предложить дополнения; не создавать retrieval completion marker до принятия полноты или явно заданного пропуска этой паузы.
+
+## Source snapshots and saved formulas
+
+For audit-v2 runs use scripts/source_snapshot.py before EVID creation; see implementations/run-quality.md for bindings, pagination and limits. DOCX is traversed in body order with tables and hyperlink targets. XLSX cached formula results are preserved as formula_cached and remain potentially stale; formulas without saved results are formula_not_evaluated. Neither mode recalculates or executes a formula. Preserve source references rather than treating a formula as unreadable data.

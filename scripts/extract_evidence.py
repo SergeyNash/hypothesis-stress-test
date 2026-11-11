@@ -7,6 +7,7 @@ Never executes macros, formulas, hyperlinks, OCR or embedded content.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import zipfile
 from html.parser import HTMLParser
@@ -69,40 +70,64 @@ def units(path):
         check_archive(path)
         from docx import Document
         document = Document(path)
-        for n, paragraph in enumerate(document.paragraphs, 1):
-            if paragraph.text.strip():
-                yield 'docx', f'paragraph:{n}', paragraph.text
-        for t, table in enumerate(document.tables, 1):
-            for r, row in enumerate(table.rows, 1):
-                for c, cell in enumerate(row.cells, 1):
-                    if cell.text.strip():
-                        yield 'docx', f'table:{t}/row:{r}/cell:{c}', cell.text
+        from docx.text.paragraph import Paragraph
+        from docx.table import Table
+        # Preserve body order: a character cap must not silently put all tables last.
+        n = t = 0
+        for element in document.element.body:
+            if element.tag.endswith('}p'):
+                n += 1
+                paragraph = Paragraph(element, document)
+                text = ''.join(paragraph._p.xpath('.//w:t/text()'))
+                if text.strip():
+                    yield 'docx', f'paragraph:{n}', text
+                for link_index, link in enumerate(element.xpath('.//w:hyperlink'), 1):
+                    rid = link.get('{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id')
+                    if rid in document.part.rels:
+                        # Text only: never fetch/execute a link during extraction.
+                        yield 'docx', f'paragraph:{n}/link:{link_index}', document.part.rels[rid].target_ref
+            elif element.tag.endswith('}tbl'):
+                t += 1
+                table = Table(element, document)
+                for r, row in enumerate(table.rows, 1):
+                    seen = set()
+                    for c, cell in enumerate(row.cells, 1):
+                        if cell._tc in seen:
+                            continue
+                        seen.add(cell._tc)
+                        if cell.text.strip():
+                            yield 'docx', f'table:{t}/row:{r}/cell:{c}', cell.text
     elif ext == '.xlsx':
         check_archive(path)
         from openpyxl import load_workbook
         workbook = load_workbook(path, read_only=True, data_only=False, keep_links=False)
+        cached = None
         try:
+            cached = load_workbook(path, read_only=True, data_only=True, keep_links=False)
             visited = 0
             for sheet in workbook:
                 if (sheet.max_row or 0) > 100000 or (sheet.max_column or 0) > 1000:
                     raise ValueError('worksheet_dimension_limit')
-                for row in sheet:
-                    for cell in row:
+                for row, values in zip(sheet, cached[sheet.title]):
+                    for cell, saved in zip(row, values):
                         visited += 1
                         if visited > 200000:
                             raise ValueError('worksheet_cell_limit')
                         if cell.value is not None:
                             text = str(cell.value)
                             if cell.data_type == 'f':
-                                text = 'formula_not_evaluated: ' + text
+                                text = ('formula_not_evaluated: ' + text if saved.value is None else
+                                        f'formula_cached: {saved.value}; formula: {text}')
                             yield 'xlsx', f'sheet:{sheet.title}/cell:{cell.coordinate}', text
         finally:
             workbook.close()
+            if cached is not None:
+                cached.close()
     else:
         raise ValueError('unsupported_extension')
 
 
-def extract(path, root, *, max_file_size=2 * 1024 * 1024, max_units=1000, max_chars=100000):
+def extract(path, root, *, max_file_size=2 * 1024 * 1024, max_units=1000, max_chars=100000, start_unit=0):
     path, root = Path(path), Path(root).resolve()
     result = {'source_path': str(path), 'status': 'skipped', 'units': [], 'limit_reached': False}
     try:
@@ -117,12 +142,18 @@ def extract(path, root, *, max_file_size=2 * 1024 * 1024, max_units=1000, max_ch
             raise ValueError('not_a_file')
         if path.stat().st_size > max_file_size:
             raise ValueError('file_size_limit')
+        result['sha256'] = hashlib.sha256(path.read_bytes()).hexdigest()
+        result['start_unit'] = start_unit
         used = 0
-        for kind, location, text in units(path):
+        for index, (kind, location, text) in enumerate(units(path)):
+            if index < start_unit:
+                continue
             if len(result['units']) >= max_units or used + len(text) > max_chars:
                 result['limit_reached'] = True
+                result['next_unit'] = index
                 break
-            result['units'].append({'source_kind': kind, 'location': location, 'text': text})
+            result['units'].append({'source_kind': kind, 'location': location, 'text': text,
+                                    'anchor_id': hashlib.sha256((result['source_path'] + '\0' + result['sha256'] + '\0' + location).encode()).hexdigest()[:24]})
             used += len(text)
         if result['units']:
             result['status'] = 'partial' if result['limit_reached'] else 'extracted'
@@ -158,11 +189,14 @@ def main():
     parser.add_argument('paths', nargs='*', help='Files under --root; without paths scan root')
     parser.add_argument('--root', type=Path, required=True)
     parser.add_argument('--query', default='', help='Topic terms for automatic candidate ordering')
+    parser.add_argument('--start-unit', type=int, default=0, help='Resume a partial document at its reported next_unit')
     parser.add_argument('--max-files', type=positive, default=200)
     parser.add_argument('--max-file-size', type=positive, default=2 * 1024 * 1024)
     parser.add_argument('--max-units', type=positive, default=1000)
     parser.add_argument('--max-chars', type=positive, default=100000)
     args = parser.parse_args()
+    if args.start_unit < 0:
+        parser.error('--start-unit must be nonnegative')
     root = args.root.resolve()
     if not root.is_dir():
         parser.error('--root must be an existing directory')
@@ -180,7 +214,7 @@ def main():
             output['limit_reached'] = True
             break
         result = extract(path, root, max_file_size=args.max_file_size,
-                         max_units=args.max_units, max_chars=args.max_chars)
+                         max_units=args.max_units, max_chars=args.max_chars, start_unit=args.start_unit)
         output['files'].append(result)
         output['limit_reached'] |= result['limit_reached']
     print(json.dumps(output, ensure_ascii=False, indent=2))

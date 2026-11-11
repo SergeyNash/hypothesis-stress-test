@@ -157,3 +157,7 @@ See `FRAMEWORK_DIR/playbooks/run-hypothesis.md` for interpretation model and tip
 ## Service execution
 
 Run all existing phases with the selected profile. Before Market, verify Business Context includes both value chains, promise/boundaries, delivery and capacity/economics (or explicit gaps). Before report, verify service viability and service decision in Decision Review. Profile/type/role-side changes invalidate downstream results; include affected outputs in the resume plan. Use the main action from the service profile in the final report, not a generic instruction to build.
+
+## Phase start and source-grounded completion
+
+Before each layer use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show the returned URL at first start/recovery. Audit-v2 requires source_snapshot.json, grounded quotes and numbers, counterevidence comparisons, procurement reconciliation when applicable, actual search coverage, bounded entity/client scope and consistent experiment/decision gates. Read implementations/run-quality.md before evidence collection; do not wait until final export to reconstruct provenance. `validation_history.jsonl` preserves failed checks. Historical runs retain their audit version; --strict is a read-only diagnostic, not an automatic migration.
