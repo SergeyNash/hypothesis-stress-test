@@ -9,6 +9,7 @@ import threading
 import unittest
 import urllib.request
 import urllib.error
+from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -80,9 +81,11 @@ class Onboarding(unittest.TestCase):
         url = f'http://127.0.0.1:{server.server_port}'
         try:
             with urllib.request.urlopen(url + '/') as response:
+                self.assertEqual(url + '/outputs/progress.html', response.url)
+                snapshot_url = urljoin(response.url, 'progress.json')
                 self.assertIn('Ход проверки', response.read().decode())
             record(run, phase='business_context', state='running', message='Исследование')
-            with urllib.request.urlopen(url + '/outputs/progress.json') as response:
+            with urllib.request.urlopen(snapshot_url) as response:
                 self.assertEqual(1, len(json.load(response)['events']))
             for method in ['GET', 'HEAD']:
                 with self.assertRaises(urllib.error.HTTPError) as caught:

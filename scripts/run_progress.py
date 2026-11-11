@@ -126,7 +126,10 @@ class Viewer(SimpleHTTPRequestHandler):
     def send_head(self):
         request = unquote(urlsplit(self.path).path)
         if request == '/':
-            self.path = '/outputs/progress.html'
+            self.send_response(302)
+            self.send_header('Location', '/outputs/progress.html')
+            self.end_headers()
+            return None
         path = Path(self.translate_path(self.path)).resolve()
         root = Path(self.directory).resolve()
         # Only serve explicit run files, never directory listings or outside symlinks.
