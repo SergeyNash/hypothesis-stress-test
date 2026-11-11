@@ -92,7 +92,7 @@ def viewer(run):
         raise
 
 
-def prepare(run, mode):
+def prepare(run, mode, workspace=None):
     errors = validate_input(run, check_folder_id=True)
     if errors:
         raise ValueError(', '.join(errors))
@@ -106,6 +106,8 @@ def prepare(run, mode):
     init(run)
     for phase in ['intake', 'validation']:
         record(run, phase=phase, state='completed', message='Входные данные проверены')
+    from active_run import publish
+    publish(run, workspace)  # Publish after valid bootstrap, before HTTP startup.
     return viewer(run)
 
 
@@ -160,8 +162,9 @@ def start(run, phase):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start'])
+    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start', 'activate'])
     p.add_argument('--run-dir', type=Path, required=True)
+    p.add_argument('--workspace',type=Path,help='Workspace root for an active-run pointer in a custom run layout')
     p.add_argument('--mode', choices=['full', 'phase'], default='full')
     p.add_argument('--choice', choices=['quick', 'deep', 'skip'])
     p.add_argument('--file', action='append', default=[])
@@ -173,7 +176,14 @@ def main():
     run = a.run_dir.resolve()
     try:
         if a.action == 'prepare':
-            print(prepare(run, a.mode))
+            print(prepare(run, a.mode, a.workspace))
+        elif a.action == 'activate':
+            from active_run import publish
+            errors=validate_input(run,check_folder_id=True)
+            if errors:raise ValueError(', '.join(errors))
+            pointer=publish(run,a.workspace)
+            if pointer is None:raise ValueError('Custom run layout requires --workspace')
+            print('Активный прогон: '+run.name)
         elif a.action == 'viewer':
             init(run); print(viewer(run))
         elif a.action == 'start':

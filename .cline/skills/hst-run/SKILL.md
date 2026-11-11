@@ -161,3 +161,7 @@ Run all existing phases with the selected profile. Before Market, verify Busines
 ## Phase start and source-grounded completion
 
 Before each layer use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show the returned URL at first start/recovery. Audit-v2 requires source_snapshot.json, grounded quotes and numbers, counterevidence comparisons, procurement reconciliation when applicable, actual search coverage, bounded entity/client scope and consistent experiment/decision gates. Read implementations/run-quality.md before evidence collection; do not wait until final export to reconstruct provenance. `validation_history.jsonl` preserves failed checks. Historical runs retain their audit version; --strict is a read-only diagnostic, not an automatic migration.
+
+## Terminal progress handoff
+
+If the dedicated HST terminal task is installed, it waits for the active-run pointer and does not need a RUN_DIR typed by the user. Normal `prepare` publishes the pointer before HTTP startup. For an explicit resume/selection, run `run_control.py activate --run-dir <RUN_DIR>` once. Resolve framework paths as usual; for custom layouts pass --workspace <KB_ROOT>. Do not start the viewer as a long foreground command in Cline's execution terminal. In an already-open workspace the task must be launched once via Terminal → Run Task → HST · Прогресс, or on folder reopen after native automatic-task permission. Do not present the task as already visible unless observed.

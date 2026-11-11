@@ -231,3 +231,7 @@ first incomplete/invalid phase after any required confirmation.
 Once confirmed input passes validation, run `scripts/run_control.py prepare --run-dir <RUN_DIR> --mode full` using the resolved FRAMEWORK_DIR. Show its verified live URL immediately, even while waiting for a later phase choice. For a draft-only choice use mode phase and do not start roles. Follow `.clinerules/40-run-quality.md`; do not wait for the user to request progress.
 
 New `prepare` writes audit_version 2. Before roles run `run_control.py start --run-dir <RUN_DIR> --phase facilitator` and show its verified URL; a failed server must be explained and recorded, never silently ignored. Preserve config/version on resume.
+
+## Terminal progress handoff
+
+If the dedicated HST terminal task is installed, it waits for the active-run pointer and does not need a RUN_DIR typed by the user. Normal `prepare` publishes the pointer before HTTP startup. For an explicit resume/selection, run `run_control.py activate --run-dir <RUN_DIR>` once. Resolve framework paths as usual; for custom layouts pass --workspace <KB_ROOT>. Do not start the viewer as a long foreground command in Cline's execution terminal. In an already-open workspace the task must be launched once via Terminal → Run Task → HST · Прогресс, or on folder reopen after native automatic-task permission. Do not present the task as already visible unless observed.
