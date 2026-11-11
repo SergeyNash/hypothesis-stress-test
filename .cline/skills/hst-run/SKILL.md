@@ -9,6 +9,10 @@ Resolve the application profile from input Metadata (new intake: propose and con
 
 End-to-end and resumable hypothesis stress test for a single `RUN_DIR`.
 
+## Full-run authorization and quality
+
+Follow `.clinerules/40-run-quality.md` and `implementations/run-quality.md`. An authorized full run continues through Human Report without asking approval after each ordinary layer. Preserve the explicit inventory and heavy-analysis choices. Use `run_control.py prepare` after bootstrap/validation and `finish` after report export. Read-only check: `validate_runs.py --run-dir <RUN_DIR> --json`; repository `--examples` never validates a user run.
+
 ## Progress initialization
 
 Resolve framework resources from their actual directory, including nested ZIP names. Follow `.clinerules/30-run-observability.md`: initialize journal/view, start the loopback viewer in a background terminal if supported, and show its actual URL. Record each phase start/wait/error/completion and actual source operations. Preserve history on resume; never backfill fictional source calls.
@@ -52,7 +56,7 @@ overwrite_candidates: [...]
 confirmation_required: true | false
 ```
 
-If every phase is completed, do not rerun; go directly to **Report**.
+If every phase marker is completed, run `run_control.py finish --run-dir <RUN_DIR>` to verify the actual artifacts and audit before **Report**. A failed gate is an invalidated completion, not an all-completed run. Do not rerun or overwrite outputs without the existing authorization.
 
 ## Safe write and migration rules
 
@@ -144,7 +148,7 @@ Stop at that phase if verification fails; do not proceed to downstream phases.
 
 ## Expected time
 
-5–15 minutes per hypothesis.
+Agree a bounded research/analysis budget based on source volume. Do not promise a fixed duration before discovery.
 
 ## Reference
 

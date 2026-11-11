@@ -224,3 +224,7 @@ After completion, run skill `hypothesis-market-layer` or workflow `/run-market-l
 ## Service profile context availability
 
 For `service_business`, strategy-document absence alone does not trigger the default stop. Assess usable operational/commercial context as required by the service profile, set Strategic Fit to Unknown when strategy is absent, and write available checks. Use the gap path only when no usable business context exists. Keep customer outcome and provider economics separate. Write the four canonical status fields specified in the artifact contract.
+
+## Evidence quality gate
+
+Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.

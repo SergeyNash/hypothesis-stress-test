@@ -172,3 +172,7 @@ For service_business the service profile replaces the default Ready for backlog 
 ## Coverage and final handoff
 
 Compile actual source coverage from discovery_preview, external_research and the event journal when present. Clearly distinguish skipped, unavailable/auth_error, no_results, partial, read and used; do not manufacture missing legacy logs. Link external research and progress artifacts when present. The final chat response leads with verdict/confidence, main finding, material evidence limitations, next action and report path. Technical HTML checks/marker counts belong to verification, not the executive result.
+
+## Evidence quality gate
+
+Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.

@@ -27,7 +27,7 @@
 
 Выполнено локально 2026-11-09:
 
-- `python scripts/validate_runs.py` — PASS, примеры 001–005 и негативные fixtures.
+- `python scripts/validate_runs.py --examples` — PASS, примеры 001–005 и негативные fixtures.
 - `python -m unittest discover -s tests -v` — 34 теста PASS, включая реальные временные PDF/DOCX/XLSX, формулы без вычисления, отсутствие reader, лимиты и регрессию старых прогонов.
 - `python scripts/extract_evidence.py --root examples/example-005/kb-samples` — пять источников extracted, лимиты не достигнуты.
 - Все 11 SKILL frontmatter прочитаны YAML-парсером; относительные Markdown-ссылки проверены; `git diff --check` — PASS.

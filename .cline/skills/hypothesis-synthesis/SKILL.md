@@ -399,3 +399,7 @@ After synthesis completes, run skill `customer-discovery-planning` or workflow `
 ## Reference
 
 Based on `templates/synthesis-prompt.md` and `layers/synthesis-layer.md`.
+
+## Evidence quality gate
+
+Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.

@@ -1,0 +1,32 @@
+{
+  "sources": [
+    {
+      "id": "EXT-001",
+      "kind": "primary_public",
+      "independence_group": "replace-with-original-study",
+      "scopes": [
+        "operations"
+      ],
+      "facts": []
+    }
+  ],
+  "claims": [
+    {
+      "id": "CL-001",
+      "kind": "gap",
+      "scope": "willingness_to_pay",
+      "status": "unknown",
+      "basis": "missing_evidence",
+      "rationale": "REPLACE: what has and has not been observed",
+      "evidence_ids": [],
+      "independent_sources": 0,
+      "targets": [
+        {
+          "artifact": "outputs/decision_review.md",
+          "quote": "REPLACE with exact bounded conclusion"
+        }
+      ],
+      "numbers": []
+    }
+  ]
+}

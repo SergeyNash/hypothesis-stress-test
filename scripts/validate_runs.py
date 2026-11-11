@@ -6,6 +6,7 @@ Stdlib only. No LLM. No network.
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import sys
@@ -92,6 +93,9 @@ ALLOWED_OUTPUTS = {
     "pipeline_events.jsonl",
     "progress.json",
     "progress.html",
+    "claim_ledger.json",
+    "quality_review.json",
+    "run_validation.json",
     "ready_for_synthesis.marker",
     "knowledge_retrieval_complete.marker",
     "business_context_complete.marker",
@@ -536,7 +540,7 @@ def validate_fixture(run_dir: Path, expected: list[str]) -> list[str]:
     return codes
 
 
-def main() -> int:
+def validate_examples() -> list[str]:
     failures: list[str] = []
 
     for docs_code in validate_docs_drift():
@@ -557,13 +561,48 @@ def main() -> int:
         for code in codes:
             failures.append(f"{run_dir.relative_to(ROOT).as_posix()} :: {code}")
 
-    if failures:
-        print("validate_runs: FAIL")
-        for line in failures:
-            print(f"  - {line}")
-        return 1
-    print("validate_runs: PASS")
-    return 0
+    return failures
+
+
+def check_run(run_dir, *, check_folder_id=True):
+    run_dir = Path(run_dir).resolve()
+    try:
+        if not run_dir.is_dir():
+            return ['RUN_DIR_NOT_FOUND']
+        codes = validate_complete_run(run_dir)
+        from run_quality import validate_quality
+        codes.extend(validate_quality(run_dir))
+        if check_folder_id:
+            codes.extend(validate_input(run_dir, check_folder_id=True))
+        return sorted(set(codes))
+    except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:
+        return ['UNREADABLE_ARTIFACT:' + type(error).__name__]
+
+
+def main(argv=None) -> int:
+    parser = argparse.ArgumentParser(description='Validate one explicit run or repository examples. PASS is scoped to that target.')
+    target = parser.add_mutually_exclusive_group(required=True)
+    target.add_argument('--run-dir', type=Path, help='Validate this actual hypothesis run (never examples)')
+    target.add_argument('--examples', action='store_true', help='Repository self-test only; says nothing about user runs')
+    parser.add_argument('--json', action='store_true', help='Machine-readable result with target and limitations')
+    args = parser.parse_args(argv)
+    if args.run_dir:
+        scope, name = 'run', str(args.run_dir.resolve())
+        failures = check_run(args.run_dir)
+    else:
+        scope, name = 'repository_examples', str(ROOT / 'examples')
+        failures = validate_examples()
+    result = {'scope': scope, 'target': name, 'status': 'FAIL' if failures else 'PASS',
+              'errors': failures, 'checks': ('artifact contracts and declared audit consistency' if args.run_dir and (args.run_dir / 'run_config.json').exists() else 'artifact contracts only; no claim audit for legacy runs'),
+              'limitations': 'Does not prove source truth, demand, profitability or research completeness.'}
+    if args.json:
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+    else:
+        print(f"validate_runs: {result['status']} | scope={scope} | target={name}")
+        for failure in failures:
+            print('  - ' + failure)
+        print('PASS covers these checks only; it does not validate market demand or source truth.')
+    return 1 if failures else 0
 
 
 if __name__ == "__main__":

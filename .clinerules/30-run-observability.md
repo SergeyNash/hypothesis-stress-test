@@ -2,7 +2,7 @@
 
 Resolve FRAMEWORK_DIR by its actual location (may be nested/renamed); KB_ROOT is the open workspace. Use absolute paths or a resolved prefix for scripts, templates, profiles, layers and contracts. A copied `.cline`/`.clinerules` directory does not make templates/scripts exist at KB root.
 
-Once a run is bootstrapped, initialize `python <FRAMEWORK_DIR>/scripts/run_progress.py init --run-dir <RUN_DIR>`. Start `serve` in a host-supported background terminal bound only to 127.0.0.1; show the actual URL printed by it. No external server/deployment. Do not block pipeline execution waiting for a foreground server process. If the host cannot keep a background terminal, give the command for a separate terminal and continue updating the journal. Do not claim live view is running until the URL is observed.
+For new runs use `run_control.py prepare` as required by `40-run-quality.md`; it initializes the viewer and verifies HTTP/JSON before returning its URL. For manual/legacy recovery, once a run is bootstrapped, initialize `python <FRAMEWORK_DIR>/scripts/run_progress.py init --run-dir <RUN_DIR>`. Start `serve` in a host-supported background terminal bound only to 127.0.0.1; show the actual URL printed by it. No external server/deployment. Do not block pipeline execution waiting for a foreground server process. If the host cannot keep a background terminal, give the command for a separate terminal and continue updating the journal. Do not claim live view is running until the URL is observed.
 
 Before and after each phase, and when waiting or failing, use:
 

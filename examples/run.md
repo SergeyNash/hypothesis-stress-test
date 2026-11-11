@@ -304,5 +304,5 @@ examples/example-001/
 Статическая проверка контракта (stdlib, без LLM):
 
 ```text
-python scripts/validate_runs.py
+python scripts/validate_runs.py --examples
 ```

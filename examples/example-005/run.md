@@ -11,7 +11,7 @@
 ## Воспроизведение структуры
 ```bash
 python scripts/extract_evidence.py --root examples/example-005/kb-samples
-python scripts/validate_runs.py
+python scripts/validate_runs.py --examples
 python -m unittest discover -s tests -v
 ```
 
