@@ -123,10 +123,26 @@ class Viewer(SimpleHTTPRequestHandler):
     def log_message(self, *_):
         pass
 
+    def guess_type(self, path):
+        suffix = Path(path).suffix.lower()
+        # Generated run text is UTF-8. Raw Markdown has no HTML meta tag, so
+        # direct browser navigation needs the charset in the HTTP response.
+        if suffix in {'.md', '.markdown', '.txt', '.log', '.jsonl', '.srt', '.vtt'}:
+            return 'text/plain; charset=utf-8'
+        if suffix in {'.json', '.marker'}:
+            return 'application/json; charset=utf-8'
+        content_type = super().guess_type(path)
+        if content_type.startswith('text/') or suffix == '.js':
+            return content_type + '; charset=utf-8'
+        return content_type
+
     def send_head(self):
         request = unquote(urlsplit(self.path).path)
         if request == '/':
-            self.path = '/outputs/progress.html'
+            self.send_response(302)
+            self.send_header('Location', '/outputs/progress.html')
+            self.end_headers()
+            return None
         path = Path(self.translate_path(self.path)).resolve()
         root = Path(self.directory).resolve()
         # Only serve explicit run files, never directory listings or outside symlinks.

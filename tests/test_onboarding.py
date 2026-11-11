@@ -9,6 +9,7 @@ import threading
 import unittest
 import urllib.request
 import urllib.error
+from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'scripts'))
@@ -73,6 +74,15 @@ class Onboarding(unittest.TestCase):
     def test_live_server_reads_updates_and_rejects_outside_symlink(self):
         run = self.root / 'run'; run.mkdir()
         output = init(run)
+        russian = 'Внешнее исследование → 1 500 ₽'
+        artifacts = {
+            'external_research.md': '# ' + russian,
+            'evidence_inventory.md': russian,
+            'notes.txt': russian,
+            'sample.jsonl': json.dumps({'message': russian}, ensure_ascii=False) + '\n',
+        }
+        for name, text in artifacts.items():
+            (output / name).write_text(text, encoding='utf-8')
         secret = self.root / 'outside.txt'; secret.write_text('outside')
         (run / 'escape.txt').symlink_to(secret)
         server = ThreadingHTTPServer(('127.0.0.1', 0), partial(Viewer, directory=str(run)))
@@ -80,9 +90,24 @@ class Onboarding(unittest.TestCase):
         url = f'http://127.0.0.1:{server.server_port}'
         try:
             with urllib.request.urlopen(url + '/') as response:
+                self.assertEqual(url + '/outputs/progress.html', response.url)
+                snapshot_url = urljoin(response.url, 'progress.json')
+                artifact_base = response.url
                 self.assertIn('Ход проверки', response.read().decode())
+                self.assertEqual('utf-8', response.headers.get_content_charset())
+            for name, text in artifacts.items():
+                target = urljoin(artifact_base, name)
+                with urllib.request.urlopen(target) as response:
+                    self.assertEqual('text/plain', response.headers.get_content_type())
+                    self.assertEqual('utf-8', response.headers.get_content_charset())
+                    payload = response.read()
+                    self.assertEqual(text.encode('utf-8'), payload)
+                    self.assertEqual(text, payload.decode(response.headers.get_content_charset()))
+                with urllib.request.urlopen(urllib.request.Request(target, method='HEAD')) as response:
+                    self.assertEqual('utf-8', response.headers.get_content_charset())
             record(run, phase='business_context', state='running', message='Исследование')
-            with urllib.request.urlopen(url + '/outputs/progress.json') as response:
+            with urllib.request.urlopen(snapshot_url) as response:
+                self.assertEqual('utf-8', response.headers.get_content_charset())
                 self.assertEqual(1, len(json.load(response)['events']))
             for method in ['GET', 'HEAD']:
                 with self.assertRaises(urllib.error.HTTPError) as caught:
