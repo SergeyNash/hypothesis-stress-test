@@ -28,3 +28,9 @@ Resume: load existing events, preserve history. Do not replay completed phases a
 If a progress write fails, say the viewer is stale and show current action in chat; do not imply the log is complete. Do not use progress JSON as a replacement for canonical markers. The viewer shows time since last event; elapsed time is not proof of a hung process or an ETA.
 
 Final response: lead with the verdict, confidence, evidence coverage/limitations and next action; link human_report.html and progress view/journal. Distinguish execution completed from research completeness. Marker counts and HTML tag checks are technical validation, not the main result.
+
+## Dedicated VS Code terminal viewer
+
+If installed with `setup_workspace.py --terminal`, the workspace has the task `HST · Прогресс`. It runs `terminal_progress.py --workspace <KB_ROOT>` and waits for `.hst/active-run.json`. Normal prepare publishes this pointer after input validation and progress initialization, before HTTP startup. Do not start another foreground watch loop inside Cline's command terminal or spawn external PowerShell windows. For the first launch in an already-open workspace, tell the user Terminal → Run Task → HST · Прогресс; later folder-open launches depend on the user's normal VS Code automatic-task permission. Do not claim that Python launched a VS Code tab or that an installed task is running without observation.
+
+When explicitly selecting/resuming a run, use `run_control.py activate --run-dir <RUN_DIR>` once (custom layouts: --workspace <KB_ROOT>). Never guess the active run from directory timestamps. A new selection clears old state while waiting for its journal; a stopped terminal does not stop the run. Installation and recovery: implementations/terminal-progress.md. `.hst` contains runtime state/environment and is excluded from evidence discovery.
