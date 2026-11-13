@@ -146,9 +146,13 @@ def render(data, width=110, height=36, demo=False, issue=None):
     current=max(active,key=lambda p:latest.get(p['id'],-1)) if active else None
     completed=sum(p['state']=='completed' for p in phases)
     finished=completed==len(phases)
+    validation=data.get('validation',{}).get('status')
     status='Демонстрация завершена' if demo and finished else ('Этапы завершены · см. результат проверки' if finished else 'Ожидание событий')
     if current:status=LABELS.get(current['state'],current['state'])+' · '+safe(current['name'])
+    if finished and not demo:
+        status='Прогон завершён · проверка PASS' if validation=='PASS' else 'Этапы завершены · итог проверки: '+safe(validation or 'не зафиксирован')
     status_color=COLORS.get(current['state'],'white') if current else ('green' if finished else 'dim')
+    if finished and not demo and validation!='PASS':status_color='red' if validation in {'FAIL','ERROR'} else 'yellow'
     header=Table.grid(expand=True);header.add_column(ratio=1);header.add_column(justify='right')
     header.add_row(Text('HST  /  ХОД ПРОВЕРКИ',style='bold cyan'),Text(safe(data.get('run','Прогон')),style='bold'))
     header.add_row(Text(status,style=status_color),Text('ДЕМО · синтетические события' if demo else 'Просмотр · только чтение',style='yellow' if demo else 'dim'))
@@ -164,6 +168,8 @@ def render(data, width=110, height=36, demo=False, issue=None):
         if recent:action=safe(recent['message'])
     elif issue:
         action=safe(issue)
+    if finished and not demo:
+        action='Проверка текущего прогона: '+safe(validation or 'результат не зафиксирован')+' · решение принимает человек'
     alerts=[Text(safe(w),style='yellow') for w in data.get('warnings',[])[:2]]
     if issue and action!=safe(issue):alerts.append(Text(safe(issue),style='bold yellow'))
     if age is not None and age>180 and not finished:
@@ -175,10 +181,15 @@ def render(data, width=110, height=36, demo=False, issue=None):
         view=data.get('viewer',{})
         detail='ошибка: '+safe(view.get('reason','не удалось запустить')) if view.get('status') in {'error','unavailable'} else 'запускается' if view.get('status')=='starting' else 'ожидаю адрес HTML-прогресса'
         html.append('недоступен в демо' if demo else detail)
+    report=Text()
+    if data.get('human_report_available') and not demo:
+        report.append('Отчёт: ' if finished and validation=='PASS' else 'Отчёт (ещё не проверен): ',style='dim')
+        address=url.replace('/outputs/progress.html','/outputs/human_report.html') if url else None
+        report.append(address or 'outputs/human_report.html',style='underline cyan link '+address if address else 'cyan')
     checked=stamp(data.get('checked_at'))
     polling=Text('Проверка журнала: '+(checked.astimezone(MSK).strftime('%H:%M:%S')+' МСК' if checked else '—')+
                  f' · событий: {len(events)}',style='dim')
-    summary=Panel(Group(header,progress,html,polling,note,Text(action,style='white'),*alerts),border_style=status_color,padding=(0,1))
+    summary=Panel(Group(header,progress,html,*([report] if report.plain else []),polling,note,Text(action,style='white'),*alerts),border_style=status_color,padding=(0,1))
     # Three compact links open the corresponding channel history in the HTML viewer.
     sources=Text('Источники: ',style='dim')
     selection=data.get('source_selection') or {}
@@ -238,11 +249,12 @@ def render(data, width=110, height=36, demo=False, issue=None):
     if not events:log.add_row('—','Ожидаю события. Счётчик не продвигается сам по себе.')
     body=Group(Panel(log,border_style='dim'),stage_panel) if show_stages else Panel(log,border_style='dim')
     footer=Text('Ctrl+C — закрыть просмотр. Пайплайн продолжит работу.',style='dim')
+    if finished:footer=Text('Ctrl+C — закрыть просмотр. Завершённые результаты сохранены.',style='dim')
     if demo:footer=Text('ДЕМО · паузы и ответы смоделированы · Ctrl+C — выход',style='dim')
     if height<20:
         return Group(Text('HST · '+safe(data.get('run','Прогон')),style='bold cyan'),
                      Text('ДЕМО · синтетические события' if demo else 'Только чтение',style='yellow'),
-                     Text(status,style=status_color),progress,html,polling,Text(action,overflow='ellipsis',no_wrap=True),
+                     Text(status,style=status_color),progress,html,*([report] if report.plain else []),polling,Text(action,overflow='ellipsis',no_wrap=True),
                      *alerts,sources,Panel(log,border_style='dim'),footer)
     return Group(summary,sources,body,footer)
 

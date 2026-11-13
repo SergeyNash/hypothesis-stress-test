@@ -183,6 +183,30 @@ class GroundedAudit(unittest.TestCase):
         self.assertIn('UNVERIFIED_PROVIDER_AFFILIATION',self.codes())
         self.assertIn('CLIENT_SUBSET_IS_NOT_COMPLETE_BASE',self.codes())
 
+    def test_role_and_contour_slashes_are_not_company_affiliations(self):
+        from grounded_audit import validate_entity_language
+        p=self.run/'outputs/hypothesis_map.md'
+        p.write_text(p.read_text()+'\nПоставщик: customer/provider, роли обсуждения.\n'
+            'provider delivery_feasibility/provider_economics — неизвестны.\n'
+            '**Поставщик:** PostgreSQL/MSSQL, SLA/RPO.\n',encoding='utf-8')
+        self.assertFalse(any('AFFILIATION' in e for e in validate_entity_language(self.run,{},{})))
+
+    def test_previous_phase_ignores_future_artifact_and_future_claim(self):
+        from grounded_audit import inventory_blocks
+        known={s['id'] for s in self.ledger['sources']}
+        self.ledger['sources'].extend({'id':sid,'kind':'simulation','role':'simulation','independence_group':'demo','scopes':['simulation']} for sid in inventory_blocks(self.run) if sid not in known)
+        text='Поставщик: ExampleAlpha/ExampleBeta.'
+        p=self.run/'outputs/hypothesis_map.md';p.write_text(p.read_text()+'\n'+text,encoding='utf-8')
+        self.ledger['claims'].append({'id':'CL-FUTURE','kind':'bad-kind','basis':'bad-basis',
+            'targets':[{'artifact':'outputs/hypothesis_map.md','quote':text}]})
+        self.save()
+        self.assertEqual([],validate_quality(self.run,phase='business_context'))
+        self.assertIn('UNVERIFIED_PROVIDER_AFFILIATION:hypothesis_map.md',validate_quality(self.run,phase='synthesis'))
+        self.assertIn('INVALID_CLAIM_RECORD:CL-FUTURE',validate_quality(self.run))
+        self.ledger['claims'].append({'id':'CL-BROKEN','kind':'bad-kind','targets':[]})
+        self.save()
+        self.assertIn('INVALID_CLAIM_RECORD:CL-BROKEN',validate_quality(self.run,phase='business_context'))
+
     def test_unknown_client_scope_cannot_be_promoted_to_verified(self):
         self.review['context']['scope_status']='verified'
         self.assertIn('UNSUPPORTED_CLIENT_SCOPE',self.codes())
@@ -267,6 +291,7 @@ class GroundedAudit(unittest.TestCase):
         from urllib.request import urlopen
         from phase_checks import INPUTS
         self.config['lifecycle_version']=1  # Explicit opt-in for this synthetic integration fixture.
+        self.config.update(phase_handoff_version=1,source_selection_version=1,execution_mode='full')
         self.write('run_config.json',self.config)
         from grounded_audit import inventory_blocks
         registered={s['id'] for s in self.ledger['sources']}
@@ -281,6 +306,8 @@ class GroundedAudit(unittest.TestCase):
         with patch.object(run_control.subprocess,'Popen',side_effect=launch):
             try:
                 url=run_control.prepare(self.run,'full',workspace=self.root)
+                from source_selection import select
+                select(self.run,dict(local=True,confluence=True,internet=True),[],workspace=self.root,reason='Synthetic integration fixture choice')
                 with urlopen(url) as response:self.assertEqual(200,response.status)
                 for phase in INPUTS:
                     run_control.start(self.run,phase)

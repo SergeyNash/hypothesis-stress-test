@@ -101,7 +101,8 @@ def prepare(run, mode, workspace=None):
         raise ValueError('Legacy run: use viewer/read-only validation; an explicit protocol upgrade is required.')
     if not config:
         config = {'protocol_version': 2, 'audit_version': 2, 'execution_mode': mode, 'language': 'ru',
-                  'heavy_analysis': 'ask', 'analysis_choices': [], 'source_selection_version': 1, 'lifecycle_version': 1}
+                  'heavy_analysis': 'ask', 'analysis_choices': [], 'source_selection_version': 1, 'lifecycle_version': 1,
+                  'phase_handoff_version': 1}
         save_config(run, config)
         from audit_records import initialize
         initialize(run)
@@ -158,6 +159,7 @@ def complete(run,phase,status='completed'):
     errors=[]
     try:
         require_previous(run,phase)
+        require_entered(run,phase)
         errors=check(run,phase,marker=False,status=status)
     except Exception as exc:
         errors=['PHASE_CHECK_ERROR:'+type(exc).__name__+': '+str(exc)]
@@ -174,7 +176,43 @@ def complete(run,phase,status='completed'):
             record(run,phase=phase,state='completed',message='Этап проверен и завершён: '+NAMES[phase],_transition=True)
     except Exception as exc:
         report.update(status='ERROR',errors=['PHASE_COMMIT_ERROR:'+type(exc).__name__+': '+str(exc)])
-    return write_validation(run,report)
+    saved=write_validation(run,report)
+    if report['status']=='PASS':
+        try:auto_enter(run)
+        except Exception as exc:
+            # The completed phase stays completed; report the failure on the next phase.
+            saved['handoff_error']=str(exc)
+            next_phase=payload(phase,status)['next_phase']
+            try:record(run,phase=next_phase,state='error',message='Не удалось подготовить этап: '+str(exc)[:1000])
+            except Exception:pass  # The persisted handoff_error survives a journal failure.
+            saved=write_validation(run,saved)
+    return saved
+
+
+def require_entered(run,phase):
+    if load_config(run).get('phase_handoff_version')!=1:return
+    from run_progress import events
+    entries=[e for e in events(run/'outputs') if e['kind']=='phase' and e['phase']==phase]
+    invalidated=max((i for i,e in enumerate(entries) if e['state']=='invalidated'),default=-1)
+    if not any(e['state']=='running' for e in entries[invalidated+1:]):
+        raise ValueError('Phase has no recorded start: '+phase+'; call start BEFORE generating its outputs')
+
+
+def auto_enter(run):
+    """Full-run handoff includes phase preparation, before the model writes outputs."""
+    from run_progress import PHASES,events
+    config=load_config(run)
+    if config.get('phase_handoff_version')!=1 or config.get('execution_mode')!='full':return
+    if not config.get('source_selection',{}).get('confirmed'):return
+    rows=events(run/'outputs')
+    for phase in PHASES[2:]:
+        last=next((e for e in reversed(rows) if e['kind']=='phase' and e['phase']==phase),None)
+        if last and last['state']=='completed':continue
+        if last:return  # Preserve errors, inventory waits and invalidations until explicit resume.
+        view=config.get('viewer',{})
+        if phase=='facilitator' and view.get('status')!='ready' and not (view.get('status')=='unavailable' and view.get('notified')):return
+        record(run,phase=phase,state='running',message='Подготовка к этапу: '+NAMES[phase])
+        return
 
 
 def finish(run):
@@ -188,6 +226,7 @@ def finish(run):
         report['audit_version']=config.get('audit_version',1)
         report['checks']='source-bound consistency and explicit review' if report['audit_version']==2 else 'declared consistency'
         if enabled(run):require_previous(run,'human_report')
+        require_entered(run,'human_report')
         errors=check_run(run,pending_human_report=True) if enabled(run) else check_run(run)
         report.update(status='FAIL' if errors else 'PASS',errors=errors)
         if not errors:
@@ -219,7 +258,10 @@ def start(run, phase):
         url = None if view.get('status') == 'unavailable' and view.get('notified') else viewer(run)
     from phase_checks import require_previous
     require_previous(run,phase)
-    record(run, phase=phase, state='running', message='Начат этап: ' + NAMES[phase])
+    from run_progress import events
+    last=next((e for e in reversed(events(run/'outputs')) if e['kind']=='phase' and e['phase']==phase),None)
+    if not last or last['state']!='running':
+        record(run, phase=phase, state='running', message='Начат этап: ' + NAMES[phase])
     return url
 
 

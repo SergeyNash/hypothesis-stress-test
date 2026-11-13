@@ -59,6 +59,9 @@ def validate_grounding(run, ledger, review, *, phase=None):
         files = snap['files']
         if snap['schema_version'] != 1 or not isinstance(files, list):
             raise ValueError('snapshot schema')
+        if phase is not None:
+            selected_anchors={i for source in ledger['sources'] for i in source.get('anchor_ids',[])}
+            files=[f for f in files if any(u.get('anchor_id') in selected_anchors for u in f.get('units',[]))]
         anchors = {}
         for file in files:
             for unit in file['units']:
@@ -173,7 +176,7 @@ def validate_grounding(run, ledger, review, *, phase=None):
         errors.append('ORIGINAL_HYPOTHESIS_NOT_PRESERVED')
     errors.extend(validate_research(run, review.get('research',{})))
     errors.extend(validate_context(review.get('context',{}), anchors))
-    errors.extend(validate_entity_language(run, review.get('context',{}), anchors))
+    errors.extend(validate_entity_language(run, review.get('context',{}), anchors, phase=phase))
     if phase in {None,'decision_review','human_report'}:
         errors.extend(validate_decision(run, review.get('decision',{}), claims, anchors))
     if phase in {None,'customer_discovery_planning','decision_review','human_report'}:
@@ -193,7 +196,8 @@ def validate_grounding(run, ledger, review, *, phase=None):
     for key in EXTRA_CHECKS if phase in {None,'decision_review','human_report'} else []:
         if key not in checks or checks[key].get('status') not in {'pass','not_applicable'} or not checks[key].get('reason'):
             errors.append('MISSING_GROUNDED_REVIEW:'+key)
-    for name in ARTIFACTS:
+    from audit_scope import artifacts_for
+    for name in (n for n in artifacts_for(phase) if n in ARTIFACTS):
         p=run/'outputs'/name
         if not p.exists():continue
         text=plain(p.read_text(encoding='utf-8-sig')) if p.suffix=='.html' else p.read_text(encoding='utf-8-sig')
@@ -381,15 +385,27 @@ def duration_bounds(text):
     return n*28,n*31
 
 
-def validate_entity_language(run, context, anchors):
+def validate_entity_language(run, context, anchors, *, phase=None):
     errors=[]
-    for name in ARTIFACTS:
+    from audit_scope import artifacts_for
+    for name in (n for n in artifacts_for(phase) if n in ARTIFACTS):
         p=run/'outputs'/name
         if not p.exists():continue
         text=p.read_text(encoding='utf-8-sig')
         for line in text.splitlines():
-            # A slash in a provider identity asserts an alias/affiliation, unlike a technology stack.
-            merge=re.search(r'(?:провайдер|поставщик|внутри|provider|supplier)[^\n]{0,80}?([A-Za-zА-Яа-яЁё0-9_.-]+/[A-Za-zА-Яа-яЁё0-9_.-]+)',line,re.I)
+            # Inspect an explicit provider identity, not arbitrary prose nearby.
+            # Roles, contour names and technology stacks commonly contain slashes.
+            identity=re.search(r'(?i)(?:^|[;|])\s*(?:[-*]\s*)?(?:провайдер|поставщик|provider|supplier)\s*[:=—]\s*(.+)',re.sub(r'[*`]', '', line))
+            merge=False
+            if identity:
+                value=re.sub(r'[*`]', '', identity[1]).strip()
+                pair=re.search(r'([\w.-]+)\s*/\s*([\w.-]+)',value)
+                if pair:
+                    words=pair.groups()
+                    roles={'customer','provider','supplier','client','cio','cfo','cto','sbo','sdm',
+                           'заказчик','поставщик','клиент','инженер','менеджер','роли','процессы'}
+                    tech={'postgresql','postgres','mssql','mysql','oracle','linux','windows','rag','ai','ml','mlops','llmops','sla','rpo','rto','mttr','qbr','sql','dbms','api','os','dc'}
+                    merge=all(w.casefold() not in roles|tech and '_' not in w and any(c.isupper() for c in w) for w in words)
             if merge:
                 proof=context.get('affiliation_anchor_ids',[])
                 if not proof or any(a not in anchors for a in proof):
