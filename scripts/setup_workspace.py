@@ -61,6 +61,13 @@ def plan(workspace, framework=FRAMEWORK, terminal=False):
                 content=json.dumps(value,ensure_ascii=False,indent=2)+'\n'
                 status='same' if content==old else ('conflict' if old else 'missing')
             entries.append({'path':name,'status':status,'content':content})
+        updater=framework/'scripts/update_workspace.py'
+        if updater.is_file():
+            target=workspace/'.hst/update.py'
+            if target.is_symlink() or not target.resolve().is_relative_to(workspace):
+                raise ValueError('updater_destination_outside_workspace')
+            status=('same' if target.read_bytes()==updater.read_bytes() else 'conflict') if target.exists() else 'missing'
+            entries.append({'path':'.hst/update.py','status':status,'source':str(updater)})
     return {'workspace': str(workspace), 'framework': str(framework), 'files': entries,
             'readers': {name: bool(importlib.util.find_spec(name)) for name in ['docx', 'openpyxl', 'pypdf']},
             'python': sys.executable}

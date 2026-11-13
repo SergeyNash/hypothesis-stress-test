@@ -9,6 +9,8 @@
 
 ## Unreleased
 
+- Обновление ZIP-установки одной командой: скачивание main, проверка архива, резервная копия и откат при ошибке применения; стабильный запуск из `.hst/update.py`.
+
 - Verified per-stage completion, early source/claim audit gates, retryable completion and preserved FAIL/ERROR diagnostics for new runs.
 - Source selection per run with optional workspace preferences, allowed KB folders and explicit disabled-channel disclosure.
 - Full-width terminal journal, numbered stage table, compact source-history links, published HTML URL and polling diagnostics.
