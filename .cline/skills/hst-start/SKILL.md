@@ -13,6 +13,10 @@ Start a full hypothesis stress test from chat dialogue. The user does not need t
 
 Resolve FRAMEWORK_DIR by its actual directory (nested/renamed is allowed); all templates, profiles and scripts live there. KB_ROOT is the open workspace. Use skills directly; legacy slash workflow examples below are compatibility aliases only. If input has no named run, start intake; do not require tags or a prewritten file. At each pause explain what is needed in plain language; never call a pending confirmation a completed run. File-first workflow remains available via skill `hst-run`.
 
+## TUI-managed launch routing
+
+If RUN_DIR has `tui_request_id`, use hst-run and `.clinerules/55-tui-control.md`; acknowledge it before work and route HST questions through TUI. Do not create a second run or ask sources again. If a new chat-first request has no RUN_DIR and the user has installed HST Bridge (`.hst/tui.json` plus a current ready heartbeat), direct configuration to the already-open HST control terminal (N / new run), or open the registered VS Code command `hst.openControl`. Do not start a parallel chat intake or write a second request while the user configures the TUI. A submitted TUI form will start its own Cline task. If the bridge is unavailable, explain the real status and keep the existing chat-first route usable; never pretend that a form submission was accepted.
+
 ## First visible action (before profile/intake analysis)
 
 For a new request with no explicit RUN_DIR, resolve only KB_ROOT and FRAMEWORK_DIR (use `.hst/workspace.json` when installed), then make the first operational call:

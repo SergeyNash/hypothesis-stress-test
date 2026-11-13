@@ -577,6 +577,8 @@ def check_run(run_dir, *, check_folder_id=True, strict=False, pending_human_repo
         codes = validate_complete_run(run_dir, pending_human_report=pending_human_report)
         from source_selection import validate as validate_selection
         codes.extend(validate_selection(run_dir))
+        from tui_control import validate_run_binding
+        codes.extend(validate_run_binding(run_dir))
         from run_quality import validate_quality
         codes.extend(validate_quality(run_dir, strict=strict))
         if check_folder_id:

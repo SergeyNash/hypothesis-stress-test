@@ -204,6 +204,7 @@ def auto_enter(run):
     """Full-run handoff includes phase preparation, before the model writes outputs."""
     from run_progress import PHASES,events
     config=load_config(run)
+    if config.get('tui_request_pending'):return
     if config.get('phase_handoff_version')!=1 or config.get('execution_mode')!='full':return
     if not config.get('source_selection',{}).get('confirmed'):return
     rows=events(run/'outputs')

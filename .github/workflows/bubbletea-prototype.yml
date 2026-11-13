@@ -1,9 +1,9 @@
 name: Bubble Tea prototype
 on:
   push:
-    paths: ['prototypes/bubbletea/**', '.github/workflows/bubbletea-prototype.yml']
+    paths: ['VERSION', 'prototypes/bubbletea/**', 'integrations/vscode-bridge/**', 'scripts/tui_control.py', 'scripts/install_tui.py', '.github/workflows/bubbletea-prototype.yml']
   pull_request:
-    paths: ['prototypes/bubbletea/**', '.github/workflows/bubbletea-prototype.yml']
+    paths: ['VERSION', 'prototypes/bubbletea/**', 'integrations/vscode-bridge/**', 'scripts/tui_control.py', 'scripts/install_tui.py', '.github/workflows/bubbletea-prototype.yml']
 jobs:
   prototype:
     strategy:
@@ -26,15 +26,23 @@ jobs:
           go-version: '1.26'
           cache: false
       - run: go mod tidy
-      - run: gofmt -w main.go workspace.go demo.go main_test.go
+      - run: gofmt -w main.go workspace.go control.go demo.go main_test.go
       - run: go vet ./...
       - run: go test ./...
       - run: go mod verify
-      - run: go build -trimpath -o dist/${{ matrix.binary }} .
+      - name: Build versioned TUI
+        shell: python
+        run: |
+          import pathlib, subprocess
+          version = pathlib.Path('../../VERSION').read_text().strip()
+          subprocess.run(['go','build','-trimpath','-ldflags','-X main.version='+version,'-o','dist/${{ matrix.binary }}','.'],check=True)
       - name: Package prototype
         shell: python
         run: |
-          import pathlib, shutil
+          import pathlib, shutil, sys
+          sys.path.insert(0, str(pathlib.Path('../../scripts').resolve()))
+          from install_tui import package
+          package(pathlib.Path('dist/hst-bridge.vsix'))
           for name in ['README.md','demo-report.html','start-demo.cmd']:
               shutil.copyfile(name,pathlib.Path('dist')/name)
       - uses: actions/upload-artifact@v4
@@ -46,5 +54,5 @@ jobs:
         shell: python
         run: |
           import base64,json,pathlib
-          names=['go.mod','go.sum','main.go','workspace.go','demo.go','main_test.go']
+          names=['go.mod','go.sum','main.go','workspace.go','control.go','demo.go','main_test.go']
           print('HST_FORMATTED_B64 '+json.dumps({n:base64.b64encode(pathlib.Path(n).read_bytes()).decode() for n in names}))

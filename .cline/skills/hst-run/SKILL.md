@@ -9,6 +9,10 @@ Resolve the application profile from input Metadata (new intake: propose and con
 
 End-to-end and resumable hypothesis stress test for a single `RUN_DIR`.
 
+## TUI-managed execution
+
+Read run_config.json for `tui_request_id`. If present, first follow `.clinerules/55-tui-control.md`: acknowledge the immutable launch request, preserve applied source settings and route HST input/analysis/retrieval questions through the request/question protocol. Do not duplicate them in chat. TUI submission authorizes this new run; unspecified service fields remain gaps and material semantic questions still require the user's actual response. Cline tool permissions remain native.
+
 ## Full-run authorization and quality
 
 Follow `.clinerules/40-run-quality.md` and `implementations/run-quality.md`. An authorized full run continues through Human Report without asking approval after each ordinary layer. Preserve the explicit inventory and heavy-analysis choices. Use `run_control.py prepare` after bootstrap/validation and `finish` after report export. Read-only check: `validate_runs.py --run-dir <RUN_DIR> --json`; repository `--examples` never validates a user run.

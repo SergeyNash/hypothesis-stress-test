@@ -29,6 +29,9 @@ RUN_DIR/
     run_validation.json        # actual current-run validation result
     external_research.md       # public evidence brief, search log and source ledger
     pipeline_events.jsonl      # append-only actual execution events
+    tui_launch.json            # TUI-managed only: immutable submitted configuration
+    tui_control.json           # TUI-managed only: executor/question acknowledgement
+    tui_events.jsonl           # TUI-managed only: actual launch/answer history
     progress.json              # derived current-state snapshot
     progress.html              # live viewer via local loopback HTTP
     ready_for_synthesis.marker
@@ -445,3 +448,8 @@ New runs have root `run_config.json` (`protocol_version: 2`, `execution_mode: fu
 ## Source-bound audit version 2
 
 New run_config.json adds audit_version: 2. Supporting outputs add source_snapshot.json (script-captured, source hashes/anchors/fragments/pages) and validation_history.jsonl (append-only validation attempts). claim_ledger/quality_review follow implementations/run-quality.md and templates. Completion checks original fragments and declared relationships; missing originals/review mappings fail explicitly. Historical audit_version 1 remains labelled declared consistency. Marker JSON bodies are unchanged.
+
+
+## TUI-managed request records
+
+For runs with run_config.tui_request_id, outputs/tui_launch.json preserves the exact submitted request bytes and their SHA-256 binding; tui_control.json stores the current actual executor/question state; tui_events.jsonl preserves transitions. Workspace delivery state lives in .hst/requests/<request_id> and is not evidence. Final validation uses run-local records so an exported archive remains independently checkable: request IDs/hashes and initial channels must match, Cline must have acknowledged the request and no question may remain pending/unconsumed. These records supplement the normal quality/source gates and do not prove truth or market demand. The bridge must never manufacture an executor acknowledgement.

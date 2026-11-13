@@ -45,6 +45,8 @@ def options(run, workspace=None):
 
 def require(run, channel=None, path=None):
     c = config(run)
+    if c.get('tui_request_pending'):
+        raise ValueError('TUI launch has not been acknowledged by Cline')
     if c.get('source_selection_version') != 1:return  # Preserve historical run behavior.
     selected = c.get('source_selection')
     if not valid(selected):
