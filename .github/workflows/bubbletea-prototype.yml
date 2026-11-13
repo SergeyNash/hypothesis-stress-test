@@ -1,0 +1,50 @@
+name: Bubble Tea prototype
+on:
+  push:
+    paths: ['prototypes/bubbletea/**', '.github/workflows/bubbletea-prototype.yml']
+  pull_request:
+    paths: ['prototypes/bubbletea/**', '.github/workflows/bubbletea-prototype.yml']
+jobs:
+  prototype:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            name: linux
+            binary: hst-tui
+          - os: windows-latest
+            name: windows
+            binary: hst-tui.exe
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: prototypes/bubbletea
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: '1.26'
+          cache: false
+      - run: go mod tidy
+      - run: gofmt -w main.go workspace.go demo.go main_test.go
+      - run: go vet ./...
+      - run: go test ./...
+      - run: go mod verify
+      - run: go build -trimpath -o dist/${{ matrix.binary }} .
+      - name: Package prototype
+        shell: python
+        run: |
+          import pathlib, shutil
+          for name in ['README.md','demo-report.html','start-demo.cmd']:
+              shutil.copyfile(name,pathlib.Path('dist')/name)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hst-bubbletea-${{ matrix.name }}
+          path: prototypes/bubbletea/dist/
+      - name: Export formatted sources and module locks
+        if: matrix.name == 'linux'
+        shell: python
+        run: |
+          import base64,json,pathlib
+          names=['go.mod','go.sum','main.go','workspace.go','demo.go','main_test.go']
+          print('HST_FORMATTED_B64 '+json.dumps({n:base64.b64encode(pathlib.Path(n).read_bytes()).decode() for n in names}))
