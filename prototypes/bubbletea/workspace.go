@@ -299,3 +299,28 @@ func (s snapshot) sourceActivity(channel string) string {
 	}
 	return fmt.Sprintf("Событий чтения: %d · использования: %d · последнее: %s", reads, uses, stateName(last))
 }
+
+// Startup is workspace state, not a fabricated HYP run or completed phase.
+func readStartup(root string) (string, error) {
+ data, err := readFile(root, filepath.Join(".hst", "startup.json"))
+ if os.IsNotExist(err) { return "", nil }
+ if err != nil { return "", err }
+ if len(data) > 16384 { return "", fmt.Errorf("слишком большое состояние подготовки") }
+ var value struct {
+  Version int `json:"schema_version"`
+  Session string `json:"session_id"`
+  State string `json:"state"`
+  Stage string `json:"stage"`
+  Message string `json:"message"`
+  At string `json:"at"`
+ }
+ if err := json.Unmarshal(data, &value); err != nil { return "", err }
+ if value.Version != 1 || !regexp.MustCompile(`^[a-f0-9]{32}$`).MatchString(value.Session) {
+  return "", fmt.Errorf("некорректное состояние подготовки")
+ }
+ if value.State == "attached" || value.State == "cancelled" { return "", nil }
+ if value.State != "running" && value.State != "waiting_user" && value.State != "error" {
+  return "", fmt.Errorf("некорректный статус подготовки")
+ }
+ return "НОВАЯ ГИПОТЕЗА · до создания папки · " + stateName(value.State) + ": " + safe(value.Message) + " · " + safe(value.At), nil
+}

@@ -384,12 +384,14 @@ When the user **does** specify `RUN_DIR: runs/HYP-...` — continue that existin
 
 When creating a new run via `/run-hypothesis-conversational.md` (no `RUN_DIR:` in message):
 
-**Two-step confirm:**
+Workspace runtime exception: before bootstrap, `startup_progress.py` may write `.hst/startup.json` and `.hst/startups/<session_id>.jsonl` containing only actual preparation status. These are not evidence or run completion claims. After confirmed bootstrap, attach copies the original early events into `outputs/startup_events.jsonl` and starts validation visibility without declaring validation passed.
+
+**Confirmation of card and folder:**
 
 1. User confirms hypothesis draft card
 2. Agent proposes next free `HYP-YYYY-MM-DD-NNN`, lists existing runs for today, user confirms `RUN_DIR`
 
-**Only after step 2** — create directory and write `input/hypothesis.md`.
+For complete ready input, show the card and proposed free folder together and accept one clear approval for both. Do not require a special confirmation phrase or repeat an already-given authorization. With missing/dirty input keep meaningful clarification. **Only after both decisions are approved** — create directory and write `input/hypothesis.md`.
 
 **New run isolation:**
 

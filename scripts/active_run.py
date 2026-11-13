@@ -56,6 +56,11 @@ class Follow:
 
     def poll(self,reader):
         try:
+            from startup_progress import pending_snapshot
+            pending = pending_snapshot(self.workspace)
+            if pending is not None:
+                self.last = None; self.key = None; self.run = None
+                return pending, None, None
             active=resolve(self.workspace)
         except (OSError,ValueError) as e:
             self.last=None;self.key=None;self.run=None

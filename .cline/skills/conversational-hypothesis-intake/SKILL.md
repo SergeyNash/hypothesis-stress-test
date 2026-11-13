@@ -42,12 +42,18 @@ Collect hypothesis input through chat, produce a canonical `input/hypothesis.md`
 
 At draft confirmation say “Проверьте, верно ли я понял идею; после подтверждения предложу папку для этой проверки”. At directory confirmation explain that it stores this hypothesis and all results; do not present RUN_DIR as an unexplained decision. During pauses say “Жду вашего ответа”, not “Прогон завершён”. Preserve unknown facts as assumptions; do not turn plausible baseline into observed evidence.
 
-### Two-step confirm
+### Visible preparation and complete-input fast path
 
-1. **Step 4a** — confirm hypothesis draft card
-2. **Step 4b** — confirm proposed new `RUN_DIR` (dialog)
+The caller hst-start creates `.hst` startup state as its first operational action, before card preparation. This is the sole exception to the no-file-writes rule before confirmation: RUN_DIR/input/output files still wait. Preserve STARTUP_ID and update waiting_user before each genuine pause via startup_progress.py; the caller attaches the session immediately after confirmed bootstrap.
 
-Do NOT create `RUN_DIR` or write any files until **both** steps pass.
+For ready input containing the required statement, roles and context, propose the complete card and next-free folder in one message. A single unambiguous approval confirms both; no duplicate confirmation or repeated collection of supplied facts. Ordinary да/yes/ок counts when it clearly approves the displayed card and folder. Do not require magic phrases. Existing authorization for the exact displayed input/path remains valid. Dirty notes still require mapping clarification where material, but do not ask the same question twice. These rules override the separate-step wording below for the complete-input fast path.
+
+### Confirm card and folder
+
+1. **Step 4a** — confirm hypothesis draft card.
+2. **Step 4b** — confirm proposed new `RUN_DIR`.
+
+For complete ready input show both together and accept one clear approval. For separate clarification, keep the separate steps. Do NOT create RUN_DIR files until both decisions are approved; workspace startup status is allowed before this.
 
 ### Other rules
 
@@ -270,13 +276,11 @@ Match the user's language.
 | Revise | Ask what to change; update draft; show preview again; repeat Step 4a |
 | Cancel | Stop; do not propose RUN_DIR or bootstrap |
 
-Do NOT treat silence, «ок», “okay”, “looks fine”, or continuing the
-conversation as confirm. If the response is not an explicit confirm, revise,
-or cancel intent, re-display the three choices and ask again; do not advance.
+Accept an unambiguous affirmative response to the displayed card (and folder if combined). Silence, unrelated conversation and ambiguous replies are not confirmation; clarify their intent.
 
 ### Step 4b — RUN_DIR dialog (new archive)
 
-After Step 4a confirm only:
+After Step 4a approval, OR alongside Step 4a in the complete-input combined confirmation:
 
 1. Scan `runs/` for directories matching `HYP-YYYY-MM-DD-*` (today's date)
 2. List existing runs for transparency (read-only)
@@ -300,9 +304,10 @@ Rules:
 - User may override: «используй 003» — verify suffix is free, then confirm
 - If proposed path already exists, pick next free suffix and explain
 
-### RUN_DIR confirm triggers (bootstrap only after these)
+### RUN_DIR confirmation (natural-language approval)
 
-- `Подтвердить создание`, `да, создай`, `создай 002`
+- Any unambiguous approval of the displayed card/folder (including да/yes/ок); no magic phrase is required.
+- Examples: `Подтвердить создание`, `да, создай`, `создай 002`
 - `Confirm create`, `yes, create`, `create 002`
 - Tag `#запуск` / `#confirm` after reviewing proposed `RUN_DIR`
 
@@ -312,7 +317,7 @@ Rules:
 | Specify other ID | Validate free suffix; re-show dialog; repeat Step 4b |
 | Cancel | Stop; do not bootstrap or run |
 
-Do NOT write any files in this skill — workflow executes bootstrap after Step 4b.
+Do NOT write RUN_DIR files in this skill — workflow executes bootstrap after Step 4b (or combined approval). Workspace startup status updates are allowed and required before pauses.
 An ambiguous response is not confirmation: re-display the choices and wait.
 
 ## Field mapping (chat → hypothesis.md)
@@ -352,7 +357,7 @@ IntakeResult:
 ```
 
 Before both confirmations, `confirmed` MUST be `false`; omit
-`proposed_run_dir` until Step 4b and perform no file writes. The workflow
+`proposed_run_dir` until Step 4b and perform no RUN_DIR file writes (only workspace startup status). The workflow
 `run-hypothesis-conversational.md` bootstraps only when all four fields are
 present, `confirmed: true`, and the proposed directory is still free.
 

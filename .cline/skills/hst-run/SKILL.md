@@ -17,6 +17,10 @@ Follow `.clinerules/40-run-quality.md` and `implementations/run-quality.md`. An 
 
 Resolve framework resources from their actual directory, including nested ZIP names. Follow `.clinerules/30-run-observability.md`: initialize journal/view, start the loopback viewer in a background terminal if supported, and show its actual URL. Record each phase start/wait/error/completion and actual source operations. Preserve history on resume; never backfill fictional source calls.
 
+## Fresh bootstrap shortcut
+
+For a freshly bootstrapped run with no phase markers or layer outputs, do not read every downstream layer skill or reconstruct a resume history that does not exist. Keep validation and the canonical preflight checks; absence of markers identifies the first phase. Load each phase's detailed instructions only after its preparation/start is recorded. Never use this shortcut to bypass validation or existing-output overwrite checks. Activate an explicitly resumed RUN_DIR before lengthy preflight so the terminal reflects the selected run; record the current validation/preflight action without marking it completed.
+
 ## Preflight and resume plan
 
 Before executing or writing anything:

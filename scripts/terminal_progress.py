@@ -158,6 +158,8 @@ def render(data, width=110, height=36, demo=False, issue=None):
     header.add_row(Text(status,style=status_color),Text('ДЕМО · синтетические события' if demo else 'Просмотр · только чтение',style='yellow' if demo else 'dim'))
     progress=Progress(TextColumn('Завершено {task.completed:.0f}/{task.total:.0f}'),BarColumn(bar_width=None,style="grey35",complete_style="green",finished_style="green"),TextColumn('{task.percentage:>3.0f}%'),expand=True)
     progress.add_task('',total=len(phases),completed=completed)
+    if data.get('startup'):
+        progress = Text('До создания RUN_DIR · подготовка входа · анализ ещё не начат', style='cyan')
     seen=stamp(data.get('updated_at'))
     age=max(0,int((datetime.now(timezone.utc)-seen).total_seconds())) if seen else None
     ago='Событий пока нет' if age is None else f'Последнее событие: {age} с назад · МСК'

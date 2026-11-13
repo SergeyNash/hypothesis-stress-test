@@ -5,13 +5,37 @@ description: Start a new Hypothesis Stress Test from a natural-language idea or 
 
 # Run Hypothesis (Conversational / Chat-First)
 
-Resolve the application profile from input Metadata (new intake: propose and confirm). No field → digital_product. For service_business load FRAMEWORK_DIR/profiles/service-business.md and apply its phase-specific requirements, including service readiness instead of backlog readiness. Preserve canonical artifact paths and gates.
+After the first visible action below, resolve the application profile from input Metadata (new intake: propose and confirm). No field → digital_product. For service_business load FRAMEWORK_DIR/profiles/service-business.md and apply its phase-specific requirements, including service readiness instead of backlog readiness. Preserve canonical artifact paths and gates.
 
 Start a full hypothesis stress test from chat dialogue. The user does not need to create `RUN_DIR` or edit `input/hypothesis.md` manually.
 
 **Primary entry point for new hypotheses.**
 
 Resolve FRAMEWORK_DIR by its actual directory (nested/renamed is allowed); all templates, profiles and scripts live there. KB_ROOT is the open workspace. Use skills directly; legacy slash workflow examples below are compatibility aliases only. If input has no named run, start intake; do not require tags or a prewritten file. At each pause explain what is needed in plain language; never call a pending confirmation a completed run. File-first workflow remains available via skill `hst-run`.
+
+## First visible action (before profile/intake analysis)
+
+For a new request with no explicit RUN_DIR, resolve only KB_ROOT and FRAMEWORK_DIR (use `.hst/workspace.json` when installed), then make the first operational call:
+
+```text
+python <FRAMEWORK_DIR>/scripts/startup_progress.py start --workspace <KB_ROOT> --stage routing --message "Принимаю новую гипотезу; готовлю карточку"
+```
+
+Keep returned `session_id` as STARTUP_ID. This creates only workspace runtime state in `.hst`, not RUN_DIR, hypothesis files, evidence or completed phases. Do this BEFORE reading profiles/phase instructions, scanning old runs or composing the full card. A read-only classification of new vs resume and resolving the actual script path are the only prerequisites. Do not inspect old run outputs, role personas, research tools or downstream layer contracts during intake. Load only the intake schema and relevant profile sections.
+
+At material transitions, use `startup_progress.py update --workspace <KB_ROOT> --session <STARTUP_ID> --stage intake|confirmation|bootstrap --state running|waiting_user|error|cancelled --message "<actual short action>"`. Record waiting_user BEFORE asking the confirmation question; running after a clear answer; error/cancelled when applicable. No fabricated calls or periodic fake heartbeats. This status is visible in both terminal viewers before any HYP folder exists; the viewers do not execute the model.
+
+For a complete ready statement, gather no already-supplied fields. Prepare the card and next-free folder in one pass; a directory-name scan of today's runs is sufficient, without reading their content. Show both in ONE confirmation. A clear answer approving that displayed card and folder satisfies Steps 4a and 4b together; ordinary yes/да/ок is sufficient when its referent is unambiguous. A previous explicit authorization for that exact card and directory also applies; never ask again just for a prescribed phrase. Missing essential input or an actual revision still requires clarification. Never skip semantic validation or source selection.
+
+After confirmed bootstrap, BEFORE validation, attach the startup session:
+
+```text
+python <FRAMEWORK_DIR>/scripts/startup_progress.py attach --workspace <KB_ROOT> --session <STARTUP_ID> --run-dir <RUN_DIR>
+```
+
+The helper archives the real pre-folder timestamps in `outputs/startup_events.jsonl`, records intake completion and validation running, and publishes the active pointer. A failed input check must record validation error/wait, not leave a static running state. Then follow normal prepare after valid input. On explicit resume do not create a startup session; activate the supplied run early and preserve its history.
+
+The initial model reasoning before its first tool call is not measured. Do not promise a fixed startup duration. If the first call fails, explain the actual failure in chat rather than claiming that progress is live.
 
 ## Steps
 
@@ -50,14 +74,13 @@ Activate skill `conversational-hypothesis-intake`.
 - For **dirty** input: extract fields, validate mapping with user, then build draft
 - Collect missing fields through guided questions (only gaps)
 - Show draft `input/hypothesis.md` preview
-- **Step 4a:** wait for hypothesis draft confirm (`Confirm draft` / `Подтвердить карточку`)
-- **Step 4b:** propose new `RUN_DIR`, list existing runs today, wait for RUN_DIR confirm (`Confirm create` / `Подтвердить создание`)
-- Require an unambiguous response at each confirmation. For «ок», “okay”, silence,
-  or unrelated continuation, repeat the choices and wait.
+- **Step 4a:** confirm the hypothesis draft; for complete ready input combine with the folder proposal and approval.
+- **Step 4b:** propose new `RUN_DIR`, list existing runs today, wait for RUN_DIR confirmation; for complete ready input combine with Step 4a as described above.
+- Require an unambiguous response to the displayed card/folder. Accept ordinary affirmative wording when clear; silence or unrelated continuation is not confirmation.
 
 Stop if the user cancels at any step.
 
-Do NOT write files until Step 4b completes.
+Do NOT write RUN_DIR/input/output files until Step 4b (or the combined confirmation) completes. The early `.hst` startup state is the explicit exception.
 
 ### 2. Bootstrap RUN_DIR
 
@@ -121,7 +144,7 @@ RUN_DIR confirmed via dialog: runs/HYP-YYYY-MM-DD-NNN
 Started automatically after RUN_DIR bootstrap and input validation.
 ```
 
-Set `RUN_DIR` for all subsequent steps. Tell the user where this check and its results will be saved. Initialize live progress per `30-run-observability.md` and record intake completed. Do not initialize run files before the bootstrap confirmation.
+Set `RUN_DIR` for all subsequent steps. Tell the user where this check and its results will be saved. Initialize live progress per `30-run-observability.md` and record intake completed. Do not initialize run files before the bootstrap confirmation. Attach STARTUP_ID immediately after bootstrap, before validation; no HTTP server is needed for this early terminal progress.
 
 ### 3. Validate input
 
@@ -212,7 +235,7 @@ first incomplete/invalid phase after any required confirmation.
 - Create non-contract artifacts (e.g. `product_specification.md`)
 - Bootstrap before RUN_DIR dialog confirm (Step 4b)
 - Skip hypothesis draft confirm (Step 4a)
-- Treat «ок» or continued chat as confirmation
+- Treat silence, an unrelated reply or an ambiguous answer as confirmation
 - Blindly rerun all phases for an existing `RUN_DIR`
 - Trust or overwrite malformed/free-text legacy markers
 - Run ad-hoc analysis plans instead of intake → dialog → bootstrap → pipeline
