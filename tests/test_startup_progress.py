@@ -92,3 +92,13 @@ class StartupProgressTests(unittest.TestCase):
         first = update(self.root)
         with self.assertRaises(ValueError):
             attach(self.root, first['session_id'], ROOT / 'examples/example-005')
+
+    def test_explicit_activation_supersedes_pending_intake(self):
+        run = self.run_dir()
+        (run / 'outputs').mkdir()
+        first = update(self.root)
+        publish(run)
+        self.assertIsNone(pending_snapshot(self.root))
+        self.assertEqual('cancelled', read(self.root)['state'])
+        with self.assertRaises(ValueError):
+            update(self.root, session=first['session_id'])

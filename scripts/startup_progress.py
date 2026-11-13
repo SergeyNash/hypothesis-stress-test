@@ -104,7 +104,7 @@ def attach(workspace, session, run):
             raise ValueError('Startup archive must not be a symlink')
         atomic(dest, source.read_text(encoding='utf-8'))
         from active_run import publish
-        publish(run, root)
+        publish(run, root, preserve_startup=True)
         value.update(state='attached', stage='bootstrap', run_dir=run.relative_to(root).as_posix(),
                      at=datetime.now(timezone.utc).isoformat(timespec='seconds'), message='Папка создана; проверка входных данных')
         return persist(state, value)

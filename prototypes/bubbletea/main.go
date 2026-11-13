@@ -15,7 +15,7 @@ import (
 
 type tickMsg time.Time
 type loadedMsg struct {
- startup string
+	startup    string
 	generation int
 	runs       []run
 	data       snapshot
@@ -23,7 +23,7 @@ type loadedMsg struct {
 }
 type openedMsg struct{ err error }
 type model struct {
- startup string
+	startup       string
 	demo          bool
 	workspace     string
 	runs          []run
@@ -54,8 +54,10 @@ func (m model) load() tea.Cmd {
 			id = runs[0].ID
 		}
 		data, err := readSnapshot(root, id)
-        startup, startupErr := readStartup(root)
-        if err == nil { err = startupErr }
+		startup, startupErr := readStartup(root)
+		if err == nil {
+			err = startupErr
+		}
 		return loadedMsg{generation: generation, runs: runs, data: data, err: err, startup: startup}
 	}
 }
@@ -249,11 +251,11 @@ func (m model) View() tea.View {
 		mode = "ДЕМО · синтетические события"
 	}
 	title := paint("1;34", "HST / ТЕРМИНАЛЬНЫЙ ПРОТОТИП")
-    if m.startup != "" {
-        lines := wrap(m.startup, width)
-        title += "\n" + paint("1;33", strings.Join(lines, "\n"))
-        bodyHeight = max(3, bodyHeight-len(lines))
-    }
+	if m.startup != "" {
+		lines := wrap(m.startup, width)
+		title += "\n" + paint("1;33", strings.Join(lines, "\n"))
+		bodyHeight = max(3, bodyHeight-len(lines))
+	}
 	completed := 0
 	for _, p := range m.data.Phases {
 		if p.State == "completed" {

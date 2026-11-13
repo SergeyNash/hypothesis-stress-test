@@ -159,23 +159,37 @@ func TestSourceSelectionAndActivityAreSeparate(t *testing.T) {
 }
 
 func TestStartupBeforeRunAndBannerAcrossPages(t *testing.T) {
- root := t.TempDir()
- if text, err := readStartup(root); err != nil || text != "" { t.Fatalf("empty workspace: %q %v", text, err) }
- state := filepath.Join(root, ".hst")
- if err := os.MkdirAll(state, 0700); err != nil { t.Fatal(err) }
- value := map[string]interface{}{"schema_version": 1, "session_id": strings.Repeat("a", 32), "state": "waiting_user", "stage": "confirmation", "message": "Жду карточку", "at": "2026-11-13T10:00:00Z"}
- data, _ := json.Marshal(value)
- if err := os.WriteFile(filepath.Join(state, "startup.json"), data, 0600); err != nil { t.Fatal(err) }
- text, err := readStartup(root)
- if err != nil || !strings.Contains(text, "Жду карточку") { t.Fatalf("startup missing: %q %v", text, err) }
- runs, err := listRuns(root)
- if err != nil || len(runs) != 0 { t.Fatal("startup must not invent a HYP folder") }
- for page := 0; page < 3; page++ {
-  m := model{workspace: root, page: page, width: 100, height: 35, startup: text, data: emptySnapshot("")}
-  if !strings.Contains(safe(m.View().Content), "Жду карточку") { t.Fatal("startup must be visible on every page") }
- }
- value["state"] = "attached"
- data, _ = json.Marshal(value)
- os.WriteFile(filepath.Join(state, "startup.json"), data, 0600)
- if text, err := readStartup(root); err != nil || text != "" { t.Fatal("attached startup must disappear") }
+	root := t.TempDir()
+	if text, err := readStartup(root); err != nil || text != "" {
+		t.Fatalf("empty workspace: %q %v", text, err)
+	}
+	state := filepath.Join(root, ".hst")
+	if err := os.MkdirAll(state, 0700); err != nil {
+		t.Fatal(err)
+	}
+	value := map[string]interface{}{"schema_version": 1, "session_id": strings.Repeat("a", 32), "state": "waiting_user", "stage": "confirmation", "message": "Жду карточку", "at": "2026-11-13T10:00:00Z"}
+	data, _ := json.Marshal(value)
+	if err := os.WriteFile(filepath.Join(state, "startup.json"), data, 0600); err != nil {
+		t.Fatal(err)
+	}
+	text, err := readStartup(root)
+	if err != nil || !strings.Contains(text, "Жду карточку") {
+		t.Fatalf("startup missing: %q %v", text, err)
+	}
+	runs, err := listRuns(root)
+	if err != nil || len(runs) != 0 {
+		t.Fatal("startup must not invent a HYP folder")
+	}
+	for page := 0; page < 3; page++ {
+		m := model{workspace: root, page: page, width: 100, height: 35, startup: text, data: emptySnapshot("")}
+		if !strings.Contains(safe(m.View().Content), "Жду карточку") {
+			t.Fatal("startup must be visible on every page")
+		}
+	}
+	value["state"] = "attached"
+	data, _ = json.Marshal(value)
+	os.WriteFile(filepath.Join(state, "startup.json"), data, 0600)
+	if text, err := readStartup(root); err != nil || text != "" {
+		t.Fatal("attached startup must disappear")
+	}
 }

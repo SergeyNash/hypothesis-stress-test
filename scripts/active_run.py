@@ -5,7 +5,7 @@ from pathlib import Path
 import uuid
 
 
-def publish(run, workspace=None):
+def publish(run, workspace=None, *, preserve_startup=False):
     run=Path(run).resolve()
     if workspace is None:
         if run.parent.name!='runs':
@@ -17,6 +17,12 @@ def publish(run, workspace=None):
     state=workspace/'.hst'
     if state.is_symlink():raise ValueError('workspace state must not be a symlink')
     state.mkdir(exist_ok=True)
+    if not preserve_startup:
+        from startup_progress import read, update
+        pending = read(workspace)
+        if pending and pending['state'] not in {'attached', 'cancelled'}:
+            update(workspace, session=pending['session_id'], status='cancelled',
+                   message='Подготовка закрыта: явно выбран прогон ' + run.name)
     pointer=state/'active-run.json'
     if pointer.is_symlink():raise ValueError('active-run pointer must not be a symlink')
     value={'schema_version':1,'run_dir':run.relative_to(workspace).as_posix(),
