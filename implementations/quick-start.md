@@ -129,3 +129,15 @@ python .\hypothesis-stress-test-main\scripts\update_workspace.py --workspace . -
 ```
 
 Запускайте между прогонами, из корня DataB, а после обновления перезапустите **HST · Прогресс** и начните новый чат Cline. Обновлятор работает с вложенной ZIP-папкой; Git-клон обновляйте через `git pull`. Он не заменяет корень базы знаний и не удаляет резервные копии автоматически.
+
+### Если `.hst/update.py` не найден
+
+Короткий файл создаётся установщиком новой версии. Для однократного перехода со старой версии можно обойти ручное скачивание ZIP. В PowerShell из DataB:
+
+```powershell
+$hstUpdater = Join-Path $env:TEMP "hst-update.py"
+Invoke-WebRequest "https://raw.githubusercontent.com/SergeyNash/hypothesis-stress-test/main/scripts/update_workspace.py" -OutFile $hstUpdater
+python $hstUpdater --workspace . --framework .\hypothesis-stress-test-main --terminal --apply
+```
+
+При другом имени папки подставьте фактическое имя в `--framework`. Команда скачивает обновлятор только из официального репозитория HST, затем он обновляет установку и размещает `.hst/update.py`. Последующие обновления: `python .\.hst\update.py --workspace . --apply`.
