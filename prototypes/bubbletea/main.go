@@ -328,6 +328,9 @@ func (m model) View() tea.View {
 	title := paint("1;34", "HST / УПРАВЛЕНИЕ ПРОГОНОМ · "+version+"")
 	if m.control.ID != "" {
 		controlLines := wrap(controlLabel(m.control.State)+": "+safe(m.control.Message), width)
+		if m.control.Connection != "" {
+			controlLines = append(controlLines, wrap(safe(m.control.Connection), width)...)
+		}
 		if q := m.control.Question; q != nil && q.State != "consumed" {
 			controlLines = append(controlLines, wrap("ВОПРОС: "+safe(q.Text), width)...)
 			if q.State == "pending" {
@@ -479,6 +482,9 @@ func (m model) View() tea.View {
 	help := "N новый прогон · Tab экран · O отчёт · R обновить · Q выход (Cline продолжает)"
 	if m.demo {
 		help += " · P пауза демо"
+	}
+	if m.control.Question != nil && m.control.Question.State == "pending" {
+		help = "Ответ — в поле вопроса · Enter отправить текст / цифра выбрать вариант · Ctrl+C выход"
 	}
 	notice := safe(m.notice)
 	content := title + "\n" + mode + "\n" + status + "\n\n" + strings.Join(tabs, "   ") + "\n" + strings.Repeat("─", width) + "\n" + strings.Join(body, "\n") + "\n" + notice + "\n" + help

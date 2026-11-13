@@ -32,11 +32,13 @@ type controlQuestion struct {
 	Response string   `json:"response"`
 }
 type launchStatus struct {
-	ID       string           `json:"request_id"`
-	State    string           `json:"state"`
-	Run      string           `json:"run_dir"`
-	Message  string           `json:"message"`
-	Question *controlQuestion `json:"question"`
+	At         string           `json:"at"`
+	Connection string           `json:"connection"`
+	ID         string           `json:"request_id"`
+	State      string           `json:"state"`
+	Run        string           `json:"run_dir"`
+	Message    string           `json:"message"`
+	Question   *controlQuestion `json:"question"`
 }
 type controlMsg struct {
 	value launchStatus

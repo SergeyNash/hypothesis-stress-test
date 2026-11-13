@@ -98,6 +98,15 @@ def status(workspace, request_id):
                     result = read(directory / 'status.json')
                     result.update(state='finished', at=now(), message='Прогон завершён; итоговая проверка PASS')
                     save_status(root, directory, result)
+    if result['state'] not in TERMINAL:
+        heartbeat = root / '.hst/tui-bridge.json'
+        try:
+            bridge = read(heartbeat)
+            age = (datetime.now(timezone.utc) - datetime.fromisoformat(bridge['at'])).total_seconds()
+            if age > 12 or bridge.get('ready') is not True:
+                result['connection'] = 'Нет связи с VS Code/Cline; запрос сохранён. Открой ту же базу в VS Code.'
+        except (OSError, ValueError, KeyError):
+            result['connection'] = 'Связь с VS Code недоступна; запрос сохранён.'
     question = directory / 'question.json'
     if question.exists():
         result['question'] = read(question)
@@ -138,6 +147,7 @@ def normalize(root, data):
     paths = data.get('local_paths', [])
     if not isinstance(paths, list) or any(not isinstance(p, str) for p in paths):
         raise ValueError('Invalid local folders')
+    cleaned_paths = []
     if paths and not channels['local']:
         raise ValueError('Папки доступны только при включённой локальной базе')
     for path in paths:
@@ -147,9 +157,10 @@ def normalize(root, data):
             raise ValueError('Папка должна существовать внутри базы: ' + path)
         if target == root / '.hst' or target.is_relative_to(root / '.hst'):
             raise ValueError('Runtime state is not an evidence source')
+        cleaned_paths.append(target.relative_to(root).as_posix())
     return {k: data[k].strip() for k in ['statement', 'domain', 'audience', 'scenario', 'roles']} | {
         'profile': data['profile'], 'hypothesis_type': data.get('hypothesis_type', ''),
-        'channels': channels, 'local_paths': paths}
+        'channels': channels, 'local_paths': cleaned_paths}
 
 
 def submit(workspace, data):

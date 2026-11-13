@@ -161,3 +161,14 @@ class TUIControlTests(unittest.TestCase):
         config['source_selection']['channels']['internet'] = True
         (run / 'run_config.json').write_text(json.dumps(config))
         with self.assertRaises(ValueError): control.acknowledge(self.root, request)
+
+    def test_canonical_scope_and_lost_connection_do_not_fake_execution_failure(self):
+        self.payload['local_paths'] = ['./materials']
+        request, run = self.prepare()
+        control.change(self.root, request, 'dispatching')
+        control.acknowledge(self.root, request)
+        self.assertEqual(['materials'], load_config(run)['source_selection']['local_paths'])
+        self.heartbeat(at='2000-01-01T00:00:00+00:00')
+        value = control.status(self.root, request)
+        self.assertEqual('accepted', value['state'])
+        self.assertIn('Нет связи', value['connection'])
