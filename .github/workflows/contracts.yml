@@ -1,6 +1,21 @@
 name: Framework contracts
 on: [push, pull_request]
 jobs:
+  version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/check_version.py
+      - name: Require the next minor version for every PR
+        if: github.event_name == 'pull_request'
+        env:
+          HST_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: python scripts/check_version.py --base "$HST_BASE_SHA"
   contracts:
     runs-on: ubuntu-latest
     strategy:
