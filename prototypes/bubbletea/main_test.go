@@ -31,7 +31,7 @@ func TestSourceDraftAndDemoWait(t *testing.T) {
 	}
 }
 func TestSourceDraftDoesNotMutateObservedSettings(t *testing.T) {
-	m := model{page: 1, data: demoSnapshot(0), draft: [3]bool{true, true, true}}
+	m := model{demo: true, page: 1, data: demoSnapshot(0), draft: [3]bool{true, true, true}}
 	next, _ := m.Update(tea.KeyPressMsg{Code: '1'})
 	m = next.(model)
 	if !m.data.Sources["local"] || m.draft[0] {
@@ -108,11 +108,52 @@ func TestSwitchingDemoDoesNotMixHistory(t *testing.T) {
 func TestViewHasHonestPrototypeLabels(t *testing.T) {
 	m := model{width: 110, height: 36, page: 1, data: demoSnapshot(0)}
 	content := safe(m.View().Content)
-	if !strings.Contains(content, "ПРОСМОТР ФАЙЛОВ") || !strings.Contains(content, "НЕ сохраняется") {
+	if !strings.Contains(content, "ПРОСМОТР ФАЙЛОВ") || !strings.Contains(content, "только чтение") || strings.Contains(content, "переключить") || strings.Contains(content, "ЧЕРНОВИК") {
 		t.Fatal("real source draft looks like applied control")
 	}
 	m.demo = true
 	if !strings.Contains(safe(m.View().Content), "ДЕМО") {
 		t.Fatal("demo not labelled")
+	}
+}
+
+func TestRealSourcesIgnoreToggleKeys(t *testing.T) {
+	m := model{page: 1, data: demoSnapshot(0), draft: [3]bool{true, true, true}}
+	for _, key := range []rune{' ', '1', '2', '3'} {
+		next, _ := m.Update(tea.KeyPressMsg{Code: key})
+		m = next.(model)
+	}
+	if m.dirty || m.draft != [3]bool{true, true, true} || !m.data.Sources["local"] || !m.data.Sources["confluence"] || !m.data.Sources["internet"] {
+		t.Fatal("real sources accepted editing")
+	}
+	content := safe(m.View().Content)
+	if strings.Contains(content, "[✓]") || strings.Contains(content, "Space") || !strings.Contains(content, "ИСТОЧНИКИ ЭТОГО ПРОГОНА") {
+		t.Fatal("real source view offers controls")
+	}
+}
+
+func TestSourceSelectionAndActivityAreSeparate(t *testing.T) {
+	s := emptySnapshot("HYP-2026-11-13-001")
+	if s.sourceSetting("local") != "Нет данных о выборе" || s.sourceActivity("local") != "Обращения не записаны" {
+		t.Fatal("missing history was presented as a choice or read")
+	}
+	s.Sources["local"] = true
+	s.Sources["internet"] = false
+	if s.sourceSetting("local") != "Включён" || s.sourceSetting("internet") != "Отключён" || s.sourceActivity("local") != "Обращения не записаны" {
+		t.Fatal("enabled source was confused with access")
+	}
+	s.Events = []event{
+		{Kind: "source", Channel: "local", State: "read"},
+		{Kind: "source", Channel: "local", State: "used"},
+		{Kind: "source", Channel: "confluence", State: "auth_error"},
+		{Kind: "phase", Channel: "local", State: "read"},
+		{Kind: "source", Channel: "local", State: "error"},
+	}
+	activity := s.sourceActivity("local")
+	if !strings.Contains(activity, "чтения: 1") || !strings.Contains(activity, "использования: 1") || !strings.Contains(activity, "последнее: Ошибка") {
+		t.Fatal(activity)
+	}
+	if !strings.Contains(s.sourceActivity("confluence"), "Ошибка доступа") || s.sourceSetting("confluence") != "Нет данных о выборе" {
+		t.Fatal("events fabricated a saved choice")
 	}
 }

@@ -90,7 +90,7 @@ func channelName(id string) string {
 	return safe(id)
 }
 func stateName(id string) string {
-	names := map[string]string{"pending": "Ожидает", "running": "Выполняется", "completed": "Готово", "waiting_user": "Нужен ответ", "error": "Ошибка", "declined": "Отключён", "read": "Прочитано", "found": "Найдено", "query_started": "Поиск", "used": "Использовано", "auth_error": "Ошибка доступа", "invalidated": "Нужно обновить"}
+	names := map[string]string{"pending": "Ожидает", "running": "Выполняется", "completed": "Готово", "waiting_user": "Нужен ответ", "error": "Ошибка", "declined": "Отключён", "read": "Прочитано", "found": "Найдено", "query_started": "Поиск", "used": "Использовано", "auth_error": "Ошибка доступа", "invalidated": "Нужно обновить", "no_results": "Нет результатов", "partial": "Частично", "unavailable": "Недоступен", "waiting_approval": "Нужно разрешение"}
 	if name, ok := names[id]; ok {
 		return name
 	}
@@ -264,4 +264,38 @@ func readSnapshot(root, id string) (snapshot, error) {
 		return s, err
 	}
 	return s, nil
+}
+
+// A missing choice must not be confused with an explicit opt-out.
+func (s snapshot) sourceSetting(channel string) string {
+	enabled, recorded := s.Sources[channel]
+	if !recorded {
+		return "Нет данных о выборе"
+	}
+	if enabled {
+		return "Включён"
+	}
+	return "Отключён"
+}
+
+// Counts are journal events, not unique documents or independently verified evidence.
+func (s snapshot) sourceActivity(channel string) string {
+	reads, uses := 0, 0
+	last := ""
+	for _, e := range s.Events {
+		if e.Kind != "source" || e.Channel != channel {
+			continue
+		}
+		last = e.State
+		if e.State == "read" {
+			reads++
+		}
+		if e.State == "used" {
+			uses++
+		}
+	}
+	if last == "" {
+		return "Обращения не записаны"
+	}
+	return fmt.Sprintf("Событий чтения: %d · использования: %d · последнее: %s", reads, uses, stateName(last))
 }

@@ -153,7 +153,7 @@ func (m model) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 				if !m.demo {
 					return m, m.load()
 				}
-			} else if m.page == 1 {
+			} else if m.page == 1 && m.demo {
 				m.cursor = max(0, m.cursor-1)
 			} else {
 				m.offset = min(max(0, len(m.data.Events)-1), m.offset+1)
@@ -164,7 +164,7 @@ func (m model) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 				if !m.demo {
 					return m, m.load()
 				}
-			} else if m.page == 1 {
+			} else if m.page == 1 && m.demo {
 				m.cursor = min(2, m.cursor+1)
 			} else {
 				m.offset = max(0, m.offset-1)
@@ -182,12 +182,12 @@ func (m model) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 				m.offset = 0
 			}
 		case "space":
-			if m.page == 1 {
+			if m.page == 1 && m.demo {
 				m.draft[m.cursor] = !m.draft[m.cursor]
 				m.dirty = true
 			}
 		case "1", "2", "3":
-			if m.page == 1 {
+			if m.page == 1 && m.demo {
 				i := int(key[0] - '1')
 				m.cursor = i
 				m.draft[i] = !m.draft[i]
@@ -265,7 +265,7 @@ func (m model) View() tea.View {
 	var body []string
 	switch m.page {
 	case 0:
-		body = append(body, "Выбери прогон стрелками. Enter — к выбору источников.", "")
+		body = append(body, "Выбери прогон стрелками. Enter — показать источники.", "")
 		if len(m.runs) == 0 {
 			body = append(body, "Прогонов пока нет. Начни новый прогон в Cline.")
 		}
@@ -283,27 +283,32 @@ func (m model) View() tea.View {
 		}
 		body = append(body, "", "Выбор здесь меняет только просмотр.")
 	case 1:
-		body = append(body, "ЧЕРНОВИК ИСТОЧНИКОВ", "Space или 1/2/3 — переключить. Enter — показать журнал.", "")
-		for i, label := range []string{"Локальная база знаний", "Confluence", "Интернет"} {
-			mark := " "
-			if m.draft[i] {
-				mark = "✓"
+		if !m.demo {
+			body = append(body, "ИСТОЧНИКИ ЭТОГО ПРОГОНА", "Сохранённые настройки и события · только чтение", "")
+			for _, channel := range channels {
+				body = append(body, wrap(channelName(channel)+": "+m.data.sourceSetting(channel), width)...)
+				body = append(body, wrap("  "+m.data.sourceActivity(channel), width)...)
+				body = append(body, "")
 			}
-			prefix := "  "
-			if i == m.cursor {
-				prefix = "▶ "
-			}
-			line := fmt.Sprintf("%s[%s] %s", prefix, mark, label)
-			if i == m.cursor {
-				line = paint("1;34", line)
-			}
-			body = append(body, line)
-		}
-		body = append(body, "")
-		if m.demo {
-			body = append(body, "Выбор влияет только на демонстрацию.")
+			body = append(body, "Включение источника не подтверждает его чтение.", "Enter — показать журнал.")
 		} else {
-			body = append(body, "В этом прототипе черновик НЕ сохраняется в настройках прогона.", "Действующие разрешения Cline остаются прежними.")
+			body = append(body, "ИСТОЧНИКИ ДЕМОНСТРАЦИИ", "Space или 1/2/3 — переключить. Enter — показать журнал.", "")
+			for i, label := range []string{"Локальная база знаний", "Confluence", "Интернет"} {
+				mark := " "
+				if m.draft[i] {
+					mark = "✓"
+				}
+				prefix := "  "
+				if i == m.cursor {
+					prefix = "▶ "
+				}
+				line := fmt.Sprintf("%s[%s] %s", prefix, mark, label)
+				if i == m.cursor {
+					line = paint("1;34", line)
+				}
+				body = append(body, line)
+			}
+			body = append(body, "", "Выбор влияет только на демонстрацию.")
 		}
 	case 2:
 		phaseRows := min(5, max(0, bodyHeight/3))
