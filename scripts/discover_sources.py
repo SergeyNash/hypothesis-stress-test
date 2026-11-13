@@ -102,12 +102,17 @@ def positive(value):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root', type=Path, required=True)
+    parser.add_argument('--run-dir', type=Path, help='Apply current-run source selection before traversal')
     parser.add_argument('--query', default='', help='Short topic terms from the hypothesis; no client secrets')
     parser.add_argument('--max-entries', type=positive, default=20000)
     parser.add_argument('--max-depth', type=positive, default=32)
     args = parser.parse_args()
     if not args.root.is_dir():
         parser.error('--root must be an existing directory')
+    if args.run_dir:
+        from source_selection import require
+        try:require(args.run_dir,'local',args.root)
+        except (OSError,ValueError) as exc:parser.error(str(exc))
     print(json.dumps(discover(args.root, args.query, max_entries=args.max_entries,
                               max_depth=args.max_depth), ensure_ascii=False, indent=2))
 

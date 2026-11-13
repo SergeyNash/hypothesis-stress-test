@@ -4,7 +4,7 @@ Resolve FRAMEWORK_DIR by its actual location (may be nested/renamed); KB_ROOT is
 
 For new runs use `run_control.py prepare` as required by `40-run-quality.md`; it initializes the viewer and verifies HTTP/JSON before returning its URL. For manual/legacy recovery, once a run is bootstrapped, initialize `python <FRAMEWORK_DIR>/scripts/run_progress.py init --run-dir <RUN_DIR>`. Start `serve` in a host-supported background terminal bound only to 127.0.0.1; show the actual URL printed by it. No external server/deployment. Do not block pipeline execution waiting for a foreground server process. If the host cannot keep a background terminal, give the command for a separate terminal and continue updating the journal. Do not claim live view is running until the URL is observed.
 
-Before and after each phase, and when waiting or failing, use:
+For lifecycle_version 1, use run_control start/complete for stage transitions (50-run-lifecycle.md); do not hand-write completion markers. For milestone updates, waits, failures, and legacy transitions use:
 
 ```text
 python <FRAMEWORK_DIR>/scripts/run_progress.py event --run-dir <RUN_DIR> --phase <phase> --state running|waiting_user|completed|error|invalidated --message "<short localized action>"

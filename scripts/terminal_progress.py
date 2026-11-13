@@ -111,7 +111,29 @@ def validate_state(data):
 
 def read_state(path):
     if path.stat().st_size>16*1024*1024:raise ValueError('Журнал больше 16 МБ; нужен ограниченный просмотр')
+    journal=path.with_name('pipeline_events.jsonl')
+    if journal.is_file():
+        if journal.is_symlink() or journal.stat().st_size>16*1024*1024:raise ValueError('Некорректный или слишком большой журнал')
+        from run_progress import snapshot,events
+        return validate_state(snapshot(path.parent.parent,events(path.parent)))
     return validate_state(json.loads(path.read_text(encoding='utf-8-sig')))
+
+
+def html_address(run):
+    """Read the URL published by run_control, never guess a port or start a server."""
+    if run is None:return None
+    try:
+        from source_selection import config
+        if config(run).get('viewer',{}).get('status') in {'starting','error','unavailable'}:return None
+        path=Path(run)/'outputs/.viewer-state.json'
+        if path.stat().st_size>16384:return None
+        data=json.loads(path.read_text(encoding='utf-8-sig'))
+        url=data.get('viewer_url') if isinstance(data,dict) else None
+        match=re.fullmatch(r'http://127\.0\.0\.1:([0-9]{1,5})/',url) if isinstance(url,str) else None
+        if match and 1<=int(match[1])<=65535:
+            return url+'outputs/progress.html'
+    except (OSError,ValueError):pass
+    return None
 
 
 def render(data, width=110, height=36, demo=False, issue=None):
@@ -142,56 +164,87 @@ def render(data, width=110, height=36, demo=False, issue=None):
         if recent:action=safe(recent['message'])
     elif issue:
         action=safe(issue)
-    alerts=[]
+    alerts=[Text(safe(w),style='yellow') for w in data.get('warnings',[])[:2]]
     if issue and action!=safe(issue):alerts.append(Text(safe(issue),style='bold yellow'))
     if age is not None and age>180 and not finished:
         alerts.append(Text('Давно нет событий. Работа может продолжаться; проверьте Cline.',style='yellow'))
-    summary=Panel(Group(header,progress,note,Text(action,style='white'),*alerts),border_style=status_color,padding=(0,1))
-    source_table=Table.grid(expand=True);source_table.add_column(ratio=1);source_table.add_column(ratio=1);source_table.add_column(ratio=1)
-    cells=[]
-    for key,title in CHANNELS.items():
-        rows=[e for e in events if e.get('channel')==key]
-        state=rows[-1]['state'] if rows else 'pending'
-        text=Text(title+'\n',style='bold')
-        text.append(LABELS.get(state,safe(state)) if rows else 'Нет записанных обращений',style=COLORS.get(state,'dim'))
-        cells.append(text)
-    source_table.add_row(*cells)
+    html=Text('HTML: ',style='dim')
+    url=data.get('html_url')
+    if url:html.append(url,style='underline cyan link '+url)
+    else:
+        view=data.get('viewer',{})
+        detail='ошибка: '+safe(view.get('reason','не удалось запустить')) if view.get('status') in {'error','unavailable'} else 'запускается' if view.get('status')=='starting' else 'ожидаю адрес HTML-прогресса'
+        html.append('недоступен в демо' if demo else detail)
+    checked=stamp(data.get('checked_at'))
+    polling=Text('Проверка журнала: '+(checked.astimezone(MSK).strftime('%H:%M:%S')+' МСК' if checked else '—')+
+                 f' · событий: {len(events)}',style='dim')
+    summary=Panel(Group(header,progress,html,polling,note,Text(action,style='white'),*alerts),border_style=status_color,padding=(0,1))
+    # Three compact links open the corresponding channel history in the HTML viewer.
+    sources=Text('Источники: ',style='dim')
+    selection=data.get('source_selection') or {}
+    for i,(key,title) in enumerate(CHANNELS.items()):
+        if i:sources.append('   ·   ',style='dim')
+        enabled=selection.get('channels',{}).get(key)
+        style='underline '+('dim' if enabled is False else 'cyan')
+        if url:style+=' link '+url+'#source-'+key
+        sources.append(title,style=style)
+    # Numbered stages follow pipeline order rather than jumping on every update.
+    stage_table=Table.grid(expand=True,padding=(0,1))
+    columns=2 if width>=100 else 1
+    for _ in range(columns):
+        stage_table.add_column(ratio=1)
+        stage_table.add_column(no_wrap=True)
+    items=[]
+    for i,p in enumerate(phases):
+        is_current=current is not None and p['id']==current['id']
+        symbol='▶' if is_current else '✓' if p['state']=='completed' else '·'
+        style='bold cyan' if is_current else COLORS.get(p['state'],'dim')
+        name=Text(f"{symbol} {i+1:02d}  "+safe(p['name']),style=style)
+        label=Text(LABELS.get(p['state'],safe(p['state'])),style=style)
+        items.append((name,label))
+    for i in range(0,len(items),columns):
+        row=[]
+        for name,label in items[i:i+columns]:row.extend([name,label])
+        while len(row)<columns*2:row.append(Text(''))
+        stage_table.add_row(*row)
+    stage_panel=Panel(stage_table,title='Этапы · по порядку',border_style='dim',padding=(0,1))
+    measuring=Console(width=width)
+    def rows_used(content):
+        return len(measuring.render_lines(content,measuring.options,pad=False))
+    compact=height<20
+    # Reserve actual wrapped header/stage heights; do not guess by character count.
+    overhead=rows_used(Group(summary,sources,stage_panel))+1
+    show_stages=not compact and height-overhead>=7
+    if not show_stages:overhead-=rows_used(stage_panel)
+    budget=max(1,height-overhead-3) if not compact else max(1,height-13-len(alerts))
     log=Table(box=None,expand=True,padding=(0,1),show_header=True)
-    log.add_column('МСК',width=8,no_wrap=True,style='dim');log.add_column('Журнал · новые сверху',ratio=1)
-    slots=max(2,min(8,height-21))
-    for e in list(reversed(events))[:slots]:
+    log.add_column('МСК',width=8,no_wrap=True,style='dim')
+    log.add_column('Журнал · новые сверху',ratio=1,overflow='fold')
+    used=0
+    for e in reversed(events):
         date=stamp(e['at']);clock=date.astimezone(MSK).strftime('%H:%M:%S') if date else '—'
         line=Text(LABELS.get(e['state'],safe(e['state']))+' · ',style=COLORS.get(e['state'],'dim'))
         line.append(CHANNELS.get(e.get('channel'),names.get(e['phase'],safe(e['phase'])))+' · ',style='cyan')
         line.append(safe(e['message']))
-        line.truncate(max(12,int(width*.6)-20 if width>=100 else width-17),overflow='ellipsis')
-        log.add_row(clock,line)
+        wrapped=line.wrap(measuring,max(10,width-16))
+        if used+len(wrapped)>budget:
+            if used:break
+            # A single very long event must leave room for the status and controls.
+            line=Text('\n').join(wrapped[:max(1,budget-1)])
+            line.append('\n… Полное сообщение — в HTML-журнале.',style='dim')
+            log.add_row(clock,line)
+            break
+        log.add_row(clock,line);used+=len(wrapped)
     if not events:log.add_row('—','Ожидаю события. Счётчик не продвигается сам по себе.')
-    phase_table=Table(box=None,expand=True,padding=(0,1))
-    phase_table.add_column('Этапы · последние сверху',ratio=1);phase_table.add_column('Статус',no_wrap=True)
-    ordered=sorted(enumerate(phases),key=lambda pair:(pair[1]['id'] not in latest,-latest.get(pair[1]['id'],-1),pair[0]))
-    visible_count=len(ordered) if height>=30 else max(2,height-19)
-    for _,p in ordered[:visible_count]:
-        phase_table.add_row(Text(safe(p['name'])),Text(LABELS.get(p['state'],safe(p['state'])),style=COLORS.get(p['state'],'dim')))
-    if len(ordered)>visible_count:
-        phase_table.add_row(Text(f'Ещё этапов: {len(ordered)-visible_count}',style='dim'),Text(''))
-    body=Table.grid(expand=True)
-    if width>=100:
-        body.add_column(ratio=6);body.add_column(ratio=4)
-        body.add_row(Panel(log,border_style='dim'),Panel(phase_table,border_style='dim'))
-    elif height>=38:
-        body.add_column();body.add_row(Panel(log,border_style='dim'));body.add_row(Panel(phase_table,border_style='dim'))
-    else:
-        body.add_column();body.add_row(Panel(log,border_style='dim'))
+    body=Group(Panel(log,border_style='dim'),stage_panel) if show_stages else Panel(log,border_style='dim')
     footer=Text('Ctrl+C — закрыть просмотр. Пайплайн продолжит работу.',style='dim')
     if demo:footer=Text('ДЕМО · паузы и ответы смоделированы · Ctrl+C — выход',style='dim')
     if height<20:
-        compact_sources=Text('Источники: '+ ' · '.join(t.split('\n')[0] for t in [c.plain for c in cells]),style='dim')
         return Group(Text('HST · '+safe(data.get('run','Прогон')),style='bold cyan'),
                      Text('ДЕМО · синтетические события' if demo else 'Только чтение',style='yellow'),
-                     Text(status,style=status_color),progress,Text(action,overflow='ellipsis',no_wrap=True),
-                     *alerts,compact_sources,Panel(log,border_style='dim'),footer)
-    return Group(summary,Panel(source_table,title='Источники',border_style='dim',padding=(0,1)),body,footer)
+                     Text(status,style=status_color),progress,html,polling,Text(action,overflow='ellipsis',no_wrap=True),
+                     *alerts,sources,Panel(log,border_style='dim'),footer)
+    return Group(summary,sources,body,footer)
 
 
 @click.command(context_settings={'help_option_names':['-h','--help']})
@@ -218,8 +271,9 @@ def main(run_dir,workspace,demo,scenario,speed,once,preview,width):
         nonlocal note
         if follower:
             value,note,active=follower.poll(read_state)
-            return value if value is not None else event_state([],run=active.name if active else 'Новый прогон')
-        return next(stream) if stream else read_state(path)
+            snapshot=value if value is not None else event_state([],run=active.name if active else 'Новый прогон')
+            return dict(snapshot,html_url=html_address(active),checked_at=datetime.now(timezone.utc).isoformat())
+        return next(stream) if stream else dict(read_state(path),html_url=html_address(run_dir),checked_at=datetime.now(timezone.utc).isoformat())
     if once or preview or not console.is_terminal:
         if is_demo:
             states=list(stream)

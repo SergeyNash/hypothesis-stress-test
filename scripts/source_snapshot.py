@@ -8,8 +8,10 @@ from extract_evidence import extract
 from run_progress import atomic, output_dir
 
 
-def capture(run, root, paths, **limits):
+def capture(run, root, paths, *, channel='local', **limits):
     run, root = Path(run).resolve(), Path(root).resolve()
+    from source_selection import require
+    for path in paths:require(run,channel,root/path)
     target = output_dir(run) / 'source_snapshot.json'
     snapshot = json.loads(target.read_text(encoding='utf-8')) if target.exists() else {
         'schema_version': 1, 'files': [], 'captures': []}
@@ -20,6 +22,7 @@ def capture(run, root, paths, **limits):
             raise ValueError('The mutable run hypothesis is not a source document; preserve its formulation in the report.')
         result = extract(root / path, root, **limits)
         result['root'] = str(root)
+        result['channel'] = channel
         # Reject silently merging pages from different file revisions.
         prior = next((f for f in snapshot['files'] if f['source_path'] == result['source_path']), None)
         if prior:
@@ -42,6 +45,7 @@ def main():
     p.add_argument('--run-dir', type=Path, required=True)
     p.add_argument('--root', type=Path, required=True)
     p.add_argument('--path', action='append', required=True)
+    p.add_argument('--channel', choices=['local','confluence','internet'], default='local', help='Origin of captured text; remote responses retain their original channel')
     p.add_argument('--start-unit', type=int, default=0)
     p.add_argument('--max-units', type=int, default=1000)
     p.add_argument('--max-chars', type=int, default=100000)
@@ -49,7 +53,7 @@ def main():
     if a.start_unit < 0 or min(a.max_units, a.max_chars) < 1:
         p.error('invalid extraction limits')
     try:
-        snapshot = capture(a.run_dir, a.root, a.path, start_unit=a.start_unit,
+        snapshot = capture(a.run_dir, a.root, a.path, channel=a.channel, start_unit=a.start_unit,
                            max_units=a.max_units, max_chars=a.max_chars)
         print(json.dumps({'snapshot': str(a.run_dir.resolve()/'outputs/source_snapshot.json'),
             'files': [{k:v for k,v in f.items() if k not in {'units','pages'}} for f in snapshot['files']]}, ensure_ascii=False))

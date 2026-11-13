@@ -30,7 +30,7 @@ def normalized(text):
     return re.sub(r'\s+', ' ', unescape(text)).strip()
 
 
-def validate_quality(run, *, strict=False):
+def validate_quality(run, *, strict=False, phase=None):
     run = Path(run).resolve()
     try:
         if protocol(run) < 2:
@@ -40,14 +40,14 @@ def validate_quality(run, *, strict=False):
         if config.get('audit_version', 1) not in {1, 2}:
             return ['UNSUPPORTED_AUDIT_VERSION']
         ledger = read_json(run / 'outputs/claim_ledger.json')
-        review = read_json(run / 'outputs/quality_review.json')
+        review = read_json(run / 'outputs/quality_review.json') if phase != 'local_evidence' else {}
     except (OSError, UnicodeError, ValueError, TypeError):
         return ['MISSING_OR_INVALID_QUALITY_AUDIT']
     errors = []
     if not isinstance(ledger, dict) or not isinstance(review, dict):
         return ['INVALID_QUALITY_SCHEMA']
     sources, claims = ledger.get('sources'), ledger.get('claims')
-    if not isinstance(sources, list) or not isinstance(claims, list) or not claims:
+    if not isinstance(sources, list) or not isinstance(claims, list) or (not claims and phase != 'local_evidence'):
         return ['INVALID_CLAIM_LEDGER']
     if not all(isinstance(x, dict) for x in sources + claims):
         return ['INVALID_CLAIM_LEDGER']
@@ -62,8 +62,8 @@ def validate_quality(run, *, strict=False):
         # EVID IDs must actually exist; a model persona cannot be relabelled empirical.
         if str(sid).startswith('EVID-'):
             inv = (run / 'outputs/evidence_inventory.md').read_text(encoding='utf-8-sig')
-            blocks = re.split(r'(?=^###\s+EVID-\d+)', inv, flags=re.M)
-            block = next((b for b in blocks if re.match(r'###\s+' + re.escape(sid) + r'\b', b.strip())), None)
+            blocks = re.split(r'(?=^#{2,3}\s+EVID-\d+)', inv, flags=re.M)
+            block = next((b for b in blocks if re.match(r'#{2,3}\s+' + re.escape(sid) + r'\b', b.strip())), None)
             if block is None:
                 errors.append('UNRESOLVED_SOURCE:' + sid)
             elif re.search(r'source_origin:\s*synthetic\b', block) and source.get('kind') != 'simulation':
@@ -136,7 +136,7 @@ def validate_quality(run, *, strict=False):
                  'hypothesis_map.md', 'decision_review.md', 'human_report.html']:
         p = run / 'outputs' / name
         if p.exists():
-            ids = set(re.findall(r'\b(?:EVID|EXT|CONF)-\d+\b', p.read_text(encoding='utf-8-sig')))
+            ids = set(re.findall(r'\b(?:EVID|EXT|CONF|CONL)-\d+\b', p.read_text(encoding='utf-8-sig')))
             for sid in ids - registry.keys():
                 errors.append('UNREGISTERED_REFERENCE:' + name + ':' + sid)
     checks = review.get('checks', [])
@@ -144,16 +144,16 @@ def validate_quality(run, *, strict=False):
         return sorted(set(errors + ['INVALID_QUALITY_REVIEW']))
     from grounded_audit import EXTRA_CHECKS, validate_grounding
     expected_checks = CHECKS | EXTRA_CHECKS if grounded else CHECKS
-    if {x.get('id') for x in checks} != expected_checks or len(checks) != len(expected_checks):
+    if phase in {None, 'decision_review', 'human_report'} and ({x.get('id') for x in checks} != expected_checks or len(checks) != len(expected_checks)):
         errors.append('INCOMPLETE_QUALITY_REVIEW')
-    for check in checks:
+    for check in checks if phase in {None, 'decision_review', 'human_report'} else []:
         if check.get('status') not in {'pass', 'not_applicable'} or not isinstance(check.get('reason'), str) or not check.get('reason', '').strip():
             errors.append('QUALITY_REVIEW_FAILED:' + str(check.get('id')))
         if not isinstance(check.get('claim_ids'), list) or not all(isinstance(c, str) and c in claim_ids for c in check['claim_ids']):
             errors.append('INVALID_REVIEW_CLAIM_IDS')
     if grounded:
         try:
-            errors.extend(validate_grounding(run, ledger, review))
+            errors.extend(validate_grounding(run, ledger, review, phase=phase))
         except (OSError, ValueError, TypeError, KeyError, AttributeError, ArithmeticError):
             errors.append('INVALID_GROUNDED_AUDIT_SCHEMA')
     return sorted(set(errors))

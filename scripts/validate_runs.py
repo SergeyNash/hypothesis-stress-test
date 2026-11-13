@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HYP_ID_RE = re.compile(r"^HYP-\d{4}-\d{2}-\d{2}-\d{3}$")
 RUN_ID_RE = re.compile(r"^RUN-\d{4}-\d{2}-\d{2}-\d{3}$")
 DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-EVID_RE = re.compile(r"^###\s+(EVID-\d+)", re.M)
+EVID_RE = re.compile(r"^#{2,3}\s+(EVID-\d+)", re.M)
 FIELD_RE = re.compile(r"^[-*]\s+([A-Za-z_]+)\s*:\s*(.+)$")
 
 STATUSES = {"draft", "running", "completed", "archived"}
@@ -98,6 +98,8 @@ ALLOWED_OUTPUTS = {
     "run_validation.json",
     "source_snapshot.json",
     "validation_history.jsonl",
+    "phase_validation.json",
+    "source_selection.md",
     "ready_for_synthesis.marker",
     "knowledge_retrieval_complete.marker",
     "business_context_complete.marker",
@@ -366,11 +368,11 @@ def validate_evidence(path: Path) -> list[str]:
     review_codes = []
     if review is not None and field_map(review).get('status') not in {'accepted', 'waived'}:
         review_codes.append('INCOMPLETE_RETRIEVAL_REVIEW')
-    blocks = re.split(r"(?=^###\s+EVID-\d+)", text, flags=re.M)
+    blocks = re.split(r"(?=^#{2,3}\s+EVID-\d+)", text, flags=re.M)
     codes: list[str] = review_codes
     found = False
     for block in blocks:
-        match = re.match(r"###\s+(EVID-\d+)", block.strip())
+        match = re.match(r"#{2,3}\s+(EVID-\d+)", block.strip())
         if not match:
             continue
         found = True
@@ -453,11 +455,12 @@ def validate_outputs_allowlist(run_dir: Path) -> list[str]:
     return codes
 
 
-def validate_complete_run(run_dir: Path) -> list[str]:
+def validate_complete_run(run_dir: Path, *, pending_human_report=False) -> list[str]:
     codes = validate_input(run_dir, check_folder_id=False)
     codes.extend(validate_outputs_allowlist(run_dir))
     outputs = run_dir / "outputs"
     for name, expected in MARKER_REGISTRY.items():
+        if pending_human_report and expected["completed_phase"] == "human_report":continue
         marker = outputs / name
         if not marker.exists():
             codes.append(f"MISSING_MARKER:{name}")
@@ -566,12 +569,14 @@ def validate_examples() -> list[str]:
     return failures
 
 
-def check_run(run_dir, *, check_folder_id=True, strict=False):
+def check_run(run_dir, *, check_folder_id=True, strict=False, pending_human_report=False):
     run_dir = Path(run_dir).resolve()
     try:
         if not run_dir.is_dir():
             return ['RUN_DIR_NOT_FOUND']
-        codes = validate_complete_run(run_dir)
+        codes = validate_complete_run(run_dir, pending_human_report=pending_human_report)
+        from source_selection import validate as validate_selection
+        codes.extend(validate_selection(run_dir))
         from run_quality import validate_quality
         codes.extend(validate_quality(run_dir, strict=strict))
         if check_folder_id:

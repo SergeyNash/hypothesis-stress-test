@@ -7,6 +7,15 @@
 
 Текущая версия: см. [VERSION](./VERSION).
 
+## Unreleased
+
+- Verified per-stage completion, early source/claim audit gates, retryable completion and preserved FAIL/ERROR diagnostics for new runs.
+- Source selection per run with optional workspace preferences, allowed KB folders and explicit disabled-channel disclosure.
+- Full-width terminal journal, numbered stage table, compact source-history links, published HTML URL and polling diagnostics.
+- Journal-based live snapshots, marker/journal discrepancy warnings and bounded retries for concurrent progress writes/Windows file sharing.
+- Typed source/claim registration using captured anchors; consistent recognition of EVID headings at levels two and three.
+- Historical runs retain their recorded protocol; no silent conversion of old reports to PASS.
+
 ## Политика версий
 
 | Уровень | Когда повышать |
