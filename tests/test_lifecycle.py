@@ -26,6 +26,8 @@ class Lifecycle(unittest.TestCase):
             else:shutil.copyfile(source,self.run/'outputs'/name)
         with patch.object(control,'viewer',return_value='http://127.0.0.1:8787/outputs/progress.html'):
             control.prepare(self.run,'full')
+        # These tests isolate the original lifecycle; handoff v1 has its own cases below.
+        config=control.load_config(self.run);config.pop('phase_handoff_version',None);control.save_config(self.run,config)
     def tearDown(self):self.tmp.cleanup()
 
     def test_single_completion_command_and_idempotent_recovery(self):
@@ -110,5 +112,48 @@ class Lifecycle(unittest.TestCase):
         except SystemExit:self.skipTest('optional terminal deps missing')
         (self.run/'outputs/progress.json').write_text('{stale')
         self.assertEqual(2,read_state(self.run/'outputs/progress.json')['completed'])
+
+    def enable_handoff(self,mode='full'):
+        config=control.load_config(self.run)
+        config.update(phase_handoff_version=1,execution_mode=mode,
+                      viewer={'status':'unavailable','notified':True,'reason':'Synthetic host limitation disclosed'})
+        control.save_config(self.run,config)
+
+    def test_full_run_starts_preparation_before_model_output_and_does_not_duplicate(self):
+        from source_selection import select
+        self.enable_handoff()
+        select(self.run,dict(local=False,confluence=False,internet=False),[],reason='Synthetic choice')
+        rows=progress.events(self.run/'outputs')
+        self.assertEqual(('facilitator','running'),(rows[-1]['phase'],rows[-1]['state']))
+        self.assertIn('Подготовка',rows[-1]['message'])
+        with patch.object(control,'viewer',return_value='http://127.0.0.1:1/'):
+            control.start(self.run,'facilitator')
+        self.assertEqual(rows,progress.events(self.run/'outputs'))
+        self.assertEqual('PASS',control.complete(self.run,'facilitator')['status'])
+        rows=progress.events(self.run/'outputs')
+        self.assertEqual(('local_evidence','running'),(rows[-1]['phase'],rows[-1]['state']))
+        self.assertEqual(('facilitator','completed'),(rows[-2]['phase'],rows[-2]['state']))
+
+    def test_phase_mode_does_not_auto_start_and_completion_requires_start(self):
+        from source_selection import select
+        self.enable_handoff(mode='phase')
+        select(self.run,dict(local=False,confluence=False,internet=False),[],reason='Synthetic choice')
+        result=control.complete(self.run,'facilitator')
+        self.assertEqual('FAIL',result['status'])
+        self.assertIn('no recorded start',result['errors'][0])
+        self.assertFalse((self.run/'outputs/ready_for_synthesis.marker').exists())
+        control.start(self.run,'facilitator')
+        self.assertEqual('PASS',control.complete(self.run,'facilitator')['status'])
+        self.assertEqual('facilitator',progress.events(self.run/'outputs')[-1]['phase'])
+
+    def test_changed_sources_do_not_reset_a_waiting_phase(self):
+        from source_selection import select
+        self.enable_handoff()
+        select(self.run,dict(local=False,confluence=False,internet=False),[],reason='First choice')
+        control.complete(self.run,'facilitator')
+        progress.record(self.run,phase='local_evidence',state='waiting_user',message='Inventory review')
+        select(self.run,dict(local=True,confluence=False,internet=False),[],reason='Changed local channel')
+        last=next(e for e in reversed(progress.events(self.run/'outputs')) if e['kind']=='phase')
+        self.assertEqual('waiting_user',last['state'])
 
 if __name__=='__main__':unittest.main()

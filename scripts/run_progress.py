@@ -73,12 +73,19 @@ def snapshot(run, rows):
     for row in rows:
         if row['kind'] == 'phase':
             states[row['phase']] = {k: row[k] for k in ['state', 'message', 'at']}
+    validation={}
+    try:
+        saved=json.loads((Path(run)/'outputs/run_validation.json').read_text(encoding='utf-8-sig'))
+        if isinstance(saved,dict) and saved.get('target')==str(Path(run).resolve()) and saved.get('scope')=='run':
+            validation={k:saved[k] for k in ['status','at','errors'] if k in saved}
+    except (OSError,ValueError):pass
     return {'schema_version': 1, 'run': Path(run).name, 'updated_at': rows[-1]['at'] if rows else None,
             'phases': [dict(id=p, name=NAMES[p], **states[p]) for p in PHASES],
             'events': rows, 'completed': sum(s['state'] == 'completed' for s in states.values()),
             'total': len(states), 'source_selection': config(run).get('source_selection'),
             'source_selection_required': config(run).get('source_selection_version') == 1,
-            'viewer': config(run).get('viewer',{}), 'warnings': diagnose(run,rows)}
+            'viewer': config(run).get('viewer',{}), 'warnings': diagnose(run,rows),
+            'validation':validation, 'human_report_available':(Path(run)/'outputs/human_report.html').is_file()}
 
 
 def atomic(path, content):

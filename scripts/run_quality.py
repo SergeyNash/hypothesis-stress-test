@@ -46,8 +46,11 @@ def validate_quality(run, *, strict=False, phase=None):
     errors = []
     if not isinstance(ledger, dict) or not isinstance(review, dict):
         return ['INVALID_QUALITY_SCHEMA']
+    from audit_scope import ledger_for_phase,artifacts_for
+    if phase is not None:
+        ledger=ledger_for_phase(run,ledger,phase)
     sources, claims = ledger.get('sources'), ledger.get('claims')
-    if not isinstance(sources, list) or not isinstance(claims, list) or (not claims and phase != 'local_evidence'):
+    if not isinstance(sources, list) or not isinstance(claims, list) or (not claims and phase is None):
         return ['INVALID_CLAIM_LEDGER']
     if not all(isinstance(x, dict) for x in sources + claims):
         return ['INVALID_CLAIM_LEDGER']
@@ -132,8 +135,9 @@ def validate_quality(run, *, strict=False, phase=None):
         if len(periods) > 1 and claim.get('temporal_comparison') is not True:
             errors.append('MIXED_NUMERIC_PERIODS:' + cid)
     # Catch dangling references even when a claim was omitted from the ledger.
-    for name in ['business_context_analysis.md', 'external_research.md', 'market_analysis.md',
-                 'hypothesis_map.md', 'decision_review.md', 'human_report.html']:
+    reference_outputs=(['business_context_analysis.md','external_research.md','market_analysis.md',
+                        'hypothesis_map.md','decision_review.md','human_report.html'] if phase is None else artifacts_for(phase))
+    for name in reference_outputs:
         p = run / 'outputs' / name
         if p.exists():
             ids = set(re.findall(r'\b(?:EVID|EXT|CONF|CONL)-\d+\b', p.read_text(encoding='utf-8-sig')))

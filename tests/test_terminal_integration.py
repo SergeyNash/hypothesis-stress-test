@@ -148,6 +148,22 @@ class TerminalIntegration(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec('rich') and importlib.util.find_spec('click'),'optional terminal dependencies missing')
 class TerminalRendering(unittest.TestCase):
+    def test_finished_view_has_actual_result_and_report_link_without_waiting_copy(self):
+        import io
+        from rich.console import Console
+        from terminal_progress import event_state,render,PHASES
+        events=[dict(kind='phase',phase=p,state='completed',at='2026-11-13T07:43:18Z',message='Done') for p,_ in PHASES]
+        state=dict(event_state(events),validation={'status':'PASS'},human_report_available=True,
+                   html_url='http://127.0.0.1:53169/outputs/progress.html')
+        for height in [18,44]:
+            console=Console(width=120,file=io.StringIO(),record=True)
+            console.print(render(state,width=120,height=height))
+            output=console.export_text()
+            self.assertIn('проверка PASS',output)
+            self.assertIn('http://127.0.0.1:53169/outputs/human_report.html',output)
+            self.assertNotIn('Ожидаю данные журнала',output)
+            self.assertNotIn('Пайплайн продолжит работу',output)
+
     def test_source_links_target_channel_history_and_stages_follow_pipeline_order(self):
         import io
         from rich.console import Console

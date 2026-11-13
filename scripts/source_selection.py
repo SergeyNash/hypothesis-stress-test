@@ -83,6 +83,7 @@ def select(run, channels, paths, workspace=None, remember=False, reason=''):
         raise ValueError('Workspace preferences must not be symlinks')
     selected = {'confirmed': True, 'channels': channels, 'local_paths': clean,
                 'workspace': str(root), 'at': datetime.now(timezone.utc).isoformat(), 'reason': reason}
+    first_choice=not valid(c.get('source_selection'))
     rows = events(output_dir(run))
     c['source_selection_version'] = 1
     c['source_selection'] = selected
@@ -102,6 +103,9 @@ def select(run, channels, paths, workspace=None, remember=False, reason=''):
         lines.extend(['- Папки: '+(', '.join(item['local_paths']) or 'вся база при включённом локальном канале'), '- Основание: '+item['reason'], ''])
     atomic(run/'outputs/source_selection.md', '\n'.join(lines))
     init(run)
+    if first_choice:
+        from run_control import auto_enter
+        auto_enter(run)
     return selected
 
 
