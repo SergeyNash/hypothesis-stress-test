@@ -33,7 +33,7 @@ def decimals(text):
 
 def inventory_blocks(run):
     text = (run/'outputs/evidence_inventory.md').read_text(encoding='utf-8-sig')
-    return {m[1]: m[0] for m in re.finditer(r'^###\s+(EVID-\d+)\b.*?(?=^###\s+EVID-|\Z)', text, re.M|re.S)}
+    return {m[1]: m[0] for m in re.finditer(r'^#{2,3}\s+(EVID-\d+)\b.*?(?=^#{2,3}\s+EVID-|\Z)', text, re.M|re.S)}
 
 
 def target_text(run, target):
@@ -51,7 +51,7 @@ def numeric_status_target(quote):
     return bool(re.fullmatch(r'\s*[-*]?\s*(?:customer_value|buying_path|delivery_feasibility|provider_economics)\s*:\s*[*`]*(?:supported|unknown|conditional|contradicted)[*`]*\s*', quote))
 
 
-def validate_grounding(run, ledger, review):
+def validate_grounding(run, ledger, review, *, phase=None):
     run = Path(run).resolve()
     errors = []
     try:
@@ -128,6 +128,9 @@ def validate_grounding(run, ledger, review):
                 errors.append('INCOMPLETE_NUMERIC_CONTEXT:'+fid)
             if fact.get('question'):
                 questions[fact['question']].append(fid)
+    if phase == 'local_evidence':
+        errors.extend('UNREGISTERED_EVIDENCE:'+sid for sid in inv.keys()-sources.keys())
+        return sorted(set(errors))
     comparisons = review.get('comparisons', [])
     for question, refs in questions.items():
         if len(refs) < 2:
@@ -166,13 +169,15 @@ def validate_grounding(run, ledger, review):
     input_text = (run/'input/hypothesis.md').read_text(encoding='utf-8-sig')
     match = re.search(r'^##\s+(?:Формулировка|Formulation|Statement|Hypothesis Statement)\s*\n(.*?)(?=^##\s|\Z)',input_text,re.M|re.S|re.I)
     report = run/'outputs/human_report.html'
-    if not match or not report.exists() or plain(match[1]) not in plain(report.read_text(encoding='utf-8-sig')):
+    if phase in {None,'human_report'} and (not match or not report.exists() or plain(match[1]) not in plain(report.read_text(encoding='utf-8-sig'))):
         errors.append('ORIGINAL_HYPOTHESIS_NOT_PRESERVED')
     errors.extend(validate_research(run, review.get('research',{})))
     errors.extend(validate_context(review.get('context',{}), anchors))
     errors.extend(validate_entity_language(run, review.get('context',{}), anchors))
-    errors.extend(validate_decision(run, review.get('decision',{}), claims, anchors))
-    errors.extend(validate_experiments(review.get('experiments',[]), anchors, run))
+    if phase in {None,'decision_review','human_report'}:
+        errors.extend(validate_decision(run, review.get('decision',{}), claims, anchors))
+    if phase in {None,'customer_discovery_planning','decision_review','human_report'}:
+        errors.extend(validate_experiments(review.get('experiments',[]), anchors, run))
     procurement = review.get('procurement',{})
     if procurement.get('status') == 'not_applicable' and any('procurement' in s.get('scopes',[]) for s in sources.values()):
         errors.append('PROCUREMENT_REVIEW_CANNOT_BE_SKIPPED')
@@ -185,7 +190,7 @@ def validate_grounding(run, ledger, review):
     else:
         errors.extend(validate_procurement(procurement, anchors))
     checks = {x.get('id'):x for x in review.get('checks',[])}
-    for key in EXTRA_CHECKS:
+    for key in EXTRA_CHECKS if phase in {None,'decision_review','human_report'} else []:
         if key not in checks or checks[key].get('status') not in {'pass','not_applicable'} or not checks[key].get('reason'):
             errors.append('MISSING_GROUNDED_REVIEW:'+key)
     for name in ARTIFACTS:

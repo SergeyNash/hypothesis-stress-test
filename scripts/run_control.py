@@ -101,14 +101,27 @@ def prepare(run, mode, workspace=None):
         raise ValueError('Legacy run: use viewer/read-only validation; an explicit protocol upgrade is required.')
     if not config:
         config = {'protocol_version': 2, 'audit_version': 2, 'execution_mode': mode, 'language': 'ru',
-                  'heavy_analysis': 'ask', 'analysis_choices': []}
+                  'heavy_analysis': 'ask', 'analysis_choices': [], 'source_selection_version': 1, 'lifecycle_version': 1}
         save_config(run, config)
+        from audit_records import initialize
+        initialize(run)
     init(run)
+    from run_progress import events
+    prior=events(run/'outputs')
     for phase in ['intake', 'validation']:
-        record(run, phase=phase, state='completed', message='Входные данные проверены')
+        last=next((e for e in reversed(prior) if e['kind']=='phase' and e['phase']==phase),None)
+        if not last or last['state']!='completed':
+            record(run, phase=phase, state='completed', message='Входные данные проверены')
     from active_run import publish
     publish(run, workspace)  # Publish after valid bootstrap, before HTTP startup.
-    return viewer(run)
+    config=load_config(run);config['viewer']={'status':'starting'};save_config(run,config);init(run)
+    try:
+        url=viewer(run)
+        init(run)
+        return url
+    except Exception as exc:
+        config=load_config(run);config['viewer']={'status':'error','reason':str(exc)};save_config(run,config);init(run)
+        raise
 
 
 def analysis_choice(run, choice, files, purpose):
@@ -127,28 +140,76 @@ def require_deep(run, files):
         raise ValueError('Deep analysis requires the user choice for these files; offer quick/deep/skip.')
 
 
-def finish(run):
-    errors = check_run(run)
-    report = {'scope': 'run', 'target': str(run), 'status': 'FAIL' if errors else 'PASS',
-              'errors': errors, 'limitations': 'Contracts and declared audit consistency only; not source truth or market demand.'}
-    report['at'] = datetime.now(timezone.utc).isoformat()
-    report['audit_version'] = load_config(run).get('audit_version', 1)
-    report['checks'] = ('source-bound consistency and explicit review' if report['audit_version'] == 2 else 'declared consistency; source binding not checked')
-    with (run / 'outputs/validation_history.jsonl').open('a', encoding='utf-8') as history:
-        history.write(json.dumps(report, ensure_ascii=False) + '\n')
-    atomic(run / 'outputs/run_validation.json', json.dumps(report, ensure_ascii=False, indent=2))
-    if errors:
-        record(run, phase='human_report', state='error', message='Проверка текущего прогона: FAIL; см. run_validation.json')
-        return report
-    record(run, phase='human_report', state='completed', message='Проверен текущий RUN_DIR: PASS; решение принимает человек')
-    p = run / 'input/hypothesis.md'
-    text = p.read_text(encoding='utf-8-sig')
-    text = re.sub(r'(?im)^(\s*[-*]\s+(?:\*\*)?(?:Статус|Status):(?:\*\*)?\s*)(?:\*\*|`)?(?:running|draft|выполняется|в работе)(?:\*\*|`)?\s*$', r'\g<1>completed', text)
-    atomic(p, text)
+def write_validation(run, report):
+    from run_progress import output_dir
+    output=output_dir(run)
+    report=dict(report,at=datetime.now(timezone.utc).isoformat(),target=str(run))
+    # Persist the latest result even if history/journal recording later fails.
+    atomic(output/('run_validation.json' if report['scope']=='run' else 'phase_validation.json'),json.dumps(report,ensure_ascii=False,indent=2))
+    with (output/'validation_history.jsonl').open('a',encoding='utf-8') as history:
+        history.write(json.dumps(report,ensure_ascii=False)+'\n')
     return report
 
 
+def complete(run,phase,status='completed'):
+    if phase=='human_report':return finish(run)
+    from phase_checks import check,require_previous,spec_for,payload
+    from run_progress import events
+    errors=[]
+    try:
+        require_previous(run,phase)
+        errors=check(run,phase,marker=False,status=status)
+    except Exception as exc:
+        errors=['PHASE_CHECK_ERROR:'+type(exc).__name__+': '+str(exc)]
+    report={'scope':'phase','phase':phase,'status':'FAIL' if errors else 'PASS','errors':errors}
+    if errors:
+        write_validation(run,report)
+        record(run,phase=phase,state='error',message='Проверка этапа не пройдена; см. phase_validation.json')
+        return report
+    try:
+        name,_=spec_for(phase)
+        atomic(run/'outputs'/name,json.dumps(payload(phase,status),ensure_ascii=False,indent=2))
+        last=next((e for e in reversed(events(run/'outputs')) if e['kind']=='phase' and e['phase']==phase),None)
+        if not last or last['state']!='completed':
+            record(run,phase=phase,state='completed',message='Этап проверен и завершён: '+NAMES[phase],_transition=True)
+    except Exception as exc:
+        report.update(status='ERROR',errors=['PHASE_COMMIT_ERROR:'+type(exc).__name__+': '+str(exc)])
+    return write_validation(run,report)
+
+
+def finish(run):
+    from phase_checks import enabled,require_previous,payload,spec_for
+    run=Path(run).resolve()
+    report={'scope':'run','status':'running','errors':[],
+            'limitations':'Contracts and source-bound consistency; not source truth, demand or research completeness.'}
+    write_validation(run,report)
+    try:
+        config=load_config(run)
+        report['audit_version']=config.get('audit_version',1)
+        report['checks']='source-bound consistency and explicit review' if report['audit_version']==2 else 'declared consistency'
+        if enabled(run):require_previous(run,'human_report')
+        errors=check_run(run,pending_human_report=True) if enabled(run) else check_run(run)
+        report.update(status='FAIL' if errors else 'PASS',errors=errors)
+        if not errors:
+            if enabled(run):
+                name,_=spec_for('human_report')
+                atomic(run/'outputs'/name,json.dumps(payload('human_report'),ensure_ascii=False,indent=2))
+            record(run,phase='human_report',state='completed',message='Проверен текущий RUN_DIR: PASS; решение принимает человек',_transition=True)
+            p=run/'input/hypothesis.md'
+            text=p.read_text(encoding='utf-8-sig')
+            text=re.sub(r'(?im)^(\s*[-*]\s+(?:\*\*)?(?:Статус|Status):(?:\*\*)?\s*)(?:\*\*|`)?(?:running|draft|выполняется|в работе)(?:\*\*|`)?\s*$',r'\g<1>completed',text)
+            atomic(p,text)
+    except Exception as exc:
+        report.update(status='ERROR',errors=['COMPLETION_ERROR:'+type(exc).__name__+': '+str(exc)])
+    if report['status']!='PASS':
+        try:record(run,phase='human_report',state='error',message='Проверка текущего прогона: '+report['status']+'; см. run_validation.json')
+        except Exception as exc:report['errors'].append('JOURNAL_WRITE_ERROR:'+str(exc))
+    return write_validation(run,report)
+
+
 def start(run, phase):
+    from source_selection import require, COLLECTION_PHASES
+    if phase in COLLECTION_PHASES:require(run)
     config = load_config(run)
     if not config:
         url = prepare(run, 'full')
@@ -156,13 +217,15 @@ def start(run, phase):
         init(run)
         view = config.get('viewer', {})
         url = None if view.get('status') == 'unavailable' and view.get('notified') else viewer(run)
+    from phase_checks import require_previous
+    require_previous(run,phase)
     record(run, phase=phase, state='running', message='Начат этап: ' + NAMES[phase])
     return url
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start', 'activate'])
+    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start', 'activate', 'sources-options', 'sources-set', 'require-source', 'complete', 'check-phase'])
     p.add_argument('--run-dir', type=Path, required=True)
     p.add_argument('--workspace',type=Path,help='Workspace root for an active-run pointer in a custom run layout')
     p.add_argument('--mode', choices=['full', 'phase'], default='full')
@@ -170,12 +233,41 @@ def main():
     p.add_argument('--file', action='append', default=[])
     p.add_argument('--purpose', default='')
     p.add_argument('--reason', default='')
+    p.add_argument('--completion-status',choices=['completed','skipped_missing_context'],default='completed')
+    for channel in ['local', 'confluence', 'internet']:
+        p.add_argument('--'+channel, choices=['yes', 'no'])
+    p.add_argument('--local-path', action='append', default=[], help='Allowed local folder relative to workspace; repeatable')
+    p.add_argument('--remember', action='store_true', help='Save a proposal for future runs; confirmation still required')
+    p.add_argument('--channel', choices=['local', 'confluence', 'internet'])
+    p.add_argument('--path', type=Path, help='Local path to check before access')
     from run_progress import PHASES
     p.add_argument('--phase', choices=PHASES)
     a = p.parse_args()
     run = a.run_dir.resolve()
     try:
-        if a.action == 'prepare':
+        if a.action in {'complete','check-phase'}:
+            if not a.phase or a.phase in {'intake','validation'}:p.error('Select an output phase with --phase')
+            if a.action=='complete':result=complete(run,a.phase,a.completion_status)
+            else:
+                from phase_checks import check
+                try:errors=check(run,a.phase,marker=False,status=a.completion_status)
+                except Exception as exc:errors=['PHASE_CHECK_ERROR:'+type(exc).__name__+': '+str(exc)]
+                result=write_validation(run,{'scope':'phase','phase':a.phase,'status':'FAIL' if errors else 'PASS','errors':errors})
+            print(json.dumps(result,ensure_ascii=False,indent=2))
+            return 0 if result['status']=='PASS' else 1
+        elif a.action == 'sources-options':
+            from source_selection import options
+            print(json.dumps(options(run,a.workspace),ensure_ascii=False,indent=2))
+        elif a.action == 'sources-set':
+            from source_selection import select, CHANNELS
+            if any(getattr(a,k) is None for k in CHANNELS):p.error('sources-set requires --local, --confluence and --internet yes/no')
+            print(json.dumps(select(run,{k:getattr(a,k)=='yes' for k in CHANNELS},a.local_path,a.workspace,a.remember,a.reason),ensure_ascii=False,indent=2))
+        elif a.action == 'require-source':
+            from source_selection import require
+            if not a.channel:p.error('require-source requires --channel')
+            require(run,a.channel,a.path)
+            print('Source enabled: '+a.channel)
+        elif a.action == 'prepare':
             print(prepare(run, a.mode, a.workspace))
         elif a.action == 'activate':
             from active_run import publish

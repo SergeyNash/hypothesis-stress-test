@@ -260,7 +260,39 @@ class GroundedAudit(unittest.TestCase):
         self.ledger['sources'][0]['facts'][0]['value']=12;self.save()
         self.assertEqual('PASS',run_control.finish(self.run)['status'])
         history=[json.loads(x)['status'] for x in (self.run/'outputs/validation_history.jsonl').read_text().splitlines()]
-        self.assertEqual(['FAIL','PASS'],history)
+        self.assertEqual(['running','FAIL','running','PASS'],history)
+
+    def test_full_lifecycle_with_real_viewer_and_grounded_synthetic_artifacts(self):
+        import subprocess
+        from urllib.request import urlopen
+        from phase_checks import INPUTS
+        self.config['lifecycle_version']=1  # Explicit opt-in for this synthetic integration fixture.
+        self.write('run_config.json',self.config)
+        from grounded_audit import inventory_blocks
+        registered={s['id'] for s in self.ledger['sources']}
+        self.ledger['sources'].extend({'id':sid,'kind':'simulation','role':'simulation','independence_group':'demo','scopes':['simulation']} for sid in inventory_blocks(self.run) if sid not in registered)
+        self.save()
+        with (self.run/'outputs/evidence_inventory.md').open('a') as f:
+            f.write('\n## Retrieval Review\n- status: waived\n- reason: Synthetic integration fixture, no live research.\n')
+        for marker in (self.run/'outputs').glob('*.marker'):marker.unlink()
+        children=[];real_popen=subprocess.Popen
+        def launch(*args,**kwargs):
+            child=real_popen(*args,**kwargs);children.append(child);return child
+        with patch.object(run_control.subprocess,'Popen',side_effect=launch):
+            try:
+                url=run_control.prepare(self.run,'full',workspace=self.root)
+                with urlopen(url) as response:self.assertEqual(200,response.status)
+                for phase in INPUTS:
+                    run_control.start(self.run,phase)
+                    result=run_control.complete(self.run,phase)
+                    self.assertEqual('PASS',result['status'],(phase,result))
+                with urlopen(url.replace('progress.html','progress.json')) as response:
+                    live=json.load(response)
+                self.assertEqual((10,10),(live['completed'],live['total']))
+                self.assertEqual([],live['warnings'])
+                self.assertEqual([],validate_runs.check_run(self.run))
+            finally:
+                for child in children:child.terminate();child.wait(timeout=5)
 
 
 if __name__=='__main__':unittest.main()

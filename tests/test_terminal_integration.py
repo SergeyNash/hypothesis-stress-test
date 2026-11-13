@@ -148,6 +148,64 @@ class TerminalIntegration(unittest.TestCase):
 
 @unittest.skipUnless(importlib.util.find_spec('rich') and importlib.util.find_spec('click'),'optional terminal dependencies missing')
 class TerminalRendering(unittest.TestCase):
+    def test_source_links_target_channel_history_and_stages_follow_pipeline_order(self):
+        import io
+        from rich.console import Console
+        from terminal_progress import event_state,render
+        state=event_state([])
+        state['html_url']='http://127.0.0.1:61049/outputs/progress.html'
+        console=Console(width=120,file=io.StringIO(),record=True)
+        content=render(state,width=120,height=44)
+        segments=list(console.render(content))
+        links={s.style.link for s in segments if s.style and s.style.link}
+        self.assertTrue(all(state['html_url']+'#source-'+key in links for key in ['local','confluence','internet']))
+        console.print(content)
+        output=console.export_text()
+        self.assertIn('01  Подготовка гипотезы',output)
+        self.assertIn('10  Итоговый отчёт',output)
+        self.assertIn('Этапы · по порядку',output)
+
+    def test_full_width_journal_wraps_message_and_fits_window(self):
+        import io
+        from rich.console import Console
+        from terminal_progress import event_state,render
+        message='Разобраны документы по гипотезе; '+('подробности анализа ' * 7)+'КОНЕЦ СООБЩЕНИЯ'
+        event={'id':1,'kind':'phase','phase':'business_context','state':'running','at':'2026-11-12T10:00:00Z','message':message}
+        state=event_state([event])
+        state['updated_at']=None
+        console=Console(width=110,file=io.StringIO(),record=True)
+        console.print(render(state,width=110,height=38))
+        output=console.export_text()
+        journal=output.split('Журнал · новые сверху',1)[1]
+        self.assertIn('КОНЕЦ СООБЩЕНИЯ',journal)
+        self.assertIn('Этапы · по порядку',journal)
+        self.assertLessEqual(len(output.splitlines()),38)
+
+    def test_html_address_uses_only_current_run_published_loopback_port(self):
+        from terminal_progress import html_address
+        with tempfile.TemporaryDirectory() as tmp:
+            run=Path(tmp);(run/'outputs').mkdir()
+            state=run/'outputs/.viewer-state.json'
+            self.assertIsNone(html_address(run))
+            for value in ['https://example.com/','http://127.0.0.1:0/','http://127.0.0.1:65536/','http://127.0.0.1:80/\x1b[31m',None]:
+                state.write_text(json.dumps({'viewer_url':value}))
+                self.assertIsNone(html_address(run))
+            state.write_text('{')
+            self.assertIsNone(html_address(run))
+            state.write_text(json.dumps({'viewer_url':'http://127.0.0.1:61049/'}))
+            self.assertEqual('http://127.0.0.1:61049/outputs/progress.html',html_address(run))
+
+    def test_link_and_poll_time_visible_in_full_and_compact_layout(self):
+        from rich.console import Console
+        from terminal_progress import event_state,render
+        state=dict(event_state([]),html_url='http://127.0.0.1:61049/outputs/progress.html',checked_at='2026-11-12T10:00:00Z')
+        for height in [18,38]:
+            console=Console(width=110,record=True)
+            console.print(render(state,width=110,height=height))
+            output=console.export_text()
+            self.assertIn(state['html_url'],output)
+            self.assertIn('13:00:00 МСК',output)
+
     def test_empty_workspace_and_small_terminal(self):
         from click.testing import CliRunner
         import terminal_progress as ui
@@ -201,6 +259,10 @@ class TerminalLiveProcess(unittest.TestCase):
                     init(run);record(run,phase='local_evidence',state='waiting_user',message='Выберите глубину анализа '+serial)
                     publish(run)
                     wait_for(name);wait_for('Выберите глубину анализа '+serial)
+                    # URL publication/port changes must appear without a new progress event.
+                    port='61049' if serial=='001' else '61050'
+                    (run/'outputs/.viewer-state.json').write_text(json.dumps({'viewer_url':'http://127.0.0.1:'+port+'/'}))
+                    wait_for('http://127.0.0.1:'+port+'/outputs/progress.html')
                 child.send_signal(signal.SIGINT);child.wait(timeout=5)
                 while select.select([master],[],[],.1)[0]:
                     try:output+=os.read(master,65536)

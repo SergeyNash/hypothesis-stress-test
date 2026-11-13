@@ -10,6 +10,8 @@ import json
 import os
 from pathlib import Path
 import sys
+import time
+import uuid
 from urllib.parse import unquote, urlsplit
 
 from validate_runs import MARKER_REGISTRY, validate_input, validate_marker, check_run
@@ -45,7 +47,13 @@ def output_dir(run):
 @contextmanager
 def lock(output):
     path = output / '.progress.lock'
-    fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+    for attempt in range(41):
+        try:
+            fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+            break
+        except FileExistsError:
+            if attempt == 40:raise ValueError('Progress journal is locked; check for another writer or interrupted process: '+str(path))
+            time.sleep(.05)
     try:
         os.close(fd)
         yield
@@ -59,6 +67,8 @@ def events(output):
 
 
 def snapshot(run, rows):
+    from source_selection import config
+    from phase_checks import diagnose
     states = {p: {'state': 'pending', 'message': ''} for p in PHASES}
     for row in rows:
         if row['kind'] == 'phase':
@@ -66,22 +76,41 @@ def snapshot(run, rows):
     return {'schema_version': 1, 'run': Path(run).name, 'updated_at': rows[-1]['at'] if rows else None,
             'phases': [dict(id=p, name=NAMES[p], **states[p]) for p in PHASES],
             'events': rows, 'completed': sum(s['state'] == 'completed' for s in states.values()),
-            'total': len(states)}
+            'total': len(states), 'source_selection': config(run).get('source_selection'),
+            'source_selection_required': config(run).get('source_selection_version') == 1,
+            'viewer': config(run).get('viewer',{}), 'warnings': diagnose(run,rows)}
 
 
 def atomic(path, content):
-    tmp = path.with_name(path.name + '.tmp')
+    tmp = path.with_name('.'+path.name+'.'+uuid.uuid4().hex+'.tmp')
     fd = os.open(tmp, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
     try:
         with os.fdopen(fd, 'w', encoding='utf-8') as f:
             f.write(content)
-        os.replace(tmp, path)
+        for attempt in range(21):
+            try:
+                os.replace(tmp, path)
+                break
+            except PermissionError:
+                if attempt == 20:raise
+                time.sleep(.05)
     finally:
         if tmp.exists():
             tmp.unlink()
 
 
-def record(run, *, phase, state, message, channel=None, query='', urls=None):
+def record(run, *, phase, state, message, channel=None, query='', urls=None, _transition=False):
+    from source_selection import require, COLLECTION_PHASES, OPERATIONS
+    if channel and state in OPERATIONS:require(run,channel)
+    if not channel and phase in COLLECTION_PHASES and state == 'running':require(run)
+    from phase_checks import enabled, require_previous, check
+    if not channel and enabled(run):
+        if state=='completed' and phase not in {'intake','validation'} and not _transition:
+            raise ValueError('Use run_control.py complete/finish to verify and persist phase completion')
+        if state in {'running','completed'} and phase not in {'intake','validation'}:require_previous(run,phase)
+        if state == 'completed' and phase not in {'intake','validation'}:
+            errors=check(run,phase)
+            if errors:raise ValueError('Phase verification failed: '+', '.join(errors))
     if phase not in PHASES or state not in (CHANNEL_STATES if channel else STATES):
         raise ValueError('invalid phase/state')
     if channel not in {None, 'local', 'confluence', 'internet'}:
@@ -160,6 +189,20 @@ class Viewer(SimpleHTTPRequestHandler):
             return None
         path = Path(self.translate_path(self.path)).resolve()
         root = Path(self.directory).resolve()
+        if request == '/outputs/progress.json':
+            import io
+            try:
+                journal=root/'outputs/pipeline_events.jsonl'
+                if not journal.resolve().is_relative_to(root) or journal.is_symlink():
+                    raise ValueError('Journal outside run')
+                content=json.dumps(snapshot(root,events(root/'outputs')),ensure_ascii=False).encode('utf-8')
+            except (OSError,ValueError,KeyError,TypeError):
+                self.send_error(503,'Progress journal temporarily unreadable');return None
+            self.send_response(200)
+            self.send_header('Content-Type','application/json; charset=utf-8')
+            self.send_header('Content-Length',str(len(content)))
+            self.end_headers()
+            return io.BytesIO(content)
         # Only serve explicit run files, never directory listings or outside symlinks.
         if not path.is_relative_to(root) or not path.is_file():
             self.send_error(404)

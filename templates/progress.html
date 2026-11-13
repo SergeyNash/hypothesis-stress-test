@@ -28,6 +28,7 @@ section{margin-top:28px}a{color:#89d7ff}details{border-top:1px solid #304750;pad
  <small>HYPOTHESIS STRESS TEST</small>
  <div class="top"><h1>Ход проверки</h1><span id="run"></span></div>
  <p id="connection">Подключаюсь к журналу…</p><p id="updated" class="muted"></p>
+ <p id="warnings" style="color:#ffba73;white-space:pre-line"></p>
  <progress id="bar" max="10" value="0"></progress><p id="count"></p>
 </header>
 <div class="grid">
@@ -61,6 +62,7 @@ function phaseOrder(phases,events){
  }).map(x=>x.row);
 }
 function render(data){
+ $('warnings').textContent=(data.warnings||[]).join('\n');
  $('run').textContent=data.run;$('bar').max=data.total;$('bar').value=data.completed;
  $('count').textContent=`Завершено ${data.completed} из ${data.total} этапов`;
  $('updated').textContent='Последнее событие: '+time(data.updated_at);
@@ -71,8 +73,10 @@ function render(data){
  const all=data.events.filter(e=>e.kind==='source');
  const open=new Set([...$('sources').querySelectorAll('details[open]')].map(d=>d.dataset.channel));
  $('sources').replaceChildren(...Object.entries(channels).map(([key,title])=>{
-  const rows=recent(all.filter(e=>e.channel===key)),d=el('details');d.dataset.channel=key;d.open=open.has(key);
-  d.append(el('summary',title+' · '+(rows.length?labels[rows[0].state]||rows[0].state:'Обращений не зафиксировано')));
+  const rows=recent(all.filter(e=>e.channel===key)),d=el('details');d.dataset.channel=key;d.id='source-'+key;d.open=open.has(key)||location.hash==='#source-'+key;
+  const selection=data.source_selection,enabled=selection?.channels?.[key];
+  const status=enabled===false?'Отключён пользователем':data.source_selection_required&&!selection?.confirmed?'Ожидает выбора':rows.length&&!(enabled&&rows[0].state==='declined')?(labels[rows[0].state]||rows[0].state):enabled?'Ожидает проверки':'Обращений не зафиксировано';
+  d.append(el('summary',title+' · '+status));
   for(const e of rows){const n=el('div','','source-event');n.append(el('small',time(e.at)),el('p',(labels[e.state]||e.state)+': '+e.message));
    if(e.query)n.append(el('p','Запрос: '+e.query));for(const u of e.urls||[])n.append(link(u,u),el('br'));d.append(n)}return d;
  }));
@@ -85,6 +89,7 @@ function render(data){
   n.append(stamp,text);return n;
  }));
 }
+window.addEventListener('hashchange',()=>{const target=document.getElementById(location.hash.slice(1));if(target?.tagName==='DETAILS'){target.open=true;target.scrollIntoView({block:'nearest'})}});
 const artifacts=[['discovery_preview.md','Обзор источников'],['evidence_inventory.md','Собранные данные'],['external_research.md','Внешнее исследование'],['human_report.html','Итоговый отчёт']];
 async function tick(){try{if(location.protocol==='file:')throw Error('Откройте адрес http://127.0.0.1, который выдал run_progress.py serve. Чтение file:// не поддерживает живое обновление.');const r=await fetch('progress.json',{cache:'no-store'});if(!r.ok)throw Error('Журнал недоступен');const d=await r.json();render(d);const age=d.updated_at?(Date.now()-new Date(d.updated_at))/1000:0;$('connection').textContent=age>180?'Новых событий более 3 минут. Проверьте Cline: работа могла продолжаться, ожидать ответа или прерваться.':'Связь с журналом есть · обновление каждые 2 секунды';const links=await Promise.all(artifacts.map(async([p,t])=>{try{const r=await fetch(p,{method:'HEAD',cache:'no-store'});return r.ok?link(p,t):null}catch{return null}}));$('artifacts').replaceChildren(...links.filter(Boolean));}catch(e){$('connection').textContent=e.message+' Последние показанные данные могут быть устаревшими.'}finally{setTimeout(tick,2000)}}tick();
 </script>
