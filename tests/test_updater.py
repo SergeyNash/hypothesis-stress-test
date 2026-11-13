@@ -91,12 +91,16 @@ class Updater(unittest.TestCase):
     def test_installation_adds_stable_updater_and_keeps_other_tasks(self):
         with tempfile.TemporaryDirectory() as tmp:
             workspace=Path(tmp)
-            install(workspace,ROOT,terminal=True)
+            framework=workspace/'framework';(framework/'scripts').mkdir(parents=True)
+            (framework/'.cline').mkdir();(framework/'.clinerules').mkdir()
+            for name in ['extract_evidence.py','terminal_progress.py','update_workspace.py']:
+                shutil.copyfile(ROOT/'scripts'/name,framework/'scripts'/name)
+            install(workspace,framework,terminal=True)
             self.assertEqual((ROOT/'scripts/update_workspace.py').read_bytes(),(workspace/'.hst/update.py').read_bytes())
 
     def test_unpack_replace_and_real_setup_subprocess(self):
         self.archive({'VERSION':'new',
-            'scripts/setup_workspace.py':(ROOT/'scripts/setup_workspace.py').read_text(),
+            'scripts/setup_workspace.py':(ROOT/'scripts/setup_workspace.py').read_text(encoding='utf-8'),
             'scripts/extract_evidence.py':'extract',
             '.clinerules/framework.md':'new framework rule',
             '.cline/skills/test/SKILL.md':'new test skill'})
