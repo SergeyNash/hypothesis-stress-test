@@ -1,8 +1,12 @@
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.5.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.6.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
+
+## Version every update
+
+Every change package / PR, including documentation, fixes, skills, tests, CI and prototypes, must increment the current target branch MINOR by one and keep PATCH at zero. Update VERSION, the README version, this rule's version and a dated CHANGELOG release entry together. Further commits within the same unmerged PR share that version. If another PR lands first, refresh the base and increment from its version before merging. Do not leave merged changes under Unreleased. See CHANGELOG.md for the project version policy. A MAJOR change requires a separate user decision.
 
 ## Core principle
 
