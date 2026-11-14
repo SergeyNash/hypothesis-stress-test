@@ -9,6 +9,10 @@ Resolve the application profile from input Metadata (new intake: propose and con
 
 End-to-end and resumable hypothesis stress test for a single `RUN_DIR`.
 
+## TUI-managed execution
+
+Read run_config.json for `tui_request_id`. If present, first follow `.clinerules/55-tui-control.md`: acknowledge the immutable launch request, preserve applied source settings and route HST input/analysis/retrieval questions through the request/question protocol. Do not duplicate them in chat. TUI submission authorizes this new run; unspecified service fields remain gaps and material semantic questions still require the user's actual response. Cline tool permissions remain native.
+
 ## Full-run authorization and quality
 
 Follow `.clinerules/40-run-quality.md` and `implementations/run-quality.md`. An authorized full run continues through Human Report without asking approval after each ordinary layer. Preserve the explicit inventory and heavy-analysis choices. Use `run_control.py prepare` after bootstrap/validation and `finish` after report export. Read-only check: `validate_runs.py --run-dir <RUN_DIR> --json`; repository `--examples` never validates a user run.
@@ -16,6 +20,10 @@ Follow `.clinerules/40-run-quality.md` and `implementations/run-quality.md`. An 
 ## Progress initialization
 
 Resolve framework resources from their actual directory, including nested ZIP names. Follow `.clinerules/30-run-observability.md`: initialize journal/view, start the loopback viewer in a background terminal if supported, and show its actual URL. Record each phase start/wait/error/completion and actual source operations. Preserve history on resume; never backfill fictional source calls.
+
+## Fresh bootstrap shortcut
+
+For a freshly bootstrapped run with no phase markers or layer outputs, do not read every downstream layer skill or reconstruct a resume history that does not exist. Keep validation and the canonical preflight checks; absence of markers identifies the first phase. Load each phase's detailed instructions only after its preparation/start is recorded. Never use this shortcut to bypass validation or existing-output overwrite checks. Activate an explicitly resumed RUN_DIR before lengthy preflight so the terminal reflects the selected run; record the current validation/preflight action without marking it completed.
 
 ## Preflight and resume plan
 

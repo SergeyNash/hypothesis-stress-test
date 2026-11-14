@@ -95,6 +95,8 @@ def viewer(run):
 def prepare(run, mode, workspace=None):
     errors = validate_input(run, check_folder_id=True)
     if errors:
+        if (run / 'outputs/startup_events.jsonl').is_file():
+            record(run, phase='validation', state='error', message='Ошибка входных данных: ' + ', '.join(errors)[:3000])
         raise ValueError(', '.join(errors))
     config = load_config(run)
     if not config and any((run / 'outputs').glob('*.marker')):
@@ -202,6 +204,7 @@ def auto_enter(run):
     """Full-run handoff includes phase preparation, before the model writes outputs."""
     from run_progress import PHASES,events
     config=load_config(run)
+    if config.get('tui_request_pending'):return
     if config.get('phase_handoff_version')!=1 or config.get('execution_mode')!='full':return
     if not config.get('source_selection',{}).get('confirmed'):return
     rows=events(run/'outputs')

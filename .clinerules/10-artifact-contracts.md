@@ -29,6 +29,9 @@ RUN_DIR/
     run_validation.json        # actual current-run validation result
     external_research.md       # public evidence brief, search log and source ledger
     pipeline_events.jsonl      # append-only actual execution events
+    tui_launch.json            # TUI-managed only: immutable submitted configuration
+    tui_control.json           # TUI-managed only: executor/question acknowledgement
+    tui_events.jsonl           # TUI-managed only: actual launch/answer history
     progress.json              # derived current-state snapshot
     progress.html              # live viewer via local loopback HTTP
     ready_for_synthesis.marker
@@ -384,12 +387,14 @@ When the user **does** specify `RUN_DIR: runs/HYP-...` — continue that existin
 
 When creating a new run via `/run-hypothesis-conversational.md` (no `RUN_DIR:` in message):
 
-**Two-step confirm:**
+Workspace runtime exception: before bootstrap, `startup_progress.py` may write `.hst/startup.json` and `.hst/startups/<session_id>.jsonl` containing only actual preparation status. These are not evidence or run completion claims. After confirmed bootstrap, attach copies the original early events into `outputs/startup_events.jsonl` and starts validation visibility without declaring validation passed.
+
+**Confirmation of card and folder:**
 
 1. User confirms hypothesis draft card
 2. Agent proposes next free `HYP-YYYY-MM-DD-NNN`, lists existing runs for today, user confirms `RUN_DIR`
 
-**Only after step 2** — create directory and write `input/hypothesis.md`.
+For complete ready input, show the card and proposed free folder together and accept one clear approval for both. Do not require a special confirmation phrase or repeat an already-given authorization. With missing/dirty input keep meaningful clarification. **Only after both decisions are approved** — create directory and write `input/hypothesis.md`.
 
 **New run isolation:**
 
@@ -443,3 +448,8 @@ New runs have root `run_config.json` (`protocol_version: 2`, `execution_mode: fu
 ## Source-bound audit version 2
 
 New run_config.json adds audit_version: 2. Supporting outputs add source_snapshot.json (script-captured, source hashes/anchors/fragments/pages) and validation_history.jsonl (append-only validation attempts). claim_ledger/quality_review follow implementations/run-quality.md and templates. Completion checks original fragments and declared relationships; missing originals/review mappings fail explicitly. Historical audit_version 1 remains labelled declared consistency. Marker JSON bodies are unchanged.
+
+
+## TUI-managed request records
+
+For runs with run_config.tui_request_id, outputs/tui_launch.json preserves the exact submitted request bytes and their SHA-256 binding; tui_control.json stores the current actual executor/question state; tui_events.jsonl preserves transitions. Workspace delivery state lives in .hst/requests/<request_id> and is not evidence. Final validation uses run-local records so an exported archive remains independently checkable: request IDs/hashes and initial channels must match, Cline must have acknowledged the request and no question may remain pending/unconsumed. These records supplement the normal quality/source gates and do not prove truth or market demand. The bridge must never manufacture an executor acknowledgement.

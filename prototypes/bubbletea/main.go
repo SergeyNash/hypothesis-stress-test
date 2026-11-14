@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"os"
@@ -13,8 +14,11 @@ import (
 	tea "charm.land/bubbletea/v2"
 )
 
+var version = "development"
+
 type tickMsg time.Time
 type loadedMsg struct {
+	startup    string
 	generation int
 	runs       []run
 	data       snapshot
@@ -22,6 +26,12 @@ type loadedMsg struct {
 }
 type openedMsg struct{ err error }
 type model struct {
+	form       *newForm
+	control    launchStatus
+	submitting bool
+	answer     string
+
+	startup       string
 	demo          bool
 	workspace     string
 	runs          []run
@@ -52,14 +62,18 @@ func (m model) load() tea.Cmd {
 			id = runs[0].ID
 		}
 		data, err := readSnapshot(root, id)
-		return loadedMsg{generation: generation, runs: runs, data: data, err: err}
+		startup, startupErr := readStartup(root)
+		if err == nil {
+			err = startupErr
+		}
+		return loadedMsg{generation: generation, runs: runs, data: data, err: err, startup: startup}
 	}
 }
 func (m model) Init() tea.Cmd {
 	if m.demo {
 		return tick()
 	}
-	return tea.Batch(tick(), m.load())
+	return tea.Batch(tick(), m.load(), m.restoreControl())
 }
 func (m *model) choose(i int) {
 	if len(m.runs) == 0 {
@@ -81,6 +95,30 @@ func (m *model) choose(i int) {
 }
 func (m model) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := message.(type) {
+	case controlMsg:
+		m.submitting = false
+		if msg.err != nil {
+			m.notice = safe(msg.err.Error())
+			return m, nil
+		}
+		oldRun := m.control.Run
+		m.control = msg.value
+		m.notice = ""
+		if m.control.ID != "" {
+			m.form = nil
+		}
+		if m.control.Run != "" && m.control.Run != oldRun {
+			m.data = snapshot{Run: filepath.Base(m.control.Run)}
+			m.page = 2
+			m.generation++
+			return m, m.load()
+		}
+	case tea.PasteMsg:
+		if m.form != nil && !m.form.review && m.form.cursor < 8 && m.form.cursor != 1 && m.form.cursor != 6 {
+			m.form.values[m.form.cursor] += msg.Content
+		} else if m.control.Question != nil && m.control.Question.State == "pending" && len(m.control.Question.Options) == 0 {
+			m.answer += msg.Content
+		}
 	case tea.WindowSizeMsg:
 		m.width, m.height = msg.Width, msg.Height
 	case loadedMsg:
@@ -91,6 +129,7 @@ func (m model) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 			m.notice = "Не удалось прочитать: " + safe(msg.err.Error())
 			return m, nil
 		}
+		m.startup = msg.startup
 		m.runs = msg.runs
 		m.data = msg.data
 		for i, r := range m.runs {
@@ -117,10 +156,48 @@ func (m model) Update(message tea.Msg) (tea.Model, tea.Cmd) {
 			}
 			return m, tick()
 		}
+		if m.control.ID != "" {
+			return m, tea.Batch(tick(), m.load(), m.pollControl())
+		}
 		return m, tea.Batch(tick(), m.load())
 	case tea.KeyPressMsg:
 		key := msg.String()
+		if key == "ctrl+c" {
+			return m, tea.Quit
+		}
+		if m.form != nil {
+			return m.updateForm(key)
+		}
+		if !m.demo && m.control.Question != nil && m.control.Question.State == "pending" {
+			q := m.control.Question
+			if len(q.Options) > 0 && len(key) == 1 && key[0] >= '1' && int(key[0]-'1') < len(q.Options) {
+				return m, m.answerQuestion(q.Options[int(key[0]-'1')])
+			}
+			if len(q.Options) == 0 {
+				if key == "enter" && strings.TrimSpace(m.answer) != "" {
+					answer := m.answer
+					m.answer = ""
+					return m, m.answerQuestion(answer)
+				}
+				if key == "backspace" {
+					r := []rune(m.answer)
+					if len(r) > 0 {
+						m.answer = string(r[:len(r)-1])
+					}
+				} else if key == "space" {
+					m.answer += " "
+				} else if len([]rune(key)) == 1 {
+					m.answer += key
+				}
+			}
+			return m, nil
+		}
 		switch key {
+		case "n":
+			if !m.demo {
+				m.form = freshForm()
+				m.notice = ""
+			}
 		case "ctrl+c", "q":
 			return m, tea.Quit
 		case "tab":
@@ -239,11 +316,42 @@ func (m model) openReport() tea.Cmd {
 func (m model) View() tea.View {
 	width := max(36, m.width-4)
 	bodyHeight := max(5, m.height-11)
-	mode := "ПРОСМОТР ФАЙЛОВ · без управления Cline"
+	if m.form != nil {
+		view := tea.NewView(m.formView(width))
+		view.AltScreen = true
+		return view
+	}
+	mode := "HST · настройка и запуск через Cline · N — новый прогон"
 	if m.demo {
 		mode = "ДЕМО · синтетические события"
 	}
-	title := paint("1;34", "HST / ТЕРМИНАЛЬНЫЙ ПРОТОТИП")
+	title := paint("1;34", "HST / УПРАВЛЕНИЕ ПРОГОНОМ · "+version+"")
+	if m.control.ID != "" {
+		controlLines := wrap(controlLabel(m.control.State)+": "+safe(m.control.Message), width)
+		if m.control.Connection != "" {
+			controlLines = append(controlLines, wrap(safe(m.control.Connection), width)...)
+		}
+		if q := m.control.Question; q != nil && q.State != "consumed" {
+			controlLines = append(controlLines, wrap("ВОПРОС: "+safe(q.Text), width)...)
+			if q.State == "pending" {
+				for i, option := range q.Options {
+					controlLines = append(controlLines, fmt.Sprintf("%d — %s", i+1, safe(option)))
+				}
+				if len(q.Options) == 0 {
+					controlLines = append(controlLines, "Ответ: "+safe(m.answer)+" ▌ · Enter — отправить")
+				}
+			} else {
+				controlLines = append(controlLines, "Ответ сохранён · ожидаю приёма исполнителем")
+			}
+		}
+		title += "\n" + strings.Join(controlLines, "\n")
+		bodyHeight = max(3, bodyHeight-len(controlLines))
+	}
+	if m.startup != "" {
+		lines := wrap(m.startup, width)
+		title += "\n" + paint("1;33", strings.Join(lines, "\n"))
+		bodyHeight = max(3, bodyHeight-len(lines))
+	}
 	completed := 0
 	for _, p := range m.data.Phases {
 		if p.State == "completed" {
@@ -265,7 +373,7 @@ func (m model) View() tea.View {
 	var body []string
 	switch m.page {
 	case 0:
-		body = append(body, "Выбери прогон стрелками. Enter — показать источники.", "")
+		body = append(body, "N — настроить новый прогон. Стрелки — прошлые, Enter — источники.", "")
 		if len(m.runs) == 0 {
 			body = append(body, "Прогонов пока нет. Начни новый прогон в Cline.")
 		}
@@ -371,9 +479,12 @@ func (m model) View() tea.View {
 	for len(body) < bodyHeight {
 		body = append(body, "")
 	}
-	help := "Tab экран · O отчёт · R обновить · Q выход"
+	help := "N новый прогон · Tab экран · O отчёт · R обновить · Q выход (Cline продолжает)"
 	if m.demo {
 		help += " · P пауза демо"
+	}
+	if m.control.Question != nil && m.control.Question.State == "pending" {
+		help = "Ответ — в поле вопроса · Enter отправить текст / цифра выбрать вариант · Ctrl+C выход"
 	}
 	notice := safe(m.notice)
 	content := title + "\n" + mode + "\n" + status + "\n\n" + strings.Join(tabs, "   ") + "\n" + strings.Repeat("─", width) + "\n" + strings.Join(body, "\n") + "\n" + notice + "\n" + help
@@ -384,9 +495,16 @@ func (m model) View() tea.View {
 }
 
 func main() {
-	workspace := flag.String("workspace", "", "Корень DataB: только чтение реальных прогонов")
+	workspace := flag.String("workspace", "", "Корень DataB: настройка, запуск и просмотр")
+	newRun := flag.Bool("new", false, "Сразу открыть настройку нового прогона")
+	install := flag.Bool("install", false, "Установить текущий EXE и модуль связи VS Code")
 	demo := flag.Bool("demo", false, "Демонстрация без записи файлов")
+	showVersion := flag.Bool("version", false, "Версия сборки")
 	flag.Parse()
+	if *showVersion {
+		fmt.Println(version)
+		return
+	}
 	if *workspace != "" && *demo {
 		fmt.Fprintln(os.Stderr, "Выбери --demo или --workspace")
 		os.Exit(2)
@@ -406,6 +524,41 @@ func main() {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(2)
 		}
+	}
+	if *install {
+		if m.demo {
+			fmt.Fprintln(os.Stderr, "Нужен --workspace")
+			os.Exit(2)
+		}
+		data, err := readFile(m.workspace, filepath.Join(".hst", "workspace.json"))
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(2)
+		}
+		var setup struct {
+			Framework string `json:"framework_dir"`
+		}
+		json.Unmarshal(data, &setup)
+		script, err := within(m.workspace, filepath.Join(setup.Framework, "scripts", "install_tui.py"))
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(2)
+		}
+		executable, _ := os.Executable()
+		python := "python"
+		if runtime.GOOS != "windows" {
+			python = "python3"
+		}
+		command := exec.Command(python, script, "--workspace", m.workspace, "--binary", executable)
+		command.Stdout = os.Stdout
+		command.Stderr = os.Stderr
+		if err = command.Run(); err != nil {
+			os.Exit(1)
+		}
+		return
+	}
+	if *newRun && !m.demo {
+		m.form = freshForm()
 	}
 	if _, err := tea.NewProgram(m).Run(); err != nil {
 		fmt.Fprintln(os.Stderr, err)

@@ -115,3 +115,8 @@ New runs use `phase_handoff_version: 1`: in full mode, the first source selectio
 `audit_scope.py` defines artifact ownership. Incremental claim, source and language checks use only current/prior artifacts and their bound claims; a future map cannot invalidate an earlier business-context gate. The final audit remains global. The affiliation lint is intentionally bounded to explicit provider identity fields with company-like names; roles, contour tokens and common technology stacks with slashes are excluded. It remains a heuristic, not a general semantic proof of corporate relationships.
 
 A finished terminal reads the current run's persisted validation status and shows the human-report link. It does not say it is waiting for data or that the completed pipeline will continue. Reports that exist before final PASS are labelled unverified. This does not diagnose model reasoning before RUN_DIR/prepare; that interval still needs the Cline conversation/tool history.
+
+
+## TUI-managed launches
+
+A run with tui_request_id must retain outputs/tui_launch.json, tui_control.json and tui_events.jsonl. The request hash binds its original configuration; initial source history must match the submitted three booleans. Until an actual Cline acknowledge clears tui_request_pending, source access and automatic phase preparation remain blocked. Pending/unconsumed questions prevent final PASS. Run-local records permit archived validation without requiring the original workspace .hst directory. They record protocol consistency, not proof that a model understood or correctly implemented the instructions. See .clinerules/55-tui-control.md for the executor procedure and prototypes/bubbletea/README.md for installation/limitations.

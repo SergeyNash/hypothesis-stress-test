@@ -1,0 +1,13 @@
+{
+  "name": "hst-pipeline-bridge",
+  "displayName": "HST Pipeline Bridge",
+  "publisher": "hst",
+  "version": "2.7.0",
+  "description": "Local acknowledged launch and questions between HST TUI and Cline",
+  "engines": {"vscode": "^1.93.0"},
+  "main": "./extension.js",
+  "activationEvents": ["onStartupFinished", "onUri"],
+  "extensionDependencies": ["saoudrizwan.claude-dev"],
+  "capabilities": {"untrustedWorkspaces": {"supported": false}},
+  "contributes": {"commands": [{"command": "hst.openControl", "title": "HST: Открыть управление"}]}
+}

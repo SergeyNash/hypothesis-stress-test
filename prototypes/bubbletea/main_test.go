@@ -105,10 +105,10 @@ func TestSwitchingDemoDoesNotMixHistory(t *testing.T) {
 		t.Fatal("previous run leaked")
 	}
 }
-func TestViewHasHonestPrototypeLabels(t *testing.T) {
+func TestHistoricalSourceViewIsReadOnly(t *testing.T) {
 	m := model{width: 110, height: 36, page: 1, data: demoSnapshot(0)}
 	content := safe(m.View().Content)
-	if !strings.Contains(content, "ПРОСМОТР ФАЙЛОВ") || !strings.Contains(content, "только чтение") || strings.Contains(content, "переключить") || strings.Contains(content, "ЧЕРНОВИК") {
+	if !strings.Contains(content, "ИСТОЧНИКИ ЭТОГО ПРОГОНА") || !strings.Contains(content, "только чтение") || strings.Contains(content, "переключить") || strings.Contains(content, "ЧЕРНОВИК") {
 		t.Fatal("real source draft looks like applied control")
 	}
 	m.demo = true
@@ -155,5 +155,106 @@ func TestSourceSelectionAndActivityAreSeparate(t *testing.T) {
 	}
 	if !strings.Contains(s.sourceActivity("confluence"), "Ошибка доступа") || s.sourceSetting("confluence") != "Нет данных о выборе" {
 		t.Fatal("events fabricated a saved choice")
+	}
+}
+
+func TestStartupBeforeRunAndBannerAcrossPages(t *testing.T) {
+	root := t.TempDir()
+	if text, err := readStartup(root); err != nil || text != "" {
+		t.Fatalf("empty workspace: %q %v", text, err)
+	}
+	state := filepath.Join(root, ".hst")
+	if err := os.MkdirAll(state, 0700); err != nil {
+		t.Fatal(err)
+	}
+	value := map[string]interface{}{"schema_version": 1, "session_id": strings.Repeat("a", 32), "state": "waiting_user", "stage": "confirmation", "message": "Жду карточку", "at": "2026-11-13T10:00:00Z"}
+	data, _ := json.Marshal(value)
+	if err := os.WriteFile(filepath.Join(state, "startup.json"), data, 0600); err != nil {
+		t.Fatal(err)
+	}
+	text, err := readStartup(root)
+	if err != nil || !strings.Contains(text, "Жду карточку") {
+		t.Fatalf("startup missing: %q %v", text, err)
+	}
+	runs, err := listRuns(root)
+	if err != nil || len(runs) != 0 {
+		t.Fatal("startup must not invent a HYP folder")
+	}
+	for page := 0; page < 3; page++ {
+		m := model{workspace: root, page: page, width: 100, height: 35, startup: text, data: emptySnapshot("")}
+		if !strings.Contains(safe(m.View().Content), "Жду карточку") {
+			t.Fatal("startup must be visible on every page")
+		}
+	}
+	value["state"] = "attached"
+	data, _ = json.Marshal(value)
+	os.WriteFile(filepath.Join(state, "startup.json"), data, 0600)
+	if text, err := readStartup(root); err != nil || text != "" {
+		t.Fatal("attached startup must disappear")
+	}
+}
+
+func TestNewFormOwnsEditableSourcesAndCancelCreatesNothing(t *testing.T) {
+	root := t.TempDir()
+	m := model{workspace: root, width: 110, height: 40}
+	next, _ := m.Update(tea.KeyPressMsg{Code: 'n'})
+	m = next.(model)
+	if m.form == nil {
+		t.Fatal("N did not open a new form")
+	}
+	m.form.cursor = 8
+	next, _ = m.Update(tea.KeyPressMsg{Code: ' '})
+	m = next.(model)
+	if m.form.config().Channels["local"] {
+		t.Fatal("new source checkbox did not change")
+	}
+	m.form.cursor = 0
+	next, _ = m.Update(tea.PasteMsg{Content: "Если изменить процесс, то результат улучшится"})
+	m = next.(model)
+	if !strings.Contains(m.form.values[0], "изменить процесс") {
+		t.Fatal("paste lost")
+	}
+	next, _ = m.Update(tea.KeyPressMsg{Code: tea.KeyEscape})
+	m = next.(model)
+	if m.form != nil {
+		t.Fatal("escape did not cancel")
+	}
+	entries, _ := os.ReadDir(root)
+	if len(entries) != 0 {
+		t.Fatal("form created files before submit")
+	}
+}
+func TestLaunchOnlyHappensAfterReviewAndIsNotDuplicated(t *testing.T) {
+	m := model{form: freshForm()}
+	m.form.cursor = 10
+	next, cmd := m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	m = next.(model)
+	if !m.form.review || cmd != nil {
+		t.Fatal("last field must lead to review, not submit")
+	}
+	next, cmd = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	m = next.(model)
+	if cmd == nil || !m.submitting {
+		t.Fatal("review did not submit")
+	}
+	_, cmd = m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	if cmd != nil {
+		t.Fatal("duplicate launch on double Enter")
+	}
+}
+func TestQuestionIsSeparateFromHistoricalSourceSwitches(t *testing.T) {
+	m := model{control: launchStatus{ID: strings.Repeat("a", 32), State: "accepted", Question: &controlQuestion{ID: strings.Repeat("b", 32), State: "pending", Text: "Что уточнить?"}}, width: 110, height: 40}
+	next, _ := m.Update(tea.PasteMsg{Content: "Контекст клиента"})
+	m = next.(model)
+	if m.answer != "Контекст клиента" {
+		t.Fatal("free text response lost")
+	}
+	if !strings.Contains(safe(m.View().Content), "ВОПРОС") {
+		t.Fatal("pending question missing")
+	}
+	next, cmd := m.Update(tea.KeyPressMsg{Code: tea.KeyEnter})
+	m = next.(model)
+	if cmd == nil {
+		t.Fatal("no explicit response action")
 	}
 }

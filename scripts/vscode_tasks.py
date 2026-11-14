@@ -51,7 +51,7 @@ def parse(text):
 def task(workspace,framework):
     workspace,framework=Path(workspace).resolve(),Path(framework).resolve()
     # VS Code executes an argument vector, not a shell-interpolated command.
-    return {'label':LABEL,'type':'process',
+    entry = {'label':LABEL,'type':'process',
         'command':'${workspaceFolder}/.hst/terminal-venv/bin/python',
         'windows':{'command':'${workspaceFolder}/.hst/terminal-venv/Scripts/python.exe'},
         'args':[str(framework/'scripts/terminal_progress.py'),'--workspace','${workspaceFolder}'],
@@ -60,6 +60,9 @@ def task(workspace,framework):
         'presentation':{'reveal':'always','focus':False,'panel':'dedicated','clear':True,
                         'echo':False,'showReuseMessage':False,'close':False},
         'runOptions':{'runOn':'folderOpen','instanceLimit':1}}
+    if (workspace/'.hst/tui.json').is_file():
+        entry['runOptions'] = {'instanceLimit':1}
+    return entry
 
 
 def merge(text, entry, replace=False):
