@@ -1,6 +1,10 @@
+# Execution priority for new runs (2.9)
+
+Fresh runs use `execution_driver: dialogue`. Follow implementations/dialogue-run.md and hst-start/hst-run before older lifecycle examples. No Python preflight, controller prepare/start/complete, HTTP viewer or validator-source reading is required before substantive work. Native file tools create the isolated run and record progress. Scripts process actual data or check existing results. Chat/TUI carry choices and recommendations; code does not decide research direction. Never read other runs unless the user explicitly asks to resume/compare them. Preserve legacy controller configuration only for existing lifecycle_version 1 runs.
+
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.8.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.9.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
 

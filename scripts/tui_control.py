@@ -161,7 +161,9 @@ def normalize(root, data):
         if target == root / '.hst' or target.is_relative_to(root / '.hst'):
             raise ValueError('Runtime state is not an evidence source')
         cleaned_paths.append(target.relative_to(root).as_posix())
-    return {k: data[k].strip() for k in ['statement', 'domain', 'audience', 'scenario', 'roles']} | {
+    if 'model_label' in data and data['model_label'] is not None and (not isinstance(data['model_label'], str) or len(data['model_label']) > 2000):
+        raise ValueError('Invalid model label')
+    return ({'model_label': data['model_label']} if 'model_label' in data else {}) | {k: data[k].strip() for k in ['statement', 'domain', 'audience', 'scenario', 'roles']} | {
         'profile': data['profile'], 'hypothesis_type': data.get('hypothesis_type', ''),
         'channels': channels, 'local_paths': cleaned_paths}
 
@@ -271,12 +273,9 @@ def bootstrap(workspace, request_id):
         save_status(root, directory, value)
         (run / 'outputs/tui_launch.json').write_bytes((directory / 'request.json').read_bytes())
         try:
-            from run_control import prepare, load_config, save_config
-            try:
-                prepare(run, 'full', root)
-            except Exception:
-                # Keep a real viewer failure. Do not pretend it started or permit roles yet.
-                raise
+            from run_control import load_config, save_config
+            from dialogue_run import initialize
+            initialize(run, root, started_at=request['at'], model_label=request['config'].get('model_label'))
             run_config = load_config(run)
             run_config['tui_request_pending'] = True
             save_config(run, run_config)
@@ -310,10 +309,12 @@ def acknowledge(workspace, request_id):
     if selected.get('channels') != expected['channels'] or selected.get('local_paths') != expected['local_paths']:
         raise ValueError('Saved sources differ from the submitted TUI choice')
     accepted = change(root, request_id, 'accepted', 'Cline принял запрос и сохранённую конфигурацию')
-    from run_control import save_config, auto_enter
+    from run_control import save_config
     config['tui_request_pending'] = False
     save_config(run, config)
-    auto_enter(run)
+    if config.get('lifecycle_version') == 1:
+        from run_control import auto_enter
+        auto_enter(run)  # Compatibility only for previously-created controller runs.
     return accepted
 
 

@@ -1,3 +1,9 @@
+# New dialogue runs: precedence
+
+For execution_driver `dialogue`, follow implementations/dialogue-run.md. Native file operations record the card/config, source consent, real journal events and canonical markers after actual checks. Do not run controller prepare/start/complete or a per-operation require-source command. Inspect the saved channel choice and local scope before every native/tool/source operation; extraction helpers still enforce scope internally. Use read-only artifact checks after writing the relevant output; --save-report records only their real diagnostic, never advances a phase. No technical PASS decides the business outcome. Chat and TUI carry the same focused questions, recommendations and answers. Do not ask again for already-agreed work. Monitoring is optional and independent; absence of HTTP must not block analysis. For a TUI-bound run, the existing acknowledge/ask/consume calls are delivery operations, not analytical phase prerequisites or decisions. No startup/controller loop is added around them.
+
+The section below documents compatibility for existing lifecycle_version 1 archives and legacy tools. It is not the startup procedure for fresh dialogue runs.
+
 # User choice of research channels
 
 Applies to new runs with `source_selection_version: 1`. The explicit user choice takes precedence over default collection steps in skills/workflows. This rule governs all source access, including MCP/browser/search and shell/Python outside framework helpers. Historical runs without this version retain their existing scope; do not silently retrofit or reset choices on resume.

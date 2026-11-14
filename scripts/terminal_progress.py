@@ -110,7 +110,7 @@ def validate_state(data):
 
 
 def read_state(path):
-    if path.stat().st_size>16*1024*1024:raise ValueError('Журнал больше 16 МБ; нужен ограниченный просмотр')
+    if path.exists() and path.stat().st_size>16*1024*1024:raise ValueError('Журнал больше 16 МБ; нужен ограниченный просмотр')
     journal=path.with_name('pipeline_events.jsonl')
     if journal.is_file():
         if journal.is_symlink() or journal.stat().st_size>16*1024*1024:raise ValueError('Некорректный или слишком большой журнал')
@@ -156,6 +156,9 @@ def render(data, width=110, height=36, demo=False, issue=None):
     header=Table.grid(expand=True);header.add_column(ratio=1);header.add_column(justify='right')
     header.add_row(Text('HST  /  ХОД ПРОВЕРКИ',style='bold cyan'),Text(safe(data.get('run','Прогон')),style='bold'))
     header.add_row(Text(status,style=status_color),Text('ДЕМО · синтетические события' if demo else 'Просмотр · только чтение',style='yellow' if demo else 'dim'))
+    from run_clock import clock, display
+    timer = data.get('timer') or clock({}, events)
+    header.add_row(Text('Общее время: '+display(timer)), Text('С первого события' if timer.get('source')=='first_recorded_event' else 'С регистрации запуска', style='dim'))
     progress=Progress(TextColumn('Завершено {task.completed:.0f}/{task.total:.0f}'),BarColumn(bar_width=None,style="grey35",complete_style="green",finished_style="green"),TextColumn('{task.percentage:>3.0f}%'),expand=True)
     progress.add_task('',total=len(phases),completed=completed)
     if data.get('startup'):

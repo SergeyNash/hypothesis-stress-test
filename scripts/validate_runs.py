@@ -94,6 +94,7 @@ ALLOWED_OUTPUTS = {
     "human_report.html",
     "external_research.md",
     "pipeline_events.jsonl",
+    "startup_events.jsonl",
     "progress.json",
     "progress.html",
     "claim_ledger.json",
@@ -581,6 +582,12 @@ def check_run(run_dir, *, check_folder_id=True, strict=False, pending_human_repo
         if not run_dir.is_dir():
             return ['RUN_DIR_NOT_FOUND']
         codes = validate_complete_run(run_dir, pending_human_report=pending_human_report)
+        config_path = run_dir/'run_config.json'
+        config = json.loads(config_path.read_text(encoding='utf-8-sig')) if config_path.exists() else {}
+        if config.get('execution_driver') == 'dialogue':
+            if config.get('audit_version') != 2: codes.append('DIALOGUE_REQUIRES_AUDIT_V2')
+            if config.get('lifecycle_version') or config.get('phase_handoff_version'): codes.append('DIALOGUE_CONTROLLER_CONFLICT')
+            if config.get('model_label') is not None and not isinstance(config['model_label'], str): codes.append('INVALID_MODEL_LABEL')
         from source_selection import validate as validate_selection
         codes.extend(validate_selection(run_dir))
         from tui_control import validate_run_binding
@@ -603,12 +610,28 @@ def main(argv=None) -> int:
     target.add_argument('--examples', action='store_true', help='Repository self-test only; says nothing about user runs')
     parser.add_argument('--strict', action='store_true', help='Apply source-bound audit v2 to an older protocol-2 run without modifying it')
     parser.add_argument('--json', action='store_true', help='Machine-readable result with target and limitations')
+    parser.add_argument('--phase', choices=['facilitator','local_evidence','business_context','market','synthesis','customer_discovery_planning','decision_review','human_report'], help='Check existing phase outputs without advancing the workflow')
+    parser.add_argument('--completion-status', choices=['completed','skipped_missing_context'], default='completed', help='Phase output variant; never changes run state')
+    parser.add_argument('--pending-report', action='store_true', help='Check the finished report before its final marker is written')
+    parser.add_argument('--save-report', action='store_true', help='Save only the actual validation result/history; never start or advance a phase')
     args = parser.parse_args(argv)
+    if (args.phase or args.pending_report or args.save_report) and not args.run_dir:
+        parser.error('phase/report options require --run-dir')
+    if args.phase and (args.pending_report or args.strict):
+        parser.error('--phase cannot be combined with --pending-report or --strict')
     if args.strict and not args.run_dir:
         parser.error('--strict requires --run-dir')
     if args.run_dir:
         scope, name = 'run', str(args.run_dir.resolve())
-        failures = check_run(args.run_dir, strict=args.strict)
+        if args.phase:
+            from phase_checks import check
+            scope = 'phase'
+            try:
+                failures = check(args.run_dir, args.phase, marker=False, status=args.completion_status)
+            except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:
+                failures = ['UNREADABLE_ARTIFACT:' + type(error).__name__]
+        else:
+            failures = check_run(args.run_dir, strict=args.strict, pending_human_report=args.pending_report)
     else:
         scope, name = 'repository_examples', str(ROOT / 'examples')
         failures = validate_examples()
@@ -620,6 +643,18 @@ def main(argv=None) -> int:
             result['audit_version'] = 2 if args.strict else json.loads((args.run_dir / 'run_config.json').read_text(encoding='utf-8-sig')).get('audit_version', 1)
         except (OSError, ValueError, AttributeError):
             result['audit_version'] = 'invalid'
+    if args.phase: result['phase'] = args.phase
+    if args.save_report:
+        from run_progress import atomic, lock, output_dir, now
+        output = output_dir(args.run_dir)
+        result['at'] = now()
+        with lock(output):
+            report_name = 'phase_validation.json' if args.phase else 'run_validation.json'
+            for item in [report_name, 'validation_history.jsonl']:
+                if (output/item).is_symlink(): raise ValueError('Validation report must not be a symlink')
+            atomic(output/report_name, json.dumps(result, ensure_ascii=False, indent=2))
+            with (output/'validation_history.jsonl').open('a', encoding='utf-8') as stream:
+                stream.write(json.dumps(result, ensure_ascii=False) + '\n')
     if args.json:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:

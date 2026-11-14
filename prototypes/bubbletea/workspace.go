@@ -10,6 +10,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"time"
 	"unicode"
 	"unicode/utf8"
 )
@@ -28,6 +29,8 @@ type event struct {
 	Channel string `json:"channel"`
 }
 type snapshot struct {
+	StartedAt  string
+	EndedAt    string
 	Run        string
 	Phases     []phase
 	Events     []event
@@ -235,12 +238,19 @@ func readSnapshot(root, id string) (snapshot, error) {
 	data, err = readFile(root, filepath.Join(base, "run_config.json"))
 	if err == nil {
 		var config struct {
+			StartedAt string `json:"started_at"`
+			EndedAt   string `json:"ended_at"`
+			RunState  string `json:"run_state"`
 			Selection struct {
 				Channels map[string]bool `json:"channels"`
 			} `json:"source_selection"`
 		}
 		if err = json.Unmarshal(data, &config); err != nil {
 			return s, err
+		}
+		s.StartedAt = config.StartedAt
+		if config.RunState == "completed" || config.RunState == "cancelled" {
+			s.EndedAt = config.EndedAt
 		}
 		s.Sources = config.Selection.Channels
 	} else if !os.IsNotExist(err) {
@@ -333,4 +343,39 @@ func readStartup(root string) (string, error) {
 		return "", fmt.Errorf("некорректный статус подготовки")
 	}
 	return "НОВАЯ ГИПОТЕЗА · до создания папки · " + stateName(value.State) + ": " + safe(value.Message) + " · " + safe(value.At), nil
+}
+
+// Elapsed is display-only: no heartbeat writes, workflow transitions or ETA.
+func (s snapshot) elapsed(now time.Time) string {
+	start, err := time.Parse(time.RFC3339Nano, s.StartedAt)
+	source := "с регистрации запуска"
+	if err != nil {
+		source = "с первого события"
+		for _, e := range s.Events {
+			t, parseErr := time.Parse(time.RFC3339Nano, e.At)
+			if parseErr == nil && (start.IsZero() || t.Before(start)) {
+				start = t
+			}
+		}
+	}
+	if start.IsZero() {
+		return "Общее время: —"
+	}
+	end, err := time.Parse(time.RFC3339Nano, s.EndedAt)
+	if err != nil {
+		end = now
+		for i := len(s.Events) - 1; i >= 0; i-- {
+			e := s.Events[i]
+			if e.Kind == "phase" && e.Phase == "human_report" {
+				if e.State == "completed" {
+					if t, parseErr := time.Parse(time.RFC3339Nano, e.At); parseErr == nil {
+						end = t
+					}
+				}
+				break
+			}
+		}
+	}
+	seconds := max(0, int(end.Sub(start).Seconds()))
+	return fmt.Sprintf("Общее время: %02d:%02d:%02d · %s", seconds/3600, seconds/60%60, seconds%60, source)
 }

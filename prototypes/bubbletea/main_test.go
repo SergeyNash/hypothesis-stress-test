@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 	"testing"
+	"time"
 
 	tea "charm.land/bubbletea/v2"
 )
@@ -256,5 +257,21 @@ func TestQuestionIsSeparateFromHistoricalSourceSwitches(t *testing.T) {
 	m = next.(model)
 	if cmd == nil {
 		t.Fatal("no explicit response action")
+	}
+}
+
+func TestElapsedIncludesPreparationAndFreezes(t *testing.T) {
+	start := time.Date(2026, 11, 14, 12, 0, 0, 0, time.UTC)
+	s := snapshot{StartedAt: start.Format(time.RFC3339)}
+	if !strings.Contains(s.elapsed(start.Add(90*time.Second)), "00:01:30") {
+		t.Fatal("missing preparation time")
+	}
+	s.Events = []event{{Kind: "phase", Phase: "human_report", State: "completed", At: start.Add(2 * time.Minute).Format(time.RFC3339)}}
+	if !strings.Contains(s.elapsed(start.Add(time.Hour)), "00:02:00") {
+		t.Fatal("clock did not freeze")
+	}
+	s.EndedAt = start.Add(30 * time.Second).Format(time.RFC3339)
+	if !strings.Contains(s.elapsed(start.Add(time.Hour)), "00:00:30") {
+		t.Fatal("explicit stop ignored")
 	}
 }

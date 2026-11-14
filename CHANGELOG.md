@@ -18,6 +18,14 @@
 
 Версия фреймворка не совпадает с ID прогонов (`HYP-YYYY-MM-DD-NNN`). Для точного воспроизведения дополнительно фиксируйте коммит.
 
+## [2.9.0] — 2026-11-14
+
+- Fresh runs are dialogue-driven: native file bootstrap and just-in-time instructions; no mandatory Python/controller/viewer preflight before substantive work. Old lifecycle archives retain compatibility.
+- Explicit new/resume/comparison boundaries, no old-run templates, no intentional validator failures, verbatim user model metadata.
+- TUI transport bootstraps without controller/viewer or automatic analytical handoff; questions and acknowledgements remain delivery operations.
+- Artifact checker supports phase diagnostics and explicit result persistence without phase transitions. Full source-bound audit remains required.
+- Startup archive is an allowed output. Read-only elapsed timers in Python, HTML and Go viewers include recorded preparation and stop on completion/cancellation.
+
 ## [2.8.0] — 2026-11-14
 
 - Первый пакет оптимизации: пассивные замеры существующих CLI без дополнительных вызовов модели, сводка времени/ожиданий/неразмеченных интервалов и числа проверок в performance_summary.json.
