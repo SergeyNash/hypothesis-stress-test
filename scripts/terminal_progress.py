@@ -104,8 +104,9 @@ def validate_state(data):
         raise ValueError('В журнале нет корректного списка этапов')
     if len({p['id'] for p in data['phases']}) != len(data['phases']):
         raise ValueError('В журнале повторяются этапы')
-    if any(not isinstance(e,dict) or not all(isinstance(e.get(k),str) for k in ['kind','phase','state','at','message']) or (e.get('channel') is not None and not isinstance(e['channel'],str)) for e in data['events']):
-        raise ValueError('Некорректное событие журнала')
+    from run_progress import display_rows
+    shown, warnings = display_rows(data['events'])
+    data = dict(data, events=shown, warnings=list(dict.fromkeys(list(data.get('warnings', [])) + warnings)))
     return data
 
 
@@ -114,8 +115,9 @@ def read_state(path):
     journal=path.with_name('pipeline_events.jsonl')
     if journal.is_file():
         if journal.is_symlink() or journal.stat().st_size>16*1024*1024:raise ValueError('Некорректный или слишком большой журнал')
-        from run_progress import snapshot,events
-        return validate_state(snapshot(path.parent.parent,events(path.parent)))
+        from run_progress import snapshot,display_events
+        rows, warnings = display_events(path.parent)
+        return validate_state(snapshot(path.parent.parent,rows,reader_warnings=warnings))
     return validate_state(json.loads(path.read_text(encoding='utf-8-sig')))
 
 

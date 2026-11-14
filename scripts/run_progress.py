@@ -69,9 +69,50 @@ def events(output):
     return [json.loads(line) for line in p.read_text(encoding='utf-8').splitlines() if line.strip()] if p.exists() else []
 
 
-def snapshot(run, rows):
+def display_events(output):
+    """Tolerant, read-only projection. Audit/control continue using strict events()."""
+    path = Path(output)/'pipeline_events.jsonl'
+    if not path.exists(): return [], []
+    if path.is_symlink() or path.stat().st_size > 16*1024*1024:
+        raise ValueError('Invalid or oversized display journal')
+    rows, warnings = [], []
+    for number, line in enumerate(path.read_text(encoding='utf-8-sig').splitlines(), 1):
+        if not line.strip(): continue
+        try: rows.append(json.loads(line))
+        except ValueError: warnings.append(f'Журнал: строка {number} пока не читается; исходный файл не изменён.')
+    return rows, warnings
+
+
+def display_rows(rows):
+    """Never guess a phase, timestamp or completion to make the display green."""
+    shown, warnings = [], []
+    for number, row in enumerate(rows, 1):
+        if not isinstance(row, dict) or any(not isinstance(row.get(k), str) for k in ['kind','state','at','message']):
+            warnings.append(f'Журнал: запись {number} имеет неполные поля; не показана.')
+            continue
+        item = dict(row)
+        if row['kind'] == 'source':
+            if not isinstance(row.get('channel'), str) or row['channel'] not in {'local','confluence','internet'} or row['state'] not in CHANNEL_STATES:
+                warnings.append(f'Журнал: источник в записи {number} некорректен; не показан.')
+                continue
+            if not isinstance(row.get('phase'), str) or row['phase'] not in PHASES:
+                item['phase'] = ''
+                warnings.append(f'Журнал: источник в записи {number} без этапа; показан без привязки.')
+        elif row['kind'] == 'phase':
+            if row.get('phase') not in PHASES or row['state'] not in STATES | {'waiting_approval'}:
+                warnings.append(f'Журнал: этап в записи {number} некорректен; не показан.')
+                continue
+        else:
+            warnings.append(f'Журнал: неизвестный тип записи {number}; не показан.')
+            continue
+        shown.append(item)
+    return shown, warnings
+
+
+def snapshot(run, rows, *, reader_warnings=()):
     from source_selection import config
     from phase_checks import diagnose
+    rows, display_warnings = display_rows(rows)
     states = {p: {'state': 'pending', 'message': ''} for p in PHASES}
     for row in rows:
         if row['kind'] == 'phase':
@@ -95,7 +136,7 @@ def snapshot(run, rows):
             'events': rows, 'completed': sum(s['state'] == 'completed' for s in states.values()),
             'total': len(states), 'source_selection': config(run).get('source_selection'),
             'source_selection_required': config(run).get('source_selection_version') == 1,
-            'viewer': config(run).get('viewer',{}), 'warnings': diagnose(run,rows),
+            'viewer': config(run).get('viewer',{}), 'warnings': list(reader_warnings) + display_warnings + diagnose(run,rows),
             'validation':validation, 'human_report_available':(Path(run)/'outputs/human_report.html').is_file()}
 
 
@@ -218,7 +259,8 @@ class Viewer(SimpleHTTPRequestHandler):
                 journal=root/'outputs/pipeline_events.jsonl'
                 if not journal.resolve().is_relative_to(root) or journal.is_symlink():
                     raise ValueError('Journal outside run')
-                content=json.dumps(snapshot(root,events(root/'outputs')),ensure_ascii=False).encode('utf-8')
+                rows, warnings = display_events(root/'outputs')
+                content=json.dumps(snapshot(root,rows,reader_warnings=warnings),ensure_ascii=False).encode('utf-8')
             except (OSError,ValueError,KeyError,TypeError):
                 self.send_error(503,'Progress journal temporarily unreadable');return None
             self.send_response(200)
