@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 """Initialize audit outputs and register typed records bound to captured source text."""
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 import argparse
 import json
 from pathlib import Path
 import re
-from run_progress import atomic, output_dir
+from run_progress import atomic, output_dir, lock
 from run_quality import KINDS, normalized
+from runtime_metrics import timed
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -19,10 +23,10 @@ def initialize(run):
         if not (output/name).exists():atomic(output/name,json.dumps(value,ensure_ascii=False,indent=2))
 
 
-def put(run,kind,record):
+def _put(run,kind,record,*,ledger=None,commit=True):
     from source_selection import require
     run=Path(run).resolve();output=output_dir(run)
-    ledger=json.loads((output/'claim_ledger.json').read_text(encoding='utf-8-sig'))
+    if ledger is None:ledger=json.loads((output/'claim_ledger.json').read_text(encoding='utf-8-sig'))
     item=dict(record);inventory=item.pop('inventory',None)
     if not isinstance(item.get('id'),str):raise ValueError('Record requires id')
     if kind=='source':
@@ -77,13 +81,33 @@ def put(run,kind,record):
         block='\n### '+item['id']+'\n'+'\n'.join('- '+k+': '+str(v) for k,v in fields.items())+'\n'
         atomic(path,text+block)
     ledger[key].append(item)
-    atomic(output/'claim_ledger.json',json.dumps(ledger,ensure_ascii=False,indent=2))
+    if commit:atomic(output/'claim_ledger.json',json.dumps(ledger,ensure_ascii=False,indent=2))
     return item
+
+
+def put(run,kind,record):
+    with lock(output_dir(run)):
+        return _put(run,kind,record)
+
+
+@timed('claim_registration_batch')
+def put_claims(run,records):
+    """Validate a whole claim batch against real sources/targets, then commit once."""
+    if not isinstance(records,list) or not records or len(records)>500 or any(not isinstance(r,dict) for r in records):
+        raise ValueError('Expected 1–500 claim objects')
+    output=output_dir(run)
+    path=output/'claim_ledger.json'
+    if path.is_symlink():raise ValueError('Claim ledger must not be a symlink')
+    with lock(output):
+        ledger=json.loads(path.read_text(encoding='utf-8-sig'))
+        accepted=[_put(run,'claim',record,ledger=ledger,commit=False) for record in records]
+        atomic(path,json.dumps(ledger,ensure_ascii=False,indent=2))
+    return accepted
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('action',choices=['init','source','claim'])
+    parser.add_argument('action',choices=['init','source','claim','batch-claims'])
     parser.add_argument('--run-dir',type=Path,required=True)
     parser.add_argument('--record',type=Path,help='UTF-8 JSON record; never executed')
     args=parser.parse_args()
@@ -91,7 +115,11 @@ def main():
         if args.action=='init':initialize(args.run_dir)
         else:
             if not args.record:parser.error('--record required')
-            put(args.run_dir,args.action,json.loads(args.record.read_text(encoding='utf-8-sig')))
+            payload=json.loads(args.record.read_text(encoding='utf-8-sig'))
+            accepted=put_claims(args.run_dir,payload) if args.action=='batch-claims' else [put(args.run_dir,args.action,payload)]
+            print(json.dumps({'status':'ok','registered_ids':[r['id'] for r in accepted]},ensure_ascii=False))
     except (OSError,ValueError,KeyError,TypeError) as exc:parser.error(str(exc))
 
-if __name__=='__main__':main()
+if __name__ == '__main__':
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'audit_records', _HST_STARTED, _HST_CPU_STARTED))

@@ -29,3 +29,10 @@ New prepare records `phase_handoff_version: 1`. In full mode, the first confirme
 Read the returned phase/result and do the current phase's work only after its running/preparation event exists. complete/finish reject a phase with no start recorded after its last invalidation. Never write the whole phase and only then call start. Legacy runs without the handoff flag are not retrofitted and their timestamps are not rewritten. A preparation/handoff failure is reported separately from the already-completed predecessor.
 
 Incremental audits inspect current/prior artifacts and the claims bound to them, not future artifacts. A later synthesis issue must be diagnosed in synthesis, not as a business-context failure. The final audit still checks the entire run. Company-affiliation checks apply to explicit provider identity fields; customer/provider role notation, contour names and common technology/SLA abbreviations with slashes do not assert corporate affiliation. Do not remove meaningful ordinary phrasing just to appease a linter.
+
+
+## One check per completed phase (2.8)
+
+Normal path: prepare/sources-set → current phase work → one complete → use next_phase/next_prepared. A true next_prepared means the next running/preparation event already exists; do not add another start. Phase mode, an explicit resume, a waiting/error state, invalidation or legacy run still requires start. check-phase is for diagnosis only. Human Report uses one finish, with no separate preflight full validator unless recovering from a real failure.
+
+Inside one successful controller command, checked content may be reused only by its scoped marker/event commit and immediate next-phase handoff. Receipts are in-memory, bound to RUN_DIR/phase and expire when the command finishes. Structural marker checks, source permissions and journal prerequisite states remain enforced. No persistent pass cache is used; the next independent command revalidates artifacts/sources. finish checks prior completion states and performs one complete whole-run audit. Broken inputs or missing sources still block completion.

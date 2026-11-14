@@ -2,7 +2,7 @@
   "name": "hst-pipeline-bridge",
   "displayName": "HST Pipeline Bridge",
   "publisher": "hst",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Local acknowledged launch and questions between HST TUI and Cline",
   "engines": {"vscode": "^1.93.0"},
   "main": "./extension.js",

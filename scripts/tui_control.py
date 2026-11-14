@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Workspace-local, acknowledged TUI/Cline launch and question protocol."""
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 import argparse
 from datetime import datetime, timezone
 import hashlib
@@ -445,4 +448,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'tui_control', _HST_STARTED, _HST_CPU_STARTED))

@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Capture bounded source fragments without interpretation; retain paged extraction history."""
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 import argparse
 from datetime import datetime, timezone
 import json
@@ -62,4 +65,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'source_snapshot', _HST_STARTED, _HST_CPU_STARTED))
