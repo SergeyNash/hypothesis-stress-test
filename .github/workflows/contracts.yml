@@ -44,6 +44,8 @@ jobs:
       - run: python -m unittest discover -s tests -p test_updater.py -v
 
   tui-control:
+    env:
+      PYTHONUTF8: '1'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -57,4 +59,5 @@ jobs:
         with:
           node-version: '22'
       - run: python -m unittest discover -s tests -p test_tui_control.py -v
+      - run: python -m unittest discover -s tests -p test_pipeline_performance.py -v
       - run: node --test integrations/vscode-bridge/protocol.test.js

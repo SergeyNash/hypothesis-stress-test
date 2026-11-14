@@ -32,6 +32,8 @@ RUN_DIR/
     tui_launch.json            # TUI-managed only: immutable submitted configuration
     tui_control.json           # TUI-managed only: executor/question acknowledgement
     tui_events.jsonl           # TUI-managed only: actual launch/answer history
+    command_metrics.jsonl      # timing_version 1: actual instrumented HST CLI timing
+    performance_summary.json   # derived elapsed/waits/commands/unattributed summary
     progress.json              # derived current-state snapshot
     progress.html              # live viewer via local loopback HTTP
     ready_for_synthesis.marker

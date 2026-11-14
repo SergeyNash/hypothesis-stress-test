@@ -120,3 +120,14 @@ A finished terminal reads the current run's persisted validation status and show
 ## TUI-managed launches
 
 A run with tui_request_id must retain outputs/tui_launch.json, tui_control.json and tui_events.jsonl. The request hash binds its original configuration; initial source history must match the submitted three booleans. Until an actual Cline acknowledge clears tui_request_pending, source access and automatic phase preparation remain blocked. Pending/unconsumed questions prevent final PASS. Run-local records permit archived validation without requiring the original workspace .hst directory. They record protocol consistency, not proof that a model understood or correctly implemented the instructions. See .clinerules/55-tui-control.md for the executor procedure and prototypes/bubbletea/README.md for installation/limitations.
+
+
+## Optimization and timing (2.8)
+
+Normal completion is one complete per output phase and one finish for Human Report. check-phase is diagnostic; repeated successful checks are not a required ritual. complete returns next_phase/next_prepared; omit a second start when the next phase is already prepared. Commands revalidate current/prior artifacts across calls. Within a single checked commit, an expiring in-memory receipt avoids rerunning the same semantic gate during marker/event writes and next-phase preparation. Final finish still executes one whole-run audit, including source/claim and TUI gates.
+
+Use audit_records.py batch-claims with a UTF-8 JSON list for a phase's claims: validation is the same as single-claim registration, all claims are checked before a single ledger write and an invalid batch makes no partial write. Existing source registration and original-source anchors remain mandatory.
+
+Measurements are passive for new timing_version 1 runs: command_metrics.jsonl records command/action/phase, origin, wall and process CPU, exit code and nested validation sections; raw arguments, document text and credentials are not recorded. performance_summary.json unions overlapping script/wait intervals, lists actual validation attempts and keeps unobserved time unattributed. CPU excludes child processes/LLM; final timing-file write overhead is excluded. Measurements have their own short lock and do not set PASS. A timing-write failure is reported separately without changing the validation outcome. Long-lived viewer, control-poll processes and standalone read-only validate_runs are excluded; the full validator called inside finish is measured. Historical archives remain unchanged; run_control metrics is an optional read-only diagnostic, not a pipeline step.
+
+Control scenario and protocol: [benchmarks/pipeline-001](../benchmarks/pipeline-001/README.md). Real model-speed improvement is unmeasured until controlled before/after runs are supplied.

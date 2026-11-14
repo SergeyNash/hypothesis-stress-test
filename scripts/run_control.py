@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 """Prepare a run, verify its live viewer and finish against the explicit run target."""
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 import argparse
 from datetime import datetime, timezone
 import json
@@ -92,19 +95,32 @@ def viewer(run):
         raise
 
 
-def prepare(run, mode, workspace=None):
+def prepare(run, mode, workspace=None, *, benchmark_case=None, model_label=None):
     errors = validate_input(run, check_folder_id=True)
     if errors:
         if (run / 'outputs/startup_events.jsonl').is_file():
             record(run, phase='validation', state='error', message='Ошибка входных данных: ' + ', '.join(errors)[:3000])
         raise ValueError(', '.join(errors))
     config = load_config(run)
+    if config.get('benchmark'):
+        from benchmark_policy import metadata
+        pinned=metadata(run,config['benchmark']['case_id'],config.get('model_label'))
+        if pinned!=config['benchmark']:raise ValueError('Benchmark metadata/input changed; start a new controlled run')
+    benchmark = None
+    if benchmark_case:
+        from benchmark_policy import metadata
+        benchmark = metadata(run,benchmark_case,model_label)
+        if config and (config.get('benchmark') != benchmark or config.get('model_label') != model_label):
+            raise ValueError('Create a fresh benchmark run; existing metadata cannot be relabelled')
     if not config and any((run / 'outputs').glob('*.marker')):
         raise ValueError('Legacy run: use viewer/read-only validation; an explicit protocol upgrade is required.')
     if not config:
         config = {'protocol_version': 2, 'audit_version': 2, 'execution_mode': mode, 'language': 'ru',
                   'heavy_analysis': 'ask', 'analysis_choices': [], 'source_selection_version': 1, 'lifecycle_version': 1,
-                  'phase_handoff_version': 1}
+                  'phase_handoff_version': 1, 'timing_version': 1,
+                  'framework_version': (Path(__file__).resolve().parents[1]/'VERSION').read_text(encoding='utf-8').strip()}
+        if benchmark is not None:config['benchmark']=benchmark
+        config['model_label']=model_label
         save_config(run, config)
         from audit_records import initialize
         initialize(run)
@@ -170,26 +186,31 @@ def complete(run,phase,status='completed'):
         write_validation(run,report)
         record(run,phase=phase,state='error',message='Проверка этапа не пройдена; см. phase_validation.json')
         return report
-    try:
-        name,_=spec_for(phase)
-        atomic(run/'outputs'/name,json.dumps(payload(phase,status),ensure_ascii=False,indent=2))
-        last=next((e for e in reversed(events(run/'outputs')) if e['kind']=='phase' and e['phase']==phase),None)
-        if not last or last['state']!='completed':
-            record(run,phase=phase,state='completed',message='Этап проверен и завершён: '+NAMES[phase],_transition=True)
-    except Exception as exc:
-        report.update(status='ERROR',errors=['PHASE_COMMIT_ERROR:'+type(exc).__name__+': '+str(exc)])
-    saved=write_validation(run,report)
-    if report['status']=='PASS':
-        try:auto_enter(run)
+    from phase_checks import verified_transition
+    with verified_transition(run,phase) as receipt:
+        try:
+            name,_=spec_for(phase)
+            atomic(run/'outputs'/name,json.dumps(payload(phase,status),ensure_ascii=False,indent=2))
+            last=next((e for e in reversed(events(run/'outputs')) if e['kind']=='phase' and e['phase']==phase),None)
+            if not last or last['state']!='completed':
+                record(run,phase=phase,state='completed',message='Этап проверен и завершён: '+NAMES[phase],_transition=True,_verified=receipt)
         except Exception as exc:
-            # The completed phase stays completed; report the failure on the next phase.
-            saved['handoff_error']=str(exc)
-            next_phase=payload(phase,status)['next_phase']
-            try:record(run,phase=next_phase,state='error',message='Не удалось подготовить этап: '+str(exc)[:1000])
-            except Exception:pass  # The persisted handoff_error survives a journal failure.
-            saved=write_validation(run,saved)
-    return saved
-
+            report.update(status='ERROR',errors=['PHASE_COMMIT_ERROR:'+type(exc).__name__+': '+str(exc)])
+        saved=write_validation(run,report)
+        if report['status']=='PASS':
+            try:auto_enter(run,receipt)
+            except Exception as exc:
+                # The completed phase stays completed; report the failure on the next phase.
+                saved['handoff_error']=str(exc)
+                next_phase=payload(phase,status)['next_phase']
+                try:record(run,phase=next_phase,state='error',message='Не удалось подготовить этап: '+str(exc)[:1000])
+                except Exception:pass  # The persisted handoff_error survives a journal failure.
+                saved=write_validation(run,saved)
+        if report['status']=='PASS':
+            following=payload(phase,status)['next_phase']
+            entry=next((e for e in reversed(events(run/'outputs')) if e['kind']=='phase' and e['phase']==following),None)
+            saved=dict(saved,next_phase=following,next_prepared=bool(entry and entry['state']=='running'))
+        return saved
 
 def require_entered(run,phase):
     if load_config(run).get('phase_handoff_version')!=1:return
@@ -200,7 +221,7 @@ def require_entered(run,phase):
         raise ValueError('Phase has no recorded start: '+phase+'; call start BEFORE generating its outputs')
 
 
-def auto_enter(run):
+def auto_enter(run,receipt=None):
     """Full-run handoff includes phase preparation, before the model writes outputs."""
     from run_progress import PHASES,events
     config=load_config(run)
@@ -214,7 +235,9 @@ def auto_enter(run):
         if last:return  # Preserve errors, inventory waits and invalidations until explicit resume.
         view=config.get('viewer',{})
         if phase=='facilitator' and view.get('status')!='ready' and not (view.get('status')=='unavailable' and view.get('notified')):return
-        record(run,phase=phase,state='running',message='Подготовка к этапу: '+NAMES[phase])
+        from phase_checks import accepts
+        proof = receipt if accepts(receipt,run,phase,'running') else None
+        record(run,phase=phase,state='running',message='Подготовка к этапу: '+NAMES[phase],_verified=proof)
         return
 
 
@@ -228,15 +251,17 @@ def finish(run):
         config=load_config(run)
         report['audit_version']=config.get('audit_version',1)
         report['checks']='source-bound consistency and explicit review' if report['audit_version']==2 else 'declared consistency'
-        if enabled(run):require_previous(run,'human_report')
+        if enabled(run):require_previous(run,'human_report',verify_artifacts=False)
         require_entered(run,'human_report')
         errors=check_run(run,pending_human_report=True) if enabled(run) else check_run(run)
         report.update(status='FAIL' if errors else 'PASS',errors=errors)
         if not errors:
-            if enabled(run):
-                name,_=spec_for('human_report')
-                atomic(run/'outputs'/name,json.dumps(payload('human_report'),ensure_ascii=False,indent=2))
-            record(run,phase='human_report',state='completed',message='Проверен текущий RUN_DIR: PASS; решение принимает человек',_transition=True)
+            from phase_checks import verified_transition
+            with verified_transition(run,'human_report') as receipt:
+                if enabled(run):
+                    name,_=spec_for('human_report')
+                    atomic(run/'outputs'/name,json.dumps(payload('human_report'),ensure_ascii=False,indent=2))
+                record(run,phase='human_report',state='completed',message='Проверен текущий RUN_DIR: PASS; решение принимает человек',_transition=True,_verified=receipt)
             p=run/'input/hypothesis.md'
             text=p.read_text(encoding='utf-8-sig')
             text=re.sub(r'(?im)^(\s*[-*]\s+(?:\*\*)?(?:Статус|Status):(?:\*\*)?\s*)(?:\*\*|`)?(?:running|draft|выполняется|в работе)(?:\*\*|`)?\s*$',r'\g<1>completed',text)
@@ -270,10 +295,12 @@ def start(run, phase):
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start', 'activate', 'sources-options', 'sources-set', 'require-source', 'complete', 'check-phase'])
+    p.add_argument('action', choices=['prepare', 'viewer', 'finish', 'analysis-choice', 'require-deep', 'viewer-unavailable', 'start', 'activate', 'sources-options', 'sources-set', 'require-source', 'complete', 'check-phase', 'metrics'])
     p.add_argument('--run-dir', type=Path, required=True)
     p.add_argument('--workspace',type=Path,help='Workspace root for an active-run pointer in a custom run layout')
     p.add_argument('--mode', choices=['full', 'phase'], default='full')
+    p.add_argument('--benchmark-case',help='Fixed comparison scenario, e.g. pipeline-001')
+    p.add_argument('--model-label',help='Actual model/provider/settings label; never guessed by HST')
     p.add_argument('--choice', choices=['quick', 'deep', 'skip'])
     p.add_argument('--file', action='append', default=[])
     p.add_argument('--purpose', default='')
@@ -290,6 +317,10 @@ def main():
     a = p.parse_args()
     run = a.run_dir.resolve()
     try:
+        if a.action == 'metrics':
+            from runtime_metrics import summarize
+            print(json.dumps(summarize(run),ensure_ascii=False,indent=2))
+            return 0
         if a.action in {'complete','check-phase'}:
             if not a.phase or a.phase in {'intake','validation'}:p.error('Select an output phase with --phase')
             if a.action=='complete':result=complete(run,a.phase,a.completion_status)
@@ -313,7 +344,7 @@ def main():
             require(run,a.channel,a.path)
             print('Source enabled: '+a.channel)
         elif a.action == 'prepare':
-            print(prepare(run, a.mode, a.workspace))
+            print(prepare(run, a.mode, a.workspace,benchmark_case=a.benchmark_case,model_label=a.model_label))
         elif a.action == 'activate':
             from active_run import publish
             errors=validate_input(run,check_folder_id=True)
@@ -351,4 +382,5 @@ def main():
 
 
 if __name__ == '__main__':
-    sys.exit(main())
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'run_control', _HST_STARTED, _HST_CPU_STARTED))

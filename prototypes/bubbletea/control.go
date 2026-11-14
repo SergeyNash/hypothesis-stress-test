@@ -103,7 +103,7 @@ func backend(root string, action string, id string, payload any, args ...string)
 	commandArgs = append(commandArgs, args...)
 	command := exec.Command(python, commandArgs...)
 	command.Dir = root
-	command.Env = append(os.Environ(), "PYTHONUTF8=1")
+	command.Env = append(os.Environ(), "PYTHONUTF8=1", "HST_COMMAND_ORIGIN=tui")
 	if payload != nil {
 		encoded, e := json.Marshal(payload)
 		if e != nil {
@@ -111,9 +111,11 @@ func backend(root string, action string, id string, payload any, args ...string)
 		}
 		command.Stdin = bytes.NewReader(encoded)
 	}
-	output, e := command.CombinedOutput()
+	var diagnostic bytes.Buffer
+	command.Stderr = &diagnostic
+	output, e := command.Output()
 	if e != nil {
-		return result, fmt.Errorf("%s", strings.TrimSpace(string(output)))
+		return result, fmt.Errorf("%s", strings.TrimSpace(diagnostic.String()+string(output)))
 	}
 	err = json.Unmarshal(output, &result)
 	return result, err
