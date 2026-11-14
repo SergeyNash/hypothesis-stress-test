@@ -60,4 +60,5 @@ jobs:
           node-version: '22'
       - run: python -m unittest discover -s tests -p test_tui_control.py -v
       - run: python -m unittest discover -s tests -p test_pipeline_performance.py -v
+      - run: python -m unittest discover -s tests -p test_dialogue_run.py -v
       - run: node --test integrations/vscode-bridge/protocol.test.js

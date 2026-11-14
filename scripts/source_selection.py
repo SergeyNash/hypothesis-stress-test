@@ -58,6 +58,8 @@ def require(run, channel=None, path=None):
     if channel == 'local' and path is not None:
         root = Path(selected['workspace']).resolve()
         target = Path(path).resolve()
+        if c.get('execution_driver') == 'dialogue' and target.is_relative_to(root/'runs') and not target.is_relative_to(Path(run).resolve()/'input/attachments'):
+            raise ValueError('Run isolation: archives/results are not research sources; use an explicit separate comparison task')
         allowed = [(root/p).resolve() for p in selected['local_paths']] or [root]
         if not target.is_relative_to(root) or not any(target.is_relative_to(p) and p.is_relative_to(root) for p in allowed):
             raise ValueError('Local path outside user-selected folders')
@@ -107,7 +109,7 @@ def select(run, channels, paths, workspace=None, remember=False, reason=''):
         lines.extend(['- Папки: '+(', '.join(item['local_paths']) or 'вся база при включённом локальном канале'), '- Основание: '+item['reason'], ''])
     atomic(run/'outputs/source_selection.md', '\n'.join(lines))
     init(run)
-    if first_choice:
+    if first_choice and c.get('execution_driver') != 'dialogue':
         from run_control import auto_enter
         auto_enter(run)
     return selected

@@ -1,3 +1,7 @@
+# Приоритет диалогового режима (2.9)
+
+Для новых execution_driver=dialogue действует [контракт](dialogue-run.md). Ни init, prepare, viewer, start, ни require-source не являются обязательной цепочкой до работы. После появления артефактов validate_runs --phase/--pending-report --save-report сохраняет реальные результаты проверки без переходов. Audit v2 и source-bound требования ниже сохраняются. Шаблоны/ledger заполняются по текущему прогону, старые архивы не читаются. Старые lifecycle_version=1 продолжают использовать контроллер; обновление версии не мигрирует их.
+
 # Evidence and decision audit for protocol 2
 
 Maintain `outputs/claim_ledger.json` during Business Context/Market/Synthesis, and complete `outputs/quality_review.json` after Decision Review and Human Report. Start from `templates/claim_ledger.json` and `templates/quality_review.json`; replace every placeholder, never approve a checklist without reading source anchors. These artifacts supplement existing Markdown and canonical markers. Preserve EVID/EXT IDs.

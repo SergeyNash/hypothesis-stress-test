@@ -96,6 +96,8 @@ def viewer(run):
 
 
 def prepare(run, mode, workspace=None, *, benchmark_case=None, model_label=None):
+    if load_config(run).get('execution_driver') == 'dialogue':
+        raise ValueError('Dialogue run: continue in chat/TUI; use validate_runs for finished artifacts, not controller prepare')
     errors = validate_input(run, check_folder_id=True)
     if errors:
         if (run / 'outputs/startup_events.jsonl').is_file():

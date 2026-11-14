@@ -1,186 +1,41 @@
 ---
 name: hst-run
-description: Run or safely resume a complete HST pipeline for an existing RUN_DIR; coordinate phase skills, local-source review, public research and live progress without workflows.
+description: Conduct one HST run through dialogue; use scripts for data operations and checks of already-produced artifacts.
 ---
 
-# Run Hypothesis (Full)
+# HST: one isolated run
 
-Resolve the application profile from input Metadata (new intake: propose and confirm). No field → digital_product. For service_business load the service profile at FRAMEWORK_DIR/profiles/service-business.md and apply its phase-specific requirements, including service readiness instead of backlog readiness. Preserve canonical artifact paths and gates.
+For fresh runs use execution_driver `dialogue` and the contract in `FRAMEWORK_DIR/implementations/dialogue-run.md`. This takes precedence over legacy controller instructions in phase skills/playbooks. For existing lifecycle_version 1 runs preserve the old protocol described in 50-run-lifecycle; no silent migration.
 
-End-to-end and resumable hypothesis stress test for a single `RUN_DIR`.
+Resolve one RUN_DIR. Read only this run, installed instructions/templates and user-authorized sources. Never inspect other archives to learn their schema or imitate successful output. Source permission applies to native reads/search/MCP as well as Python; whole-KB searches must exclude runs, .hst, framework copies and environments. Prior outputs are not independent evidence.
 
-## TUI-managed execution
+Validate the hypothesis semantically, preserve its confirmed wording, and clarify essential gaps through dialogue. No Python/scripted preflight is required before substantive work. No viewer/HTTP acknowledgement is a prerequisite for research. An installed monitor reads files independently; say only what is actually observed.
 
-Read run_config.json for `tui_request_id`. If present, first follow `.clinerules/55-tui-control.md`: acknowledge the immutable launch request, preserve applied source settings and route HST input/analysis/retrieval questions through the request/question protocol. Do not duplicate them in chat. TUI submission authorizes this new run; unspecified service fields remain gaps and material semantic questions still require the user's actual response. Cline tool permissions remain native.
+## Work by phase
 
-## Full-run authorization and quality
+Load detailed instructions just in time. Existing substantive requirements and canonical output names stay applicable:
 
-Follow `.clinerules/40-run-quality.md` and `implementations/run-quality.md`. An authorized full run continues through Human Report without asking approval after each ordinary layer. Preserve the explicit inventory and heavy-analysis choices. Use `run_control.py prepare` after bootstrap/validation and `finish` after report export. Read-only check: `validate_runs.py --run-dir <RUN_DIR> --json`; repository `--examples` never validates a user run.
+| Phase | Skill |
+| --- | --- |
+| facilitator | hypothesis-facilitator |
+| local_evidence | local-knowledge-retrieval |
+| business_context | business-context-value-check |
+| market | hypothesis-market-layer |
+| synthesis | hypothesis-synthesis |
+| customer_discovery_planning | customer-discovery-planning |
+| decision_review | hypothesis-decision-review |
+| human_report | human-report-export |
 
-## Progress initialization
+Resolve actual skill folders by name if a shorthand differs; do not search old runs. Record actual starts/waits/errors/completions using file tools and the existing JSONL event schema. Load audit templates only when producing artifacts that need them. Missing context stays a gap; role simulation is never empirical evidence.
 
-Resolve framework resources from their actual directory, including nested ZIP names. Follow `.clinerules/30-run-observability.md`: initialize journal/view, start the loopback viewer in a background terminal if supported, and show its actual URL. Record each phase start/wait/error/completion and actual source operations. Preserve history on resume; never backfill fictional source calls.
+At a decision show findings/uncertainty, available options and a reasoned recommendation. Ask in the selected channel (chat or TUI), save the exact reply and its effect in run.md. Already-authorized routine work continues without another approval. A technical check reports consistency issues; it never chooses a product/service decision or automatically starts the next phase. If changing scope or overwriting results is needed, ask before doing so. Never downgrade audit requirements to obtain PASS.
 
-## Fresh bootstrap shortcut
+## Scripts are tools
 
-For a freshly bootstrapped run with no phase markers or layer outputs, do not read every downstream layer skill or reconstruct a resume history that does not exist. Keep validation and the canonical preflight checks; absence of markers identifies the first phase. Load each phase's detailed instructions only after its preparation/start is recorded. Never use this shortcut to bypass validation or existing-output overwrite checks. Activate an explicitly resumed RUN_DIR before lengthy preflight so the terminal reflects the selected run; record the current validation/preflight action without marking it completed.
+Use a script only for a concrete task: extraction/large-data processing, grounding records against real sources, calculations, or checking an artifact that already exists. Respect the agreed heavy-analysis choice. No speculative checker exploration, repeated whole-project scans, waiting commands, artificial FAILs or defect-injection tests during a user run.
 
-## Preflight and resume plan
+After producing a phase's artifacts, use `validate_runs.py --run-dir <RUN_DIR> --phase <phase> --save-report --json` once. It checks outputs and saves the actual result, without moving the workflow. A FAIL is a diagnostic: explain the cause, repair within agreed scope or discuss a real choice; preserve failure history. After PASS write that phase's canonical marker from 10-artifact-contracts and completed event with file tools. For skipped business context use the checker's completion-status option and its matching marker. Never announce PASS without the observed tool result.
 
-Before executing or writing anything:
+For Human Report, run only `validate_runs.py --run-dir <RUN_DIR> --pending-report --save-report --json`. After PASS write the final canonical marker, completion event, input status completed and run_state/ended_at. FAIL leaves the run unfinished. Final audit covers all existing contracts/source-bound checks, not source truth or market demand. Report recommendation, confidence, evidence limits and next action; link the HTML and actual validation result. A final service/product decision remains in dialogue.
 
-1. Resolve `RUN_DIR` and validate `input/hypothesis.md` with
-   skill `hypothesis-input-validation`. Stop on `validation: fail`.
-2. Read every phase marker as JSON and compare it with the per-file object in
-   `.clinerules/10-artifact-contracts.md`. Presence alone is not completion.
-3. For each phase in canonical order, verify:
-   - marker JSON has expected `status`, `completed_phase`, `next_phase`, and
-     `inputs`;
-   - status is allowed for that marker (`completed`, plus
-     `skipped_missing_context` only for Business Context);
-   - every required artifact named by `inputs` exists and is usable;
-   - the preceding phase has an allowed canonical marker/status.
-4. Classify each phase:
-   - **completed** — canonical marker, allowed status, valid prerequisites and
-     required artifacts;
-   - **incomplete** — no marker;
-   - **invalidated** — canonical JSON marker exists but its fields, status,
-     prerequisites, or artifacts are inconsistent;
-   - **non-canonical** — malformed JSON or a legacy/free-text marker body.
-5. Skip the contiguous completed prefix. The resume point is the first
-   incomplete, invalidated, or non-canonical phase. Later markers do not make an
-   earlier gap complete.
-
-Show a resume summary before execution:
-
-```yaml
-RUN_DIR: runs/HYP-...
-validation: pass
-completed_phases: [...]
-resume_phase: facilitator | local_evidence | business_context | market | synthesis | customer_discovery_planning | decision_review | human_report | none
-resume_reason: incomplete | invalidated | non-canonical | all_completed
-planned_action: concise localized description
-overwrite_candidates: [...]
-confirmation_required: true | false
-```
-
-If every phase marker is completed, run `run_control.py finish --run-dir <RUN_DIR>` to verify the actual artifacts and audit before **Report**. A failed gate is an invalidated completion, not an all-completed run. Do not rerun or overwrite outputs without the existing authorization.
-
-## Safe write and migration rules
-
-- A missing marker with no existing phase outputs may run without extra
-  confirmation after the resume summary.
-- Before overwriting any existing output, rerunning a completed phase, or
-  rerunning an invalidated phase, obtain explicit confirmation naming the phase
-  and files at risk. Without confirmation, stop without writes.
-- Never silently trust, migrate, delete, or overwrite malformed/free-text
-  legacy markers. Explain that they are non-canonical and ask the user to choose:
-  **migrate marker after artifact verification**, **rerun phase**, or **cancel**.
-  Migration and rerun both require explicit confirmation.
-- Marker migration may only write the exact JSON body defined in
-  `.clinerules/10-artifact-contracts.md` after all claimed prerequisites and
-  artifacts have been verified. Otherwise offer rerun or cancel.
-- If the user explicitly requests a rerun of a completed phase, include all
-  downstream phases that become stale in the confirmation and resume plan.
-- Never infer completion from output files alone.
-
-## Steps
-
-1. **Validate input**
-   - Invoke skill `hypothesis-input-validation` or skill `hypothesis-input-validation`.
-   - Stop if validation fails.
-   - Then perform the marker/artifact preflight above and summarize the planned
-     resume point.
-
-2. **Facilitator (Roles Layer)**
-   - Run only when it is the resume phase; otherwise skip as completed.
-   - Activate skill `hypothesis-facilitator`.
-   - Produce `role_outputs/*`, `hypothesis_summary.md`, `validation_questions.md`, `ready_for_synthesis.marker`.
-   - Show user a brief summary (assumptions, conflicts) before continuing.
-
-3. **Local Evidence Discovery**
-   - Require `ready_for_synthesis.marker` with canonical `status: completed`.
-   - Activate skill `local-knowledge-retrieval`.
-   - Produce `discovery_preview.md`, `evidence_inventory.md`, `knowledge_retrieval_complete.marker`.
-   - Run the inventory completeness review: show scanned/skipped/items, accept additions, and wait for Continue (or an existing explicit waiver). Do not write the retrieval marker or start Business Context until review is accepted/waived. On resume preserve this pause for draft inventory without its marker.
-
-4. **Business Context & Value Check**
-   - Require `knowledge_retrieval_complete.marker` with canonical
-     `status: completed`.
-   - Activate skill `business-context-value-check`; commission `external-business-research` during this phase even if internal context is missing.
-   - Produce `business_context_analysis.md` or `missing_business_context.md`, `business_context_complete.marker`.
-   - Show user stakeholder map and strategic fit (or KB gap) before continuing.
-
-5. **Market Layer**
-   - Require `business_context_complete.marker` with canonical status
-     `completed` or `skipped_missing_context`.
-   - Activate skill `hypothesis-market-layer`.
-   - Read `evidence_inventory.md` first for KB-local signals.
-   - Then search Confluence MCP for internal wiki signals.
-   - Produce `market_analysis.md`, `market_analysis_complete.marker`.
-   - Show user signal summary before continuing.
-
-6. **Synthesis Layer**
-   - Require `market_analysis_complete.marker` with canonical
-     `status: completed`.
-   - Activate skill `hypothesis-synthesis`.
-   - Produce `hypothesis_map.md`, `hypothesis_digest.txt`, `synthesis_complete.marker`.
-
-7. **Customer Discovery Planning**
-   - Require `synthesis_complete.marker` with canonical `status: completed`.
-   - Activate skill `customer-discovery-planning`.
-   - Produce `customer_discovery_plan.md`, `customer_discovery_planning_complete.marker`.
-   - Show user critical unknowns and high-priority interview targets.
-
-8. **Decision Review**
-   - Require `customer_discovery_planning_complete.marker` with canonical
-     `status: completed`.
-   - Activate skill `hypothesis-decision-review`.
-   - Produce `decision_review.md`, `decision_review_complete.marker`.
-   - Show user confidence and recommendation before continuing.
-
-9. **Human Decision Report Export**
-   - Require `decision_review_complete.marker` with canonical
-     `status: completed`.
-   - Activate skill `human-report-export`.
-   - Produce `human_report.html`, `human_report_complete.marker`.
-   - Show user path to `human_report.html` and decision readiness summary.
-
-10. **Report**
-   - Lead with the verdict/confidence, covered and missing source channels, material limits and next action from the artifacts. Do not lead with marker counts or HTML checks.
-   - Point user to `outputs/human_report.html` as the main human-facing decision report.
-   - Remind: human makes the final backlog decision.
-
-After each newly executed phase, re-read its JSON marker and required outputs; then record completed in the progress journal. If waiting for input or a permission, record that status before pausing.
-Stop at that phase if verification fails; do not proceed to downstream phases.
-
-## Expected time
-
-Agree a bounded research/analysis budget based on source volume. Do not promise a fixed duration before discovery.
-
-## Reference
-
-See `FRAMEWORK_DIR/playbooks/run-hypothesis.md` for interpretation model and tips.
-
-## Service execution
-
-Run all existing phases with the selected profile. Before Market, verify Business Context includes both value chains, promise/boundaries, delivery and capacity/economics (or explicit gaps). Before report, verify service viability and service decision in Decision Review. Profile/type/role-side changes invalidate downstream results; include affected outputs in the resume plan. Use the main action from the service profile in the final report, not a generic instruction to build.
-
-## Phase start and source-grounded completion
-
-In new full runs with phase_handoff_version 1, source selection/complete already prepares the next phase. Use complete.next_phase/next_prepared; do not call start again when next_prepared is true. Use start before work for phase mode, legacy runs, explicit resume after a wait/error/invalidation or viewer recovery, and show a verified URL at first start/recovery. Audit-v2 requires source_snapshot.json, grounded quotes and numbers, counterevidence comparisons, procurement reconciliation when applicable, actual search coverage, bounded entity/client scope and consistent experiment/decision gates. Read implementations/run-quality.md before evidence collection; do not wait until final export to reconstruct provenance. `validation_history.jsonl` preserves failed checks. Historical runs retain their audit version; --strict is a read-only diagnostic, not an automatic migration.
-
-## Terminal progress handoff
-
-If the dedicated HST terminal task is installed, it waits for the active-run pointer and does not need a RUN_DIR typed by the user. Normal `prepare` publishes the pointer before HTTP startup. For an explicit resume/selection, run `run_control.py activate --run-dir <RUN_DIR>` once. Resolve framework paths as usual; for custom layouts pass --workspace <KB_ROOT>. Do not start the viewer as a long foreground command in Cline's execution terminal. In an already-open workspace the task must be launched once via Terminal → Run Task → HST · Прогресс, or on folder reopen after native automatic-task permission. Do not present the task as already visible unless observed.
-
-
-## Efficient normal path and passive measurements (2.8)
-
-For each ready output phase call complete exactly once; its success response states next_phase/next_prepared. Do not precede it with check-phase or a separate validate_runs invocation. check-phase is explicit diagnosis, not a normal step. For Human Report call finish once, without check-phase/complete/validate_runs wrappers around it; finish already runs the full audit. Retry after an actual failed check or changed outputs; fix the returned causes and preserve FAIL history. Never turn a required check into pass manually.
-
-Register the claims prepared for a phase with one audit_records.py batch-claims --run-dir <RUN_DIR> --record <UTF8_JSON_LIST> call. Use ordinary source registration before citing sources; IDs, anchors, quotes and independence rules are unchanged. The whole claim batch is validated before one ledger write. A failed batch registers nothing. Single-claim mode remains for repair/debugging. Temporary UTF-8 JSON batch input is runtime data, not evidence.
-
-New prepare enables timing_version 1 and captures framework_version. Existing CLI calls automatically save outputs/command_metrics.jsonl and outputs/performance_summary.json; do not add timing commands, sleeps or repeated metrics reads. Final response may link performance_summary.json. Explicitly log waiting_user before a genuine decision pause and waiting_approval before host approval; after continuation log the actual running/result event. Do not infer wait time from silence. Unattributed time is not LLM reasoning. Model identity is a user-supplied --model-label, not inferred from chat.
-
-For controlled comparison use FRAMEWORK_DIR/benchmarks/pipeline-001/prompt.md; preserve the fixed card and benchmark settings. Do not shorten analytical content in this first optimization package.
+Directly registered claims must satisfy the same grounded audit. Batch registration is useful after the relevant text exists; initialize/copy the empty audit templates only then, never as a startup prerequisite. Preserve archived timestamps and real tool failures. Historical runs are not evidence templates.

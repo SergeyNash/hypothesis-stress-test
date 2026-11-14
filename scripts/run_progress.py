@@ -82,7 +82,15 @@ def snapshot(run, rows):
         if isinstance(saved,dict) and saved.get('target')==str(Path(run).resolve()) and saved.get('scope')=='run':
             validation={k:saved[k] for k in ['status','at','errors'] if k in saved}
     except (OSError,ValueError):pass
-    return {'schema_version': 1, 'run': Path(run).name, 'updated_at': rows[-1]['at'] if rows else None,
+    from run_clock import clock
+    startup = Path(run)/'outputs/startup_events.jsonl'
+    early = []
+    try:
+        if startup.is_file() and not startup.is_symlink() and startup.stat().st_size <= 1024*1024:
+            early = [json.loads(line) for line in startup.read_text(encoding='utf-8-sig').splitlines() if line.strip()]
+    except (OSError, ValueError): pass
+    timer = clock(config(run), rows, startup_events=early)
+    return {'timer': timer, 'schema_version': 1, 'run': Path(run).name, 'updated_at': rows[-1]['at'] if rows else None,
             'phases': [dict(id=p, name=NAMES[p], **states[p]) for p in PHASES],
             'events': rows, 'completed': sum(s['state'] == 'completed' for s in states.values()),
             'total': len(states), 'source_selection': config(run).get('source_selection'),

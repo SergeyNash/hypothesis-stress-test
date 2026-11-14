@@ -1,3 +1,9 @@
+# New dialogue runs: precedence
+
+For execution_driver `dialogue`, follow implementations/dialogue-run.md. Native file operations record the card/config, source consent, real journal events and canonical markers after actual checks. Do not run controller prepare/start/complete or a per-operation require-source command. Inspect the saved channel choice and local scope before every native/tool/source operation; extraction helpers still enforce scope internally. Use read-only artifact checks after writing the relevant output; --save-report records only their real diagnostic, never advances a phase. No technical PASS decides the business outcome. Chat and TUI carry the same focused questions, recommendations and answers. Do not ask again for already-agreed work. Monitoring is optional and independent; absence of HTTP must not block analysis. For a TUI-bound run, the existing acknowledge/ask/consume calls are delivery operations, not analytical phase prerequisites or decisions. No startup/controller loop is added around them.
+
+The section below documents compatibility for existing lifecycle_version 1 archives and legacy tools. It is not the startup procedure for fresh dialogue runs.
+
 # Run quality and completion
 
 Applies to every new full run. Read `FRAMEWORK_DIR/implementations/run-quality.md` before Business Context and again before Decision Review/Human Report. New runs use protocol 2 with audit_version 2 and the source-bound contract in implementations/run-quality.md. Historical audit_version 1 checks declared consistency only. Do not retrofit the protocol into old completed runs or silently rewrite their conclusions. Historical checks cover structural contracts only.

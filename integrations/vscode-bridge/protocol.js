@@ -12,7 +12,7 @@ async function processRequest(ctx, id, value, api, log) {
   if (value.state === 'prepared') {
     await ctx.call('transition', id, ['--event', 'dispatching', '--message', 'Вызываю публичный API Cline']);
     const prompt = [
-      'Запусти полный HST через hst-run для существующего RUN_DIR: ' + value.run_dir,
+      'Веди полный HST в диалоговом режиме execution_driver=dialogue через hst-run для существующего RUN_DIR: ' + value.run_dir,
       'Это явный запуск пользователя из HST TUI, запрос ' + id + '.',
       'Карточка и источники уже сохранены. Не запускай новый intake, не создавай другую папку и не спрашивай источники повторно.',
       'Первым действием подтверди приём через FRAMEWORK_DIR/scripts/tui_control.py: action acknowledge, --workspace KB_ROOT, --request ' + id + '. Разреши FRAMEWORK_DIR через .hst/workspace.json; передавай пути отдельными аргументами, не копируй JSON-экранированные строки в shell.',

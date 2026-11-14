@@ -358,6 +358,8 @@ func (m model) View() tea.View {
 			completed++
 		}
 	}
+	title += "\n" + m.data.elapsed(time.Now())
+	bodyHeight = max(3, bodyHeight-1)
 	status := fmt.Sprintf("%s   %d/10 этапов", safe(m.data.Run), completed)
 	if m.data.Validation != "" {
 		status += "   Проверка: " + safe(m.data.Validation)
