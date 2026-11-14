@@ -63,7 +63,8 @@ class GateOptimization(unittest.TestCase):
         import audit_records
         with patch.object(audit_records,'atomic',wraps=audit_records.atomic) as writes:
             put_claims(self.run,[item('CL-001',first),item('CL-002',second)])
-        self.assertEqual(1,len([c for c in writes.call_args_list if c.args[0]==path]))
+        self.assertEqual(1,writes.call_count)
+        self.assertTrue(path.samefile(writes.call_args.args[0]))
         with self.assertRaises(ValueError):put_claims(self.run,[item('CL-003',first),item('CL-003',second)])
         self.assertEqual(2,len(json.loads(path.read_text(encoding='utf-8'))['claims']))
 
