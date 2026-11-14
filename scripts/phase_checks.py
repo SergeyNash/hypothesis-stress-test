@@ -1,5 +1,6 @@
 """Stage-scoped gates. Does not infer completion from file existence."""
 import json
+from runtime_metrics import timed
 from pathlib import Path
 
 INPUTS = {
@@ -30,6 +31,7 @@ def enabled(run):
     return config(run).get('lifecycle_version')==1
 
 
+@timed('phase_validation', phase_argument=1)
 def check(run,phase,*,marker=True,status='completed'):
     from validate_runs import validate_marker,validate_evidence,validate_market
     run=Path(run).resolve();errors=[]
@@ -69,7 +71,8 @@ def check(run,phase,*,marker=True,status='completed'):
     return sorted(set(errors))
 
 
-def require_previous(run,phase):
+@timed('prerequisite_validation', phase_argument=1)
+def require_previous(run,phase,*,verify_artifacts=True):
     from run_progress import PHASES,events
     if not enabled(run):return
     rows=events(Path(run)/'outputs')
@@ -77,7 +80,7 @@ def require_previous(run,phase):
         last=next((e for e in reversed(rows) if e['kind']=='phase' and e['phase']==earlier),None)
         if last is None or last['state']!='completed':
             raise ValueError('Previous phase not completed in journal: '+earlier+'; use run_control.py complete after verification')
-        if earlier in INPUTS:
+        if verify_artifacts and earlier in INPUTS:
             errors=check(run,earlier)
             if errors:raise ValueError('Previous phase failed verification: '+earlier+': '+', '.join(errors))
 
@@ -98,3 +101,33 @@ def diagnose(run,rows):
         elif last and last['state']=='completed' and not claimed:
             warnings.append('Журнал отмечает '+phase+' завершённым, но маркер отсутствует или некорректен.')
     return warnings
+
+
+class _VerifiedTransition:
+    """An in-process receipt, usable only during one checked controller commit."""
+    def __init__(self, run, phase):
+        self.run = Path(run).resolve()
+        self.phase = phase
+        self.active = True
+
+
+def accepts(receipt, run, phase, state):
+    if not isinstance(receipt, _VerifiedTransition) or not receipt.active or receipt.run != Path(run).resolve():
+        return False
+    if state == 'completed':
+        return phase == receipt.phase
+    if state == 'running':
+        return phase == payload(receipt.phase)['next_phase']
+    return False
+
+
+from contextlib import contextmanager
+
+@contextmanager
+def verified_transition(run, phase):
+    """Only the controller calls this after real checks; never serialize receipts."""
+    receipt = _VerifiedTransition(run, phase)
+    try:
+        yield receipt
+    finally:
+        receipt.active = False

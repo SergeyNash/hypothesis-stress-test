@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Local HST event journal and live progress viewer (stdlib, loopback only)."""
 from __future__ import annotations
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 import argparse
 from contextlib import contextmanager
 from datetime import datetime, timezone
@@ -45,8 +48,8 @@ def output_dir(run):
 
 
 @contextmanager
-def lock(output):
-    path = output / '.progress.lock'
+def lock(output, name='.progress.lock'):
+    path = output / name
     for attempt in range(41):
         try:
             fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
@@ -106,16 +109,19 @@ def atomic(path, content):
             tmp.unlink()
 
 
-def record(run, *, phase, state, message, channel=None, query='', urls=None, _transition=False):
+def record(run, *, phase, state, message, channel=None, query='', urls=None, _transition=False, _verified=None):
     from source_selection import require, COLLECTION_PHASES, OPERATIONS
     if channel and state in OPERATIONS:require(run,channel)
     if not channel and phase in COLLECTION_PHASES and state == 'running':require(run)
-    from phase_checks import enabled, require_previous, check
+    from phase_checks import enabled, require_previous, check, accepts
+    checked = accepts(_verified, run, phase, state) if _verified is not None else False
+    if _verified is not None and not checked:
+        raise ValueError('Invalid or expired controller validation receipt')
     if not channel and enabled(run):
         if state=='completed' and phase not in {'intake','validation'} and not _transition:
             raise ValueError('Use run_control.py complete/finish to verify and persist phase completion')
-        if state in {'running','completed'} and phase not in {'intake','validation'}:require_previous(run,phase)
-        if state == 'completed' and phase not in {'intake','validation'}:
+        if state in {'running','completed'} and phase not in {'intake','validation'}:require_previous(run,phase,verify_artifacts=not checked)
+        if state == 'completed' and phase not in {'intake','validation'} and not checked:
             errors=check(run,phase)
             if errors:raise ValueError('Phase verification failed: '+', '.join(errors))
     if phase not in PHASES or state not in (CHANNEL_STATES if channel else STATES):
@@ -133,10 +139,10 @@ def record(run, *, phase, state, message, channel=None, query='', urls=None, _tr
             name, spec = next((k, v) for k, v in MARKER_REGISTRY.items() if v['completed_phase'] == phase)
             p = Path(run) / 'outputs' / name
             problems = validate_marker(p, spec) if p.is_file() else ['missing marker']
-            if phase == 'local_evidence':
+            if phase == 'local_evidence' and not checked:
                 from validate_runs import validate_evidence
                 problems += validate_evidence(Path(run) / 'outputs/evidence_inventory.md')
-        if phase == 'human_report':
+        if phase == 'human_report' and not checked:
             problems += check_run(run)
         if problems:
             raise ValueError('completion verification failed: ' + ', '.join(problems))
@@ -161,6 +167,8 @@ def record(run, *, phase, state, message, channel=None, query='', urls=None, _tr
             raise ValueError('invalidate completed phase before rerun')
         row = {'id': len(rows) + 1, 'at': now(), 'kind': 'source' if channel else 'phase',
                'phase': phase, 'state': state, 'message': message}
+        if state in {'waiting_user','waiting_approval'}:
+            row['wait_reason'] = 'user_input' if state == 'waiting_user' else 'tool_approval'
         if channel:
             row.update(channel=channel, query=query, urls=urls or [])
         with (output / 'pipeline_events.jsonl').open('a', encoding='utf-8') as f:
@@ -270,4 +278,5 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'run_progress', _HST_STARTED, _HST_CPU_STARTED))

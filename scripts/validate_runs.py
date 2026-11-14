@@ -5,6 +5,9 @@ Stdlib only. No LLM. No network.
 """
 
 from __future__ import annotations
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 
 import argparse
 import json
@@ -569,6 +572,9 @@ def validate_examples() -> list[str]:
     return failures
 
 
+from runtime_metrics import timed
+
+@timed('full_run_validation')
 def check_run(run_dir, *, check_folder_id=True, strict=False, pending_human_report=False):
     run_dir = Path(run_dir).resolve()
     try:
@@ -579,6 +585,8 @@ def check_run(run_dir, *, check_folder_id=True, strict=False, pending_human_repo
         codes.extend(validate_selection(run_dir))
         from tui_control import validate_run_binding
         codes.extend(validate_run_binding(run_dir))
+        from benchmark_policy import validate as validate_benchmark
+        codes.extend(validate_benchmark(run_dir))
         from run_quality import validate_quality
         codes.extend(validate_quality(run_dir, strict=strict))
         if check_folder_id:
@@ -622,5 +630,6 @@ def main(argv=None) -> int:
     return 1 if failures else 0
 
 
-if __name__ == "__main__":
-    sys.exit(main())
+if __name__ == '__main__':
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'validate_runs', _HST_STARTED, _HST_CPU_STARTED))

@@ -70,6 +70,8 @@ def select(run, channels, paths, workspace=None, remember=False, reason=''):
     if set(channels) != set(CHANNELS) or any(type(v) is not bool for v in channels.values()):
         raise ValueError('Choose yes/no for all three channels')
     if not reason.strip():raise ValueError('Record the actual user source choice in --reason')
+    if c.get('benchmark') and channels != c['benchmark']['channels']:
+        raise ValueError('Benchmark source channels are fixed; create a normal run to change them')
     root = workspace_for(run, workspace)
     clean = []
     if paths and not channels['local']:raise ValueError('Local folders require local=yes')

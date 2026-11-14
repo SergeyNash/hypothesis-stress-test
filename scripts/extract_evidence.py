@@ -5,6 +5,9 @@ Optional readers: pypdf, python-docx, openpyxl (see requirements-evidence.txt).
 Never executes macros, formulas, hyperlinks, OCR or embedded content.
 """
 from __future__ import annotations
+import time as _hst_clock
+_HST_STARTED = _hst_clock.perf_counter()
+_HST_CPU_STARTED = _hst_clock.process_time()
 
 import argparse
 import hashlib
@@ -222,4 +225,5 @@ def main():
 
 
 if __name__ == '__main__':
-    raise SystemExit(main())
+    from runtime_metrics import execute
+    raise SystemExit(execute(main, 'extract_evidence', _HST_STARTED, _HST_CPU_STARTED))

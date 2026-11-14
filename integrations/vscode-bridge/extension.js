@@ -34,7 +34,7 @@ async function contextFor(folder) {
     const command = [helper, action, '--workspace', root];
     if (id) command.push('--request', id);
     command.push(...args);
-    const {stdout} = await execute(tui.python, command, {cwd: root, windowsHide: true, maxBuffer: 2 * 1024 * 1024, env: {...process.env, PYTHONUTF8: '1'}});
+    const {stdout} = await execute(tui.python, command, {cwd: root, windowsHide: true, maxBuffer: 2 * 1024 * 1024, env: {...process.env, PYTHONUTF8: '1', HST_COMMAND_ORIGIN: 'vscode_bridge'}});
     return JSON.parse(stdout.trim());
   };
   return {root, framework, tui, call};
