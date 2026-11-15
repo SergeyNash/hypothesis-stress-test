@@ -29,6 +29,7 @@ type event struct {
 	Channel string `json:"channel"`
 }
 type snapshot struct {
+	Warnings   []string
 	StartedAt  string
 	EndedAt    string
 	Run        string
@@ -199,7 +200,11 @@ func readSnapshot(root, id string) (snapshot, error) {
 			}
 			var e event
 			if err = json.Unmarshal(scanner.Bytes(), &e); err != nil {
-				return s, fmt.Errorf("журнал временно недоступен: %w", err)
+				s.Warnings = append(s.Warnings, "Запись журнала пока не читается; исходный файл не изменён")
+				continue
+			}
+			if e.Kind == "source" && e.Phase == "" {
+				s.Warnings = append(s.Warnings, "Источник без этапа; показан без привязки")
 			}
 			s.Events = append(s.Events, e)
 		}

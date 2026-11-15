@@ -18,6 +18,12 @@
 
 Версия фреймворка не совпадает с ID прогонов (`HYP-YYYY-MM-DD-NNN`). Для точного воспроизведения дополнительно фиксируйте коммит.
 
+## [2.10.0] — 2026-11-14
+
+- Monitoring tolerates incomplete source events and temporarily malformed JSONL rows in a read-only display projection, with visible warnings; raw journal/audit reads remain strict.
+- Missing phase history remains unknown/pending. Display recovery never invents completion or writes repaired events.
+- Explicitly keep monitor debugging out of research runs. Python/HTML/Go viewers remain observational; real artifact audit failures are handled separately.
+
 ## [2.9.0] — 2026-11-14
 
 - Fresh runs are dialogue-driven: native file bootstrap and just-in-time instructions; no mandatory Python/controller/viewer preflight before substantive work. Old lifecycle archives retain compatibility.

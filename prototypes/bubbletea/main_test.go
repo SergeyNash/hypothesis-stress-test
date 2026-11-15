@@ -275,3 +275,35 @@ func TestElapsedIncludesPreparationAndFreezes(t *testing.T) {
 		t.Fatal("explicit stop ignored")
 	}
 }
+
+func TestPartialJournalIsDisplayWarningNotWorkflowRepair(t *testing.T) {
+	root := t.TempDir()
+	id := "HYP-2026-11-14-002"
+	output := filepath.Join(root, "runs", id, "outputs")
+	if err := os.MkdirAll(output, 0700); err != nil {
+		t.Fatal(err)
+	}
+	rows := `{"id":5,"kind":"source","channel":"internet","state":"declined","at":"2026-11-14T13:00:00Z","message":"Disabled"}
+{"id":6,"kind":"phase","phase":"facilitator","state":"running","at":"2026-11-14T13:01:00Z","message":"Working"}
+{"id":7,`
+	path := filepath.Join(output, "pipeline_events.jsonl")
+	if err := os.WriteFile(path, []byte(rows), 0600); err != nil {
+		t.Fatal(err)
+	}
+	snapshot, err := readSnapshot(root, id)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(snapshot.Events) != 2 || len(snapshot.Warnings) != 2 {
+		t.Fatal("valid events/warnings lost")
+	}
+	for _, p := range snapshot.Phases {
+		if p.State == "completed" {
+			t.Fatal("invented completion")
+		}
+	}
+	after, err := os.ReadFile(path)
+	if err != nil || string(after) != rows {
+		t.Fatal("viewer rewrote journal")
+	}
+}

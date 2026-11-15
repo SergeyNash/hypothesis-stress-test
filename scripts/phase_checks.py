@@ -97,7 +97,7 @@ def diagnose(run,rows):
             claimed=data.get('status') in {'completed','skipped_missing_context'}
         except (OSError,ValueError,AttributeError):claimed=False
         if claimed and (not last or last['state']!='completed'):
-            warnings.append('Маркер '+phase+' есть, но завершение не записано в журнале; нужна проверка complete.')
+            warnings.append('Маркер '+phase+' есть, но завершение не записано в журнале; отображение неполно, история не восстанавливается по маркеру.')
         elif last and last['state']=='completed' and not claimed:
             warnings.append('Журнал отмечает '+phase+' завершённым, но маркер отсутствует или некорректен.')
     return warnings

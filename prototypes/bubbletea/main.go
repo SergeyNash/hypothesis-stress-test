@@ -358,6 +358,10 @@ func (m model) View() tea.View {
 			completed++
 		}
 	}
+	if len(m.data.Warnings) > 0 {
+		title += "\n" + paint("1;33", fmt.Sprintf("Мониторинг: замечаний %d · %s", len(m.data.Warnings), safe(m.data.Warnings[0])))
+		bodyHeight = max(3, bodyHeight-1)
+	}
 	title += "\n" + m.data.elapsed(time.Now())
 	bodyHeight = max(3, bodyHeight-1)
 	status := fmt.Sprintf("%s   %d/10 этапов", safe(m.data.Run), completed)

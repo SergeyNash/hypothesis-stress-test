@@ -1,10 +1,14 @@
+## Сбой просмотра не меняет ход анализа
+
+Если монитор не читает событие, один раз сообщи, что отображение неполно, и продолжи согласованную содержательную работу. Не изучай terminal_progress.py/run_progress.py, не запускай диагностику визуализации и не переписывай историю ради зелёных этапов. Нельзя дописывать intake/validation completed только из-за того, что они не показаны. Записывай фактическое завершение после реальной работы; неизвестная история остаётся неизвестной. Проверка результата может отдельно сообщить реальную ошибку аудита — её разбираем по существу. Диагностика монитора выполняется отдельной задачей по явному запросу, не внутри контрольного прогона.
+
 # Execution priority for new runs (2.9)
 
 Fresh runs use `execution_driver: dialogue`. Follow implementations/dialogue-run.md and hst-start/hst-run before older lifecycle examples. No Python preflight, controller prepare/start/complete, HTTP viewer or validator-source reading is required before substantive work. Native file tools create the isolated run and record progress. Scripts process actual data or check existing results. Chat/TUI carry choices and recommendations; code does not decide research direction. Never read other runs unless the user explicitly asks to resume/compare them. Preserve legacy controller configuration only for existing lifecycle_version 1 runs.
 
 # Hypothesis Stress Test Framework
 
-**Framework version:** 2.9.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+**Framework version:** 2.10.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
 
 This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
 
