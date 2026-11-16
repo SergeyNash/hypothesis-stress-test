@@ -123,7 +123,6 @@ scripts/startup_progress.py
 scripts/tui_control.py
 scripts/validate_runs.py
 templates/claim_ledger.json
-templates/human-report-template.html
 templates/progress.html
 templates/quality_review.json
 tests/test_contracts.py

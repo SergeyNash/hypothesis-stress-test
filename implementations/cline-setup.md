@@ -132,9 +132,10 @@ outputs/
   customer_discovery_plan.md
   decision_review.md
   human_report.md
+  human_report.html
 ```
 
-Откройте **`human_report.md`** в редакторе для decision-facing сводки. Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
+Откройте **`human_report.html`** напрямую в браузере для итоговой сводки; текстовая версия — `human_report.md`. Сервер не требуется. Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
 
 ## Plan vs Act mode
 
