@@ -17,7 +17,7 @@ import zipfile
 
 ARCHIVE_URL='https://api.github.com/repos/SergeyNash/hypothesis-stress-test/zipball/main'
 LIMIT=50*1024*1024
-CONFIGS=['.cline','.clinerules','.vscode/tasks.json','.hst/workspace.json','.hst/update.py']
+CONFIGS=['.cline','.clinerules','.vscode/tasks.json','.hst/workspace.md','.hst/workspace.json','.hst/update.py']
 PROTECTED={'runs','.hst','.obsidian','.git'}
 
 
@@ -54,7 +54,7 @@ def unpack(archive,destination):
         if len(roots)!=1:raise ValueError('Expected one repository archive root')
         z.extractall(destination)
     package=destination/next(iter(roots))
-    for name in ['VERSION','scripts/setup_workspace.py','scripts/extract_evidence.py','.clinerules','.cline']:
+    for name in ['VERSION','scripts/setup_workspace.py','.cline/skills/hst-start/SKILL.md','.clinerules','.cline']:
         if not (package/name).exists():raise ValueError('Incomplete framework archive: '+name)
     return package
 
@@ -66,6 +66,12 @@ def locations(workspace,framework=None):
     if state.is_symlink():raise ValueError('Workspace state must not be a symlink')
     if (state/'workspace.json').is_symlink():raise ValueError('Workspace settings must not be a symlink')
     if (state/'terminal-venv').is_symlink():raise ValueError('Terminal environment must not be a symlink')
+    if framework is None and (state/'workspace.md').is_file():
+        import re
+        if (state/'workspace.md').is_symlink():raise ValueError('Workspace settings must not be symlink')
+        match=re.search(r'^Framework:[ \t]*(.+)$',(state/'workspace.md').read_text(encoding='utf-8-sig'),re.M)
+        if not match:raise ValueError('Missing framework location')
+        framework=workspace/match[1]
     if framework is None and (state/'workspace.json').is_file():
         framework=workspace/json.loads((state/'workspace.json').read_text(encoding='utf-8-sig'))['framework_dir']
     if framework is None:framework=Path(__file__).resolve().parents[1]
@@ -116,7 +122,9 @@ def update(workspace,framework=None,*,apply=False,terminal=None,fetch=download,s
     state=workspace/'.hst'
     if terminal is None:
         settings=state/'workspace.json'
-        terminal=bool(json.loads(settings.read_text(encoding='utf-8-sig')).get('terminal_enabled')) if settings.is_file() else False
+        markdown=state/'workspace.md'
+        terminal=('Terminal: enabled' in markdown.read_text(encoding='utf-8-sig')) if markdown.is_file() else (bool(json.loads(settings.read_text(encoding='utf-8-sig')).get('terminal_enabled')) if settings.is_file() else False)
+        terminal=terminal or (state/'terminal-venv').is_dir()
     with tempfile.TemporaryDirectory(prefix='hst-download-') as temporary:
         temp=Path(temporary);archive=temp/'framework.zip'
         fetch(archive);package=unpack(archive,temp/'unpacked')
@@ -142,6 +150,15 @@ def update(workspace,framework=None,*,apply=False,terminal=None,fetch=download,s
                     target=prepared/item.name
                     if item.is_dir():shutil.copytree(item,target,dirs_exist_ok=True)
                     else:shutil.copy2(item,target)
+                retired=package/'maintenance/retired-paths.txt'
+                if retired.is_file():
+                    for name in retired.read_text(encoding='utf-8').splitlines():
+                        relative=PurePosixPath(name)
+                        if relative.is_absolute() or '..' in relative.parts or not relative.parts or '\\' in name or ':' in name or relative.parts[0].casefold() in PROTECTED:raise ValueError('Unsafe retirement path')
+                        target=prepared/relative
+                        if target.is_symlink():raise ValueError('Symlink in retired file')
+                        if target.is_dir():shutil.rmtree(target)
+                        elif target.exists():target.unlink()
                 for name in CONFIGS:
                     source=workspace/name
                     exists=source.exists();saved.append((name,exists))
@@ -157,7 +174,7 @@ def update(workspace,framework=None,*,apply=False,terminal=None,fetch=download,s
                 prepared.rename(framework)
                 setup(workspace,framework,terminal)
                 report.update(action='updated',backup=str(backup))
-                (backup/'result.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+                (backup/'result.md').write_text('# HST update\n\nVersion: '+new+'\nBackup: '+str(backup)+'\n',encoding='utf-8')
                 return report
             except Exception:
                 if swapped:
@@ -190,7 +207,8 @@ def main():
     args=parser.parse_args()
     try:
         result=update(args.workspace,args.framework,apply=args.apply,terminal=args.terminal)
-        print(json.dumps(result,ensure_ascii=False,indent=2))
+        print('HST '+str(result['old_version'])+' → '+str(result['new_version'])+'\n'+str(result['action']))
+        if result.get('backup'):print('Backup: '+result['backup'])
         if args.apply:print('Обновление применено. Перезапустите HST · Прогресс и начните новый чат Cline.')
         else:print('Проверка выполнена. Для обновления повторите команду с --apply.')
     except (OSError,ValueError,KeyError,zipfile.BadZipFile,subprocess.CalledProcessError) as exc:

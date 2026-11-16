@@ -17,10 +17,10 @@ RUN_DIR: [set your run directory]
 
 ## Prerequisites
 
-- `outputs/ready_for_synthesis.marker`
-- `outputs/knowledge_retrieval_complete.marker`
-- `outputs/business_context_complete.marker` (`completed` or `skipped_missing_context`)
-- `outputs/market_analysis_complete.marker`
+- `outputs/hypothesis_summary.md`
+- `outputs/evidence_inventory.md`
+- `outputs/business_context_analysis.md` (`completed` or `skipped_missing_context`)
+- `outputs/market_analysis.md`
 - `outputs/role_outputs/*`
 - `outputs/hypothesis_summary.md`
 - `outputs/evidence_inventory.md`
@@ -69,8 +69,7 @@ Match the language of `input/hypothesis.md`.
 ## Output requirements
 
 1. `RUN_DIR/outputs/hypothesis_map.md` — full synthesis (see skill for EN/RU structure)
-2. `RUN_DIR/outputs/hypothesis_digest.txt` — max 150 words
-3. `RUN_DIR/outputs/synthesis_complete.marker` — valid JSON per `.clinerules/10-artifact-contracts.md`
+2. `RUN_DIR/outputs/hypothesis_digest.md` — max 150 words
 
 ---
 

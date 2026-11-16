@@ -35,7 +35,7 @@ Customer Discovery Planning — **слой планирования исслед
 
 Условие старта:
 
-- `synthesis_complete.marker`
+- `hypothesis_map.md`
 
 ---
 
@@ -44,7 +44,7 @@ Customer Discovery Planning — **слой планирования исслед
 | Артефакт | Назначение |
 |----------|------------|
 | `customer_discovery_plan.md` | Практичный план исследования, готовый к интервью |
-| `customer_discovery_planning_complete.marker` | Сигнал готовности к Decision Review |
+| `customer_discovery_plan.md` | Сигнал готовности к Decision Review |
 
 ---
 

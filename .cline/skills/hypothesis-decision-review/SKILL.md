@@ -7,7 +7,7 @@ description: Critically review synthesized hypothesis conclusions, identify weak
 
 Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Decision review**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Decision review**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
 
 
 # Hypothesis Decision Review
@@ -33,16 +33,15 @@ The goal is to improve decision quality before a hypothesis enters backlog plann
 
 ## Prerequisites
 
-Required canonical JSON markers:
+Required Markdown results:
 
-- `RUN_DIR/outputs/synthesis_complete.marker` with `status: completed`
-- `RUN_DIR/outputs/customer_discovery_planning_complete.marker` with
-  `status: completed`
+- `RUN_DIR/outputs/hypothesis_map.md`
+- `RUN_DIR/outputs/customer_discovery_plan.md`
 
 Required artifacts:
 
 - `RUN_DIR/outputs/hypothesis_map.md`
-- `RUN_DIR/outputs/hypothesis_digest.txt`
+- `RUN_DIR/outputs/hypothesis_digest.md`
 - `RUN_DIR/outputs/customer_discovery_plan.md`
 - `RUN_DIR/outputs/business_context_analysis.md` **or**
   `RUN_DIR/outputs/missing_business_context.md`
@@ -64,7 +63,7 @@ Required:
 Optional:
 
 - `RUN_DIR/outputs/role_outputs/*`
-- `RUN_DIR/outputs/hypothesis_digest.txt`
+- `RUN_DIR/outputs/hypothesis_digest.md`
 - `RUN_DIR/outputs/evidence_inventory.md`
 
 Do not ingest additional market research or interview notes that are not already in this `RUN_DIR`.
@@ -216,19 +215,6 @@ Maximum learning per unit of effort.
 
 Language matches `input/hypothesis.md`. Use the English or Russian section set below, not a mix.
 
-### Completion marker
-
-```json
-{
-  "status": "completed",
-  "completed_phase": "decision_review",
-  "next_phase": "human_report",
-  "inputs": [
-    "outputs/decision_review.md"
-  ]
-}
-```
-
 ## Recommendation tokens
 
 Store one canonical token and a localized label:
@@ -316,10 +302,6 @@ Remaining Russian sections mirror the English structure: качество eviden
 
 Based on `templates/decision-review-prompt.md`, `layers/decision-review-layer.md`, and `.clinerules/20-evidence-rules.md`.
 
-## Evidence quality gate
+## Проверка результата
 
-Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.
-
-## Source-bound audit v2
-
-For new runs read the audit-version-2 contract in `FRAMEWORK_DIR/implementations/run-quality.md`. Use generated source_snapshot anchors; bind EVID quotes/numeric facts to original cells/paragraphs, compare counterevidence and keep reported facts separate from author assessments. Before this phase use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show its actual viewer URL. Do not repair a failing audit by changing a status or inventing missing anchors. Repair the underlying claim and affected artifacts.
+Проверь содержание по .clinerules/40-run-quality.md. Основания и ограничения сохраняй в Markdown, без технических реестров и автоматических gates.

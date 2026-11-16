@@ -7,7 +7,7 @@ description: Execute Market Layer with explicit signal channels (KB inventory, C
 
 Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Market**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Market**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
 
 
 # Market Layer (Evidence-channel separation)
@@ -19,8 +19,6 @@ Validate whether the problem exists in reality using evidence-based analysis.
 Required:
 
 - `RUN_DIR/input/hypothesis.md`
-- `RUN_DIR/outputs/business_context_complete.marker` with canonical JSON
-  `status: completed` or `status: skipped_missing_context`
 - `RUN_DIR/outputs/business_context_analysis.md` **or**
   `RUN_DIR/outputs/missing_business_context.md`
 
@@ -29,7 +27,7 @@ Recommended:
 - `RUN_DIR/outputs/evidence_inventory.md`
 - `RUN_DIR/outputs/hypothesis_summary.md`
 
-If the Business Context gate is missing, stop. Do not start Market Layer.
+If the context analysis is missing, produce it within the agreed scope or document why it is unavailable before interpreting market signals.
 
 Use Business Context only to frame buyer, value, and strategic-fit interpretation.
 If the gap artifact exists, preserve it: market evidence must not fabricate
@@ -124,18 +122,9 @@ Confluence MCP: completed | no_results | unavailable | auth_error | error | wait
 - Missing evidence: [list gaps]
 ```
 
-Write `RUN_DIR/outputs/market_analysis_complete.marker`:
+Write `RUN_DIR/outputs/market_analysis.md`:
 
-```json
-{
-  "status": "completed",
-  "completed_phase": "market",
-  "next_phase": "synthesis",
-  "inputs": [
-    "outputs/market_analysis.md"
-  ]
-}
-```
+
 
 Match heading language to `input/hypothesis.md`.
 
@@ -143,10 +132,6 @@ Match heading language to `input/hypothesis.md`.
 
 Based on `templates/market-prompt.md`, `layers/market-layer.md`, and `.clinerules/20-evidence-rules.md`.
 
-## Evidence quality gate
+## Проверка результата
 
-Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.
-
-## Source-bound audit v2
-
-For new runs read the audit-version-2 contract in `FRAMEWORK_DIR/implementations/run-quality.md`. Use generated source_snapshot anchors; bind EVID quotes/numeric facts to original cells/paragraphs, compare counterevidence and keep reported facts separate from author assessments. Before this phase use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show its actual viewer URL. Do not repair a failing audit by changing a status or inventing missing anchors. Repair the underlying claim and affected artifacts.
+Проверь содержание по .clinerules/40-run-quality.md. Основания и ограничения сохраняй в Markdown, без технических реестров и автоматических gates.

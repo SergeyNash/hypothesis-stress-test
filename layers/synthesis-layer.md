@@ -44,10 +44,10 @@ Synthesis Layer — слой **столкновения сигналов**.
 
 ## Условия старта
 
-- `ready_for_synthesis.marker`
-- `knowledge_retrieval_complete.marker`
-- `business_context_complete.marker` со статусом `completed` или `skipped_missing_context`
-- `market_analysis_complete.marker`
+- `hypothesis_summary.md`
+- `evidence_inventory.md`
+- `business_context_analysis.md` со статусом `completed` или `skipped_missing_context`
+- `market_analysis.md`
 
 ---
 
@@ -81,8 +81,8 @@ Synthesis Layer — слой **столкновения сигналов**.
 | Артефакт | Назначение |
 |----------|------------|
 | `hypothesis_map.md` | Полный collision-анализ |
-| `hypothesis_digest.txt` | Короткий digest (макс. 150 слов) |
-| `synthesis_complete.marker` | Готово к Customer Discovery Planning |
+| `hypothesis_digest.md` | Короткий digest (макс. 150 слов) |
+| `hypothesis_map.md` | Готово к Customer Discovery Planning |
 
 ### Секции `hypothesis_map.md`
 

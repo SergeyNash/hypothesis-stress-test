@@ -6,11 +6,11 @@
 Проверяем переход от реактивной поддержки к проактивному обнаружению и ограниченному восстановлению с ИИ. Исходное обещание: −30% воздействия сбоев, +20% обслуживаемых контуров. Эти эффекты пока не доказаны.
 
 ## Как читать
-Открыть [human_report.html](outputs/human_report.html), затем [карту](outputs/hypothesis_map.md), [решение](outputs/decision_review.md) и [план проверок](outputs/customer_discovery_plan.md). Сырые учебные вводные лежат в kb-samples; каждый EVID сохраняет synthetic provenance.
+Открыть [human_report.md](outputs/human_report.md), затем [карту](outputs/hypothesis_map.md), [решение](outputs/decision_review.md) и [план проверок](outputs/customer_discovery_plan.md). Сырые учебные вводные лежат в kb-samples; каждый EVID сохраняет synthetic provenance.
 
 ## Воспроизведение структуры
 ```bash
-python scripts/extract_evidence.py --root examples/example-005/kb-samples
+
 python scripts/validate_runs.py --examples
 python -m unittest discover -s tests -v
 ```

@@ -181,7 +181,7 @@ repair_hints: []
 Начните с:
 
 ```text
-runs/HYP-2026-06-23-001/outputs/hypothesis_digest.txt
+runs/HYP-2026-06-23-001/outputs/hypothesis_digest.md
 ```
 
 Полные outputs в `outputs/` — та же структура, что в [example-001/outputs/](./example-001/outputs/).

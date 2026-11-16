@@ -115,7 +115,7 @@ Write `RUN_DIR/outputs/customer_discovery_plan.md` using this structure:
 ## Expected Learning Outcomes
 ```
 
-Create `RUN_DIR/outputs/customer_discovery_planning_complete.marker` as valid JSON per `.clinerules/10-artifact-contracts.md` when done.
+Create `RUN_DIR/outputs/customer_discovery_plan.md` as substantive Markdown when done.
 
 ## Application profile
 

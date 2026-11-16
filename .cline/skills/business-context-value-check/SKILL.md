@@ -7,7 +7,7 @@ description: Map stakeholder value flow, business effect type, and strategic fit
 
 Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Business context**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Business context**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
 
 
 # Business Context & Value Check
@@ -32,10 +32,8 @@ This skill does **not** decide whether to build. It maps the **value mechanism**
 Required:
 
 - `RUN_DIR/input/hypothesis.md`
-- `RUN_DIR/outputs/ready_for_synthesis.marker` with canonical JSON
-  `status: completed`
-- `RUN_DIR/outputs/knowledge_retrieval_complete.marker` with canonical JSON
-  `status: completed`
+- `RUN_DIR/outputs/hypothesis_summary.md`
+- `RUN_DIR/outputs/evidence_inventory.md`
 
 Recommended:
 
@@ -67,9 +65,7 @@ Search existing workspace folder names in the discovery catalog too; the English
 For **digital_product**, if strategy, GTM, OKR, or business-model materials are **not found** (service_business uses the profile-specific availability rule):
 
 1. Write `RUN_DIR/outputs/missing_business_context.md` using the gap template below.
-2. Write `RUN_DIR/outputs/business_context_complete.marker` with
-   `status: skipped_missing_context`.
-3. **Stop** — do not invent business context.
+2. Обозначь недоступный контекст и продолжи доступные части согласованного исследования. Не выдумывай данные.
 
 If materials exist, proceed to Step 2.
 
@@ -182,34 +178,6 @@ Required sections (EN or RU to match input language):
 - ...
 ```
 
-### `business_context_complete.marker`
-
-Completed analysis:
-
-```json
-{
-  "status": "completed",
-  "completed_phase": "business_context",
-  "next_phase": "market",
-  "inputs": [
-    "outputs/business_context_analysis.md"
-  ]
-}
-```
-
-Gap path:
-
-```json
-{
-  "status": "skipped_missing_context",
-  "completed_phase": "business_context",
-  "next_phase": "market",
-  "inputs": [
-    "outputs/missing_business_context.md"
-  ]
-}
-```
-
 ## Review rules
 
 - No evidence → no claim
@@ -225,10 +193,6 @@ After completion, run skill `hypothesis-market-layer` or workflow `/run-market-l
 
 For `service_business`, strategy-document absence alone does not trigger the default stop. Assess usable operational/commercial context as required by the service profile, set Strategic Fit to Unknown when strategy is absent, and write available checks. Use the gap path only when no usable business context exists. Keep customer outcome and provider economics separate. Write the four canonical status fields specified in the artifact contract.
 
-## Evidence quality gate
+## Проверка результата
 
-Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.
-
-## Source-bound audit v2
-
-For new runs read the audit-version-2 contract in `FRAMEWORK_DIR/implementations/run-quality.md`. Use generated source_snapshot anchors; bind EVID quotes/numeric facts to original cells/paragraphs, compare counterevidence and keep reported facts separate from author assessments. Before this phase use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show its actual viewer URL. Do not repair a failing audit by changing a status or inventing missing anchors. Repair the underlying claim and affected artifacts.
+Проверь содержание по .clinerules/40-run-quality.md. Основания и ограничения сохраняй в Markdown, без технических реестров и автоматических gates.

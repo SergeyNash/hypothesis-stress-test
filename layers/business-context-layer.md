@@ -47,7 +47,7 @@
 
 ## Условия старта
 
-- `ready_for_synthesis.marker`
+- `hypothesis_summary.md`
 
 ---
 
@@ -69,7 +69,7 @@
 |----------|------------|
 | `business_context_analysis.md` | Полная карта ценности и strategic fit |
 | `missing_business_context.md` | Явный gap, если стратегической KB нет |
-| `business_context_complete.marker` | Gate для Market Layer |
+| `business_context_analysis.md` | Gate для Market Layer |
 
 ---
 

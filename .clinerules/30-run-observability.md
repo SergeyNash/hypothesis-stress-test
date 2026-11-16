@@ -1,53 +1,31 @@
-## Сбой просмотра не меняет ход анализа
+# HST · Прогресс
 
-Если монитор не читает событие, один раз сообщи, что отображение неполно, и продолжи согласованную содержательную работу. Не изучай terminal_progress.py/run_progress.py, не запускай диагностику визуализации и не переписывай историю ради зелёных этапов. Нельзя дописывать intake/validation completed только из-за того, что они не показаны. Записывай фактическое завершение после реальной работы; неизвестная история остаётся неизвестной. Проверка результата может отдельно сообщить реальную ошибку аудита — её разбираем по существу. Диагностика монитора выполняется отдельной задачей по явному запросу, не внутри контрольного прогона.
+Единственный монитор — terminal_progress.py, запущенный пользователем через задачу VS Code HST · Прогресс. Он читает файлы и не участвует в анализе. Модели не нужно запускать Python, сервер или опрос состояния.
 
-# New dialogue runs: precedence
+Сразу после создания разрешённого нового прогона запиши .hst/active-run.md:
 
-For execution_driver `dialogue`, follow implementations/dialogue-run.md. Native file operations record the card/config, source consent, real journal events and canonical markers after actual checks. Do not run controller prepare/start/complete or a per-operation require-source command. Inspect the saved channel choice and local scope before every native/tool/source operation; extraction helpers still enforce scope internally. Use read-only artifact checks after writing the relevant output; --save-report records only their real diagnostic, never advances a phase. No technical PASS decides the business outcome. Chat and TUI carry the same focused questions, recommendations and answers. Do not ask again for already-agreed work. Monitoring is optional and independent; absence of HTTP must not block analysis. For a TUI-bound run, the existing acknowledge/ask/consume calls are delivery operations, not analytical phase prerequisites or decisions. No startup/controller loop is added around them.
-
-The section below documents compatibility for existing lifecycle_version 1 archives and legacy tools. It is not the startup procedure for fresh dialogue runs.
-
-# Run observability
-
-Resolve FRAMEWORK_DIR by its actual location (may be nested/renamed); KB_ROOT is the open workspace. Use absolute paths or a resolved prefix for scripts, templates, profiles, layers and contracts. A copied `.cline`/`.clinerules` directory does not make templates/scripts exist at KB root.
-
-For new chat-first runs, hst-start must first publish `.hst/startup.json` through `startup_progress.py start` before intake/profile analysis. Record actual preparation, confirmation waits, errors and cancellation there. No HYP folder or fictional phase completion is required. After confirmed bootstrap use startup_progress.py attach before input validation; it preserves early timestamps and activates the new run. See hst-start for commands.
-
-For validated new runs use `run_control.py prepare` as required by `40-run-quality.md`; it initializes the viewer and verifies HTTP/JSON before returning its URL. For manual/legacy recovery, once a run is bootstrapped, initialize `python <FRAMEWORK_DIR>/scripts/run_progress.py init --run-dir <RUN_DIR>`. Start `serve` in a host-supported background terminal bound only to 127.0.0.1; show the actual URL printed by it. No external server/deployment. Do not block pipeline execution waiting for a foreground server process. If the host cannot keep a background terminal, give the command for a separate terminal and continue updating the journal. Do not claim live view is running until the URL is observed.
-
-For lifecycle_version 1, use run_control start/complete for stage transitions (50-run-lifecycle.md); do not hand-write completion markers. For milestone updates, waits, failures, and legacy transitions use:
-
-```text
-python <FRAMEWORK_DIR>/scripts/run_progress.py event --run-dir <RUN_DIR> --phase <phase> --state running|waiting_user|completed|error|invalidated --message "<short localized action>"
+```markdown
+# Активный прогон
+Прогон: runs/HYP-YYYY-MM-DD-NNN
 ```
 
-Phases: intake, validation, facilitator, local_evidence, business_context, market, synthesis, customer_discovery_planning, decision_review, human_report. Workspace startup status precedes bootstrap; run-local journal initialization follows confirmed bootstrap, before validation. Show waits in chat and update the corresponding startup/run state. Record intake completed only after confirmed input exists. Record completed only after checking artifacts and canonical markers; the helper rejects missing/invalid markers. At the inventory review write local_evidence waiting_user; after user's continuation write running, then completed after its marker is verified. Source errors need not fail the entire phase, but must remain explicit gaps.
+В RUN_DIR/progress.md веди обычную краткую заметку:
 
-For every actual source operation, log before and after:
+```markdown
+# Ход проверки
+Начало: <доступное фактическое ISO-время с часовым поясом>
+Статус: выполняется
 
-```text
-python <FRAMEWORK_DIR>/scripts/run_progress.py event --run-dir <RUN_DIR> --phase market --channel confluence --state query_started --query "<actual query>" --message "Ищу внутренние материалы"
-python <FRAMEWORK_DIR>/scripts/run_progress.py event --run-dir <RUN_DIR> --phase market --channel confluence --state found --query "<actual query>" --message "Найдено 3 страницы" --url "https://..."
+## Сейчас
+Разбираю гипотезу и выбираю релевантные материалы.
+
+## Выполнено
+- Подтверждены формулировка и границы источников.
+
+## Последние события
+- <время> — <фактически выполненное действие или настоящий вопрос>
 ```
 
-Channels: local, confluence, internet. States: query_started, found, read, used, completed, no_results, partial, unavailable, auth_error, error, waiting_approval, declined. Record `read` only after opening/reading a document and `used` only with its EVID/EXT reference to the actual analysis. Include counts/paths in the message, URLs in --url (repeat as needed), and the real query. Never log secrets, credentials, headers or raw private document content. Never claim planned calls are executed. A tool unavailable, a 401 and zero results are distinct outcomes. No events means “not recorded”, not “no results”.
+Обновляй при начале/завершении этапа, реальном ожидании или существенном результате. Новые события можно добавлять сверху. Не нужны записи каждую секунду, отдельный source-event на каждый файл и строгая схема. Не выдумывай timestamps. При завершении/отмене запиши Статус: завершён / остановлен и Окончание: <фактическое время>. Если время неизвестно — так и скажи, не считай его задним числом.
 
-If host approval is needed, log waiting_approval and explain the blocking operation. Declined requires actual refusal. Notify about 401/403 immediately, stop repeated authentication attempts and offer restore-or-continue. Do not request credentials in chat.
-
-Resume: load existing events, preserve history. Do not replay completed phases as new searches. Existing canonical markers without journal history are legacy completion claims: verify artifacts, then record phase completion with message “Verified prior artifacts; source call history unavailable”. Do not invent source events. For an authorized rerun mark affected downstream phases invalidated before execution, invalidate their canonical markers through the existing safe-write flow, and preserve old files until replacement is authorized. With no authorization, keep old completion and stop without changes.
-
-If a progress write fails, say the viewer is stale and show current action in chat; do not imply the log is complete. Do not use progress JSON as a replacement for canonical markers. The viewer shows time since last event; elapsed time is not proof of a hung process or an ETA.
-
-Final response: lead with the verdict, confidence, evidence coverage/limitations and next action; link human_report.html and progress view/journal. Distinguish execution completed from research completeness. Marker counts and HTML tag checks are technical validation, not the main result.
-
-## Dedicated VS Code terminal viewer
-
-If installed with `setup_workspace.py --terminal`, the workspace has the task `HST · Прогресс`. It runs `terminal_progress.py --workspace <KB_ROOT>` and waits for `.hst/active-run.json`. The startup session is visible before any pointer exists. After confirmed bootstrap, attach publishes the pointer before input validation; normal prepare republishes it after validation, before HTTP startup. Do not start another foreground watch loop inside Cline's command terminal or spawn external PowerShell windows. For the first launch in an already-open workspace, tell the user Terminal → Run Task → HST · Прогресс; later folder-open launches depend on the user's normal VS Code automatic-task permission. Do not claim that Python launched a VS Code tab or that an installed task is running without observation.
-
-When explicitly selecting/resuming a run, use `run_control.py activate --run-dir <RUN_DIR>` once (custom layouts: --workspace <KB_ROOT>). Never guess the active run from directory timestamps. A new selection clears old state while waiting for its journal; a stopped terminal does not stop the run. Installation and recovery: implementations/terminal-progress.md. `.hst` contains runtime state/environment and is excluded from evidence discovery.
-
-
-## Timing coverage (2.8)
-
-New runs with timing_version 1 passively record existing HST CLI invocations in command_metrics.jsonl and write performance_summary.json. There is no extra timing tool call for the model. TUI polls and long-lived viewers are excluded; origin labels distinguish known bridge/TUI commands from unspecified callers. Record real user/approval waits before pausing and actual continuation/results afterward; waiting events carry wait_reason automatically. Do not emit fake heartbeats or invent pause times from gaps. Report unclassified intervals as unattributed, not thinking/generation time. Historical runs are not auto-instrumented.
+Если просмотр неполон или сломан, сообщи об этом один раз и продолжай содержательную работу. Не читай код монитора, не исправляй формат ради зелёных этапов и не подставляй фиктивные завершения. Диагностика интерфейса — отдельная задача по явному запросу.

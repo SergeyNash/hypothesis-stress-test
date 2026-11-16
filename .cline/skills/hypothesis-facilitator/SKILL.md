@@ -7,7 +7,7 @@ description: Stress-test a product hypothesis through role-based analysis, hidde
 
 Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Roles**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Roles**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
 
 
 # Hypothesis Facilitator (Roles Layer)
@@ -466,21 +466,6 @@ Priority: CRITICAL | SECONDARY | DOES NOT ADDRESS PAIN
 1.
 2.
 3.
-```
-
-### File 4: `RUN_DIR/outputs/ready_for_synthesis.marker`
-
-```json
-{
-  "status": "completed",
-  "completed_phase": "facilitator",
-  "next_phase": "local_evidence",
-  "inputs": [
-    "outputs/role_outputs/*",
-    "outputs/hypothesis_summary.md",
-    "outputs/validation_questions.md"
-  ]
-}
 ```
 
 ## Review rules

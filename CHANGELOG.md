@@ -12,11 +12,19 @@
 - Каждый отдельный пакет изменений (PR) повышает MINOR: `2.6.0 → 2.7.0 → 2.8.0`. Это относится к коду, правилам, skills, документации, тестам, CI и прототипам.
 - PATCH остаётся `0`. Несколько исправлений в одном ещё не слитом PR используют одну новую версию; каждый коммит внутри PR не требует отдельного номера.
 - Перед слиянием берётся текущая версия целевой ветки. Если другой PR уже повысил её, обновите свою ветку и назначьте следующий MINOR.
-- Одновременно обновляются `VERSION`, версия в README, `.clinerules/00-hypothesis-framework.md` и датированная запись CHANGELOG. Все компоненты репозитория входят в этот пакет; установка EXE остаётся отдельной операцией.
+- Одновременно обновляются `VERSION`, версия в README, `.clinerules/00-hypothesis-framework.md` и датированная запись CHANGELOG. Все компоненты репозитория входят в этот пакет.
 - Влитые изменения не оставляются в Unreleased. Изменение MAJOR согласуется отдельно; обычное обновление всегда увеличивает MINOR.
 - CI проверяет согласованность версии, а для PR — повышение MINOR ровно на один относительно целевой ветки.
 
 Версия фреймворка не совпадает с ID прогонов (`HYP-YYYY-MM-DD-NNN`). Для точного воспроизведения дополнительно фиксируйте коммит.
+
+## [2.11.0] — 2026-11-16
+
+- Remove the workflow/audit runtime, source discovery/extractor/snapshot/registry, JSON/JSONL contracts and markers. The model performs research and semantic review directly, writing Markdown phase outputs.
+- Remove Go TUI, VS Code/Cline bridge, EXE/VSIX packaging and their workflows, tests and runtime settings. Remove HTML progress and HTTP server.
+- Keep only HST Progress Task as a read-only Markdown viewer. Installation/updates and release checks remain separate maintenance tools.
+- Rewrite active instructions/templates/workflows to use chat, native source tools and Markdown; final report is human_report.md, without technical RUN PASS.
+- Upgrade cleanup retires known old framework/adapter/runtime files with backups, preserving user runs and custom files. First upgrade from old updater requires the new updater command documented in README.
 
 ## [2.10.0] — 2026-11-14
 

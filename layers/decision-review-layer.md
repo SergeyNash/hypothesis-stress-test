@@ -48,7 +48,7 @@ Decision Review — **adversarial gate** после Customer Discovery Planning.
 Опционально:
 
 - `role_outputs/*`
-- `hypothesis_digest.txt`
+- `hypothesis_digest.md`
 
 ---
 
