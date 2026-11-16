@@ -16,7 +16,7 @@ Customer Discovery Planning must be complete. Read:
 - `outputs/business_context_analysis.md` or `outputs/missing_business_context.md`
 - `outputs/market_analysis.md`
 - `outputs/hypothesis_map.md`
-- `outputs/hypothesis_digest.txt` (optional)
+- `outputs/hypothesis_digest.md` (optional)
 - `outputs/customer_discovery_plan.md`
 - `outputs/role_outputs/*` (optional)
 
@@ -88,7 +88,7 @@ For each item: objective, expected learning, estimated effort
 ## Final Recommendation
 ```
 
-Create `RUN_DIR/outputs/decision_review_complete.marker` as valid JSON per `.clinerules/10-artifact-contracts.md` when done.
+Create `RUN_DIR/outputs/decision_review.md` as substantive Markdown when done.
 
 ---
 

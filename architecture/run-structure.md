@@ -1,41 +1,9 @@
-# Структура RUN_DIR
+# Структура прогона
 
-Каждый прогон гипотезы следует стандартной структуре архива:
+- input/hypothesis.md — подтверждённая карточка;
+- run.md — объём, настройки модели и принятые решения;
+- progress.md — текущий этап, события и время;
+- outputs/role_outputs/*.md — ролевой разбор;
+- outputs/*.md — содержательные результаты этапов, включая human_report.md.
 
-```text
-RUN_DIR/
-  input/
-    hypothesis.md
-    attachments/
-  run.md
-  outputs/
-    role_outputs/
-    hypothesis_summary.md
-    validation_questions.md
-    discovery_preview.md
-    evidence_inventory.md
-    business_context_analysis.md
-    missing_business_context.md
-    market_analysis.md
-    hypothesis_map.md
-    hypothesis_digest.txt
-    customer_discovery_plan.md
-    decision_review.md
-    human_report.html
-    knowledge_retrieval_complete.marker
-    *.marker
-```
-
-Шаблон имени `RUN_DIR`: `runs/HYP-YYYY-MM-DD-NNN/`
-
-Кто пишет каждый файл и кто его потом читает: [artifact-lifecycle.md](./artifact-lifecycle.md).
-
----
-
-## Принцип
-
-Каждый прогон должен быть:
-
-* изолированным
-* воспроизводимым
-* трассируемым
+Модель создаёт и читает эти файлы напрямую. Отдельные машинные реестры, маркеры и генераторы состояния не используются. Другие прогоны не читаются без явного запроса на продолжение/сравнение.

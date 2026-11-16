@@ -107,7 +107,7 @@ Decision Review may reference the existing **Roles, Local Evidence, Business Con
 
 ## Service evidence and provenance
 
-For service_business use the evidence fields and caveats from profiles/service-business.md. Local storage is not a trust rank: assess source directness, independence, sample, age and relevance. A contract demonstrates an obligation, not actual delivery; time saved is not automatically cash saved. Synthetic fixtures and role simulations cannot validate real demand. New reader support: PDF/DOCX/XLSX/HTML through scripts/extract_evidence.py; partial extraction and formula text must not become complete numeric evidence.
+For service_business use the evidence fields and caveats from profiles/service-business.md. Local storage is not a trust rank: assess source directness, independence, sample, age and relevance. A contract demonstrates an obligation, not actual delivery; time saved is not automatically cash saved. Synthetic fixtures and role simulations cannot validate real demand. Read sources through available client tools. If a format cannot be read, disclose the limitation and ask for an export or another available source. Partial reading and formula text must not become complete numeric evidence.
 
 ## Public research and source coverage
 

@@ -1,3 +1,3 @@
-# Compatibility entry point
+# run-hypothesis-conversational
 
-Activate skill `hst-start` from `.cline/skills/hst-start/SKILL.md` and follow it. Do not duplicate pipeline logic here. Workflows are legacy aliases; new users start through skills. Resolve all resources against the actual framework directory.
+Совместимая команда. Выполни навык `hst-start` для текущего явно выбранного RUN_DIR. Новая гипотеза — отдельная папка; продолжение — только согласованный прогон. Решения через чат, результаты — Markdown, ход — progress.md. Никаких служебных скриптов и JSON-контрактов.

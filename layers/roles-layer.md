@@ -101,7 +101,7 @@ Roles Layer — **внутренний стресс-тест** гипотезы 
 | `role_outputs/{role_slug}.md` | Анализ по роли |
 | `hypothesis_summary.md` | Допущения, границы, конфликты, оценка |
 | `validation_questions.md` | Вопросы интервью по ролям |
-| `ready_for_synthesis.marker` | Фаза завершена, дальше Market Layer |
+| `hypothesis_summary.md` | Фаза завершена, дальше Market Layer |
 
 ---
 

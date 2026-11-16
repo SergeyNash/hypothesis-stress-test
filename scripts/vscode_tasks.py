@@ -60,8 +60,6 @@ def task(workspace,framework):
         'presentation':{'reveal':'always','focus':False,'panel':'dedicated','clear':True,
                         'echo':False,'showReuseMessage':False,'close':False},
         'runOptions':{'runOn':'folderOpen','instanceLimit':1}}
-    if (workspace/'.hst/tui.json').is_file():
-        entry['runOptions'] = {'instanceLimit':1}
     return entry
 
 

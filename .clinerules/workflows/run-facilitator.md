@@ -1,30 +1,3 @@
-# Run Facilitator (Roles Layer)
+# run-facilitator
 
-Resolve the application profile from input Metadata (new intake: propose and confirm). No field → digital_product. For service_business load [the service profile](../../profiles/service-business.md) and apply its phase-specific requirements, including service readiness instead of backlog readiness. Preserve canonical artifact paths and gates.
-
-Execute the facilitator stress-test for an existing `RUN_DIR`.
-
-## Prerequisites
-
-- `RUN_DIR/input/hypothesis.md` exists
-- Input passed validation (`hypothesis-input-validation` or `/validate-hypothesis-input.md`)
-
-If validation was skipped, run validation first.
-
-## Steps
-
-1. Activate skill `hypothesis-facilitator`.
-2. Read `RUN_DIR/input/hypothesis.md` and optional context.
-3. Execute the 6-step analysis process.
-4. Write `RUN_DIR/outputs/role_outputs/{role_slug}.md` for each role.
-5. Write `RUN_DIR/outputs/hypothesis_summary.md`.
-6. Write `RUN_DIR/outputs/validation_questions.md`.
-7. Write `RUN_DIR/outputs/ready_for_synthesis.marker`.
-8. Display brief summary: key assumptions, conflicts, and top validation questions.
-
-## What this phase does NOT do
-
-- Does not make decisions
-- Does not research the market
-- Does not synthesize conclusions
-- Does not design experiments
+Совместимая команда. Выполни навык `hypothesis-facilitator` для текущего явно выбранного RUN_DIR. Новая гипотеза — отдельная папка; продолжение — только согласованный прогон. Решения через чат, результаты — Markdown, ход — progress.md. Никаких служебных скриптов и JSON-контрактов.

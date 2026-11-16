@@ -12,7 +12,7 @@ Hypothesis Stress Test — **слоистый фреймворк рассужд�
 | **Local Evidence Discovery** | Какие локальные доказательства есть до интерпретации рынка? | `discovery_preview.md`, `evidence_inventory.md` |
 | **Business Context** (ценность и стратегия) | Как гипотеза создаёт бизнес-ценность? | `business_context_analysis.md` или `missing_business_context.md` |
 | **Market** (market reality check) | Существует ли проблема в реальности? | `market_analysis.md` |
-| **Synthesis** (`hypothesis-synthesis`) | Что становится видно только при столкновении сигналов? | `hypothesis_map.md`, `hypothesis_digest.txt` |
+| **Synthesis** (`hypothesis-synthesis`) | Что становится видно только при столкновении сигналов? | `hypothesis_map.md`, `hypothesis_digest.md` |
 
 Слои не смешивают сигналы преждевременно. Synthesis сталкивает уже существующие артефакты — не переанализирует их и не добавляет новые данные.
 
@@ -45,7 +45,7 @@ input/hypothesis.md
   → business_context_analysis.md or missing_business_context.md
   → Market Layer (skill + inventory + Confluence MCP)
   → Synthesis Layer (skill)
-  → hypothesis_map.md + hypothesis_digest.txt
+  → hypothesis_map.md + hypothesis_digest.md
   → Customer Discovery Planning (skill)
   → customer_discovery_plan.md
   → Decision Review (skill)

@@ -7,7 +7,7 @@ description: Transform unresolved assumptions, weak signals, contradictions, and
 
 Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Validation planning**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Validation planning**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
 
 
 # Customer Discovery Planning
@@ -42,7 +42,7 @@ Required:
 - `RUN_DIR/outputs/hypothesis_summary.md`
 - `RUN_DIR/outputs/market_analysis.md`
 - `RUN_DIR/outputs/hypothesis_map.md`
-- `RUN_DIR/outputs/synthesis_complete.marker` with `status: completed`
+- `RUN_DIR/outputs/hypothesis_map.md`
 - `RUN_DIR/outputs/business_context_analysis.md` **or**
   `RUN_DIR/outputs/missing_business_context.md`
 
@@ -73,7 +73,7 @@ Write all artifact headings and body text in the **same language as `input/hypot
 
 Run only after:
 
-- `RUN_DIR/outputs/synthesis_complete.marker`
+- `RUN_DIR/outputs/hypothesis_map.md`
 
 exists.
 
@@ -387,19 +387,6 @@ Good:
 
 ## Ожидаемые результаты обучения
 ...
-```
-
-### File 2: `RUN_DIR/outputs/customer_discovery_planning_complete.marker`
-
-```json
-{
-  "status": "completed",
-  "completed_phase": "customer_discovery_planning",
-  "next_phase": "decision_review",
-  "inputs": [
-    "outputs/customer_discovery_plan.md"
-  ]
-}
 ```
 
 ## Review rules

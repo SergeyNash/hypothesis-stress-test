@@ -128,13 +128,13 @@ outputs/
   evidence_inventory.md
   market_analysis.md
   hypothesis_map.md
-  hypothesis_digest.txt
+  hypothesis_digest.md
   customer_discovery_plan.md
   decision_review.md
-  human_report.html
+  human_report.md
 ```
 
-Откройте **`human_report.html`** в браузере для decision-facing сводки. Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
+Откройте **`human_report.md`** в редакторе для decision-facing сводки. Для проверки трассируемости evidence сначала посмотрите `discovery_preview.md` и `evidence_inventory.md`, затем `market_analysis.md`.
 
 ## Plan vs Act mode
 
@@ -149,7 +149,7 @@ outputs/
 | Rules не видны | Перезагрузите VS Code; проверьте `.clinerules/` |
 | Skills не срабатывают | Упомяните «hypothesis stress test» или используйте slash workflows |
 | Confluence MCP не работает | [confluence-mcp.md](./confluence-mcp.md) |
-| Нет outputs | Проверьте отсутствующие marker-файлы в `outputs/` |
+| Нет outputs | Уточните текущий этап в `progress.md` и попросите модель сохранить его Markdown-результат |
 
 ## Ручной режим (fallback)
 

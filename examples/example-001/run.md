@@ -34,7 +34,7 @@ examples/example-001
 
 ## Результат
 
-См. `outputs/hypothesis_digest.txt`, `outputs/customer_discovery_plan.md`, `outputs/decision_review.md`, **`outputs/human_report.html`**.
+См. `outputs/hypothesis_digest.md`, `outputs/customer_discovery_plan.md`, `outputs/decision_review.md`, **`outputs/human_report.md`**.
 
 Классификация (mixed): Validated Opportunity (узкий, очередь), Internal Illusion (production risk), Local Optimization Trap (operator-only bump).
 

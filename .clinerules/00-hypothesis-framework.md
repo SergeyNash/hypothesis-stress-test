@@ -1,111 +1,17 @@
-## Сбой просмотра не меняет ход анализа
+# Hypothesis Stress Test
 
-Если монитор не читает событие, один раз сообщи, что отображение неполно, и продолжи согласованную содержательную работу. Не изучай terminal_progress.py/run_progress.py, не запускай диагностику визуализации и не переписывай историю ради зелёных этапов. Нельзя дописывать intake/validation completed только из-за того, что они не показаны. Записывай фактическое завершение после реальной работы; неизвестная история остаётся неизвестной. Проверка результата может отдельно сообщить реальную ошибку аудита — её разбираем по существу. Диагностика монитора выполняется отдельной задачей по явному запросу, не внутри контрольного прогона.
+**Framework version:** 2.11.0
 
-# Execution priority for new runs (2.9)
+HST — набор инструкций, ролей и Markdown-шаблонов для исследования гипотезы языковой моделью. Модель ведёт процесс в чате Cline; Python не выбирает этапы, не проверяет выводы и не собирает evidence registry.
 
-Fresh runs use `execution_driver: dialogue`. Follow implementations/dialogue-run.md and hst-start/hst-run before older lifecycle examples. No Python preflight, controller prepare/start/complete, HTTP viewer or validator-source reading is required before substantive work. Native file tools create the isolated run and record progress. Scripts process actual data or check existing results. Chat/TUI carry choices and recommendations; code does not decide research direction. Never read other runs unless the user explicitly asks to resume/compare them. Preserve legacy controller configuration only for existing lifecycle_version 1 runs.
+Новая гипотеза: hst-start. Явное продолжение RUN_DIR: hst-run только для указанной папки. Источники, глубину обработки, изменение гипотезы и реальные развилки согласовывай через диалог: что известно, варианты, рекомендация и причина. Полный прогон разрешает обычную работу без повторных подтверждений каждого этапа. Прямое разрешение пользователя имеет приоритет; не требуй специальных фраз.
 
-# Hypothesis Stress Test Framework
+Новый прогон изолирован: нельзя читать соседние runs, их входы, outputs или истории как образцы. Для свободного ID достаточно имён непосредственных папок. Читай инструкции текущего этапа по мере надобности, не весь фреймворк заранее.
 
-**Framework version:** 2.10.0 — see [CHANGELOG.md](../CHANGELOG.md) and [VERSION](../VERSION).
+Пиши содержательные результаты этапов в Markdown. Нет обязательных JSON, JSONL, маркеров, валидаторов, CLI-переходов и технического RUN PASS. Качество оценивает модель по смыслу: источники, точные ссылки/цитаты, допущения, независимость, ограничения и противоречия. Сообщай, если ошибку нельзя исправить в согласованных границах. Не выдумывай факты ради заполнения шаблона.
 
-This project implements a **tool-agnostic hypothesis stress-test framework** with a **Cline adapter**.
+Документы читай доступными клиенту средствами. Не запускай поиск/ранжирование/извлечение скриптами HST. Не сканируй всю БЗ ради маленькой гипотезы. Если формат недоступен — сообщи и предложи текстовый экспорт, другой доступный инструмент или продолжение с пробелом; не устанавливай окружение самостоятельно. Для тяжёлой обработки предложи быстро/подробно/пропустить и дождись выбора.
 
-## Version every update
+Единственный просмотр — установленная задача HST · Прогресс. Модель обновляет обычный progress.md файловым инструментом. Просмотр пассивный, отсутствие/ошибка отображения не блокирует исследование и не запускает его отладку. Нет TUI, VS Code bridge, HTML-прогресса или обязательного HTTP-сервера.
 
-Every change package / PR, including documentation, fixes, skills, tests, CI and prototypes, must increment the current target branch MINOR by one and keep PATCH at zero. Update VERSION, the README version, this rule's version and a dated CHANGELOG release entry together. Further commits within the same unmerged PR share that version. If another PR lands first, refresh the base and increment from its version before merging. Do not leave merged changes under Unreleased. See CHANGELOG.md for the project version policy. A MAJOR change requires a separate user decision.
-
-## Core principle
-
-Do not ask the LLM to generate more ideas. Use it to apply pressure to ideas you already have.
-
-```text
-idea → stress test → decision
-```
-
-## Independent analysis layers (never mix prematurely)
-
-| Layer | Purpose | Output |
-|-------|---------|--------|
-| **Roles** (facilitator / stress test) | Internal perspectives, assumptions, conflicts | role_outputs/*, hypothesis_summary.md, validation_questions.md |
-| **Local Evidence Discovery** | Traceable KB evidence before interpretation | discovery_preview.md, evidence_inventory.md |
-| **Business Context** | Value mechanism and strategic fit, or explicit gap | business_context_analysis.md or missing_business_context.md |
-| **Market** | External reality | market_analysis.md |
-| **Synthesis** | Signal collision | hypothesis_map.md, hypothesis_digest.txt |
-
-## Customer Discovery Planning
-
-After Synthesis, run **Customer Discovery Planning** to transform uncertainty into an interview-ready research plan. It does not validate hypotheses and does not make product decisions.
-
-| Phase | Purpose | Output |
-|-------|---------|--------|
-| **Customer Discovery Planning** | Turn uncertainty into practical research plan | customer_discovery_plan.md |
-
-## Decision Review (mandatory gate)
-
-After Customer Discovery Planning, run **Decision Review** — an adversarial critique of conclusions. It does not add new signals; it challenges existing ones.
-
-| Phase | Purpose | Output |
-|-------|---------|--------|
-| **Decision Review** | Challenge conclusions, propose cheap validation | decision_review.md |
-
-## Execution order
-
-1. Validate input (hypothesis, roles, research context)
-2. Run Facilitator (Roles Layer) — skill `hypothesis-facilitator`
-3. Run Local Evidence Discovery — skill `local-knowledge-retrieval`
-4. Run Business Context & Value Check — skill `business-context-value-check`, including `external-business-research`
-5. Run Market Layer (Confluence MCP + inventory for local signals)
-6. Run Synthesis Layer
-7. Run Customer Discovery Planning
-8. Run Decision Review
-9. Export Human Decision Report — skill `human-report-export`
-10. Human backlog decision
-
-Analysis layers are **sequential** and **independent**. Synthesis consumes artifacts only — it does not add new data. Customer Discovery Planning converts uncertainty into research actions without validating hypotheses. Decision Review critiques existing artifacts only — it may reference Roles, Local Evidence, Business Context, Market, Synthesis, and Customer Discovery Planning, but it does not add new data.
-
-## Human-in-the-loop
-
-- The human makes the final decision.
-- Cline proposes analysis; the user approves file writes and MCP tool calls.
-- Bad ideas should die early.
-
-## What this is NOT
-
-- Not an idea generator
-- Not a replacement for real users
-- Not an autonomous decision-maker
-
-## Skills and workflows
-
-Primary entry points are skills `hst-start` (new hypothesis) and `hst-run` (existing RUN_DIR). Use natural language naming the skill, or its slash command if the installed Cline version exposes it. Do not require slash support. Workflows below remain legacy compatibility aliases:
-
-Use project skills from `.cline/skills/` or invoke compatibility workflows:
-
-- `/run-hypothesis-conversational.md` — **chat-first** full run (intake → dialog confirm `RUN_DIR` → bootstrap → validate → pipeline)
-- `/validate-hypothesis-input.md` — check input before running
-- `/run-facilitator.md` — Facilitator (Roles Layer) only
-- `/run-hypothesis.md` — full end-to-end run (file-first; requires existing `RUN_DIR`)
-- `/run-knowledge-retrieval.md` — Local Evidence Discovery only
-- `/run-business-context-value-check.md` — Business Context & Value Check only
-- `/run-market-layer.md` — Market Layer only
-- `/run-synthesis.md` — Synthesis Layer only
-- `/run-customer-discovery-planning.md` — Customer Discovery Planning only
-- `/run-decision-review.md` — Decision Review only
-
-### Entry modes
-
-| Mode | When to use |
-| ---- | ----------- |
-| **Chat-first (new)** | New hypothesis without `RUN_DIR:` — `/run-hypothesis-conversational.md`; agent proposes new `HYP-*-NNN` in dialog; never silently reuses an existing archive |
-| **Chat-first (continue)** | Resume existing archive — `RUN_DIR: runs/HYP-...` + `/run-hypothesis-conversational.md` or `/run-hypothesis.md`; preflight skips completed phases |
-| **File-first** | Existing `RUN_DIR/input/hypothesis.md` — `/run-hypothesis.md` |
-
-New hypothesis = new isolated `runs/HYP-YYYY-MM-DD-NNN/`. Open files from a previous run must not become the write target.
-
-## Application profiles
-
-HST supports digital-product and service-business decisions. Read `profiles/README.md`; missing profile means digital_product. Service profile changes decision criteria within the same phases: customer value, buying path, delivery feasibility, provider economics. The human decides about research, pilot, offer, capability, sales expansion or rejection. Personas simulate perspectives and never establish independent demand evidence.
-
-For actual progress/source-call reporting follow `30-run-observability.md`.
+Модель и настройки, если сообщены, сохраняй в run.md дословно. Иначе «не указана». Не угадывай модель по названию Cline. Не меняй исходную гипотезу без согласования.

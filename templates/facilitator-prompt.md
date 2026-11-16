@@ -60,7 +60,7 @@ Generate:
 
 3. `RUN_DIR/outputs/validation_questions.md` — behavior-based interview questions per role
 
-4. `RUN_DIR/outputs/ready_for_synthesis.marker`
+4. `RUN_DIR/outputs/hypothesis_summary.md`
 
 ---
 

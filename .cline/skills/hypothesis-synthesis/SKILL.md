@@ -7,7 +7,7 @@ description: Compare role-based analysis and market analysis to identify contrad
 
 Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Synthesis**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and markers remain unchanged. Unknown profile is a validation error, not a reason to guess.
+For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Synthesis**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
 
 
 # Hypothesis Synthesis
@@ -68,20 +68,14 @@ Write all artifact headings and body text in the **same language as `input/hypot
 
 ## Start conditions
 
-Run synthesis only if these canonical JSON markers exist:
+Run synthesis only if these Markdown results exist:
 
-- `RUN_DIR/outputs/ready_for_synthesis.marker` (`status: completed`)
-- `RUN_DIR/outputs/knowledge_retrieval_complete.marker` (`status: completed`)
-- `RUN_DIR/outputs/business_context_complete.marker` (`status: completed` or `skipped_missing_context`)
-- `RUN_DIR/outputs/market_analysis_complete.marker` (`status: completed`)
+- `RUN_DIR/outputs/hypothesis_summary.md`
+- `RUN_DIR/outputs/evidence_inventory.md`
+- `RUN_DIR/outputs/business_context_analysis.md` (or an explicit explanation of missing context)
+- `RUN_DIR/outputs/market_analysis.md`
 
-If any required marker or artifact is missing:
-
-- stop analysis
-- report incomplete pipeline
-- describe missing dependencies
-
-Do not fall back to “files exist so markers are optional”.
+Read the substantive results before synthesis. If an earlier result is absent, produce it within the agreed scope or explain the gap. Do not invent missing findings or require technical status files.
 
 If `missing_business_context.md` is present, add an explicit section
 **Buyer/value analysis unavailable** / **Анализ ценности покупателя недоступен**
@@ -306,7 +300,7 @@ Determine how synthesis should change the original hypothesis:
 ...
 ```
 
-### File 2: `RUN_DIR/outputs/hypothesis_digest.txt`
+### File 2: `RUN_DIR/outputs/hypothesis_digest.md`
 
 Maximum 150 words.
 
@@ -358,20 +352,6 @@ Next step:
 [что делать дальше]
 ```
 
-### File 3: `RUN_DIR/outputs/synthesis_complete.marker`
-
-```json
-{
-  "status": "completed",
-  "completed_phase": "synthesis",
-  "next_phase": "customer_discovery_planning",
-  "inputs": [
-    "outputs/hypothesis_map.md",
-    "outputs/hypothesis_digest.txt"
-  ]
-}
-```
-
 ## Review rules
 
 Never smooth contradictions.
@@ -400,10 +380,6 @@ After synthesis completes, run skill `customer-discovery-planning` or workflow `
 
 Based on `templates/synthesis-prompt.md` and `layers/synthesis-layer.md`.
 
-## Evidence quality gate
+## Проверка результата
 
-Read `FRAMEWORK_DIR/implementations/run-quality.md`. Maintain the claim ledger for new protocol-2 runs; preserve source lineage, numerical scope and original intent. Correct upstream errors rather than copying them. Before completion, reconcile claims in this output against actual source anchors. Human Report completion requires `run_control.py finish --run-dir <RUN_DIR>`; PASS from repository examples is not a run check.
-
-## Source-bound audit v2
-
-For new runs read the audit-version-2 contract in `FRAMEWORK_DIR/implementations/run-quality.md`. Use generated source_snapshot anchors; bind EVID quotes/numeric facts to original cells/paragraphs, compare counterevidence and keep reported facts separate from author assessments. Before this phase use `run_control.py start --run-dir <RUN_DIR> --phase <canonical-phase>` and show its actual viewer URL. Do not repair a failing audit by changing a status or inventing missing anchors. Repair the underlying claim and affected artifacts.
+Проверь содержание по .clinerules/40-run-quality.md. Основания и ограничения сохраняй в Markdown, без технических реестров и автоматических gates.
