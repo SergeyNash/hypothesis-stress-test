@@ -25,16 +25,26 @@ class Maintenance(unittest.TestCase):
     def write(self,name,text):
         target=self.workspace/name;target.parent.mkdir(parents=True,exist_ok=True);target.write_text(text,encoding='utf-8');return target
 
+    def local_framework(self):
+        # Match the supported installation: framework nested inside DataB. The
+        # Windows runner puts the checkout on D: and temp files on C:.
+        framework=self.workspace/'framework';framework.mkdir()
+        for name in ['.cline','.clinerules','scripts','maintenance']:
+            shutil.copytree(ROOT/name,framework/name,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
+        shutil.copy2(ROOT/'VERSION',framework/'VERSION')
+        return framework
+
     def test_install_migrates_old_state_with_backup_and_preserves_user_files(self):
+        framework=self.local_framework()
         self.write('.hst/workspace.json',json.dumps({'framework_dir':'framework','terminal_enabled':True}))
         self.write('.hst/tui.json','old TUI')
         self.write('.clinerules/55-tui-control.md','old rule')
         custom=self.write('.clinerules/personal.md','my rule')
         run=self.write('runs/HYP-2026-11-14-001/outputs/quality_review.json','historic run')
         tasks=self.write('.vscode/tasks.json','{// user comment\n"version":"2.0.0","tasks":[{"label":"Custom","command":"echo hi"}]}')
-        setup.plan(self.workspace,ROOT,terminal=True)
+        setup.plan(self.workspace,framework,terminal=True)
         self.assertTrue((self.workspace/'.hst/tui.json').exists())
-        result=setup.install(self.workspace,ROOT,replace=True,terminal=True)
+        result=setup.install(self.workspace,framework,replace=True,terminal=True)
         self.assertFalse((self.workspace/'.hst/workspace.json').exists())
         self.assertFalse((self.workspace/'.hst/tui.json').exists())
         self.assertFalse((self.workspace/'.clinerules/55-tui-control.md').exists())
@@ -46,6 +56,7 @@ class Maintenance(unittest.TestCase):
         self.assertEqual('folderOpen',parsed['tasks'][1]['runOptions']['runOn'])
 
     def test_install_failure_restores_original_files(self):
+        framework=self.local_framework()
         self.write('.clinerules/00-hypothesis-framework.md','my old rules')
         state=self.write('.hst/tui.json','old state')
         original=shutil.copyfile
@@ -53,7 +64,7 @@ class Maintenance(unittest.TestCase):
             if Path(target)==self.workspace/'.hst/update.py':raise OSError('injected write failure')
             return original(source,target,*args,**kwargs)
         with patch.object(setup.shutil,'copyfile',side_effect=fail):
-            with self.assertRaises(OSError):setup.install(self.workspace,ROOT,replace=True)
+            with self.assertRaises(OSError):setup.install(self.workspace,framework,replace=True)
         self.assertEqual('my old rules',(self.workspace/'.clinerules/00-hypothesis-framework.md').read_text())
         self.assertEqual('old state',state.read_text())
         self.assertFalse((self.workspace/'.hst/workspace.md').exists())
