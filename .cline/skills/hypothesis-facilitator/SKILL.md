@@ -214,6 +214,10 @@ Do not recommend implementation.
 
 Only assess confidence and uncertainty.
 
+## Размер результата
+
+Сохраняй обязательные файлы ниже, но не заполняй все примеры подразделов и вопросы по квоте. В role_outputs — особенности данной перспективы; в hypothesis_summary.md — конфликты/область применимости, без повторения каждой роли целиком. validation_questions.md — короткие вопросы для решающих неизвестных; полноценный гайд появится в плане только для выбранных интервью. Пять ролей — предел, не цель. Новую эмпирику не придумывать. Общие правила — .clinerules/40-run-quality.md.
+
 ## Mandatory outputs
 
 ### File 1: `RUN_DIR/outputs/hypothesis_summary.md`

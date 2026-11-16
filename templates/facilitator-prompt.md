@@ -77,3 +77,7 @@ See `.cline/skills/hypothesis-facilitator/SKILL.md` for full output structures (
 ## Application profile
 
 Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.
+
+## Proportionate output
+
+Use only relevant roles (five is a ceiling, not a target). Role files contain perspective-specific objections; the summary adds conflicts and boundaries, not copies of each role. Template subsections and question examples are prompts, not quotas. Keep initial validation questions short; a full interview guide is designed later only if interviews are chosen. Follow [.clinerules/40-run-quality.md](../.clinerules/40-run-quality.md).

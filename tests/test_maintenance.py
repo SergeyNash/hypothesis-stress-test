@@ -125,7 +125,7 @@ class Maintenance(unittest.TestCase):
                             archive.write(source,'package/'+source.relative_to(ROOT).as_posix())
                 archive.write(ROOT/'VERSION','package/VERSION')
         updater.update(self.workspace,framework,apply=True,terminal=False,fetch=fetch)
-        self.assertEqual('2.11.0',(framework/'VERSION').read_text().strip())
+        self.assertEqual((ROOT/'VERSION').read_text().strip(),(framework/'VERSION').read_text().strip())
         self.assertFalse((framework/'scripts/source_snapshot.py').exists())
         self.assertFalse((self.workspace/'.hst/tui.json').exists())
         self.assertFalse((self.workspace/'.clinerules/55-tui-control.md').exists())

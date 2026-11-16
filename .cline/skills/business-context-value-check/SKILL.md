@@ -1,198 +1,39 @@
 ---
 name: business-context-value-check
-description: Map stakeholder value flow, business effect type, and strategic fit from KB strategy materials. Separate problem existence from business case plausibility. Supports digital_product and service_business decisions.
+description: Explain the business value mechanism in proportion to the hypothesis, reusing available evidence and stopping at explicit gaps.
 ---
+# Бизнес-контекст и механизм ценности
 
-## Application profile (resolve before this skill)
+Прочитай вход, тип гипотезы, согласованные границы в run.md и релевантные основания evidence_inventory.md. Используй [сервисный профиль](../../../profiles/service-business.md) для service_business. Если предыдущий этап ещё не выполнен, выполни его в согласованном полном прогоне; не требуй от пользователя отдельной команды для обычного продолжения.
 
-Read `Application Profile / Профиль применения` from input Metadata; during intake infer a proposed profile from the requested decision and confirm it in the draft. Missing field means `digital_product`.
+## Вопрос этапа
 
-For `service_business`, read [service-business profile](../../../profiles/service-business.md), especially **Business context**, and apply its profile-specific rules before the default instructions below. Service-specific fields and criteria override product-only wording; the existing phase order, output paths and analytical outputs remain unchanged. Unknown profile is a validation error, not a reason to guess.
+Если гипотеза верна, кто получит ценность, что изменится в работе и за счёт чего возникнет бизнес-эффект? Не доказывай здесь рынок и не повторяй анализ ролей.
 
+Сначала используй уже сохранённые цитаты и ограничения. Не обходи заново всю стратегию/БЗ. Дополнительный документ читай только для названного открытого вопроса, способного изменить вывод; оригинал перечитывай при конкретном сомнении. Нет документа стратегии — Strategic Fit неизвестно; это не повод для бесконечного поиска.
 
-# Business Context & Value Check
+## Соразмерность
 
-## Purpose
+- Внутреннее улучшение, в том числе service_improvement: текущая работа → изменение → получатель → ожидаемый эффект, владелец/ресурс и главный риск. Не придумывай отдельную продажу, договор, SLA, onboarding или сервисную мощность, если гипотеза их не меняет.
+- Новая услуга/оффер/модель поставки: добавь только затронутые клиентскую ценность, покупку, границы обещания, исполнимость и экономику. Не копируй пять полных описаний из профиля.
+- Экономику не рассчитывай без данных; неизвестное и потенциальное условие записывай прямо. Формат сохраняет смысл, а не число обязательных секций.
 
-Answer:
+## Дополнительное исследование
 
-> If this hypothesis is true, how would it create value for the business?
+Если интернет разрешён и остался внешний вопрос, способный изменить решение, передай его external-business-research: вопрос, нужное подтверждение/опровержение, сегмент/период и уже найденное. Не запускай полный рынок/OSINT автоматически для любого внутреннего изменения. При отключённом канале не вызывай его и не создавай фиктивный external_research.md. Внешние факты не заменяют внутреннюю стратегию. Рынок затем использует результат, не повторяя поиск.
 
-This skill does **not** decide whether to build. It maps the **value mechanism** and **strategic fit** before market and synthesis layers interpret signals.
+## Результат
 
-## What this skill does NOT do
+Сохрани `RUN_DIR/outputs/business_context_analysis.md` кратким Markdown по пяти вопросам:
 
-- Does not decide market viability; commissions public evidence collection through `external-business-research` before assessing the value mechanism.
-- Does not re-run role analysis
-- Does not make final product decisions
-- Does not estimate revenue without evidence
+1. Кто получает ценность и что меняется (внутренние и клиентские эффекты различаются).
+2. Механизм бизнес-эффекта: revenue, retention, competitive, adoption или operational; одна причинная цепочка и её слабое звено, без вымышленных цифр.
+3. Какие имеющиеся основания поддерживают этот механизм, а какие пока лишь предположения (ссылки на EVID/EXT, без повторного инвентаря).
+4. Соответствие доступным приоритетам: High/Medium/Low/Unknown, с источником и границами оценки.
+5. Главные пробелы/риски и их влияние на следующее решение.
 
-## Prerequisites
+Если пригодного контекста вообще нет, вместо пустого анализа сохрани `missing_business_context.md`: что недоступно, где искали в согласованном объёме и какие выводы сделать нельзя. Не заполняй неизвестными все разделы полного сервисного шаблона. Для внутреннего изменения отсутствие внешнего рынка само по себе не означает отсутствие контекста.
 
-Required:
+## Завершение
 
-- `RUN_DIR/input/hypothesis.md`
-- `RUN_DIR/outputs/hypothesis_summary.md`
-- `RUN_DIR/outputs/evidence_inventory.md`
-
-Recommended:
-
-- `RUN_DIR/outputs/hypothesis_summary.md`
-- `RUN_DIR/outputs/role_outputs/*`
-- `RUN_DIR/outputs/evidence_inventory.md`
-
-If Local Evidence is missing, stop and ask the user to run
-`/run-knowledge-retrieval.md` first.
-
-## KB search paths
-
-Search workspace knowledge base for strategy materials:
-
-- `strategy/`, `okr/`, `business-model/`
-- `knowledge-base/strategy/`, `knowledge-base/okr/`, `knowledge-base/business-model/`
-- Run-local samples: `kb-samples/strategy/`, `kb-samples/okr/`, `kb-samples/business-model/`
-
-Also scan `evidence_inventory.md` for strategy-related `EVID-NNN` items.
-
-## Step 0 — External evidence brief and collection
-
-Activate `external-business-research` after local-source completeness review, including when internal strategy is missing. Write `outputs/external_research.md` with actual search/read log, source ledger, contradictions and gaps. Passive public research is part of the requested full run unless explicitly excluded; distinguish host approval pending, actual refusal, unavailable tools and no results. Record them in the progress journal and show the user. Preserve internal strategic-fit gaps; external facts cannot fill them.
-
-Search existing workspace folder names in the discovery catalog too; the English KB paths below are examples, not a whitelist. Strategy/development/growth and Russian equivalents can be anywhere.
-
-## Step 1 — Context availability check
-
-For **digital_product**, if strategy, GTM, OKR, or business-model materials are **not found** (service_business uses the profile-specific availability rule):
-
-1. Write `RUN_DIR/outputs/missing_business_context.md` using the gap template below.
-2. Обозначь недоступный контекст и продолжи доступные части согласованного исследования. Не выдумывай данные.
-
-If materials exist, proceed to Step 2.
-
-## Step 2 — Stakeholder map
-
-Build value-chain roles from hypothesis roles + KB strategy:
-
-```text
-Problem → Beneficiary → Behavior change → Business effect
-```
-
-For each link identify:
-
-- Who experiences pain?
-- Who receives value?
-- Who decides?
-- Who pays?
-- Who implements?
-- Who may block?
-
-## Step 3 — Value mechanism
-
-Classify primary business effect type (one or more):
-
-- **Revenue Driver** — wins deals, expands ARR
-- **Retention Driver** — reduces churn, increases renewal
-- **Competitive Driver** — differentiation vs named competitors
-- **Adoption Driver** — increases usage, activation, seat expansion
-- **Operational Driver** — internal efficiency, cost reduction
-
-State mechanism in plain language. No revenue numbers without evidence.
-
-## Step 4 — Strategic fit
-
-Compare hypothesis to available strategy/OKR/GTM:
-
-- Does this advance stated priorities?
-- Does it help win target segment?
-- Strategic fit: High / Medium / Low / Unknown
-
-Cite sources (file paths or EVID-NNN).
-
-## Step 5 — Risks and opportunities
-
-Document:
-
-- buyer vs user gap
-- value mechanism gaps
-- strategic misalignment risks
-- opportunities if reframed
-
-## Output artifacts
-
-### `business_context_analysis.md`
-
-Required sections:
-
-```markdown
-# Business Context Analysis
-
-## Available Context
-...
-
-## Missing Context
-...
-
-## Stakeholder Map
-...
-
-## Value Flow
-Problem → Beneficiary → Behavior change → Business effect
-
-## Business Effect Type
-- [type] — rationale
-
-## Strategic Fit
-...
-
-## Key Risks
-...
-
-## Key Opportunities
-...
-
-## Summary for Downstream Layers
-...
-```
-
-### `missing_business_context.md`
-
-Required sections (EN or RU to match input language):
-
-```markdown
-# Missing Business Context
-
-## Missing Source Types
-- strategy
-- okr
-- business-model / GTM
-
-## Searched Paths
-- ...
-
-## Impact on Downstream Layers
-- Market: proceed with explicit gap; do not infer strategic fit
-- Synthesis: Local Optimization Trap / buyer-value analysis unavailable
-- Decision Review / Human Report: Decision Readiness may be Needs business context
-
-## What To Add To KB
-- ...
-```
-
-## Review rules
-
-- No evidence → no claim
-- Do not invent strategy alignment
-- Distinguish user pain from buyer value
-- Language matches `input/hypothesis.md`
-
-## Next step
-
-After completion, run skill `hypothesis-market-layer` or workflow `/run-market-layer.md`.
-
-## Service profile context availability
-
-For `service_business`, strategy-document absence alone does not trigger the default stop. Assess usable operational/commercial context as required by the service profile, set Strategic Fit to Unknown when strategy is absent, and write available checks. Use the gap path only when no usable business context exists. Keep customer outcome and provider economics separate. Write the four canonical status fields specified in the artifact contract.
-
-## Проверка результата
-
-Проверь содержание по .clinerules/40-run-quality.md. Основания и ограничения сохраняй в Markdown, без технических реестров и автоматических gates.
+Каждый вопрос получил ответ либо явно указан пробел и влияние — этап закончен. Проверь ключевую цепочку по .clinerules/40-run-quality.md, сохрани результат, затем отметь фактическое завершение в progress.md и перейди к hypothesis-market-layer. Не запускай проверочные команды и не расширяй исследование ради заполнения шаблона.

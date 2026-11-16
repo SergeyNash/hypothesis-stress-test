@@ -1,89 +1,9 @@
-# Synthesis Prompt
+# Синтез — ручной шаблон
 
-This is an execution template, not a system prompt.
+Сопоставь ролевые перспективы, бизнес-контекст и рынок текущего прогона. Не повторяй исследование и не пересказывай документы. К оригиналу возвращайся за конкретным спорным местом, не за всем архивом.
 
-RUN_DIR: [set your run directory]
+Сохрани outputs/hypothesis_map.md: что изменилось в понимании, существенные согласования/противоречия со ссылками, альтернативные объяснения и границы применимости, влияние на гипотезу и решающие неизвестные. Паттерны Validated Opportunity / Internal Illusion / Blind Spot / Weak Signal / Local Optimization Trap — способы анализа, не обязательные находки. Если новой информации нет, так и скажи. Для сервиса кратко отметь применимые контуры, без повторения бизнес-контекста.
 
----
+Сохрани outputs/hypothesis_digest.md до 150 слов: вывод, главный конфликт/ограничение, уверенность и ближайшая проверка. Не выдавай существование методики за доказанный эффект.
 
-## What this phase does NOT do
-
-- Does not summarize role or market outputs without comparison
-- Does not perform market research
-- Does not re-run role analysis
-- Does not make final product decisions
-
----
-
-## Prerequisites
-
-- `outputs/hypothesis_summary.md`
-- `outputs/evidence_inventory.md`
-- `outputs/business_context_analysis.md` (`completed` or `skipped_missing_context`)
-- `outputs/market_analysis.md`
-- `outputs/role_outputs/*`
-- `outputs/hypothesis_summary.md`
-- `outputs/evidence_inventory.md`
-- `outputs/business_context_analysis.md` or `outputs/missing_business_context.md`
-- `outputs/market_analysis.md`
-
----
-
-## Task
-
-Compare internal (roles), local evidence, Business Context, and external (market) signals. Discover what becomes visible only after collision.
-
-Do NOT perform new retrieval or research. Do NOT generate new evidence or ideas. Do NOT add external assumptions. Do NOT smooth contradictions. If Business Context is missing, preserve the gap and do not infer strategic fit.
-
----
-
-## Signal model
-
-1. Validated Opportunity — roles + market align
-2. Internal Illusion — roles yes, market no
-3. Blind Spot — market yes, roles no
-4. Weak Signal — weak evidence everywhere
-5. Local Optimization Trap — pain confirmed but no strategic business value
-
----
-
-## Analysis process
-
-1. Internal alignment (agreement / tension / conflict zones)
-2. Business Context check (stakeholder/value flow, strategic fit, or explicit gap)
-3. Market validation (confirmed / weak / unconfirmed problems, alternatives)
-4. Cross-signal analysis with validation priority (HIGH / MEDIUM / LOW)
-5. Applicability discovery
-6. Blind spot discovery
-7. New information discovery (mandatory — only post-comparison insights)
-8. Decision impact on original hypothesis (keep / narrow / expand / reframe / change audience / require validation / reject)
-
----
-
-## Output language
-
-Match the language of `input/hypothesis.md`.
-
----
-
-## Output requirements
-
-1. `RUN_DIR/outputs/hypothesis_map.md` — full synthesis (see skill for EN/RU structure)
-2. `RUN_DIR/outputs/hypothesis_digest.md` — max 150 words
-
----
-
-## Review rules
-
-- Focus on conflicts, not summaries
-- Never smooth contradictions
-- Never invent signals
-- Use only existing artifacts and their cited evidence; do not perform new retrieval/research
-- Treat missing Business Context as a gap, not as evidence of strategic fit
-- Uncertainty is allowed and expected
-
-See `.cline/skills/hypothesis-synthesis/SKILL.md` for full output structures.
-
-## Application profile
-
-Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.
+Общие правила: [.clinerules/40-run-quality.md](../.clinerules/40-run-quality.md); для service_business — [профиль](../profiles/service-business.md). Пиши на языке входа. Не создавать PowerShell/Python/shell/regex-проверки, временные выгрузки и новые реестры. Отметить завершение в progress.md только после успешного сохранения результата.

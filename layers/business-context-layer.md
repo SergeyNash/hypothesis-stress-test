@@ -1,113 +1,15 @@
-# Слой Business Context & Value Check
+# Бизнес-контекст
 
-Слой отвечает на вопрос:
+Вопрос: если гипотеза верна, кто получит ценность, что изменится в работе и за счёт чего возникнет бизнес-эффект? Проблема существует и бизнес-кейс правдоподобен — разные выводы.
 
-> Если гипотеза верна, как она создаёт ценность для бизнеса?
+Использовать вход, роли и сохранённые локальные/внешние основания. К оригиналу возвращаться при конкретном сомнении, новый источник читать для вопроса, способного изменить решение. Отсутствие стратегии — Strategic Fit: Unknown; операционный контекст остаётся пригодным.
 
-Отделяет **проблема существует** от **бизнес-кейс правдоподобен**.
+## Результат
 
----
+business_context_analysis.md: получатель и изменение → механизм эффекта → основания/допущения → соответствие доступным приоритетам → решающие пробелы и риски. Эффект может быть revenue, retention, competitive, adoption или operational. Нет пригодного контекста вообще — missing_business_context.md с недоступными выводами; не заполнять пустой полный шаблон.
 
-## Чего слой не делает
+Для внутреннего улучшения не описывать отдельную продажу, SLA, onboarding и мощности, если они не меняются. Для новой услуги раскрывать применимые контуры [сервисного профиля](../profiles/service-business.md). Этап завершён при ответе либо явном пробеле по вопросам решения, а не после исчерпания БЗ.
 
-- Не проводит market research
-- Не синтезирует role- и market-сигналы
-- Не принимает финальные продуктовые решения
-- Не оценивает выручку без evidence
+Внешнее исследование — только по решающему вопросу в разрешённом канале; рынок использует результат и закрывает лишь остаточные вопросы. Публичные факты не заменяют внутреннюю стратегию и первичную клиентскую валидацию. Штатные инструменты чтения, без самодельных проверок и временных извлечений.
 
----
-
-## Назначение
-
-Большинство B2B-гипотез проваливается не потому, что боль фейковая, а потому что:
-
-- покупатель — не пользователь
-- ценность не связана со стратегией
-- механизм от боли к бизнес-эффекту неясен
-
-Слой строит **карту потока ценности** до внешней валидации.
-
-<p align="center">
-  <img src="../assets/ru/business-value-flow.png" width="760"/>
-</p>
-
----
-
-## Входы
-
-Обязательно:
-
-- `input/hypothesis.md`
-- outputs Roles Layer (`role_outputs/*`, `hypothesis_summary.md`)
-
-Опционально:
-
-- `evidence_inventory.md`
-- стратегические материалы KB (`strategy/`, `okr/`, `business-model/`)
-
-## Условия старта
-
-- `hypothesis_summary.md`
-
----
-
-## Типы бизнес-эффекта
-
-| Тип | Вопрос |
-|------|----------|
-| **Revenue Driver** | Помогает ли выигрывать или расширять выручку? |
-| **Retention Driver** | Защищает или растит существующих клиентов? |
-| **Competitive Driver** | Дифференцирует ли относительно названных конкурентов? |
-| **Adoption Driver** | Увеличивает ли использование или число мест? |
-| **Operational Driver** | Улучшает ли внутреннюю эффективность? |
-
----
-
-## Outputs
-
-| Артефакт | Назначение |
-|----------|------------|
-| `business_context_analysis.md` | Полная карта ценности и strategic fit |
-| `missing_business_context.md` | Явный gap, если стратегической KB нет |
-| `business_context_analysis.md` | Gate для Market Layer |
-
----
-
-## Место в пайплайне
-
-```text
-Roles Layer
-  ↓
-Local Evidence Discovery
-  ↓
-Business Context & Value Check   ← этот слой
-  ↓
-Market Layer
-  ↓
-Synthesis
-```
-
-Synthesis и Decision Review используют business context, чтобы ловить **Local Optimization Trap** и readiness **Needs business context**.
-
----
-
-## Правила ревью
-
-- Нет данных по стратегии → `missing_business_context.md`, а не выдуманный анализ
-- Боль пользователя ≠ ценность для покупателя
-- Strategic fit должен ссылаться на источники
-
----
-
-## Дальше
-
-- `templates/business-context-prompt.md` — ручной запуск
-- `.cline/skills/business-context-value-check/SKILL.md` — запуск через Cline
-
-## Service-business profile
-
-For service_business apply **Business context** from [service-business.md](../profiles/service-business.md). This extends the current phase without adding a parallel pipeline. Existing digital_product runs keep their contract.
-
-## External evidence collection
-
-Business Context commissions `external-business-research` after local-source review, including on the missing-internal-context path. The collection result external_research.md separates market/company facts from inferences and unresolved gaps. Market interprets it and fills residual gaps. Public facts do not establish internal strategic fit.
+[Навык](../.cline/skills/business-context-value-check/SKILL.md) · [ручной шаблон](../templates/business-context-prompt.md) · [общие правила качества](../.clinerules/40-run-quality.md).
