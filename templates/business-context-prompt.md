@@ -1,42 +1,15 @@
-# Business Context & Value Check — Manual Prompt
+# Бизнес-контекст — ручной шаблон
 
-Use after Roles Layer and Local Evidence Discovery, before Market Layer.
+Используй вход, согласованные границы и сохранённые локальные/внешние основания текущего прогона. Правила объёма и качества: [.clinerules/40-run-quality.md](../.clinerules/40-run-quality.md). Для service_business применяй [профиль](../profiles/service-business.md).
 
-## Input
+Сохрани `outputs/business_context_analysis.md`:
 
-- `RUN_DIR/input/hypothesis.md`
-- `RUN_DIR/outputs/hypothesis_summary.md`
-- `RUN_DIR/outputs/role_outputs/*`
-- KB: `strategy/`, `okr/`, `business-model/` (or equivalents)
+1. Получатель ценности и изменение работы.
+2. Механизм ожидаемого бизнес-эффекта и слабое звено причинной цепочки.
+3. Поддерживающие основания со ссылками; что пока предположение.
+4. Соответствие известным приоритетам, либо Unknown при отсутствии стратегии.
+5. Главные пробелы/риски и влияние на решение.
 
-## Task
+Для внутреннего улучшения не описывай отдельную продажу, SLA и новую поставку, если они не меняются. Для новой услуги добавь затронутые контуры без повторения инвентаря. Если пригодного контекста нет вообще, сохрани missing_business_context.md с границами поиска и недоступными выводами.
 
-1. Check whether strategy materials exist in KB.
-2. If missing → write `missing_business_context.md` only.
-3. If present → write `business_context_analysis.md` with:
-   - stakeholder map (pain / value / decide / pay / block)
-   - value flow: Problem → Beneficiary → Behavior change → Business effect
-   - business effect type(s)
-   - strategic fit (High / Medium / Low) with citations
-   - key risks and opportunities
-4. Write `business_context_analysis.md` as Markdown
-   (or an explicit explanation of missing context).
-
-## Rules
-
-- No evidence → no claim
-- Do not invent OKR alignment
-- Language matches `input/hypothesis.md`
-
-## Output paths
-
-- `RUN_DIR/outputs/business_context_analysis.md`
-- `RUN_DIR/outputs/missing_business_context.md` (if gap)
-
-## Application profile
-
-Resolve Application Profile from input Metadata (default digital_product). For service_business apply [service-business.md](../profiles/service-business.md) for this phase before the generic template. Preserve unknowns, separate customer/provider, and use the existing output paths.
-
-## Public evidence during context collection
-
-Before context assessment, run `external-business-research` with hypothesis/local gaps; record brief, actual queries/read outcomes, EXT sources, dates, contradictions and limits in outputs/external_research.md. Full-run passive public research is included unless explicitly excluded; respect host permissions and distinguish waiting, refusal, unavailability and no results. Do not replace missing internal strategy with public facts. Market reuses this result.
+Исследование заканчивается при ответе на вопросы либо явном пробеле. Новый источник нужен для конкретного вопроса, влияющего на решение; внешний поиск — только в разрешённом канале и по такому вопросу. Не перечитывай всю БЗ, не исследуй соседнюю гипотезу автоматически. Не создавай shell/Python-проверки или временные извлечения. После успешного сохранения обнови progress.md.

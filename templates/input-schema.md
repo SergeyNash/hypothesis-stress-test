@@ -156,4 +156,4 @@ For service_business require:
 | Service Context | Provider Change / Изменение у поставщика | Change on the provider side, or explicit unknown |
 | Service Context | Role Bindings / Привязка ролей | Name → customer/provider/partner → profile path if present |
 
-Explicit unknowns in service context remain gaps, not proof. Empty/placeholder fields fail. See [service profile](../profiles/service-business.md) and [complete development example](../examples/example-005/input/hypothesis.md). Both sides share the five-role limit; do not automatically include every persona.
+For an internal improvement, a genuinely unaffected customer purchase/service promise may be described as not applicable with a reason; do not invent a new service to fill the form. Missing evidence about an affected contour remains unknown, not not-applicable. Explicit unknowns in service context remain gaps, not proof. Empty/placeholder fields fail. See [service profile](../profiles/service-business.md) and [complete development example](../examples/example-005/input/hypothesis.md). Both sides share the five-role limit; do not automatically include every persona.
