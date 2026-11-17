@@ -10,6 +10,7 @@
 - synthesis-prompt.md — сопоставление;
 - customer-discovery-planning-prompt.md — ближайшие проверки;
 - decision-review-prompt.md — критический разбор;
-- human-report-template.md — итог.
+- human-report-template.md — текстовая версия итога;
+- human-report-template.html — обязательный итоговый HTML-отчёт, статический и без сервера.
 
 Источники и ограничения описываются непосредственно в результатах. Машинных реестров и исполняемых контрактов нет.

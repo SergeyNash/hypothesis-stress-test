@@ -119,7 +119,7 @@ class Maintenance(unittest.TestCase):
         self.write('.clinerules/55-tui-control.md','obsolete copied rule')
         def fetch(target):
             with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as archive:
-                for root in ['.cline','.clinerules','scripts','maintenance']:
+                for root in ['.cline','.clinerules','scripts','maintenance','templates']:
                     for source in (ROOT/root).rglob('*'):
                         if source.is_file() and '__pycache__' not in source.parts:
                             archive.write(source,'package/'+source.relative_to(ROOT).as_posix())
@@ -130,6 +130,7 @@ class Maintenance(unittest.TestCase):
         self.assertFalse((self.workspace/'.hst/tui.json').exists())
         self.assertFalse((self.workspace/'.clinerules/55-tui-control.md').exists())
         self.assertFalse((self.workspace/'.hst/workspace.json').exists())
+        self.assertTrue((framework/'templates/human-report-template.html').is_file())
         self.assertEqual('framework',setup.settings(self.workspace)['framework_dir'])
         self.assertEqual('user result',(self.workspace/'runs/HYP-2026-11-14-001/result.md').read_text())
 

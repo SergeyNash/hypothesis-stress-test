@@ -95,4 +95,4 @@ PDF/DOCX/XLSX читай доступными клиенту инструмен�
 
 Сервисные readiness tokens: `Ready for limited pilot`, `Needs offer revision`, `Needs delivery capability`, `Needs commercial evidence`, `Ready to expand sales`, `Needs business context`, `Reject / reframe`. Выбирать по главному блокеру. Финальное решение остаётся у человека; `Ready for backlog` относится к продуктовому профилю.
 
-Итоговый Markdown-отчёт обобщает результаты без нового анализа. При нехватке доказательств сохранять `unknown`; не превращать условия пилота в проверенные результаты.
+Итоговый human_report.html и соответствующий human_report.md обобщают одни результаты без нового анализа. Статический HTML обязателен в полном прогоне; сервера и HTML-прогресса нет. При нехватке доказательств сохранять `unknown`; не превращать условия пилота в проверенные результаты.
