@@ -61,13 +61,12 @@
       </nav>
     </header>
     <main>
+      <!-- Lead with the owner decision (or open choice), scope and effective date.
+           For services, include the compatible general and service actions in recommendation. -->
+
       <section id="owner" class="owner">
         <h2>{{OWNER_LABEL_TEXT}}</h2>
         {{OWNER_DECISION_HTML}}
-      </section>
-      <section id="statement">
-        <h2>{{ORIGINAL_STATEMENT_LABEL_TEXT}}</h2>
-        <blockquote>{{ORIGINAL_STATEMENT_TEXT}}</blockquote>
       </section>
       <section id="recommendation">
         <h2>{{RECOMMENDATION_LABEL_TEXT}}</h2>
@@ -77,6 +76,10 @@
           <div class="card"><span class="label">{{READINESS_LABEL_TEXT}}</span><span class="value">{{READINESS_TEXT}}</span></div>
         </div>
         {{RECOMMENDATION_HTML}}
+      </section>
+      <section id="statement">
+        <h2>{{ORIGINAL_STATEMENT_LABEL_TEXT}}</h2>
+        <blockquote>{{ORIGINAL_STATEMENT_TEXT}}</blockquote>
       </section>
       <section id="findings">
         <h2>{{FINDINGS_LABEL_TEXT}}</h2>
