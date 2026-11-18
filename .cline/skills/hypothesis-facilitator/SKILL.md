@@ -166,9 +166,8 @@ If a matching file exists in `knowledge-base/personas/`, use it as supporting co
 
 Evidence handling:
 
-- Personas with empty `source_interviews` are weak local signals.
-- Personas backed by interviews or persona builds may be treated as stronger local context.
-- Do not invent interview evidence when a persona has no linked sources.
+- Use a persona to formulate an objection or a question about observed behavior.
+- For an empirical claim, cite the relevant passage of the underlying interview once, even when several profiles or build notes refer to it. Without that source, label the point an assumption to check.
 
 **Pain** — priority: CRITICAL / SECONDARY / DOES NOT ADDRESS PAIN. Describe operational impact, business impact, urgency.
 

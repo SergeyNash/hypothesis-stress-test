@@ -1,12 +1,12 @@
 # Анализ роли: CISO
 
-Персона `knowledge-base/personas/chief-information-security-officer-ciso.md` — initial profile, `source_interviews: []`, confidence: low. Используется как слабый supporting context, не как первичное evidence.
+Персона `knowledge-base/personas/chief-information-security-officer-ciso.md` — initial profile, `source_interviews: []`, confidence: low. Используется для постановки вопросов. Эмпирических оснований у самой реплики нет.
 
 ## Боль
 
 Приоритет: SECONDARY
 
-CISO отвечает за enterprise risk, compliance и объяснимость инвестиций, а не за ежедневный порядок SAST-очереди. Боль гипотезы для этой роли косвенная: critical systems могут сканироваться слишком поздно, нет visibility, почему ресурсы сканера распределены именно так, сложно показать board «мы оптимизируем allocation». В зрелых организациях предпочтение скорее к policy-based automation, чем к ручному operational control. Персона (слабый сигнал): tool sprawl без единой картины риска, сложность доказать ROI AppSec, недоверие к децентрализованным решениям, которые нельзя audit.
+CISO отвечает за enterprise risk, compliance и объяснимость инвестиций, а не за ежедневный порядок SAST-очереди. Боль гипотезы для этой роли косвенная: critical systems могут сканироваться слишком поздно, нет visibility, почему ресурсы сканера распределены именно так, сложно показать board «мы оптимизируем allocation». В зрелых организациях предпочтение скорее к policy-based automation, чем к ручному operational control. Допущения для проверки: tool sprawl без единой картины риска, сложность доказать ROI AppSec, недоверие к децентрализованным решениям, которые нельзя audit.
 
 Гипотеза бьёт в боль CISO только если ручная приоритизация даёт auditable, объяснимое распределение ёмкости. Сама кнопка «поднять проект» эту боль не закрывает.
 
