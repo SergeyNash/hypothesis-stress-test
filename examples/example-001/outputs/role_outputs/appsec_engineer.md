@@ -1,6 +1,6 @@
 # Анализ роли: AppSec Engineer
 
-Персона `knowledge-base/personas/application-security-engineer.md` — initial profile, `source_interviews: []`, confidence: low. Используется как слабый supporting context, не как первичное evidence.
+Персона `knowledge-base/personas/application-security-engineer.md` — initial profile, `source_interviews: []`, confidence: low. Используется для постановки вопросов. Эмпирических оснований у самой реплики нет.
 
 ## Боль
 
@@ -8,7 +8,7 @@
 
 AppSec держит очередь SAST между coverage «просканировать всё» и глубиной по системам, которые реально важны. При ограниченной ёмкости FIFO ставит бизнес-критичный репозиторий в один ряд с низкорисковым. Операционный удар: нельзя быстро ответить на смену приоритета бизнеса, решения о порядке приходится объяснять разработчикам без формальных критериев. Бизнес-удар: findings в важных системах приходят позже, чем команда готова их чинить. Срочность высокая, пока wait time очереди сопоставим с релизным циклом.
 
-Персона (слабый сигнал): fragmented tooling, ручные процессы, которые не масштабируются, сложность связать technical findings с business impact.
+Допущения для проверки: fragmented tooling, ручные процессы, которые не масштабируются, сложность связать technical findings с business impact.
 
 ## Новые проблемы
 

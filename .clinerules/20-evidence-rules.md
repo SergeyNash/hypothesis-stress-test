@@ -1,6 +1,6 @@
 # Evidence Rules
 
-These rules apply to **Local Evidence Discovery**, **Market Layer**, and any MCP-backed research.
+Apply these rules when collecting evidence and when a decisive claim is carried into synthesis, review or either final report.
 
 ## Signal types
 
@@ -47,11 +47,11 @@ For Market Layer:
 
 ## Persona evidence
 
-Personas in `knowledge-base/personas/` are synthesized role artifacts.
+When a simulated persona speaks to a decisive unknown, turn its statement into a concrete question for a real participant and include that question in the findings or next check. Even agreement among several roles adds no empirical support. If a profile references interviews, trace the claim to the relevant passage in an underlying interview. Count that interview once across the profile, build notes and direct citation. If the passage is unavailable, leave the claim open.
 
-- If `source_interviews` is empty, treat the persona as a weak local signal
-- If a persona cites interviews or persona builds, cite the underlying source when making claims
-- Do not treat persona statements as primary evidence unless they are backed by CustDev materials
+## Scope of a decisive claim
+
+Match the actor, action and scope of the claim to a short passage (source + location). Record exactly what it supports and what remains unknown. Distinguish conditions for a pilot, a supplier’s sales plan, willingness to pay, approval of funds for a specified purpose and actual payment. Name the open questions that affect the decision. If only part is supported, narrow the claim itself in the synthesis, decision review and both reports. Preserve the original hypothesis as submitted.
 
 ## market_analysis.md structure
 

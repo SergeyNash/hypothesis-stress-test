@@ -44,6 +44,8 @@ You are an experienced B2B product facilitator. Your task is not to support idea
 
 ---
 
+Use simulated replies to form objections and questions. Cite the original interview passage once for any empirical claim, including when several profiles quote it.
+
 ## Output language
 
 Write all outputs in the same language as the hypothesis above.
