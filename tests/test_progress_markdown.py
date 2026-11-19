@@ -46,3 +46,60 @@ class MarkdownProgress(unittest.TestCase):
             run=root/'runs/HYP-2026-11-16-001';run.mkdir(parents=True)
             (run/'progress.md').write_text('\x1b[31mhello\x1b[0m',encoding='utf-8')
             self.assertEqual('hello',view(run_dir=run)[2])
+
+    def test_stage_progress_through_once_and_run_switch(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            pointer = root / '.hst/active-run.md'
+            pointer.parent.mkdir()
+            for step, stage, percent, status in [
+                (0, '1. Роли', 0, 'выполняется'),
+                (3, '4. Рынок', 38, 'выполняется'),
+                (3, '4. Рынок', 38, 'ожидание ответа'),
+                (4, '5. Синтез', 50, 'выполняется'),
+                (5, '6. План проверки', 63, 'остановлен'),
+                (7, '8. Итог', 88, 'сохранён Markdown'),
+                (8, '8. Итог', 100, 'завершён'),
+            ]:
+                with self.subTest(step=step, status=status):
+                    run = root / f'runs/HYP-2026-11-19-{step:03d}'
+                    run.mkdir(parents=True, exist_ok=True)
+                    pointer.write_text(f'Прогон: {run.relative_to(root)}', encoding='utf-8')
+                    note = (f'# Ход проверки\nСтатус: {status}\nЗавершено этапов: {step}/8\n'
+                            f'Текущий этап: {stage}\n\n## Сейчас\nПояснение\n')
+                    (run / 'progress.md').write_text(note, encoding='utf-8')
+                    output = subprocess.check_output(
+                        [sys.executable, str(ROOT/'scripts/terminal_progress.py'),
+                         '--workspace', str(root), '--once'], encoding='utf-8')
+                    header, body = output.split('# Ход проверки')
+                    self.assertIn(f'{step}/8 · {percent}%', header)
+                    self.assertIn(stage, header)
+                    self.assertIn(status, body)
+                    self.assertIn('Пояснение', body)
+
+    def test_unknown_counts_and_journal_entries(self):
+        from terminal_progress import progress_lines
+
+        for value in ['', '3/', '/8', '3/0', '9/8', '-1/8', '3/8?', '3/8\nЗавершено этапов: 4/8']:
+            with self.subTest(value=value):
+                note = f'Завершено этапов: {value}\n\n## Выполнено\nЗавершено этапов: 3/8'
+                self.assertEqual(['Доля этапов пока неизвестна'], progress_lines(note))
+        self.assertEqual(['Доля этапов пока неизвестна'], progress_lines('# Старая заметка'))
+        self.assertEqual([], progress_lines(None))
+
+    def test_narrow_live_screen_keeps_progress_without_colour(self):
+        try:
+            from rich.console import Console
+            from rich.live_render import LiveRender
+        except ImportError:
+            self.skipTest('Rich is optional for --once')
+        from terminal_progress import render_panel
+
+        note = 'Завершено этапов: 3/8\nТекущий этап: 4. Рынок\n## Сейчас\n' + 'Событие\n\n' * 100
+        console = Console(width=32, height=12, color_system=None)
+        with console.capture() as frame:
+            console.print(LiveRender(render_panel('Прогон', 'Таймер', note), vertical_overflow='crop'))
+        screen = frame.get()
+        for label in ['3/8 · 38%', '███░░░░░', 'Рынок', 'Таймер']:
+            self.assertIn(label, screen)
+        self.assertLessEqual(len(screen.splitlines()), 12)
