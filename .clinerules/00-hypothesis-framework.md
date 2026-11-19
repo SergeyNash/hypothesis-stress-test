@@ -1,6 +1,6 @@
 # Hypothesis Stress Test
 
-**Framework version:** 2.14.0
+**Framework version:** 2.15.0
 
 HST — набор инструкций, ролей и Markdown-шаблонов для исследования гипотезы языковой моделью. Модель ведёт процесс в чате Cline; Python не выбирает этапы, не проверяет выводы и не собирает evidence registry.
 

@@ -49,16 +49,51 @@ def elapsed(text, now=None):
 def view(workspace=None, run_dir=None):
     try:
         run=Path(run_dir).resolve() if run_dir else selected_run(workspace)
-        if run is None:return 'HST · Прогресс','Ожидаю новый прогон в чате Cline.',''
+        if run is None:return 'HST · Прогресс','Ожидаю новый прогон в чате Cline.',None
         path=run/'progress.md'
-        if not path.exists():return run.name,'Ожидаю progress.md. Анализ от просмотра не зависит.',''
+        if not path.exists():return run.name,'Ожидаю progress.md. Анализ от просмотра не зависит.',None
         text=read_bounded(path)
         # Strip terminal control sequences. Markdown remains data, never a command.
         text=re.sub(r'\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)|\x1b\[[0-?]*[ -/]*[@-~]','',text)
         text=''.join(c for c in text if c in '\n\t' or (ord(c)>=32 and not 127<=ord(c)<=159))
         return run.name,elapsed(text),text
     except (OSError,ValueError) as error:
-        return 'HST · Прогресс','Просмотр временно недоступен. Исследование можно продолжать.',str(error)
+        return 'HST · Прогресс',f'Просмотр временно недоступен. Исследование можно продолжать.\n{error}',None
+
+
+def progress_lines(text, *, show_bar=False):
+    """Read only explicit metadata before the first journal section."""
+    if text is None:
+        return []
+    header = re.split(r'^#{2,6}(?:[ \t]|$)', text, maxsplit=1, flags=re.M)[0]
+    counts = re.findall(r'^Завершено этапов:[ \t]*(.*)$', header, re.M)
+    stage = re.search(r'^Текущий этап:[ \t]*(.+)$', header, re.M)
+    match = re.fullmatch(r'([0-9]{1,9})/([0-9]{1,9})', counts[0].strip()) if len(counts) == 1 else None
+    summary = 'Доля этапов пока неизвестна'
+    if match:
+        done, total = map(int, match.groups())
+        if total and done <= total:
+            percent = (200 * done + total) // (2 * total)
+            summary = f'{done}/{total} · {percent}%'
+            if show_bar:
+                filled = 8 * done // total
+                summary += '  ' + '█' * filled + '░' * (8 - filled)
+            summary += '  Общий прогресс'
+    lines = [summary]
+    if stage and stage[1].strip():
+        lines.append('Текущий этап: ' + stage[1].strip())
+    return lines
+
+
+def render_panel(title, timer, text):
+    from rich.console import Group
+    from rich.markdown import Markdown
+    from rich.panel import Panel
+    from rich.text import Text
+
+    lines = [Text(line) for line in progress_lines(text, show_bar=True)]
+    return Panel(Group(*lines, Text(timer), Markdown(text or 'Ожидаю данные…')),
+                 title=Text(title), subtitle='Только чтение · Ctrl+C закрывает просмотр')
 
 
 def main(argv=None):
@@ -70,22 +105,19 @@ def main(argv=None):
     args=p.parse_args(argv)
     if args.once or not sys.stdout.isatty():
         title,timer,text=view(args.workspace,args.run_dir)
-        print(title+'\n'+timer+'\n\n'+text)
+        print('\n'.join([title, *progress_lines(text), timer, '', text or '']))
         return
     try:
-        from rich.console import Console,Group
+        from rich.console import Console
         from rich.live import Live
-        from rich.markdown import Markdown
-        from rich.panel import Panel
     except ImportError:
         print('Для просмотра установи requirements-terminal.txt через setup --terminal.',file=sys.stderr)
         return 2
     console=Console()
     def render():
-        title,timer,text=view(args.workspace,args.run_dir)
-        return Panel(Group(timer,Markdown(text or 'Ожидаю данные…')),title=title,subtitle='Только чтение · Q не требуется, Ctrl+C закрывает просмотр')
+        return render_panel(*view(args.workspace, args.run_dir))
     try:
-        with Live(render(),console=console,screen=True,refresh_per_second=1) as live:
+        with Live(render(),console=console,screen=True,vertical_overflow="crop",refresh_per_second=1) as live:
             while True:
                 time.sleep(1)
                 live.update(render())
