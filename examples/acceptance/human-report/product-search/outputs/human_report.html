@@ -33,7 +33,15 @@
     footer { margin-top:28px; color:var(--muted); font-size:.85rem; }
     @media (max-width:650px) { .wrap { padding:20px 14px 36px; } section { padding:20px; } .cards { grid-template-columns:1fr; } }
     @media print { body { background:white; font-size:11pt; } .wrap { max-width:none; padding:0; } nav { display:none; } section { border-radius:0; padding:16px 0; border:0; border-top:1px solid var(--line); } h2,h3 { break-after:avoid; } .card,blockquote,tr { break-inside:avoid; } a { color:inherit; } }
-   pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
+   pre{white-space:pre-wrap;overflow-wrap:anywhere}
+    .owner-question { max-width:72ch; padding:1.25rem 0; }
+    .owner-question + .owner-question { border-top:1px solid var(--line); }
+    .owner-question h3 { margin:0 0 .45rem; font-size:1.12rem; }
+    .owner-question .answer { font-size:1.06rem; font-weight:650; }
+    .owner-question ul { margin:.6rem 0; }
+    .owner-question .gap { padding:.55rem .85rem; border-left:3px solid #a26b12; background:#fff8e9; }
+    .owner-question .sources { font-size:.9rem; margin-bottom:0; }
+</style>
 
 </head><body><main class="wrap"><h1>Поиск договора по номеру</h1>
 
@@ -45,12 +53,13 @@
 
 </section>
 
-<section id="questions"><h2>Какое решение предстоит команде «Каталог»?</h2>
-
-<p>Кому полезен поиск по номеру? Пользователю, который уже знает номер договора. Один эпизод показывает такой способ поиска. Частота задачи и выигрыш во времени неизвестны. <a href="#EVID-017">Наблюдение пользователя</a></p>
-
+<section><h2>Вопросы владельца · команда «Каталог»</h2>
+<article class="owner-question" id="questions"><h3>Кому полезен поиск по номеру?</h3>
+<p class="answer">Пользователю каталога, который уже знает номер договора.</p>
+<ul><li>В одном наблюдении пользователь искал номер в названии договора.</li></ul>
+<p class="gap"><strong>Открытый вопрос.</strong> Как часто возникает эта задача и сколько времени сэкономит поиск по номеру?</p>
+<p class="sources"><strong>Основания.</strong> <a href="#EVID-017">Наблюдение пользователя</a></p></article>
 </section>
-
 <section id="action"><h2>Ближайшее действие</h2>
 
 <p>Сравнить время и правильность поиска по названию и номеру на одних заданиях. Если время снизится при сохранении точности, согласовать разработку. <a href="customer_discovery_plan.md">Сравнить способы поиска</a></p>

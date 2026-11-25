@@ -33,7 +33,15 @@
     footer { margin-top:28px; color:var(--muted); font-size:.85rem; }
     @media (max-width:650px) { .wrap { padding:20px 14px 36px; } section { padding:20px; } .cards { grid-template-columns:1fr; } }
     @media print { body { background:white; font-size:11pt; } .wrap { max-width:none; padding:0; } nav { display:none; } section { border-radius:0; padding:16px 0; border:0; border-top:1px solid var(--line); } h2,h3 { break-after:avoid; } .card,blockquote,tr { break-inside:avoid; } a { color:inherit; } }
-   pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
+   pre{white-space:pre-wrap;overflow-wrap:anywhere}
+    .owner-question { max-width:72ch; padding:1.25rem 0; }
+    .owner-question + .owner-question { border-top:1px solid var(--line); }
+    .owner-question h3 { margin:0 0 .45rem; font-size:1.12rem; }
+    .owner-question .answer { font-size:1.06rem; font-weight:650; }
+    .owner-question ul { margin:.6rem 0; }
+    .owner-question .gap { padding:.55rem .85rem; border-left:3px solid #a26b12; background:#fff8e9; }
+    .owner-question .sources { font-size:.9rem; margin-bottom:0; }
+</style>
 
 </head><body><main class="wrap"><h1>Ночная поддержка небольших площадок</h1>
 
@@ -47,30 +55,28 @@
 
 </section>
 
-<section id="economics"><h2>Зачем это Сервис Север?</h2>
-
-<p>Агент может снизить стоимость ночного обслуживания и вернуть в портфель малые сделки. Для расчёта маржи нужны затраты на контроль, дежурство и эскалации. <a href="#EVID-013">Экономика малых сделок</a></p>
-
+<section id="questions"><h2>Вопросы владельца</h2>
+<article class="owner-question" id="economics"><h3>Зачем это направлению «Сервис Север»?</h3>
+<p class="answer">Автоматизация может вернуть малые сделки в портфель.</p>
+<ul><li>Сегодня стоимость ночной смены делает такие договоры нерентабельными.</li></ul>
+<p class="gap"><strong>Открытый вопрос.</strong> Сколько будет стоить обслуживание с учётом контроля, дежурства и эскалаций?</p>
+<p class="sources"><strong>Основания.</strong> <a href="#EVID-013">Экономика малых сделок</a></p></article>
+<article class="owner-question" id="buyer"><h3>Кому это нужно?</h3>
+<p class="answer">Предполагаемые заказчики — филиалы и небольшие компании.</p>
+<ul><li>У филиала покупателем может быть головная организация.</li><li>Потребность в замещении смены зафиксирована у крупных клиентов.</li></ul>
+<p class="gap"><strong>Открытый вопрос.</strong> Сколько готова платить небольшая площадка и кто подпишет договор у малого бизнеса?</p>
+<p class="sources"><strong>Основания.</strong> <a href="#EVID-002">Сегмент действующего предложения</a> · <a href="#EVID-012">Закупка филиалов</a></p></article>
+<article class="owner-question" id="delivery"><h3>Сможем ли мы это оказывать?</h3>
+<p class="answer">Есть опыт дежурства и классификации заявок. Ночное восстановление ещё предстоит проверить.</p>
+<ul><li>69,1% — точность классификации в соседнем проекте.</li><li>Дежурство второй линии организовано по графику.</li></ul>
+<p class="gap"><strong>Открытый вопрос.</strong> Какие процедуры и доступы нужны для восстановления в «Сервис Север» и когда агент должен передать инцидент инженеру?</p>
+<p class="sources"><strong>Основания.</strong> <a href="#project">Показатель соседнего проекта</a> · <a href="#EVID-005">Дежурство L2</a></p></article>
+<article class="owner-question" id="promise"><h3>Можно ли обещать результат заказчику?</h3>
+<p class="answer">Пока обоснована схема работы по согласованным сценариям с передачей инцидента инженеру.</p>
+<ul><li>Ночные изменения требуют участия инженера.</li></ul>
+<p class="gap"><strong>Открытый вопрос.</strong> Какой срок восстановления можно обещать после допуска ИБ, испытаний на покрытых классах и подтверждения дежурства?</p>
+<p class="sources"><strong>Основания.</strong> <a href="#EVID-006">Правило ночных изменений</a></p></article>
 </section>
-
-<section id="buyer"><h2>Кому это нужно?</h2>
-
-<p>Гипотеза касается филиалов и небольших компаний. У филиалов покупателем может быть головная организация. Потребность в замещении смены зафиксирована у крупных клиентов. Сколько за это заплатит небольшая площадка и кто подпишет договор у малого бизнеса, неизвестно. <a href="#EVID-002">Сегмент действующего предложения</a> · <a href="#EVID-012">Закупка филиалов</a></p>
-
-</section>
-
-<section id="delivery"><h2>Сможем ли мы это оказывать?</h2>
-
-<p>69,1% — точность классификации в соседнем проекте. Успешность ночного восстановления в направлении Сервис Север остаётся открытым вопросом. Проверке подлежат разрешённые процедуры, доступы и передача инженеру. <a href="#project">Показатель соседнего проекта</a> · <a href="#EVID-005">Дежурство L2</a></p>
-
-</section>
-
-<section id="promise"><h2>Можно ли обещать результат заказчику?</h2>
-
-<p>Пока обоснована только схема работы: согласованные сценарии и эскалация. Для обещания срока восстановления нужны допуск ИБ, испытание на покрытых классах и подтверждённое дежурство. Ночные изменения сейчас требуют участия инженера. <a href="#EVID-006">Правило ночных изменений</a></p>
-
-</section>
-
 <section id="action"><h2>Ближайшее действие</h2>
 
 <p>Предложенная выборка — 300 закрытых тикетов за 12 месяцев, все каналы, включая мониторинг. До подсчёта определить типовой сбой как повторяющийся класс с документированной процедурой восстановления. Измерить число тикетов десяти наиболее частых типовых классов. <a href="customer_discovery_plan.md">Измерить долю типовых сбоев</a></p>

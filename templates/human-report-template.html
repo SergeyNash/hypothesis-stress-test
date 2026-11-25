@@ -37,6 +37,14 @@
     .note { color:var(--muted); font-size:.9rem; }
     footer { margin-top:28px; color:var(--muted); font-size:.85rem; }
     @media (max-width:650px) { .wrap { padding:20px 14px 36px; } section { padding:20px; } .cards { grid-template-columns:1fr; } }
+
+    .owner-question { max-width:72ch; padding:1.25rem 0; }
+    .owner-question + .owner-question { border-top:1px solid var(--line); }
+    .owner-question h3 { margin:0 0 .45rem; font-size:1.12rem; }
+    .owner-question .answer { font-size:1.06rem; font-weight:650; }
+    .owner-question ul { margin:.6rem 0; }
+    .owner-question .gap { padding:.55rem .85rem; border-left:3px solid #a26b12; background:#fff8e9; }
+    .owner-question .sources { font-size:.9rem; margin-bottom:0; }
     @media print { body { background:white; font-size:11pt; } .wrap { max-width:none; padding:0; } nav { display:none; } section { border-radius:0; padding:16px 0; border:0; border-top:1px solid var(--line); } h2,h3 { break-after:avoid; } .card,blockquote,tr { break-inside:avoid; } a { color:inherit; } }
   </style>
 </head>
@@ -83,7 +91,17 @@
         </div>
         {{RECOMMENDATION_HTML}}
       </section>
-      <section id="questions"><h2>{{QUESTIONS_LABEL_TEXT}}</h2>{{OWNER_QUESTIONS_WITH_EVIDENCE_HTML}}</section>
+      <section id="questions">
+        <h2>{{QUESTIONS_LABEL_TEXT}}</h2>
+        <!-- Repeat article per owner question. Use supported observations only. -->
+        <article class="owner-question">
+          <h3>{{QUESTION_TEXT}}</h3>
+          <p class="answer">{{SHORT_ANSWER_TEXT}}</p>
+          <ul>{{OBSERVED_FACT_ITEMS_HTML}}</ul>
+          <p class="gap"><strong>{{OPEN_QUESTION_LABEL_TEXT}}</strong> {{OPEN_QUESTION_TEXT}}</p>
+          <p class="sources">{{SOURCE_LINKS_HTML}}</p>
+        </article>
+      </section>
       <section id="statement">
         <h2>{{ORIGINAL_STATEMENT_LABEL_TEXT}}</h2>
         <blockquote>{{ORIGINAL_STATEMENT_TEXT}}</blockquote>
