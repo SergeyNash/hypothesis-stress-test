@@ -1,0 +1,350 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ночная поддержка небольших площадок</title>
+
+<style>
+    :root { color-scheme: light; --bg:#f3f5f8; --paper:#fff; --ink:#182438; --muted:#526176; --line:#dbe2eb; --blue:#244bb0; --soft:#edf2ff; }
+    * { box-sizing:border-box; }
+    html { scroll-padding-top:1rem; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    a { color:var(--blue); text-underline-offset:.2em; overflow-wrap:anywhere; }
+    a:focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
+    .wrap { max-width:1100px; margin:auto; padding:32px 24px 56px; }
+    .eyebrow { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+    h1 { font-size:clamp(1.85rem,4vw,3rem); line-height:1.16; margin:12px 0 18px; letter-spacing:-.025em; }
+    h2 { font-size:1.35rem; line-height:1.3; margin:0 0 18px; }
+    h3 { font-size:1rem; margin:20px 0 8px; }
+    p { margin:0 0 14px; }
+    .meta { color:var(--muted); margin:0; }
+    nav { display:flex; gap:10px 22px; flex-wrap:wrap; padding:20px 0; margin-top:14px; border-bottom:1px solid var(--line); }
+    nav a { font-size:.9rem; }
+    section { margin-top:22px; background:var(--paper); padding:28px; border:1px solid var(--line); border-radius:14px; }
+    .owner { border-left:5px solid var(--blue); }
+    .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 0; }
+    .card { padding:18px; border-radius:10px; background:var(--soft); }
+    .label { display:block; color:var(--muted); font-size:.82rem; margin-bottom:6px; }
+    .value { display:block; font-weight:650; overflow-wrap:anywhere; }
+    blockquote { margin:0; padding:16px 20px; border-left:3px solid var(--line); background:#f8fafc; white-space:pre-wrap; }
+    ul,ol { margin:8px 0 18px; padding-left:24px; }
+    li+li { margin-top:8px; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:.93rem; }
+    th,td { text-align:left; vertical-align:top; border-bottom:1px solid var(--line); padding:12px; }
+    th { background:#f8fafc; }
+    .note { color:var(--muted); font-size:.9rem; }
+    footer { margin-top:28px; color:var(--muted); font-size:.85rem; }
+    @media (max-width:650px) { .wrap { padding:20px 14px 36px; } section { padding:20px; } .cards { grid-template-columns:1fr; } }
+    @media print { body { background:white; font-size:11pt; } .wrap { max-width:none; padding:0; } nav { display:none; } section { border-radius:0; padding:16px 0; border:0; border-top:1px solid var(--line); } h2,h3 { break-after:avoid; } .card,blockquote,tr { break-inside:avoid; } a { color:inherit; } }
+   pre{white-space:pre-wrap;overflow-wrap:anywhere}</style>
+
+</head><body><main class="wrap"><h1>Ночная поддержка небольших площадок</h1>
+
+<section id="decision"><h2>Гипотеза и решение</h2>
+
+<p>Разрешённые сценарии восстановления и эскалация инженеру могут сделать круглосуточную поддержку доступной для небольших площадок. <a href="#original">Исходная формулировка</a> · <a href="#materials">Все материалы</a></p>
+
+<p>Рекомендация HST для гипотезы и сервисного предложения — продолжить проверку. Малые сделки сейчас трудно обслуживать рентабельно. Доля сбоев, которую можно покрыть агентом, и экономия заказчика неизвестны. Уверенность низкая–средняя. <a href="decision_review.md">Критический разбор</a></p>
+
+<p>Решение владельца ожидается. Пилот и внешние контакты требуют отдельного согласования. <a href="../run.md">Границы и решения</a></p>
+
+</section>
+
+<section id="economics"><h2>Зачем это Сервис Север?</h2>
+
+<p>Агент может снизить стоимость ночного обслуживания и вернуть в портфель малые сделки. Для расчёта маржи нужны затраты на контроль, дежурство и эскалации. <a href="#EVID-013">Экономика малых сделок</a></p>
+
+</section>
+
+<section id="buyer"><h2>Кому это нужно?</h2>
+
+<p>Гипотеза касается филиалов и небольших компаний. У филиалов покупателем может быть головная организация. Потребность в замещении смены зафиксирована у крупных клиентов. Сколько за это заплатит небольшая площадка и кто подпишет договор у малого бизнеса, неизвестно. <a href="#EVID-002">Сегмент действующего предложения</a> · <a href="#EVID-012">Закупка филиалов</a></p>
+
+</section>
+
+<section id="delivery"><h2>Сможем ли мы это оказывать?</h2>
+
+<p>69,1% — точность классификации в соседнем проекте. Успешность ночного восстановления в направлении Сервис Север остаётся открытым вопросом. Проверке подлежат разрешённые процедуры, доступы и передача инженеру. <a href="#project">Показатель соседнего проекта</a> · <a href="#EVID-005">Дежурство L2</a></p>
+
+</section>
+
+<section id="promise"><h2>Можно ли обещать результат заказчику?</h2>
+
+<p>Пока обоснована только схема работы: согласованные сценарии и эскалация. Для обещания срока восстановления нужны допуск ИБ, испытание на покрытых классах и подтверждённое дежурство. Ночные изменения сейчас требуют участия инженера. <a href="#EVID-006">Правило ночных изменений</a></p>
+
+</section>
+
+<section id="action"><h2>Ближайшее действие</h2>
+
+<p>Предложенная выборка — 300 закрытых тикетов за 12 месяцев, все каналы, включая мониторинг. До подсчёта определить типовой сбой как повторяющийся класс с документированной процедурой восстановления. Измерить число тикетов десяти наиболее частых типовых классов. <a href="customer_discovery_plan.md">Измерить долю типовых сбоев</a></p>
+
+<p>Пороги предложены моделью. При 150–300 из 300 — зафиксировать покрытые классы и перейти к двум проверкам ниже. При 90–149 — сузить покрытие и пересчитать экономику. При 0–89 — пересчитать топ-3 или проверить внутреннее применение. </p>
+
+<p>Если тикетов меньше 300, расширить период до 24 месяцев. При повторной нехватке отложить решение. Если разметка не позволяет распознать классы, сначала наладить классификацию и повторить подсчёт. </p>
+
+<p>После согласования контактов оценить стоимость ночного покрытия на площадках и выяснить, какие операции разрешит ИБ. По результатам определить границы пилота или сузить предложение. <a href="#cost">Выяснить стоимость ночного покрытия</a> · <a href="#security">Проверить, какие действия разрешит ИБ</a></p>
+
+<p>Условие остановки пилота — инцидент, вызванный действиями агента на критичном сервисе. Остановить пилот, разобрать инцидент и решить, можно ли продолжать. <a href="customer_discovery_plan.md">Условия пилота</a></p>
+
+</section>
+
+<section id="stats"><h2>Статистика прогона</h2>
+
+<p>Этапы — 8/8. Синтетические роли — 5. Проведённые интервью — 0. Записи реестра — 20. <a href="../progress.md">Ход прогона</a> · <a href="#materials">Ролевые разборы</a></p>
+
+<p>Режим — быстрый. Модель — не зафиксировано. Длительность — не зафиксировано. Локальная база — выборочное чтение. Confluence — 3 страницы прочитаны, ещё 3 доступны только как поисковые фрагменты. Интернет отключён. <a href="#selection">Отбор и ограничения</a> · <a href="#market">Покрытие каналов</a></p>
+
+</section>
+
+<section id="original"><h2>Исходная формулировка</h2>
+
+<pre>Разрешённые сценарии восстановления могут сделать ночное покрытие небольших площадок рентабельным.</pre>
+
+</section>
+
+<section id="project"><h2>Классификация в соседнем проекте</h2>
+
+<pre>Прочитано: 101, 102, 103. Только поисковые фрагменты: 104, 105, 106. На странице 102 точность классификации в соседнем проекте — 69,1%. Интернет отключён.</pre>
+
+<p> <a href="market_analysis.md">Полный документ</a></p>
+
+</section>
+
+<section id="cost"><h2>Стоимость ночного покрытия</h2>
+
+<p>В плане предусмотрена проверка стоимости смены и разрешённых доступов. </p>
+
+<p> <a href="customer_discovery_plan.md">Полный документ</a></p>
+
+</section>
+
+<section id="security"><h2>Разрешённые действия и доступы</h2>
+
+<p>В плане предусмотрена проверка стоимости смены и разрешённых доступов. </p>
+
+<p> <a href="customer_discovery_plan.md">Полный документ</a></p>
+
+</section>
+
+<section id="materials"><h2>Материалы и источники</h2>
+
+<p> <a href="../input/hypothesis.md">input/hypothesis.md</a></p>
+
+<p> <a href="business_context_analysis.md">outputs/business_context_analysis.md</a></p>
+
+<p> <a href="customer_discovery_plan.md">outputs/customer_discovery_plan.md</a></p>
+
+<p> <a href="decision_review.md">outputs/decision_review.md</a></p>
+
+<p> <a href="discovery_preview.md">outputs/discovery_preview.md</a></p>
+
+<p> <a href="evidence_inventory.md">outputs/evidence_inventory.md</a></p>
+
+<p> <a href="hypothesis_digest.md">outputs/hypothesis_digest.md</a></p>
+
+<p> <a href="hypothesis_map.md">outputs/hypothesis_map.md</a></p>
+
+<p> <a href="hypothesis_summary.md">outputs/hypothesis_summary.md</a></p>
+
+<p> <a href="market_analysis.md">outputs/market_analysis.md</a></p>
+
+<p> <a href="role_outputs/cio.md">outputs/role_outputs/cio.md</a></p>
+
+<p> <a href="role_outputs/ciso.md">outputs/role_outputs/ciso.md</a></p>
+
+<p> <a href="role_outputs/service_business_owner.md">outputs/role_outputs/service_business_owner.md</a></p>
+
+<p> <a href="role_outputs/service_delivery_manager.md">outputs/role_outputs/service_delivery_manager.md</a></p>
+
+<p> <a href="role_outputs/system_software_engineer.md">outputs/role_outputs/system_software_engineer.md</a></p>
+
+<p> <a href="validation_questions.md">outputs/validation_questions.md</a></p>
+
+<p> <a href="../progress.md">progress.md</a></p>
+
+<p> <a href="../run.md">run.md</a></p>
+
+<p><a href="human_report.md">Версия Markdown</a></p>
+
+</section>
+
+<section id="selection"><h2>Отбор источников и ограничения</h2>
+
+<p> <a href="discovery_preview.md">Полный документ</a></p>
+
+<pre>## Отбор
+
+Материалы 1–18 прочитаны.
+
+## Ограничения
+
+Обследование и бюджет (19–20) доступны только по метаданным.</pre>
+
+</section>
+
+<section id="market"><h2>Охват каналов и источники рынка</h2>
+
+<p> <a href="market_analysis.md">Полный документ</a></p>
+
+<pre>## Confluence
+
+Прочитано: 101, 102, 103. Только поисковые фрагменты: 104, 105, 106. На странице 102 точность классификации в соседнем проекте — 69,1%. Интернет отключён.</pre>
+
+</section>
+
+<section id="EVID-001"><h2>EVID-001 · Потребность крупной площадки в ночной смене</h2>
+
+<pre>- Путь: `учебная база/материал 1.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-002"><h2>EVID-002 · Предложение рассчитано на крупные площадки</h2>
+
+<pre>- Путь: `учебная база/материал 2.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-003"><h2>EVID-003 · Объём портфеля</h2>
+
+<pre>- Путь: `учебная база/материал 3.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-004"><h2>EVID-004 · Контроль обращений ночью</h2>
+
+<pre>- Путь: `учебная база/материал 4.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-005"><h2>EVID-005 · Дежурство L2</h2>
+
+<pre>- Путь: `учебная база/материал 5.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-006"><h2>EVID-006 · Ночное изменение согласует инженер</h2>
+
+<pre>- Путь: `учебная база/материал 6.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-007"><h2>EVID-007 · Повторяемость классов</h2>
+
+<pre>- Путь: `учебная база/материал 7.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-008"><h2>EVID-008 · Нет разбивки затрат</h2>
+
+<pre>- Путь: `учебная база/материал 8.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-009"><h2>EVID-009 · Замещение смены</h2>
+
+<pre>- Путь: `учебная база/материал 9.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-010"><h2>EVID-010 · Распределённый контур</h2>
+
+<pre>- Путь: `учебная база/материал 10.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-011"><h2>EVID-011 · Привлечение подрядчиков</h2>
+
+<pre>- Путь: `учебная база/материал 11.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-012"><h2>EVID-012 · Филиалы закупают через головную компанию</h2>
+
+<pre>- Путь: `учебная база/материал 12.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-013"><h2>EVID-013 · Малые договоры отклонены из-за стоимости смены</h2>
+
+<pre>- Путь: `учебная база/материал 13.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-014"><h2>EVID-014 · Стоимость обычного договора</h2>
+
+<pre>- Путь: `учебная база/материал 14.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-015"><h2>EVID-015 · Ограничения доступа</h2>
+
+<pre>- Путь: `учебная база/материал 15.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-016"><h2>EVID-016 · Локальная копия обзора закупок</h2>
+
+<pre>- Путь: `учебная база/материал 16.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-017"><h2>EVID-017 · Пул дежурных</h2>
+
+<pre>- Путь: `учебная база/материал 17.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-018"><h2>EVID-018 · Состав платформ</h2>
+
+<pre>- Путь: `учебная база/материал 18.md`. Статус: прочитано</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-019"><h2>EVID-019 · Обследование недоступно</h2>
+
+<pre>- Путь: `учебная база/материал 19.md`. Статус: только метаданные</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section>
+
+<section id="EVID-020"><h2>EVID-020 · Бюджет недоступен</h2>
+
+<pre>- Путь: `учебная база/материал 20.md`. Статус: только метаданные</pre>
+
+<p> <a href="evidence_inventory.md">Полный реестр</a></p>
+
+</section></main></body></html>
