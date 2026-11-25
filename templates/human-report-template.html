@@ -50,10 +50,13 @@
     <header>
       <div class="eyebrow">Hypothesis Stress Test · {{HYPOTHESIS_ID_TEXT}}</div>
       <h1>{{REPORT_TITLE_TEXT}}</h1>
+      <p>{{HYPOTHESIS_PROMISE_TEXT}} <a href="#statement">{{ORIGINAL_STATEMENT_LABEL_TEXT}}</a></p>
       <p class="meta">{{REPORT_META_TEXT}}</p>
       <nav aria-label="{{NAV_LABEL_TEXT}}">
         <a href="#owner">{{OWNER_LABEL_TEXT}}</a>
         <a href="#recommendation">{{RECOMMENDATION_LABEL_TEXT}}</a>
+        <a href="#questions">{{QUESTIONS_LABEL_TEXT}}</a>
+        <a href="#stats">{{STATS_LABEL_TEXT}}</a>
         <a href="#findings">{{FINDINGS_LABEL_TEXT}}</a>
         <a href="#limits">{{LIMITS_LABEL_TEXT}}</a>
         <a href="#next">{{NEXT_LABEL_TEXT}}</a>
@@ -80,6 +83,7 @@
         </div>
         {{RECOMMENDATION_HTML}}
       </section>
+      <section id="questions"><h2>{{QUESTIONS_LABEL_TEXT}}</h2>{{OWNER_QUESTIONS_WITH_EVIDENCE_HTML}}</section>
       <section id="statement">
         <h2>{{ORIGINAL_STATEMENT_LABEL_TEXT}}</h2>
         <blockquote>{{ORIGINAL_STATEMENT_TEXT}}</blockquote>
@@ -104,6 +108,7 @@
         <h2>{{NEXT_LABEL_TEXT}}</h2>
         {{NEXT_CHECK_AND_CONDITIONS_HTML}}
       </section>
+      <section id="stats"><h2>{{STATS_LABEL_TEXT}}</h2>{{OBSERVED_RUN_STATISTICS_HTML}}</section>
       <section id="artifacts">
         <h2>{{ARTIFACTS_LABEL_TEXT}}</h2>
         <ul>
@@ -112,6 +117,8 @@
           <li><a href="../run.md">{{RUN_DECISIONS_LABEL_TEXT}}</a></li>
           {{EXISTING_ARTIFACT_LINKS_HTML}}
         </ul>
+        {{EVIDENCE_ENTRIES_HTML}}
+        {{SOURCE_SELECTION_AND_ACCESS_HTML}}
       </section>
     </main>
     <footer>{{REPORT_LIMITATION_TEXT}}</footer>
