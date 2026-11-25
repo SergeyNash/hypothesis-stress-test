@@ -1,78 +1,15 @@
-<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Поиск договора по номеру</title>
-
-<style>
-    :root { color-scheme: light; --bg:#f3f5f8; --paper:#fff; --ink:#182438; --muted:#526176; --line:#dbe2eb; --blue:#244bb0; --soft:#edf2ff; }
-    * { box-sizing:border-box; }
-    html { scroll-padding-top:1rem; }
-    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; }
-    a { color:var(--blue); text-underline-offset:.2em; overflow-wrap:anywhere; }
-    a:focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
-    .wrap { max-width:1100px; margin:auto; padding:32px 24px 56px; }
-    .eyebrow { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
-    h1 { font-size:clamp(1.85rem,4vw,3rem); line-height:1.16; margin:12px 0 18px; letter-spacing:-.025em; }
-    h2 { font-size:1.35rem; line-height:1.3; margin:0 0 18px; }
-    h3 { font-size:1rem; margin:20px 0 8px; }
-    p { margin:0 0 14px; }
-    .meta { color:var(--muted); margin:0; }
-    nav { display:flex; gap:10px 22px; flex-wrap:wrap; padding:20px 0; margin-top:14px; border-bottom:1px solid var(--line); }
-    nav a { font-size:.9rem; }
-    section { margin-top:22px; background:var(--paper); padding:28px; border:1px solid var(--line); border-radius:14px; }
-    .owner { border-left:5px solid var(--blue); }
-    .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 0; }
-    .card { padding:18px; border-radius:10px; background:var(--soft); }
-    .label { display:block; color:var(--muted); font-size:.82rem; margin-bottom:6px; }
-    .value { display:block; font-weight:650; overflow-wrap:anywhere; }
-    blockquote { margin:0; padding:16px 20px; border-left:3px solid var(--line); background:#f8fafc; white-space:pre-wrap; }
-    ul,ol { margin:8px 0 18px; padding-left:24px; }
-    li+li { margin-top:8px; }
-    .table-wrap { overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; font-size:.93rem; }
-    th,td { text-align:left; vertical-align:top; border-bottom:1px solid var(--line); padding:12px; }
-    th { background:#f8fafc; }
-    .note { color:var(--muted); font-size:.9rem; }
-    footer { margin-top:28px; color:var(--muted); font-size:.85rem; }
-    @media (max-width:650px) { .wrap { padding:20px 14px 36px; } section { padding:20px; } .cards { grid-template-columns:1fr; } }
-    @media print { body { background:white; font-size:11pt; } .wrap { max-width:none; padding:0; } nav { display:none; } section { border-radius:0; padding:16px 0; border:0; border-top:1px solid var(--line); } h2,h3 { break-after:avoid; } .card,blockquote,tr { break-inside:avoid; } a { color:inherit; } }
-   pre{white-space:pre-wrap;overflow-wrap:anywhere}
-    .owner-question { max-width:72ch; padding:1.25rem 0; }
-    .owner-question + .owner-question { border-top:1px solid var(--line); }
-    .owner-question h3 { margin:0 0 .45rem; font-size:1.12rem; }
-    .owner-question .answer { font-size:1.06rem; font-weight:650; }
-    .owner-question ul { margin:.6rem 0; }
-    .owner-question .gap { padding:.55rem .85rem; border-left:3px solid #a26b12; background:#fff8e9; }
-    .owner-question .sources { font-size:.9rem; margin-bottom:0; }
-</style>
-
-</head><body><main class="wrap"><h1>Поиск договора по номеру</h1>
-
-<section id="decision"><h2>Гипотеза и решение</h2>
-
-<p>Пользователь каталога быстрее найдёт договор по номеру. <a href="../input/hypothesis.md">Исходная формулировка</a> · <a href="#materials">Все материалы</a></p>
-
-<p>Рекомендация — проверить время поиска. Уверенность низкая. Решение владельца ожидается. <a href="customer_discovery_plan.md">План проверки</a></p>
-
-</section>
-
-<section><h2>Вопросы владельца · команда «Каталог»</h2>
-<article class="owner-question" id="questions"><h3>Кому полезен поиск по номеру?</h3>
-<p class="answer">Пользователю каталога, который уже знает номер договора.</p>
-<ul><li>В одном наблюдении пользователь искал номер в названии договора.</li></ul>
-<p class="gap"><strong>Открытый вопрос.</strong> Как часто возникает эта задача и сколько времени сэкономит поиск по номеру?</p>
-<p class="sources"><strong>Основания.</strong> <a href="#EVID-017">Наблюдение пользователя</a></p></article>
-</section>
-<section id="action"><h2>Ближайшее действие</h2>
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>Поиск договора по номеру</title><style>*{box-sizing:border-box}html{background:#f3f1eb;color:#182e32;font:17px/1.55 system-ui}body{max-width:940px;margin:auto;padding:4vw}h1{font: bold clamp(32px,5vw,56px)/1.08 Georgia;margin:.3em 0}h2{line-height:1.2;margin-top:1.4em}h3{margin:0;font-size:20px}aside,article,section{padding:20px 24px;border-radius:8px;background:white;margin:12px 0}aside{background:#173f41;color:white}aside a{color:#b6e8dd}p{margin:.5em 0}a{color:#126558;text-underline-offset:3px}small{color:#496366}aside small{color:#d0e4de}.src{display:none}.src:target{display:block;scroll-margin:16px}pre{font:15px/1.6 system-ui;white-space:pre-wrap;overflow-wrap:anywhere}footer{font-size:15px}article a,section a{font-size:15px}.doc{display:none}.doc:target,.doc:has(:target){display:block}summary{cursor:pointer;font-weight:bold;margin:.7em 0}#materials h2{margin-top:0}
+body{padding:clamp(16px,4vw,48px)}header small{display:block}a{overflow-wrap:anywhere}h2,h3{overflow-wrap:anywhere}.doc h2{margin-top:0}.doc,.src{scroll-margin:16px}article p{max-width:72ch}.doc table{display:block;overflow-x:auto}a:focus-visible,summary:focus-visible{outline:3px solid #ba741e;outline-offset:3px}@media(max-width:560px){aside,article,section{padding:16px}}@media print{body{padding:0}.doc,.src{display:block}.doc,.src{border-top:1px solid #bbb}aside,article{break-inside:avoid}aside{color:#182e32;background:white;border:1px solid #173f41}aside small,aside a{color:inherit}}</style></head><body id="top">
+<header id="decision"><small>Команда «Каталог»</small><a href="#materials">Материалы и источники</a><h1>Поиск договора по номеру</h1><p>Пользователь каталога быстрее найдёт договор по номеру. <a href="../input/hypothesis.md">Исходная формулировка</a> · <a href="#materials">Все материалы</a></p></header><main><aside><h2>Рекомендация HST — продолжить проверку</h2><p>Рекомендация — проверить время поиска. Уверенность низкая. Решение владельца ожидается. <a href="customer_discovery_plan.md">План проверки</a></p></aside><article id="questions"><h3>Кому полезен поиск по номеру?</h3><p>Пользователю каталога, который уже знает номер договора. В одном наблюдении пользователь искал номер в названии договора. Как часто возникает эта задача и сколько времени сэкономит поиск по номеру?</p><a href="#EVID-017">Наблюдение пользователя</a></article><h2>Ближайшее действие</h2><section id="action">
 
 <p>Сравнить время и правильность поиска по названию и номеру на одних заданиях. Если время снизится при сохранении точности, согласовать разработку. <a href="customer_discovery_plan.md">Сравнить способы поиска</a></p>
 
-</section>
-
-<section id="stats"><h2>Статистика прогона</h2>
+</section><h2>Статистика прогона</h2><section id="stats">
 
 <p>Этапы — 3/8. Синтетические роли — 1. Проведённые интервью — не зафиксировано. Записи реестра — 1. Локальная база — одна выдержка. Охват Confluence и интернета, режим, модель, длительность — не зафиксировано. <a href="../progress.md">Ход проверки</a> · <a href="../run.md">Границы</a></p>
 
-</section>
-
-<section id="materials"><h2>Материалы и источники</h2>
+</section><section id="materials"><h2>Материалы и источники</h2>
 
 <p> <a href="../input/hypothesis.md">input/hypothesis.md</a></p>
 
@@ -88,12 +25,11 @@
 
 <p><a href="human_report.md">Версия Markdown</a></p>
 
-</section>
-
-<section id="EVID-017"><h2>EVID-017 · Поиск по названию</h2>
+<details><summary>Основания и выдержки</summary><ul><li><a href="#EVID-017">EVID-017 · Поиск по названию</a></li></ul></details></section><section class="doc" id="EVID-017"><a href="#materials">К материалам</a><h2>EVID-017 · Поиск по названию</h2>
 
 <pre>В учебной записи наблюдения пользователь искал номер в названии. Место: Журнал наблюдений, строка 7. Источник доступен только в выдержке.</pre>
 
 <p> <a href="evidence_inventory.md">Полный реестр</a></p>
 
-</section></main></body></html>
+</section></main>
+</body></html>
