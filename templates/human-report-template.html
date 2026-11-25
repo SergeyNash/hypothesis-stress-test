@@ -1,127 +1,75 @@
 <!doctype html>
-<html lang="{{LANG}}">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
-  <title>{{HYPOTHESIS_ID_TEXT}} · {{REPORT_TITLE_TEXT}}</title>
-  <style>
-    :root { color-scheme: light; --bg:#f3f5f8; --paper:#fff; --ink:#182438; --muted:#526176; --line:#dbe2eb; --blue:#244bb0; --soft:#edf2ff; }
-    * { box-sizing:border-box; }
-    html { scroll-padding-top:1rem; }
-    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.65 system-ui,-apple-system,"Segoe UI",sans-serif; }
-    a { color:var(--blue); text-underline-offset:.2em; overflow-wrap:anywhere; }
-    a:focus-visible { outline:3px solid var(--blue); outline-offset:4px; }
-    .wrap { max-width:1100px; margin:auto; padding:32px 24px 56px; }
-    .eyebrow { font-size:.78rem; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
-    h1 { font-size:clamp(1.85rem,4vw,3rem); line-height:1.16; margin:12px 0 18px; letter-spacing:-.025em; }
-    h2 { font-size:1.35rem; line-height:1.3; margin:0 0 18px; }
-    h3 { font-size:1rem; margin:20px 0 8px; }
-    p { margin:0 0 14px; }
-    .meta { color:var(--muted); margin:0; }
-    nav { display:flex; gap:10px 22px; flex-wrap:wrap; padding:20px 0; margin-top:14px; border-bottom:1px solid var(--line); }
-    nav a { font-size:.9rem; }
-    section { margin-top:22px; background:var(--paper); padding:28px; border:1px solid var(--line); border-radius:14px; }
-    .owner { border-left:5px solid var(--blue); }
-    .cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin:20px 0; }
-    .card { padding:18px; border-radius:10px; background:var(--soft); }
-    .label { display:block; color:var(--muted); font-size:.82rem; margin-bottom:6px; }
-    .value { display:block; font-weight:650; overflow-wrap:anywhere; }
-    blockquote { margin:0; padding:16px 20px; border-left:3px solid var(--line); background:#f8fafc; white-space:pre-wrap; }
-    ul,ol { margin:8px 0 18px; padding-left:24px; }
-    li+li { margin-top:8px; }
-    .table-wrap { overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; font-size:.93rem; }
-    th,td { text-align:left; vertical-align:top; border-bottom:1px solid var(--line); padding:12px; }
-    th { background:#f8fafc; }
-    .note { color:var(--muted); font-size:.9rem; }
-    footer { margin-top:28px; color:var(--muted); font-size:.85rem; }
-    @media (max-width:650px) { .wrap { padding:20px 14px 36px; } section { padding:20px; } .cards { grid-template-columns:1fr; } }
-    @media print { body { background:white; font-size:11pt; } .wrap { max-width:none; padding:0; } nav { display:none; } section { border-radius:0; padding:16px 0; border:0; border-top:1px solid var(--line); } h2,h3 { break-after:avoid; } .card,blockquote,tr { break-inside:avoid; } a { color:inherit; } }
-  </style>
-</head>
-<body>
-  <!-- The model fills this template directly. TEXT values are escaped plain text.
-       HTML slots contain semantic paragraphs/lists/tables written from the final
-       Markdown, never pasted source markup or scripts. Localize every label.
-       Remove all placeholders in the delivered report; add only existing links.
-       This is the final report, not a progress page. No server or conversion tool. -->
-  <div class="wrap">
-    <header>
-      <div class="eyebrow">Hypothesis Stress Test · {{HYPOTHESIS_ID_TEXT}}</div>
-      <h1>{{REPORT_TITLE_TEXT}}</h1>
-      <p>{{HYPOTHESIS_PROMISE_TEXT}} <a href="#statement">{{ORIGINAL_STATEMENT_LABEL_TEXT}}</a></p>
-      <p class="meta">{{REPORT_META_TEXT}}</p>
-      <nav aria-label="{{NAV_LABEL_TEXT}}">
-        <a href="#owner">{{OWNER_LABEL_TEXT}}</a>
-        <a href="#recommendation">{{RECOMMENDATION_LABEL_TEXT}}</a>
-        <a href="#questions">{{QUESTIONS_LABEL_TEXT}}</a>
-        <a href="#stats">{{STATS_LABEL_TEXT}}</a>
-        <a href="#findings">{{FINDINGS_LABEL_TEXT}}</a>
-        <a href="#limits">{{LIMITS_LABEL_TEXT}}</a>
-        <a href="#next">{{NEXT_LABEL_TEXT}}</a>
-        <a href="#artifacts">{{ARTIFACTS_LABEL_TEXT}}</a>
-      </nav>
-    </header>
-    <main>
-      <!-- Lead with the owner decision (or open choice), scope and effective date.
-           For services, include the compatible general and service actions in recommendation. -->
-
-      <!-- For a field follow-up, summarize observations against the original criterion at the top.
-           Keep the dated first recommendation, expectation and past decisions in findings; link to ../run.md. -->
-
-      <section id="owner" class="owner">
-        <h2>{{OWNER_LABEL_TEXT}}</h2>
-        {{OWNER_DECISION_HTML}}
-      </section>
-      <section id="recommendation">
-        <h2>{{RECOMMENDATION_LABEL_TEXT}}</h2>
-        <div class="cards">
-          <div class="card"><span class="label">{{RECOMMENDATION_CARD_LABEL_TEXT}}</span><span class="value">{{RECOMMENDATION_TEXT}}</span></div>
-          <div class="card"><span class="label">{{CONFIDENCE_LABEL_TEXT}}</span><span class="value">{{CONFIDENCE_TEXT}}</span></div>
-          <div class="card"><span class="label">{{READINESS_LABEL_TEXT}}</span><span class="value">{{READINESS_TEXT}}</span></div>
-        </div>
-        {{RECOMMENDATION_HTML}}
-      </section>
-      <section id="questions"><h2>{{QUESTIONS_LABEL_TEXT}}</h2>{{OWNER_QUESTIONS_WITH_EVIDENCE_HTML}}</section>
-      <section id="statement">
-        <h2>{{ORIGINAL_STATEMENT_LABEL_TEXT}}</h2>
-        <blockquote>{{ORIGINAL_STATEMENT_TEXT}}</blockquote>
-      </section>
-      <section id="findings">
-        <h2>{{FINDINGS_LABEL_TEXT}}</h2>
-        {{FINDINGS_AND_CHANGES_HTML}}
-      </section>
-      <section id="service-viability">
-        <h2>{{VIABILITY_LABEL_TEXT}}</h2>
-        {{APPLICABLE_CONTOURS_HTML}}
-      </section>
-      <section id="counterarguments">
-        <h2>{{COUNTERARGUMENTS_LABEL_TEXT}}</h2>
-        {{COUNTERARGUMENTS_HTML}}
-      </section>
-      <section id="limits">
-        <h2>{{LIMITS_LABEL_TEXT}}</h2>
-        {{SOURCE_COVERAGE_AND_UNVERIFIED_HTML}}
-      </section>
-      <section id="next">
-        <h2>{{NEXT_LABEL_TEXT}}</h2>
-        {{NEXT_CHECK_AND_CONDITIONS_HTML}}
-      </section>
-      <section id="stats"><h2>{{STATS_LABEL_TEXT}}</h2>{{OBSERVED_RUN_STATISTICS_HTML}}</section>
-      <section id="artifacts">
-        <h2>{{ARTIFACTS_LABEL_TEXT}}</h2>
-        <ul>
-          <li><a href="human_report.md">{{MARKDOWN_REPORT_LABEL_TEXT}}</a></li>
-          <li><a href="../input/hypothesis.md">{{INPUT_LABEL_TEXT}}</a></li>
-          <li><a href="../run.md">{{RUN_DECISIONS_LABEL_TEXT}}</a></li>
-          {{EXISTING_ARTIFACT_LINKS_HTML}}
-        </ul>
-        {{EVIDENCE_ENTRIES_HTML}}
-        {{SOURCE_SELECTION_AND_ACCESS_HTML}}
-      </section>
-    </main>
-    <footer>{{REPORT_LIMITATION_TEXT}}</footer>
-  </div>
-</body>
-</html>
+<html lang="{{LANG}}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>{{REPORT_TITLE_TEXT}}</title>
+<style>
+*{box-sizing:border-box}
+html{background:#f3f1eb;color:#182e32;font:17px/1.55 system-ui}
+body{max-width:940px;margin:auto;padding:4vw}
+h1{font: bold clamp(32px,5vw,56px)/1.08 Georgia;margin:.3em 0}
+h2{line-height:1.2;margin-top:1.4em}
+h3{margin:0;font-size:20px}
+aside,article,section{padding:20px 24px;border-radius:8px;background:white;margin:12px 0}
+aside{background:#173f41;color:white}
+aside a{color:#b6e8dd}
+p{margin:.5em 0}
+a{color:#126558;text-underline-offset:3px}
+small{color:#496366}
+aside small{color:#d0e4de}
+.src{display:none}
+.src:target{display:block;scroll-margin:16px}
+pre{font:15px/1.6 system-ui;white-space:pre-wrap;overflow-wrap:anywhere}
+footer{font-size:15px}
+article a,section a{font-size:15px}
+.doc{display:none}
+.doc:target,.doc:has(:target){display:block}
+summary{cursor:pointer;font-weight:bold;margin:.7em 0}
+#materials h2{margin-top:0}
+body{padding:clamp(16px,4vw,48px)}
+header small{display:block}
+a{overflow-wrap:anywhere}
+h2,h3{overflow-wrap:anywhere}
+.doc h2{margin-top:0}
+.doc,.src{scroll-margin:16px}
+article p{max-width:72ch}
+.doc table{display:block;overflow-x:auto}
+a:focus-visible,summary:focus-visible{outline:3px solid #ba741e;outline-offset:3px}
+@media(max-width:560px){aside,article,section{padding:16px}
+}
+@media print{body{padding:0}
+.doc,.src{display:block}
+.doc,.src{border-top:1px solid #bbb}
+aside,article{break-inside:avoid}
+aside{color:#182e32;background:white;border:1px solid #173f41}
+aside small,aside a{color:inherit}
+}
+</style>
+</head><body id="top">
+<header>
+  <small>{{RUN_META_TEXT}}</small><a href="#materials">{{MATERIALS_LABEL_TEXT}}</a>
+  <h1>{{REPORT_TITLE_TEXT}}</h1><p>{{HYPOTHESIS_PROMISE_TEXT}}</p>
+</header>
+<main>
+  <aside>
+    <h2>{{RECOMMENDATION_IN_PLAIN_LANGUAGE_TEXT}}</h2>
+    <p>{{DECISION_RATIONALE_TEXT}}</p>
+    <small>{{OWNER_DECISION_AND_CONFIDENCE_TEXT}}</small><br>
+    <a href="#review">{{REVIEW_LINK_TEXT}}</a>
+  </aside>
+  <!-- Repeat a sibling article for each decision question in this profile. -->
+  <article>
+    <h3>{{QUESTION_TEXT}}</h3>
+    <p>{{SHORT_ANSWER_FACT_AND_GAP_TEXT}}</p>
+    {{CONTEXTUAL_EXCERPT_LINKS_HTML}}
+  </article>
+  <h2>{{ACTION_LABEL_TEXT}}</h2><section>{{ACTION_OBSERVATION_AND_DECISION_HTML}}</section>
+  <h2>{{STATISTICS_LABEL_TEXT}}</h2><section>{{COUNTS_AND_COVERAGE_HTML}}</section>
+  <section id="materials">
+    <h2>{{MATERIALS_LABEL_TEXT}}</h2>
+    {{GROUPED_MATERIAL_INDEX_HTML}}
+  </section>
+  <!-- Provide real targets for all excerpt and document links. Keep original paths and URLs. -->
+  <section class="src" id="review"><a href="#top">{{BACK_LABEL_TEXT}}</a>
+    <h2>{{REVIEW_TITLE_TEXT}}</h2>{{REVIEW_EXCERPT_AND_DOCUMENT_LINK_HTML}}
+  </section>
+  {{ADDITIONAL_EXCERPTS_AND_DOCUMENTS_HTML}}
+</main>
+</body></html>
